@@ -1,0 +1,24 @@
+{
+  "id": "grate",
+  "name": "grating",
+  "description": "You see grating.",
+  "examineText": "It's grating.",
+  "aliases": [
+    "GRATI"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's grating."
+    }
+  ],
+  "initialLocation": "unknown"
+}

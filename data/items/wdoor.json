@@ -1,0 +1,27 @@
+{
+  "id": "wdoor",
+  "name": "wooden door",
+  "description": "You see wooden door.",
+  "examineText": "It's wooden door.",
+  "aliases": [
+    "DOOR",
+    "WOODE",
+    "WEST",
+    "WESTE"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's wooden door."
+    }
+  ],
+  "initialLocation": "unknown"
+}

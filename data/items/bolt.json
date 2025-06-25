@@ -1,0 +1,26 @@
+{
+  "id": "bolt",
+  "name": "bolt",
+  "description": "You see bolt.",
+  "examineText": "It's bolt.",
+  "aliases": [
+    "BOLT",
+    "NUT",
+    "METAL"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's bolt."
+    }
+  ],
+  "initialLocation": "unknown"
+}

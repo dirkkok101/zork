@@ -1,0 +1,24 @@
+{
+  "id": "two",
+  "name": "number two",
+  "description": "You see number two.",
+  "examineText": "It's number two.",
+  "aliases": [
+    "2"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's number two."
+    }
+  ],
+  "initialLocation": "unknown"
+}

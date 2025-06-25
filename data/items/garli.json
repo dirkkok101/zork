@@ -1,0 +1,32 @@
+{
+  "id": "garli",
+  "name": "clove of garlic",
+  "description": "You see clove of garlic.",
+  "examineText": "There is a clove of garlic here.",
+  "aliases": [
+    "CLOVE"
+  ],
+  "type": "FOOD",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable",
+    "food"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a clove of garlic here."
+    },
+    {
+      "command": "take",
+      "message": "You take the clove of garlic."
+    }
+  ],
+  "initialLocation": "unknown"
+}

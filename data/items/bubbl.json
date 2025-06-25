@@ -1,0 +1,25 @@
+{
+  "id": "bubbl",
+  "name": "green bubble",
+  "description": "You see green bubble.",
+  "examineText": "It's green bubble.",
+  "aliases": [
+    "GREEN",
+    "PLAST"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's green bubble."
+    }
+  ],
+  "initialLocation": "unknown"
+}

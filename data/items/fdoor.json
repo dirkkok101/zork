@@ -1,0 +1,25 @@
+{
+  "id": "fdoor",
+  "name": "door",
+  "description": "You see door.",
+  "examineText": "It's door.",
+  "aliases": [
+    "DOOR",
+    "FRONT"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's door."
+    }
+  ],
+  "initialLocation": "unknown"
+}

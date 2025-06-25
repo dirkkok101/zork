@@ -1,0 +1,25 @@
+{
+  "id": "sand",
+  "name": "sandy beach",
+  "description": "You see sandy beach.",
+  "examineText": "It's sandy beach.",
+  "aliases": [
+    "BEACH",
+    "SANDY"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's sandy beach."
+    }
+  ],
+  "initialLocation": "unknown"
+}

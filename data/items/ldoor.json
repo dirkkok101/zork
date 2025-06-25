@@ -1,0 +1,28 @@
+{
+  "id": "ldoor",
+  "name": "locked door",
+  "description": "You see locked door.",
+  "examineText": "It's locked door.",
+  "aliases": [
+    "DOOR",
+    "LOCKE",
+    "WOOD",
+    "WOODE",
+    "CELL"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's locked door."
+    }
+  ],
+  "initialLocation": "unknown"
+}

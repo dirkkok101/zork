@@ -1,0 +1,33 @@
+{
+  "id": "warni",
+  "name": "note of warning",
+  "description": "You see note of warning.",
+  "examineText": "It's note of warning.",
+  "aliases": [
+    "NOTE",
+    "PAPER",
+    "PIECE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's note of warning."
+    },
+    {
+      "command": "take",
+      "message": "You take the note of warning."
+    }
+  ],
+  "initialLocation": "unknown"
+}

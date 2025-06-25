@@ -1,0 +1,24 @@
+{
+  "id": "troll",
+  "name": "troll",
+  "description": "You see troll.",
+  "examineText": "It's troll.",
+  "aliases": [
+    "NASTY"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's troll."
+    }
+  ],
+  "initialLocation": "unknown"
+}

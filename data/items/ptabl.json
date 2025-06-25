@@ -1,0 +1,26 @@
+{
+  "id": "ptabl",
+  "name": "table",
+  "description": "You see table.",
+  "examineText": "It's table.",
+  "aliases": [
+    "TABLE",
+    "DUSTY",
+    "WOODE"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's table."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "baubl",
+  "name": "beautiful brass bauble",
+  "description": "You see beautiful brass bauble.",
+  "examineText": "There is a beautiful brass bauble here.",
+  "aliases": [
+    "BRASS",
+    "BEAUT"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a beautiful brass bauble here."
+    },
+    {
+      "command": "take",
+      "message": "You take the beautiful brass bauble."
+    }
+  ],
+  "initialLocation": "unknown"
+}

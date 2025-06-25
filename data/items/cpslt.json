@@ -1,0 +1,40 @@
+{
+  "id": "cpslt",
+  "name": "small slit",
+  "description": "You see small slit.",
+  "examineText": "It's small slit.",
+  "aliases": [
+    "SLIT",
+    "SLOT",
+    "SMALL"
+  ],
+  "type": "CONTAINER",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "openable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's small slit."
+    },
+    {
+      "command": "open",
+      "condition": "!state.open",
+      "effect": "state.open = true",
+      "message": "You open the CPSLT."
+    },
+    {
+      "command": "close",
+      "condition": "state.open",
+      "effect": "state.open = false",
+      "message": "You close the CPSLT."
+    }
+  ],
+  "initialLocation": "unknown"
+}

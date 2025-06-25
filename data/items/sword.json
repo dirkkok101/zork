@@ -1,0 +1,37 @@
+{
+  "id": "sword",
+  "name": "sword",
+  "description": "You see sword.",
+  "examineText": "There is an elvish sword here.",
+  "aliases": [
+    "ORCRI",
+    "GLAMD",
+    "BLADE",
+    "ELVIS"
+  ],
+  "type": "WEAPON",
+  "portable": true,
+  "visible": true,
+  "weight": 30,
+  "size": "LARGE",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable",
+    "weapon"
+  ],
+  "properties": {
+    "size": 30
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is an elvish sword here."
+    },
+    {
+      "command": "take",
+      "message": "You take the sword."
+    }
+  ],
+  "initialLocation": "unknown"
+}

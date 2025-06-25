@@ -1,0 +1,32 @@
+{
+  "id": "gcard",
+  "name": "gold card",
+  "description": "You see gold card.",
+  "examineText": "It's gold card.",
+  "aliases": [
+    "CARD",
+    "GOLD"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's gold card."
+    },
+    {
+      "command": "take",
+      "message": "You take the gold card."
+    }
+  ],
+  "initialLocation": "unknown"
+}

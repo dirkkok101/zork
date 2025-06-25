@@ -1,0 +1,26 @@
+{
+  "id": "rswit",
+  "name": "red button",
+  "description": "You see red button.",
+  "examineText": "It's red button.",
+  "aliases": [
+    "SWITC",
+    "BUTTO",
+    "RED"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's red button."
+    }
+  ],
+  "initialLocation": "unknown"
+}

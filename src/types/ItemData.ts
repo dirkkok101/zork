@@ -69,11 +69,11 @@ export interface ItemInteractionData {
 
 /**
  * Interface representing the item index structure
- * Used for organizing items by category
+ * Used for flat item organization
  */
 export interface ItemIndexData {
-    /** Categories mapping category names to file paths */
-    categories: Record<string, string[]>;
+    /** Flat array of item filenames */
+    items: string[];
 
     /** Total number of items */
     total: number;

@@ -1,0 +1,25 @@
+{
+  "id": "dial",
+  "name": "sundial",
+  "description": "You see sundial.",
+  "examineText": "It's sundial.",
+  "aliases": [
+    "SUNDI",
+    "SUN"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's sundial."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "rnbut",
+  "name": "round button",
+  "description": "You see round button.",
+  "examineText": "It's round button.",
+  "aliases": [
+    "BUTTO",
+    "ROUND"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's round button."
+    }
+  ],
+  "initialLocation": "unknown"
+}

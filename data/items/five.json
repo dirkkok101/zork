@@ -1,0 +1,24 @@
+{
+  "id": "five",
+  "name": "number five",
+  "description": "You see number five.",
+  "examineText": "It's number five.",
+  "aliases": [
+    "5"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's number five."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "stamp",
+  "name": "Flathead stamp",
+  "description": "You see flathead stamp.",
+  "examineText": "There is a Flathead stamp here.",
+  "aliases": [
+    "FLATH"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 1,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable"
+  ],
+  "properties": {
+    "size": 1
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a Flathead stamp here."
+    },
+    {
+      "command": "take",
+      "message": "You take the Flathead stamp."
+    }
+  ],
+  "initialLocation": "unknown"
+}

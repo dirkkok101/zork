@@ -1,0 +1,33 @@
+{
+  "id": "thief",
+  "name": "thief",
+  "description": "You see thief.",
+  "examineText": "It's thief.",
+  "aliases": [
+    "ROBBE",
+    "CROOK",
+    "CRIMI",
+    "BANDI",
+    "GENT",
+    "GENTL",
+    "MAN",
+    "INDIV",
+    "SHADY",
+    "SUSPI"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's thief."
+    }
+  ],
+  "initialLocation": "unknown"
+}

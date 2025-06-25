@@ -1,0 +1,26 @@
+{
+  "id": "blbut",
+  "name": "blue button",
+  "description": "You see blue button.",
+  "examineText": "It's blue button.",
+  "aliases": [
+    "BUTTO",
+    "SWITC",
+    "BLUE"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's blue button."
+    }
+  ],
+  "initialLocation": "unknown"
+}

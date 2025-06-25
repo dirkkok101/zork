@@ -1,0 +1,41 @@
+{
+  "id": "pdoor",
+  "name": "door made of oak",
+  "description": "You see door made of oak.",
+  "examineText": "It's door made of oak.",
+  "aliases": [
+    "DOOR",
+    "WOODE",
+    "OAK"
+  ],
+  "type": "CONTAINER",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "container",
+    "container"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's door made of oak."
+    },
+    {
+      "command": "open",
+      "condition": "!state.open",
+      "effect": "state.open = true",
+      "message": "You open the PDOOR."
+    },
+    {
+      "command": "close",
+      "condition": "state.open",
+      "effect": "state.open = false",
+      "message": "You close the PDOOR."
+    }
+  ],
+  "initialLocation": "unknown"
+}

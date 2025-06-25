@@ -1,0 +1,27 @@
+{
+  "id": "cclif",
+  "name": "cliff",
+  "description": "You see cliff.",
+  "examineText": "It's cliff.",
+  "aliases": [
+    "CLIFF",
+    "LEDGE",
+    "ROCKY",
+    "SHEER"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's cliff."
+    }
+  ],
+  "initialLocation": "unknown"
+}

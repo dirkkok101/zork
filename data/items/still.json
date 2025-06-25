@@ -1,0 +1,29 @@
+{
+  "id": "still",
+  "name": "stiletto",
+  "description": "You see stiletto.",
+  "examineText": "There is a vicious-looking stiletto here.",
+  "aliases": [
+    "VICIO"
+  ],
+  "type": "WEAPON",
+  "portable": false,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "weapon",
+    "weapon"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a vicious-looking stiletto here."
+    }
+  ],
+  "initialLocation": "unknown"
+}

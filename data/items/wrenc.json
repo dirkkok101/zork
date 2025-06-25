@@ -1,0 +1,32 @@
+{
+  "id": "wrenc",
+  "name": "wrench",
+  "description": "You see wrench.",
+  "examineText": "There is a wrench here.",
+  "aliases": [],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable",
+    "tool"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a wrench here."
+    },
+    {
+      "command": "take",
+      "message": "You take the wrench."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "buoy",
+  "name": "red buoy",
+  "description": "You see red buoy.",
+  "examineText": "There is a red buoy here (probably a warning).",
+  "aliases": [
+    "RED"
+  ],
+  "type": "CONTAINER",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable",
+    "container"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a red buoy here (probably a warning)."
+    },
+    {
+      "command": "take",
+      "message": "You take the red buoy."
+    },
+    {
+      "command": "open",
+      "condition": "!state.open",
+      "effect": "state.open = true",
+      "message": "You open the BUOY."
+    },
+    {
+      "command": "close",
+      "condition": "state.open",
+      "effect": "state.open = false",
+      "message": "You close the BUOY."
+    }
+  ],
+  "initialLocation": "unknown"
+}

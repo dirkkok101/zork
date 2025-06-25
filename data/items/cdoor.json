@@ -1,0 +1,27 @@
+{
+  "id": "cdoor",
+  "name": "cell door",
+  "description": "You see cell door.",
+  "examineText": "It's cell door.",
+  "aliases": [
+    "DOOR",
+    "WOOD",
+    "WOODE",
+    "CELL"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's cell door."
+    }
+  ],
+  "initialLocation": "unknown"
+}

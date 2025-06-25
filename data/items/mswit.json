@@ -1,0 +1,24 @@
+{
+  "id": "mswit",
+  "name": "switch",
+  "description": "You see switch.",
+  "examineText": "It's switch.",
+  "aliases": [
+    "SWITC"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's switch."
+    }
+  ],
+  "initialLocation": "unknown"
+}

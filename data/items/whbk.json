@@ -1,0 +1,47 @@
+{
+  "id": "whbk",
+  "name": "white book",
+  "description": "You see white book.",
+  "examineText": "There is a white book here.",
+  "aliases": [
+    "BOOK",
+    "WHITE"
+  ],
+  "type": "CONTAINER",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable",
+    "container"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a white book here."
+    },
+    {
+      "command": "take",
+      "message": "You take the white book."
+    },
+    {
+      "command": "open",
+      "condition": "!state.open",
+      "effect": "state.open = true",
+      "message": "You open the WHBK."
+    },
+    {
+      "command": "close",
+      "condition": "state.open",
+      "effect": "state.open = false",
+      "message": "You close the WHBK."
+    }
+  ],
+  "initialLocation": "unknown"
+}

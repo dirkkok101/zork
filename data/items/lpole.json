@@ -1,0 +1,27 @@
+{
+  "id": "lpole",
+  "name": "long pole",
+  "description": "You see long pole.",
+  "examineText": "It's long pole.",
+  "aliases": [
+    "POLE",
+    "POST",
+    "LONG",
+    "CENTE"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's long pole."
+    }
+  ],
+  "initialLocation": "unknown"
+}

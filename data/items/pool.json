@@ -1,0 +1,27 @@
+{
+  "id": "pool",
+  "name": "pool of sewage",
+  "description": "You see pool of sewage.",
+  "examineText": "The leak has submerged the depressed area in a pool of sewage.",
+  "aliases": [
+    "SEWAG",
+    "GOOP",
+    "LARGE",
+    "BROWN"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "The leak has submerged the depressed area in a pool of sewage."
+    }
+  ],
+  "initialLocation": "unknown"
+}

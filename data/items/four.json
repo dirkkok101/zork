@@ -1,0 +1,24 @@
+{
+  "id": "four",
+  "name": "number four",
+  "description": "You see number four.",
+  "examineText": "It's number four.",
+  "aliases": [
+    "4"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's number four."
+    }
+  ],
+  "initialLocation": "unknown"
+}

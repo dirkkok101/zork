@@ -1,0 +1,49 @@
+{
+  "id": "sbag",
+  "name": "brown sack",
+  "description": "You see brown sack.",
+  "examineText": "A brown sack is here.",
+  "aliases": [
+    "BAG",
+    "SACK",
+    "BROWN",
+    "ELONG"
+  ],
+  "type": "CONTAINER",
+  "portable": true,
+  "visible": true,
+  "weight": 3,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable",
+    "container"
+  ],
+  "properties": {
+    "size": 3
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "A brown sack is here."
+    },
+    {
+      "command": "take",
+      "message": "You take the brown sack."
+    },
+    {
+      "command": "open",
+      "condition": "!state.open",
+      "effect": "state.open = true",
+      "message": "You open the SBAG."
+    },
+    {
+      "command": "close",
+      "condition": "state.open",
+      "effect": "state.open = false",
+      "message": "You close the SBAG."
+    }
+  ],
+  "initialLocation": "unknown"
+}

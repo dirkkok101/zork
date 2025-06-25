@@ -1,0 +1,41 @@
+{
+  "id": "machi",
+  "name": "machine",
+  "description": "You see machine.",
+  "examineText": "It's machine.",
+  "aliases": [
+    "PDP10",
+    "DRYER",
+    "LID"
+  ],
+  "type": "CONTAINER",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "container",
+    "container"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's machine."
+    },
+    {
+      "command": "open",
+      "condition": "!state.open",
+      "effect": "state.open = true",
+      "message": "You open the MACHI."
+    },
+    {
+      "command": "close",
+      "condition": "state.open",
+      "effect": "state.open = false",
+      "message": "You close the MACHI."
+    }
+  ],
+  "initialLocation": "unknown"
+}

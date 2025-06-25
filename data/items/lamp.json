@@ -1,0 +1,48 @@
+{
+  "id": "lamp",
+  "name": "lamp",
+  "description": "You see lamp.",
+  "examineText": "There is a brass lantern (battery-powered) here.",
+  "aliases": [
+    "LANTE",
+    "LIGHT",
+    "BRASS"
+  ],
+  "type": "LIGHT_SOURCE",
+  "portable": true,
+  "visible": true,
+  "weight": 15,
+  "size": "MEDIUM",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable",
+    "light_source"
+  ],
+  "properties": {
+    "size": 15
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a brass lantern (battery-powered) here."
+    },
+    {
+      "command": "take",
+      "message": "You take the lamp."
+    },
+    {
+      "command": "turn on",
+      "condition": "!state.lit",
+      "effect": "state.lit = true",
+      "message": "The LAMP is now on."
+    },
+    {
+      "command": "turn off",
+      "condition": "state.lit",
+      "effect": "state.lit = false",
+      "message": "The LAMP is now off."
+    }
+  ],
+  "initialLocation": "unknown"
+}

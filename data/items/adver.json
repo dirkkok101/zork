@@ -1,0 +1,37 @@
+{
+  "id": "adver",
+  "name": "leaflet",
+  "description": "You see leaflet.",
+  "examineText": "There is a small leaflet here.",
+  "aliases": [
+    "PAMPH",
+    "LEAFL",
+    "BOOKL",
+    "MAIL",
+    "SMALL"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 2,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable"
+  ],
+  "properties": {
+    "size": 2
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a small leaflet here."
+    },
+    {
+      "command": "take",
+      "message": "You take the leaflet."
+    }
+  ],
+  "initialLocation": "unknown"
+}

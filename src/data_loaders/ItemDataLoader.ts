@@ -5,11 +5,11 @@ import { join } from 'path';
 
 /**
  * Interface defining the contract for item data loading operations
- * Follows dependency inversion principle for testability
+ * Simple, stateless file reading utility
  */
 export interface IItemDataLoader {
     /**
-     * Load all items from all categories
+     * Load all items from flat structure
      * @returns Promise resolving to array of all items
      */
     loadAllItems(): Promise<Item[]>;
@@ -21,13 +21,6 @@ export interface IItemDataLoader {
      * @throws Error if item not found
      */
     loadItem(itemId: string): Promise<Item>;
-
-    /**
-     * Load items from a specific category
-     * @param category Category name (treasures, tools, containers, weapons, consumables)
-     * @returns Promise resolving to array of items in the category
-     */
-    getItemsByCategory(category: string): Promise<Item[]>;
 
     /**
      * Load items of a specific type
@@ -44,12 +37,6 @@ export interface IItemDataLoader {
     getItemsByLocation(location: string): Promise<Item[]>;
 
     /**
-     * Get available item categories
-     * @returns Promise resolving to array of category names
-     */
-    getCategories(): Promise<string[]>;
-
-    /**
      * Get total item count
      * @returns Promise resolving to total number of items
      */
@@ -57,15 +44,11 @@ export interface IItemDataLoader {
 }
 
 /**
- * Implementation of item data loading with caching and validation
+ * Implementation of simple, stateless item data loading
  * Follows single responsibility principle and TypeScript strict mode
  */
 export class ItemDataLoader implements IItemDataLoader {
     private readonly dataPath: string;
-    private itemCache: Map<string, Item> = new Map();
-    private categoryCache: Map<string, Item[]> = new Map();
-    private indexCache: ItemIndexData | null = null;
-    private allItemsCache: Item[] | null = null;
 
     /**
      * Initialize the ItemDataLoader
@@ -76,22 +59,22 @@ export class ItemDataLoader implements IItemDataLoader {
     }
 
     /**
-     * Load all items from all categories
+     * Load all items from flat structure
      */
     public async loadAllItems(): Promise<Item[]> {
-        if (this.allItemsCache) {
-            return this.allItemsCache;
-        }
-
         const index = await this.loadIndex();
         const allItems: Item[] = [];
 
-        for (const category of Object.keys(index.categories)) {
-            const categoryItems = await this.getItemsByCategory(category);
-            allItems.push(...categoryItems);
+        for (const filename of index.items) {
+            try {
+                const item = await this.loadItemFromFile(filename);
+                allItems.push(item);
+            } catch (error) {
+                console.error(`Failed to load item from ${filename}:`, error);
+                // Continue loading other items instead of failing completely
+            }
         }
 
-        this.allItemsCache = allItems;
         return allItems;
     }
 
@@ -99,57 +82,14 @@ export class ItemDataLoader implements IItemDataLoader {
      * Load a specific item by its ID
      */
     public async loadItem(itemId: string): Promise<Item> {
-        if (this.itemCache.has(itemId)) {
-            return this.itemCache.get(itemId)!;
-        }
-
-        // Find the item in the index
         const index = await this.loadIndex();
-        let itemFilePath: string | null = null;
-
-        for (const [, files] of Object.entries(index.categories)) {
-            const filePath = files.find(f => f.includes(`${itemId}.json`));
-            if (filePath) {
-                itemFilePath = filePath;
-                break;
-            }
-        }
-
-        if (!itemFilePath) {
+        const filename = `${itemId}.json`;
+        
+        if (!index.items.includes(filename)) {
             throw new Error(`Item with ID '${itemId}' not found`);
         }
 
-        return await this.loadOrGetCachedItem(itemFilePath);
-    }
-
-    /**
-     * Load items from a specific category
-     */
-    public async getItemsByCategory(category: string): Promise<Item[]> {
-        if (this.categoryCache.has(category)) {
-            return this.categoryCache.get(category)!;
-        }
-
-        const index = await this.loadIndex();
-        const categoryFiles = index.categories[category];
-
-        if (!categoryFiles) {
-            throw new Error(`Category '${category}' not found`);
-        }
-
-        const items: Item[] = [];
-        for (const filePath of categoryFiles) {
-            try {
-                const item = await this.loadOrGetCachedItem(filePath);
-                items.push(item);
-            } catch (error) {
-                console.error(`Failed to load item from ${filePath}:`, error);
-                // Continue loading other items instead of failing completely
-            }
-        }
-
-        this.categoryCache.set(category, items);
-        return items;
+        return await this.loadItemFromFile(filename);
     }
 
     /**
@@ -169,14 +109,6 @@ export class ItemDataLoader implements IItemDataLoader {
     }
 
     /**
-     * Get available item categories
-     */
-    public async getCategories(): Promise<string[]> {
-        const index = await this.loadIndex();
-        return Object.keys(index.categories);
-    }
-
-    /**
      * Get total item count
      */
     public async getTotalCount(): Promise<number> {
@@ -185,20 +117,15 @@ export class ItemDataLoader implements IItemDataLoader {
     }
 
     /**
-     * Load and cache the item index
+     * Load the item index
      */
     private async loadIndex(): Promise<ItemIndexData> {
-        if (this.indexCache) {
-            return this.indexCache;
-        }
-
         try {
             const indexPath = join(this.dataPath, 'index.json');
             const indexContent = await readFile(indexPath, 'utf-8');
             const indexData = JSON.parse(indexContent) as ItemIndexData;
             
             this.validateIndexData(indexData);
-            this.indexCache = indexData;
             return indexData;
         } catch (error) {
             throw new Error(`Failed to load item index: ${error}`);
@@ -206,37 +133,18 @@ export class ItemDataLoader implements IItemDataLoader {
     }
 
     /**
-     * Load an item with caching - checks item cache first, then loads from file
-     */
-    private async loadOrGetCachedItem(filePath: string): Promise<Item> {
-        // Extract item ID from file path to check cache
-        const fileNameWithExt = filePath.split('/').pop() || '';
-        const itemId = fileNameWithExt.replace('.json', '');
-        
-        // Check if already in item cache
-        if (this.itemCache.has(itemId)) {
-            return this.itemCache.get(itemId)!;
-        }
-        
-        // Load from file and cache
-        const item = await this.loadItemFromFile(filePath);
-        this.itemCache.set(itemId, item);
-        return item;
-    }
-
-    /**
      * Load and convert an item from a JSON file
      */
-    private async loadItemFromFile(filePath: string): Promise<Item> {
+    private async loadItemFromFile(filename: string): Promise<Item> {
         try {
-            const fullPath = join(this.dataPath, filePath);
+            const fullPath = join(this.dataPath, filename);
             const fileContent = await readFile(fullPath, 'utf-8');
             const itemData = JSON.parse(fileContent) as ItemData;
             
             this.validateItemData(itemData);
             return this.convertItemDataToItem(itemData);
         } catch (error) {
-            throw new Error(`Failed to load item from ${filePath}: ${error}`);
+            throw new Error(`Failed to load item from ${filename}: ${error}`);
         }
     }
 
@@ -339,8 +247,8 @@ export class ItemDataLoader implements IItemDataLoader {
         if (!data || typeof data !== 'object') {
             throw new Error('Index data must be an object');
         }
-        if (!data.categories || typeof data.categories !== 'object') {
-            throw new Error('Index data must have categories object');
+        if (!Array.isArray(data.items)) {
+            throw new Error('Index data must have items array');
         }
         if (typeof data.total !== 'number') {
             throw new Error('Index data must have total number');

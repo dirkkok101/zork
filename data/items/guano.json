@@ -1,0 +1,35 @@
+{
+  "id": "guano",
+  "name": "hunk of bat guano",
+  "description": "You see hunk of bat guano.",
+  "examineText": "There is a hunk of bat guano here.",
+  "aliases": [
+    "CRAP",
+    "SHIT",
+    "HUNK"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 20,
+  "size": "MEDIUM",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable"
+  ],
+  "properties": {
+    "size": 20
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a hunk of bat guano here."
+    },
+    {
+      "command": "take",
+      "message": "You take the hunk of bat guano."
+    }
+  ],
+  "initialLocation": "unknown"
+}

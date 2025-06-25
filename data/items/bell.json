@@ -1,0 +1,32 @@
+{
+  "id": "bell",
+  "name": "bell",
+  "description": "You see bell.",
+  "examineText": "There is a small brass bell here.",
+  "aliases": [
+    "SMALL",
+    "BRASS"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a small brass bell here."
+    },
+    {
+      "command": "take",
+      "message": "You take the bell."
+    }
+  ],
+  "initialLocation": "unknown"
+}

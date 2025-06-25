@@ -1,0 +1,27 @@
+{
+  "id": "vault",
+  "name": "large stone cube",
+  "description": "You see large stone cube.",
+  "examineText": "It's large stone cube.",
+  "aliases": [
+    "CUBE",
+    "LETTE",
+    "STONE",
+    "LARGE"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's large stone cube."
+    }
+  ],
+  "initialLocation": "unknown"
+}

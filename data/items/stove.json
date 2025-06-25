@@ -1,0 +1,24 @@
+{
+  "id": "stove",
+  "name": "old coal stove",
+  "description": "You see old coal stove.",
+  "examineText": "It's old coal stove.",
+  "aliases": [
+    "OLD"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's old coal stove."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "rug",
+  "name": "carpet",
+  "description": "You see carpet.",
+  "examineText": "It's carpet.",
+  "aliases": [
+    "CARPE",
+    "ORIEN"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's carpet."
+    },
+    {
+      "command": "take",
+      "message": "You take the carpet."
+    }
+  ],
+  "initialLocation": "unknown"
+}

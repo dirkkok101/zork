@@ -1,0 +1,26 @@
+{
+  "id": "dam",
+  "name": "dam",
+  "description": "You see dam.",
+  "examineText": "It's dam.",
+  "aliases": [
+    "GATE",
+    "GATES",
+    "FCD"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's dam."
+    }
+  ],
+  "initialLocation": "unknown"
+}

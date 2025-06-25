@@ -1,0 +1,37 @@
+{
+  "id": "bills",
+  "name": "stack of zorkmid bills",
+  "description": "You see stack of zorkmid bills.",
+  "examineText": "It's stack of zorkmid bills.",
+  "aliases": [
+    "STACK",
+    "PILE",
+    "NEAT",
+    "200",
+    "ZORKM"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's stack of zorkmid bills."
+    },
+    {
+      "command": "take",
+      "message": "You take the stack of zorkmid bills."
+    }
+  ],
+  "initialLocation": "unknown"
+}

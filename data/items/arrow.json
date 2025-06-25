@@ -1,0 +1,25 @@
+{
+  "id": "arrow",
+  "name": "compass arrow",
+  "description": "You see compass arrow.",
+  "examineText": "It's compass arrow.",
+  "aliases": [
+    "POINT",
+    "COMPA"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's compass arrow."
+    }
+  ],
+  "initialLocation": "unknown"
+}

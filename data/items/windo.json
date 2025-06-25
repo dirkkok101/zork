@@ -1,0 +1,22 @@
+{
+  "id": "windo",
+  "name": "window",
+  "description": "You see window.",
+  "examineText": "It's window.",
+  "aliases": [],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's window."
+    }
+  ],
+  "initialLocation": "unknown"
+}

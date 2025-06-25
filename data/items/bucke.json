@@ -1,0 +1,42 @@
+{
+  "id": "bucke",
+  "name": "wooden bucket",
+  "description": "You see wooden bucket.",
+  "examineText": "It's wooden bucket.",
+  "aliases": [
+    "WOODE"
+  ],
+  "type": "CONTAINER",
+  "portable": false,
+  "visible": true,
+  "weight": 100,
+  "size": "HUGE",
+  "initialState": {},
+  "tags": [
+    "openable",
+    "openable",
+    "vehicle"
+  ],
+  "properties": {
+    "size": 100
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's wooden bucket."
+    },
+    {
+      "command": "open",
+      "condition": "!state.open",
+      "effect": "state.open = true",
+      "message": "You open the BUCKE."
+    },
+    {
+      "command": "close",
+      "condition": "state.open",
+      "effect": "state.open = false",
+      "message": "You close the BUCKE."
+    }
+  ],
+  "initialLocation": "unknown"
+}

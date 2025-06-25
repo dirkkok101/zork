@@ -1,0 +1,25 @@
+{
+  "id": "cpanl",
+  "name": "control panel",
+  "description": "You see control panel.",
+  "examineText": "It's control panel.",
+  "aliases": [
+    "PANEL",
+    "CONTR"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's control panel."
+    }
+  ],
+  "initialLocation": "unknown"
+}

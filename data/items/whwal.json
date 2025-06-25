@@ -1,0 +1,26 @@
+{
+  "id": "whwal",
+  "name": "white panel",
+  "description": "You see white panel.",
+  "examineText": "It's white panel.",
+  "aliases": [
+    "WALL",
+    "PANEL",
+    "WHITE"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's white panel."
+    }
+  ],
+  "initialLocation": "unknown"
+}

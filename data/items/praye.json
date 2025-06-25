@@ -1,0 +1,26 @@
+{
+  "id": "praye",
+  "name": "prayer",
+  "description": "You see prayer.",
+  "examineText": "It's prayer.",
+  "aliases": [
+    "INSCR",
+    "ANCIE",
+    "OLD"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's prayer."
+    }
+  ],
+  "initialLocation": "unknown"
+}

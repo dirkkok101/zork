@@ -1,0 +1,25 @@
+{
+  "id": "lcase",
+  "name": "large case",
+  "description": "You see large case.",
+  "examineText": "It's large case.",
+  "aliases": [
+    "CASE",
+    "LARGE"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's large case."
+    }
+  ],
+  "initialLocation": "unknown"
+}

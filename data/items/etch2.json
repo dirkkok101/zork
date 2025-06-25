@@ -1,0 +1,26 @@
+{
+  "id": "etch2",
+  "name": "wall with etchings",
+  "description": "You see wall with etchings.",
+  "examineText": "It's wall with etchings.",
+  "aliases": [
+    "ETCHI",
+    "WALLS",
+    "WALL"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's wall with etchings."
+    }
+  ],
+  "initialLocation": "unknown"
+}

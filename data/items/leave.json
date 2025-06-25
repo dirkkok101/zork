@@ -1,0 +1,34 @@
+{
+  "id": "leave",
+  "name": "pile of leaves",
+  "description": "You see pile of leaves.",
+  "examineText": "There is a pile of leaves on the ground.",
+  "aliases": [
+    "LEAF",
+    "PILE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 25,
+  "size": "LARGE",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable"
+  ],
+  "properties": {
+    "size": 25
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a pile of leaves on the ground."
+    },
+    {
+      "command": "take",
+      "message": "You take the pile of leaves."
+    }
+  ],
+  "initialLocation": "unknown"
+}

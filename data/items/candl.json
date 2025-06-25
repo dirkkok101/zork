@@ -1,0 +1,46 @@
+{
+  "id": "candl",
+  "name": "pair of candles",
+  "description": "You see pair of candles.",
+  "examineText": "There are two candles here.",
+  "aliases": [
+    "PAIR"
+  ],
+  "type": "LIGHT_SOURCE",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable",
+    "light_source"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There are two candles here."
+    },
+    {
+      "command": "take",
+      "message": "You take the pair of candles."
+    },
+    {
+      "command": "turn on",
+      "condition": "!state.lit",
+      "effect": "state.lit = true",
+      "message": "The CANDL is now on."
+    },
+    {
+      "command": "turn off",
+      "condition": "state.lit",
+      "effect": "state.lit = false",
+      "message": "The CANDL is now off."
+    }
+  ],
+  "initialLocation": "unknown"
+}

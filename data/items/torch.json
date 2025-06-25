@@ -1,0 +1,48 @@
+{
+  "id": "torch",
+  "name": "torch",
+  "description": "You see torch.",
+  "examineText": "There is an ivory torch here.",
+  "aliases": [
+    "IVORY",
+    "IVORY"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 20,
+  "size": "MEDIUM",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable",
+    "light_source",
+    "tool"
+  ],
+  "properties": {
+    "size": 20
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is an ivory torch here."
+    },
+    {
+      "command": "take",
+      "message": "You take the torch."
+    },
+    {
+      "command": "turn on",
+      "condition": "!state.lit",
+      "effect": "state.lit = true",
+      "message": "The TORCH is now on."
+    },
+    {
+      "command": "turn off",
+      "condition": "state.lit",
+      "effect": "state.lit = false",
+      "message": "The TORCH is now off."
+    }
+  ],
+  "initialLocation": "unknown"
+}

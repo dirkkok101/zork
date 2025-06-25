@@ -1,0 +1,25 @@
+{
+  "id": "brope",
+  "name": "braided wire",
+  "description": "You see braided wire.",
+  "examineText": "It's braided wire.",
+  "aliases": [
+    "WIRE",
+    "BRAID"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's braided wire."
+    }
+  ],
+  "initialLocation": "unknown"
+}

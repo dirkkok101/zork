@@ -1,0 +1,25 @@
+{
+  "id": "rcage",
+  "name": "steel cage",
+  "description": "You see steel cage.",
+  "examineText": "There is a steel cage in the middle of the room.",
+  "aliases": [
+    "CAGE",
+    "STEEL"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a steel cage in the middle of the room."
+    }
+  ],
+  "initialLocation": "unknown"
+}

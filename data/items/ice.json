@@ -1,0 +1,25 @@
+{
+  "id": "ice",
+  "name": "glacier",
+  "description": "You see glacier.",
+  "examineText": "A mass of ice fills the western half of the room.",
+  "aliases": [
+    "MASS",
+    "GLACI"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "A mass of ice fills the western half of the room."
+    }
+  ],
+  "initialLocation": "unknown"
+}

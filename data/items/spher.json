@@ -1,0 +1,39 @@
+{
+  "id": "spher",
+  "name": "white crystal sphere",
+  "description": "You see white crystal sphere.",
+  "examineText": "There is a beautiful white crystal sphere here.",
+  "aliases": [
+    "BALL",
+    "PALAN",
+    "STONE",
+    "CRYST",
+    "SEEIN",
+    "GLASS",
+    "WHITE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a beautiful white crystal sphere here."
+    },
+    {
+      "command": "take",
+      "message": "You take the white crystal sphere."
+    }
+  ],
+  "initialLocation": "unknown"
+}

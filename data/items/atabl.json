@@ -1,0 +1,26 @@
+{
+  "id": "atabl",
+  "name": "large oblong table",
+  "description": "You see large oblong table.",
+  "examineText": "It's large oblong table.",
+  "aliases": [
+    "TABLE",
+    "LARGE",
+    "OBLON"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's large oblong table."
+    }
+  ],
+  "initialLocation": "unknown"
+}

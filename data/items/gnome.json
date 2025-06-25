@@ -1,0 +1,25 @@
+{
+  "id": "gnome",
+  "name": "Volcano Gnome",
+  "description": "You see volcano gnome.",
+  "examineText": "There is a nervous Volcano Gnome here.",
+  "aliases": [
+    "TROLL",
+    "VOLCA"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a nervous Volcano Gnome here."
+    }
+  ],
+  "initialLocation": "unknown"
+}

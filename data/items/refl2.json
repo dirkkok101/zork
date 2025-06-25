@@ -1,0 +1,31 @@
+{
+  "id": "refl2",
+  "name": "mirror",
+  "description": "You see mirror.",
+  "examineText": "It's mirror.",
+  "aliases": [
+    "MIRRO"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's mirror."
+    },
+    {
+      "command": "take",
+      "message": "You take the mirror."
+    }
+  ],
+  "initialLocation": "unknown"
+}

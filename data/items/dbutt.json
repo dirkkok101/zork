@@ -1,0 +1,25 @@
+{
+  "id": "dbutt",
+  "name": "large button",
+  "description": "You see large button.",
+  "examineText": "It's large button.",
+  "aliases": [
+    "BUTTO",
+    "LARGE"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's large button."
+    }
+  ],
+  "initialLocation": "unknown"
+}

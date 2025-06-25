@@ -1,0 +1,40 @@
+{
+  "id": "pkh1",
+  "name": "keyhole",
+  "description": "You see keyhole.",
+  "examineText": "It's keyhole.",
+  "aliases": [
+    "KEYHO",
+    "HOLE"
+  ],
+  "type": "CONTAINER",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "openable",
+    "openable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's keyhole."
+    },
+    {
+      "command": "open",
+      "condition": "!state.open",
+      "effect": "state.open = true",
+      "message": "You open the PKH1."
+    },
+    {
+      "command": "close",
+      "condition": "state.open",
+      "effect": "state.open = false",
+      "message": "You close the PKH1."
+    }
+  ],
+  "initialLocation": "unknown"
+}

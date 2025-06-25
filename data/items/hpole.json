@@ -1,0 +1,24 @@
+{
+  "id": "hpole",
+  "name": "head on a pole",
+  "description": "You see head on a pole.",
+  "examineText": "It's head on a pole.",
+  "aliases": [
+    "HEAD"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's head on a pole."
+    }
+  ],
+  "initialLocation": "unknown"
+}

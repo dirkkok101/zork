@@ -6,13 +6,14 @@ Converts Zork object definitions from MDL files into TypeScript-compatible JSON
 
 import json
 import re
+import shutil
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 
 class ItemExtractor:
     def __init__(self, dung_file: str):
         self.dung_file = Path(dung_file)
-        self.output_dir = Path("game_reference")
+        self.output_dir = Path("data")
         self.objects = self.parse_objects()
         
         # Item type categorization based on flags and properties
@@ -102,47 +103,46 @@ class ItemExtractor:
                     obj_data['flags'].append('OPENABLE')
                 elif 'WEAPONBIT' in line:
                     obj_data['flags'].append('WEAPON')
-                elif 'TREASUREBIT' in line or 'OVISON' in line:
+                elif 'TREASUREBIT' in line:
                     obj_data['flags'].append('TREASURE')
+                elif 'TOOLBIT' in line:
+                    obj_data['flags'].append('TOOL')
                 elif 'FOODBIT' in line:
                     obj_data['flags'].append('FOOD')
+                elif 'DRINKBIT' in line:
+                    obj_data['flags'].append('DRINK')
+                elif 'VEHBIT' in line:
+                    obj_data['flags'].append('VEHICLE')
+                
+                # Parse flag combinations in single line like "<+ ,OVISON ,TAKEBIT ,WEAPONBIT>"
+                flag_match = re.search(r'<\+[^>]*>', line)
+                if flag_match:
+                    flag_line = flag_match.group(0)
+                    if 'TAKEBIT' in flag_line:
+                        obj_data['flags'].append('PORTABLE')
+                    if 'LIGHTBIT' in flag_line:
+                        obj_data['flags'].append('LIGHT_SOURCE')
+                    if 'CONTBIT' in flag_line:
+                        obj_data['flags'].append('CONTAINER')
+                    if 'OPENBIT' in flag_line:
+                        obj_data['flags'].append('OPENABLE')
+                    if 'WEAPONBIT' in flag_line:
+                        obj_data['flags'].append('WEAPON')
+                    if 'TREASUREBIT' in flag_line:
+                        obj_data['flags'].append('TREASURE')
+                    if 'TOOLBIT' in flag_line:
+                        obj_data['flags'].append('TOOL')
+                    if 'FOODBIT' in flag_line:
+                        obj_data['flags'].append('FOOD')
+                    if 'DRINKBIT' in flag_line:
+                        obj_data['flags'].append('DRINK')
+                    if 'VEHBIT' in flag_line:
+                        obj_data['flags'].append('VEHICLE')
             
             objects.append(obj_data)
         
         return objects
 
-    def categorize_item(self, obj: Dict[str, Any]) -> str:
-        """Determine which category an item belongs to"""
-        names = [name.lower() for name in obj['names']]
-        adjectives = [adj.lower() for adj in obj['adjectives']]
-        flags = [flag.lower() for flag in obj['flags']]
-        all_text = ' '.join(names + adjectives + [obj['description'].lower()])
-        
-        # Check for treasure indicators
-        treasure_keywords = ['gold', 'silver', 'jewel', 'diamond', 'emerald', 'ruby', 'sapphire', 'coin', 'trophy', 'treasure', 'precious']
-        if ('TREASURE' in flags or 'treasure' in flags or
-            any(keyword in all_text for keyword in treasure_keywords)):
-            return 'treasures'
-        
-        # Check for weapons
-        weapon_keywords = ['sword', 'knife', 'dagger', 'stiletto', 'axe', 'blade', 'weapon']
-        if ('WEAPON' in flags or 'weapon' in flags or
-            any(keyword in all_text for keyword in weapon_keywords)):
-            return 'weapons'
-        
-        # Check for containers
-        container_keywords = ['bag', 'box', 'case', 'chest', 'basket', 'container', 'sack']
-        if ('CONTAINER' in flags or 'OPENABLE' in flags or
-            any(keyword in all_text for keyword in container_keywords)):
-            return 'containers'
-        
-        # Check for consumables
-        consumable_keywords = ['food', 'sandwich', 'water', 'wine', 'drink', 'eat']
-        if ('FOOD' in flags or any(keyword in all_text for keyword in consumable_keywords)):
-            return 'consumables'
-        
-        # Default to tools
-        return 'tools'
 
     def convert_to_item_json(self, obj: Dict[str, Any]) -> Dict[str, Any]:
         """Convert parsed object to your item JSON format"""
@@ -170,17 +170,22 @@ class ItemExtractor:
         return item_data
 
     def determine_item_type(self, obj: Dict[str, Any]) -> str:
-        """Determine the primary item type"""
-        if 'TREASURE' in obj['flags']:
-            return 'TREASURE'
-        elif 'WEAPON' in obj['flags']:
-            return 'WEAPON'
-        elif 'LIGHT_SOURCE' in obj['flags']:
-            return 'LIGHT_SOURCE'
-        elif 'CONTAINER' in obj['flags']:
-            return 'CONTAINER'
-        elif 'FOOD' in obj['flags']:
+        """Determine the primary item type - aligned with categorization logic"""
+        flags = [flag.upper() for flag in obj['flags']]
+        
+        # Priority order matches categorize_item() method
+        if 'FOOD' in flags or 'DRINK' in flags:
             return 'FOOD'
+        elif 'WEAPON' in flags:
+            return 'WEAPON'
+        elif 'CONTAINER' in flags or 'OPENABLE' in flags:
+            return 'CONTAINER'
+        elif 'TOOL' in flags:
+            return 'TOOL'
+        elif 'LIGHT_SOURCE' in flags:
+            return 'LIGHT_SOURCE'
+        elif 'TREASURE' in flags:
+            return 'TREASURE'
         else:
             return 'TOOL'
 
@@ -251,34 +256,41 @@ class ItemExtractor:
         return interactions
 
     def extract_items(self):
-        """Extract all items and organize them by category"""
+        """Extract all items to flat structure in items/ folder"""
         print("Extracting items...")
         
-        categories = {'treasures': [], 'tools': [], 'containers': [], 'weapons': [], 'consumables': []}
+        # Clean existing items directory to avoid old incorrect files
+        items_dir = self.output_dir / "items"
+        if items_dir.exists():
+            print(f"Cleaning existing items directory: {items_dir}")
+            shutil.rmtree(items_dir)
+        
+        items_dir.mkdir(parents=True, exist_ok=True)
+        
+        all_items = []
         item_files = {}
         
         for obj in self.objects:
             if not obj['names']:  # Skip objects without names
                 continue
                 
-            category = self.categorize_item(obj)
             item_data = self.convert_to_item_json(obj)
             
-            filename = f"{category}/{item_data['id']}.json"
+            # Use flat structure - all items directly in items/ folder
+            filename = f"{item_data['id']}.json"
             item_files[filename] = item_data
-            categories[category].append(filename)
+            all_items.append(filename)
         
-        # Write item files
+        # Write item files directly to items/ folder
         for filename, item_data in item_files.items():
             file_path = self.output_dir / "items" / filename
-            file_path.parent.mkdir(parents=True, exist_ok=True)
             
             with open(file_path, 'w') as f:
                 json.dump(item_data, f, indent=2)
         
-        # Write index file
+        # Write simplified index file
         index_data = {
-            "categories": categories,
+            "items": sorted(all_items),
             "total": len(item_files),
             "lastUpdated": "2024-06-25T00:00:00Z"
         }
@@ -286,11 +298,11 @@ class ItemExtractor:
         with open(self.output_dir / "items" / "index.json", 'w') as f:
             json.dump(index_data, f, indent=2)
         
-        print(f"Created {len(item_files)} item files")
+        print(f"Created {len(item_files)} item files in flat structure")
         return item_files
 
 def main():
-    extractor = ItemExtractor("game_reference/dung_mud_source.txt")
+    extractor = ItemExtractor("../dung_mud_source.txt")
     
     # Extract items
     items = extractor.extract_items()

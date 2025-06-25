@@ -1,0 +1,47 @@
+{
+  "id": "coffi",
+  "name": "gold coffin",
+  "description": "You see gold coffin.",
+  "examineText": "It's gold coffin.",
+  "aliases": [
+    "CASKE",
+    "GOLD"
+  ],
+  "type": "CONTAINER",
+  "portable": true,
+  "visible": true,
+  "weight": 55,
+  "size": "HUGE",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable",
+    "container"
+  ],
+  "properties": {
+    "size": 55
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's gold coffin."
+    },
+    {
+      "command": "take",
+      "message": "You take the gold coffin."
+    },
+    {
+      "command": "open",
+      "condition": "!state.open",
+      "effect": "state.open = true",
+      "message": "You open the COFFI."
+    },
+    {
+      "command": "close",
+      "condition": "state.open",
+      "effect": "state.open = false",
+      "message": "You close the COFFI."
+    }
+  ],
+  "initialLocation": "unknown"
+}

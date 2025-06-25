@@ -1,0 +1,35 @@
+{
+  "id": "pump",
+  "name": "hand-held air pump",
+  "description": "You see hand-held air pump.",
+  "examineText": "There is a small pump here.",
+  "aliases": [
+    "AIR-P",
+    "AIRPU",
+    "SMALL",
+    "HAND-"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable",
+    "portable",
+    "tool"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a small pump here."
+    },
+    {
+      "command": "take",
+      "message": "You take the hand-held air pump."
+    }
+  ],
+  "initialLocation": "unknown"
+}

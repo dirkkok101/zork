@@ -1,0 +1,25 @@
+{
+  "id": "zgnom",
+  "name": "Gnome of Zurich",
+  "description": "You see gnome of zurich.",
+  "examineText": "There is a Gnome of Zurich here.",
+  "aliases": [
+    "GNOME",
+    "ZURIC"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a Gnome of Zurich here."
+    }
+  ],
+  "initialLocation": "unknown"
+}

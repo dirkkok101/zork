@@ -1,0 +1,25 @@
+{
+  "id": "cbag",
+  "name": "cloth bag",
+  "description": "You see cloth bag.",
+  "examineText": "It's cloth bag.",
+  "aliases": [
+    "BAG",
+    "CLOTH"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's cloth bag."
+    }
+  ],
+  "initialLocation": "unknown"
+}

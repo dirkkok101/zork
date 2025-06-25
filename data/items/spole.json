@@ -1,0 +1,29 @@
+{
+  "id": "spole",
+  "name": "short pole",
+  "description": "You see short pole.",
+  "examineText": "It's short pole.",
+  "aliases": [
+    "POLE",
+    "POST",
+    "HANDG",
+    "GRIP",
+    "SHORT",
+    "SMALL"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's short pole."
+    }
+  ],
+  "initialLocation": "unknown"
+}

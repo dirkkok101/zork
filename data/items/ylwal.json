@@ -1,0 +1,26 @@
+{
+  "id": "ylwal",
+  "name": "yellow panel",
+  "description": "You see yellow panel.",
+  "examineText": "It's yellow panel.",
+  "aliases": [
+    "WALL",
+    "PANEL",
+    "YELLO"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's yellow panel."
+    }
+  ],
+  "initialLocation": "unknown"
+}

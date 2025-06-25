@@ -1,0 +1,25 @@
+{
+  "id": "cyclo",
+  "name": "cyclops",
+  "description": "You see cyclops.",
+  "examineText": "It's cyclops.",
+  "aliases": [
+    "ONE-E",
+    "MONST"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's cyclops."
+    }
+  ],
+  "initialLocation": "unknown"
+}
