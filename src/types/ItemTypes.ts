@@ -20,7 +20,9 @@ export enum ItemType {
     TOOL = 'TOOL',
     WEAPON = 'WEAPON',
     CONTAINER = 'CONTAINER',
-    TREASURE = 'TREASURE'
+    TREASURE = 'TREASURE',
+    FOOD = 'FOOD',
+    LIGHT_SOURCE = 'LIGHT_SOURCE'
 }
 
 /**

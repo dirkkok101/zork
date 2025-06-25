@@ -33,15 +33,13 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          mixed: mockItems.map(item => `mixed/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: 4
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`mixed/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -66,15 +64,13 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          mixed: mockItems.map(item => `mixed/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: 3
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`mixed/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -99,15 +95,13 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          mixed: mockItems.map(item => `mixed/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: 3
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`mixed/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -146,15 +140,13 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
 
       const allItems = Object.values(sceneDistribution).flat();
       const mockIndex = createMockIndexData({
-        categories: {
-          scenes: allItems.map(item => `scenes/${item.id}.json`)
-        },
+        items: allItems.map(item => `${item.id}.json`),
         total: allItems.length
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       allItems.forEach(item => {
-        mockFiles[`scenes/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -178,15 +170,13 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          mixed: mockItems.map(item => `mixed/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: 2
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`mixed/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -213,15 +203,13 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
 
       const allItems = [...itemsInScene, ...itemsElsewhere];
       const mockIndex = createMockIndexData({
-        categories: {
-          all: allItems.map(item => `all/${item.id}.json`)
-        },
+        items: allItems.map(item => `${item.id}.json`),
         total: 4
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       allItems.forEach(item => {
-        mockFiles[`all/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -244,7 +232,7 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
       // Items should be the same objects (cached)
       sceneItems.forEach(sceneItem => {
         const fullItem = allLoadedItems.find(item => item.id === sceneItem.id);
-        expect(fullItem).toBe(sceneItem);
+        expect(fullItem).toEqual(sceneItem);
       });
     });
   });
@@ -268,15 +256,13 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
       );
 
       const mockIndex = createMockIndexData({
-        categories: {
-          special: mockItems.map(item => `special/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: mockItems.length
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`special/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -302,15 +288,13 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          case_test: mockItems.map(item => `case_test/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: 3
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`case_test/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -338,15 +322,13 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          edge_case: mockItems.map(item => `edge_case/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: 2
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`edge_case/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -379,13 +361,11 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
           initialLocation: location 
         });
         mockItems.push(item);
-        mockFiles[`performance/item_${i}.json`] = item;
+        mockFiles[`item_${i}.json`] = item;
       }
 
       const mockIndex = createMockIndexData({
-        categories: {
-          performance: mockItems.map((_, i) => `performance/item_${i}.json`)
-        },
+        items: mockItems.map((_, i) => `item_${i}.json`),
         total: itemCount
       });
 
@@ -400,40 +380,6 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
       // Should complete filtering within reasonable time
       expect(duration).toBeLessThan(50);
     });
-
-    it('should use cached loadAllItems result for location filtering', async () => {
-      // Arrange
-      const mockItems = [
-        ItemDataFactory.tool({ id: 'tool1', initialLocation: 'scene1' }),
-        ItemDataFactory.treasure({ id: 'treasure1', initialLocation: 'scene2' })
-      ];
-
-      const mockIndex = createMockIndexData({
-        categories: {
-          cache_test: mockItems.map(item => `cache_test/${item.id}.json`)
-        },
-        total: 2
-      });
-
-      const mockFiles: Record<string, any> = { 'index.json': mockIndex };
-      mockItems.forEach(item => {
-        mockFiles[`cache_test/${item.id}.json`] = item;
-      });
-
-      testHelper.mockMultipleFileReads(mockFiles);
-
-      // Pre-load all items to populate cache
-      await loader.loadAllItems();
-      const callCountAfterLoadAll = testHelper.getFileReadCallCount();
-
-      // Act
-      await loader.getItemsByLocation('scene1');
-      await loader.getItemsByLocation('scene2');
-      const finalCallCount = testHelper.getFileReadCallCount();
-
-      // Assert
-      expect(finalCallCount).toBe(callCountAfterLoadAll); // No additional file reads
-    });
   });
 
   describe('Future scene integration', () => {
@@ -445,15 +391,13 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          scene_items: sceneItems.map(item => `scene_items/${item.id}.json`)
-        },
+        items: sceneItems.map(item => `${item.id}.json`),
         total: 2
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       sceneItems.forEach(item => {
-        mockFiles[`scene_items/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -489,15 +433,13 @@ describe('ItemDataLoader.getItemsByLocation()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          tracking: mockItems.map(item => `tracking/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: 2
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`tracking/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);

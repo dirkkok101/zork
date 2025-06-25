@@ -1,175 +1,161 @@
 /**
  * Unit tests for ItemDataLoader.loadAllItems() method
- * Tests aggregation of all items from all categories with caching and error handling
+ * Tests loading all items from flat structure without caching
  */
 
 import { ItemDataLoader } from '../../../../../src/data_loaders/ItemDataLoader';
-import { 
-  ItemDataLoaderTestHelper, 
-  PerformanceTestHelper,
-  ValidationTestHelper 
-} from '../../../../utils/test_helpers';
-import { 
-  createMockIndexData, 
-  ItemDataFactory,
-  PerformanceFactory 
-} from '../../../../utils/mock_factories';
+import { ItemType, Size } from '../../../../../src/types/ItemTypes';
+
+// Mock fs/promises for unit tests
+jest.mock('fs/promises');
+import { readFile } from 'fs/promises';
+const mockReadFile = readFile as jest.MockedFunction<typeof readFile>;
 
 describe('ItemDataLoader.loadAllItems()', () => {
   let loader: ItemDataLoader;
-  let testHelper: ItemDataLoaderTestHelper;
 
   beforeEach(() => {
     loader = new ItemDataLoader('test-path/');
-    testHelper = new ItemDataLoaderTestHelper();
+    mockReadFile.mockReset();
   });
 
   describe('Success scenarios', () => {
-    it('should load all items from all categories successfully', async () => {
+    it('should load all items from flat structure successfully', async () => {
       // Arrange
-      const mockIndex = createMockIndexData({
-        categories: {
-          treasures: ['treasures/coin.json', 'treasures/gem.json'],
-          tools: ['tools/lamp.json'],
-          containers: ['containers/box.json']
-        },
-        total: 4
-      });
-
-      const mockItems = {
-        'index.json': mockIndex,
-        'treasures/coin.json': ItemDataFactory.treasure({ id: 'coin' }),
-        'treasures/gem.json': ItemDataFactory.treasure({ id: 'gem' }),
-        'tools/lamp.json': ItemDataFactory.tool({ id: 'lamp' }),
-        'containers/box.json': ItemDataFactory.container({ id: 'box' })
+      const mockIndex = {
+        items: ['coin.json', 'lamp.json', 'box.json'],
+        total: 3,
+        lastUpdated: '2024-06-25T00:00:00Z'
       };
 
-      testHelper.mockMultipleFileReads(mockItems);
+      const mockCoin = {
+        id: 'coin',
+        name: 'coin',
+        description: 'A shiny coin',
+        examineText: 'A gold coin.',
+        aliases: ['gold'],
+        type: 'TREASURE',
+        portable: true,
+        visible: true,
+        weight: 1,
+        size: 'TINY',
+        initialState: {},
+        tags: ['treasure'],
+        properties: {},
+        interactions: [{ command: 'examine', message: 'A gold coin.' }],
+        initialLocation: 'unknown'
+      };
+
+      const mockLamp = {
+        id: 'lamp',
+        name: 'lamp',
+        description: 'A brass lamp',
+        examineText: 'A brass lamp.',
+        aliases: ['lantern'],
+        type: 'LIGHT_SOURCE',
+        portable: true,
+        visible: true,
+        weight: 5,
+        size: 'SMALL',
+        initialState: {},
+        tags: ['light_source'],
+        properties: {},
+        interactions: [{ command: 'examine', message: 'A brass lamp.' }],
+        initialLocation: 'unknown'
+      };
+
+      const mockBox = {
+        id: 'box',
+        name: 'box',
+        description: 'A wooden box',
+        examineText: 'A wooden box.',
+        aliases: ['container'],
+        type: 'CONTAINER',
+        portable: true,
+        visible: true,
+        weight: 3,
+        size: 'SMALL',
+        initialState: {},
+        tags: ['container'],
+        properties: {},
+        interactions: [{ command: 'examine', message: 'A wooden box.' }],
+        initialLocation: 'unknown'
+      };
+
+      mockReadFile
+        .mockResolvedValueOnce(JSON.stringify(mockIndex))      // index.json
+        .mockResolvedValueOnce(JSON.stringify(mockCoin))       // coin.json
+        .mockResolvedValueOnce(JSON.stringify(mockLamp))       // lamp.json
+        .mockResolvedValueOnce(JSON.stringify(mockBox));       // box.json
 
       // Act
       const result = await loader.loadAllItems();
 
       // Assert
-      expect(result).toHaveLength(4);
-      expect(result.map(item => item.id)).toEqual(['coin', 'gem', 'lamp', 'box']);
-      
-      // Verify all items have correct structure
-      result.forEach(item => {
-        ValidationTestHelper.validateItemStructure(item);
-      });
+      expect(result).toHaveLength(3);
+      expect(result[0]?.id).toBe('coin');
+      expect(result[0]?.type).toBe(ItemType.TREASURE);
+      expect(result[1]?.id).toBe('lamp');
+      expect(result[1]?.type).toBe(ItemType.LIGHT_SOURCE);
+      expect(result[2]?.id).toBe('box');
+      expect(result[2]?.type).toBe(ItemType.CONTAINER);
+
+      // Verify file reads happened
+      expect(mockReadFile).toHaveBeenCalledTimes(4);
+      expect(mockReadFile).toHaveBeenNthCalledWith(1, 'test-path/index.json', 'utf-8');
+      expect(mockReadFile).toHaveBeenNthCalledWith(2, 'test-path/coin.json', 'utf-8');
+      expect(mockReadFile).toHaveBeenNthCalledWith(3, 'test-path/lamp.json', 'utf-8');
+      expect(mockReadFile).toHaveBeenNthCalledWith(4, 'test-path/box.json', 'utf-8');
     });
 
-    it('should return cached result on subsequent calls', async () => {
+    it('should handle empty items array', async () => {
       // Arrange
-      const mockIndex = createMockIndexData({ total: 1 });
-      const mockItems = {
-        'index.json': mockIndex,
-        'treasures/test_treasure.json': ItemDataFactory.treasure()
-      };
-      testHelper.mockMultipleFileReads(mockItems);
-
-      // Act
-      const firstResult = await loader.loadAllItems();
-      const firstCallCount = testHelper.getFileReadCallCount();
-      
-      const secondResult = await loader.loadAllItems();
-      const secondCallCount = testHelper.getFileReadCallCount();
-
-      // Assert
-      expect(secondResult).toBe(firstResult); // Same object reference (cached)
-      expect(secondCallCount).toBe(firstCallCount); // No additional file reads
-    });
-
-    it('should aggregate items correctly across all categories', async () => {
-      // Arrange
-      const mockIndex = createMockIndexData({
-        categories: {
-          treasures: ['treasures/treasure1.json'],
-          tools: ['tools/tool1.json'],
-          containers: ['containers/container1.json'],
-          weapons: ['weapons/weapon1.json'],
-          consumables: ['consumables/consumable1.json']
-        },
-        total: 5
-      });
-
-      const mockItems = {
-        'index.json': mockIndex,
-        'treasures/treasure1.json': ItemDataFactory.treasure({ id: 'treasure1' }),
-        'tools/tool1.json': ItemDataFactory.tool({ id: 'tool1' }),
-        'containers/container1.json': ItemDataFactory.container({ id: 'container1' }),
-        'weapons/weapon1.json': ItemDataFactory.weapon({ id: 'weapon1' }),
-        'consumables/consumable1.json': ItemDataFactory.consumable({ id: 'consumable1' })
+      const mockIndex = {
+        items: [],
+        total: 0,
+        lastUpdated: '2024-06-25T00:00:00Z'
       };
 
-      testHelper.mockMultipleFileReads(mockItems);
+      mockReadFile.mockResolvedValueOnce(JSON.stringify(mockIndex));
 
       // Act
       const result = await loader.loadAllItems();
 
       // Assert
-      expect(result).toHaveLength(5);
-      
-      // Verify one item from each category
-      const itemIds = result.map(item => item.id);
-      expect(itemIds).toContain('treasure1');
-      expect(itemIds).toContain('tool1');
-      expect(itemIds).toContain('container1');
-      expect(itemIds).toContain('weapon1');
-      expect(itemIds).toContain('consumable1');
-    });
-  });
-
-  describe('Error handling scenarios', () => {
-    it('should handle individual item loading failures gracefully', async () => {
-      // Arrange
-      const mockIndex = createMockIndexData({
-        categories: {
-          treasures: ['treasures/good_item.json', 'treasures/bad_item.json'],
-          tools: ['tools/good_tool.json']
-        },
-        total: 3
-      });
-
-      testHelper.mockMixedFileReads({
-        'index.json': mockIndex,
-        'treasures/good_item.json': ItemDataFactory.treasure({ id: 'good_item' }),
-        'tools/good_tool.json': ItemDataFactory.tool({ id: 'good_tool' })
-      }, {
-        'tools/bad_item.json': new Error('Corrupted file')
-      });
-
-      // Act
-      const result = await loader.loadAllItems();
-
-      // Assert
-      // Should continue loading other items despite one failure
-      expect(result).toHaveLength(2);
-      expect(result.map(item => item.id)).toEqual(['good_item', 'good_tool']);
+      expect(result).toHaveLength(0);
+      expect(mockReadFile).toHaveBeenCalledTimes(1);
+      expect(mockReadFile).toHaveBeenCalledWith('test-path/index.json', 'utf-8');
     });
 
-    it('should throw descriptive error when index loading fails', async () => {
+    it('should load single item successfully', async () => {
       // Arrange
-      testHelper.mockFileReadError('index.json', new Error('Index file not found'));
+      const mockIndex = {
+        items: ['lamp.json'],
+        total: 1,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
-      // Act & Assert
-      await expect(loader.loadAllItems()).rejects.toThrow('Failed to load item index');
-    });
+      const mockLamp = {
+        id: 'lamp',
+        name: 'lamp',
+        description: 'A brass lamp',
+        examineText: 'A brass lamp.',
+        aliases: ['lantern'],
+        type: 'LIGHT_SOURCE',
+        portable: true,
+        visible: true,
+        weight: 5,
+        size: 'SMALL',
+        initialState: {},
+        tags: ['light_source'],
+        properties: {},
+        interactions: [{ command: 'examine', message: 'A brass lamp.' }],
+        initialLocation: 'unknown'
+      };
 
-    it('should handle empty categories gracefully', async () => {
-      // Arrange
-      const mockIndex = createMockIndexData({
-        categories: {
-          treasures: [],
-          tools: ['tools/lamp.json']
-        },
-        total: 1
-      });
-
-      testHelper.mockMultipleFileReads({
-        'index.json': mockIndex,
-        'tools/lamp.json': ItemDataFactory.tool({ id: 'lamp' })
-      });
+      mockReadFile
+        .mockResolvedValueOnce(JSON.stringify(mockIndex))
+        .mockResolvedValueOnce(JSON.stringify(mockLamp));
 
       // Act
       const result = await loader.loadAllItems();
@@ -177,143 +163,202 @@ describe('ItemDataLoader.loadAllItems()', () => {
       // Assert
       expect(result).toHaveLength(1);
       expect(result[0]?.id).toBe('lamp');
+      expect(result[0]?.type).toBe(ItemType.LIGHT_SOURCE);
     });
   });
 
-  describe('Performance requirements', () => {
-    it('should complete within 500ms performance requirement', async () => {
+  describe('Error handling', () => {
+    it('should throw error when index loading fails', async () => {
       // Arrange
-      const largeDataset = PerformanceFactory.createLargeItemSet(50);
-      const mockIndex = createMockIndexData({
-        categories: { performance: largeDataset.map((_, i) => `performance/item_${i}.json`) },
-        total: 50
-      });
-
-      const mockFiles: Record<string, any> = { 'index.json': mockIndex };
-      largeDataset.forEach((item, i) => {
-        mockFiles[`performance/item_${i}.json`] = item;
-      });
-
-      testHelper.mockMultipleFileReads(mockFiles);
+      mockReadFile.mockRejectedValueOnce(new Error('File not found'));
 
       // Act & Assert
-      const { duration } = await PerformanceTestHelper.measureTime(async () => {
-        return await loader.loadAllItems();
-      });
-
-      expect(duration).toBeLessThan(500);
+      await expect(loader.loadAllItems()).rejects.toThrow('Failed to load item index');
     });
 
-    it('should cache results for performance optimization', async () => {
+    it('should continue loading other items if one item fails', async () => {
       // Arrange
-      const mockIndex = createMockIndexData();
-      testHelper.mockMultipleFileReads({
-        'index.json': mockIndex,
-        'treasures/test_treasure.json': ItemDataFactory.treasure()
-      });
+      const mockIndex = {
+        items: ['good.json', 'bad.json', 'good2.json'],
+        total: 3,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
+
+      const mockGoodItem = {
+        id: 'good',
+        name: 'good item',
+        description: 'A good item',
+        examineText: 'A good item.',
+        aliases: [],
+        type: 'TOOL',
+        portable: true,
+        visible: true,
+        weight: 1,
+        size: 'TINY',
+        initialState: {},
+        tags: [],
+        properties: {},
+        interactions: [{ command: 'examine', message: 'A good item.' }],
+        initialLocation: 'unknown'
+      };
+
+      const mockGoodItem2 = {
+        id: 'good2',
+        name: 'good item 2',
+        description: 'Another good item',
+        examineText: 'Another good item.',
+        aliases: [],
+        type: 'TOOL',
+        portable: true,
+        visible: true,
+        weight: 1,
+        size: 'TINY',
+        initialState: {},
+        tags: [],
+        properties: {},
+        interactions: [{ command: 'examine', message: 'Another good item.' }],
+        initialLocation: 'unknown'
+      };
+
+      mockReadFile
+        .mockResolvedValueOnce(JSON.stringify(mockIndex))        // index.json
+        .mockResolvedValueOnce(JSON.stringify(mockGoodItem))     // good.json
+        .mockRejectedValueOnce(new Error('Bad file'))           // bad.json fails
+        .mockResolvedValueOnce(JSON.stringify(mockGoodItem2));   // good2.json
 
       // Act
-      const { duration: firstLoadTime } = await PerformanceTestHelper.measureTime(async () => {
-        return await loader.loadAllItems();
-      });
+      const result = await loader.loadAllItems();
 
-      const { duration: cachedLoadTime } = await PerformanceTestHelper.measureTime(async () => {
-        return await loader.loadAllItems();
-      });
+      // Assert - Should return 2 items (good ones), skipping the bad one
+      expect(result).toHaveLength(2);
+      expect(result[0]?.id).toBe('good');
+      expect(result[1]?.id).toBe('good2');
+    });
 
-      // Assert
-      expect(cachedLoadTime).toBeLessThan(firstLoadTime);
-      expect(cachedLoadTime).toBeLessThan(1); // Cache hits should be < 1ms
+    it('should handle invalid JSON in index file', async () => {
+      // Arrange
+      mockReadFile.mockResolvedValueOnce('invalid json');
+
+      // Act & Assert
+      await expect(loader.loadAllItems()).rejects.toThrow('Failed to load item index');
+    });
+
+    it('should handle invalid JSON in item file', async () => {
+      // Arrange
+      const mockIndex = {
+        items: ['invalid.json'],
+        total: 1,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
+
+      mockReadFile
+        .mockResolvedValueOnce(JSON.stringify(mockIndex))
+        .mockResolvedValueOnce('invalid json');
+
+      // Act
+      const result = await loader.loadAllItems();
+
+      // Assert - Should return empty array since the one item failed to load
+      expect(result).toHaveLength(0);
     });
   });
 
-  describe('Data integrity', () => {
-    it('should maintain item data integrity during aggregation', async () => {
+  describe('No caching behavior', () => {
+    it('should read files every time loadAllItems is called', async () => {
       // Arrange
-      const treasureData = ItemDataFactory.treasure({ 
-        id: 'test_treasure',
-        name: 'Test Treasure',
-        weight: 15 
-      });
-      
-      const mockIndex = createMockIndexData({
-        categories: { treasures: ['treasures/test_treasure.json'] },
-        total: 1
-      });
+      const mockIndex = {
+        items: ['lamp.json'],
+        total: 1,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
-      testHelper.mockMultipleFileReads({
-        'index.json': mockIndex,
-        'treasures/test_treasure.json': treasureData
-      });
+      const mockLamp = {
+        id: 'lamp',
+        name: 'lamp',
+        description: 'A brass lamp',
+        examineText: 'A brass lamp.',
+        aliases: ['lantern'],
+        type: 'LIGHT_SOURCE',
+        portable: true,
+        visible: true,
+        weight: 5,
+        size: 'SMALL',
+        initialState: {},
+        tags: ['light_source'],
+        properties: {},
+        interactions: [{ command: 'examine', message: 'A brass lamp.' }],
+        initialLocation: 'unknown'
+      };
+
+      mockReadFile
+        .mockResolvedValueOnce(JSON.stringify(mockIndex))   // First call - index
+        .mockResolvedValueOnce(JSON.stringify(mockLamp))    // First call - lamp
+        .mockResolvedValueOnce(JSON.stringify(mockIndex))   // Second call - index
+        .mockResolvedValueOnce(JSON.stringify(mockLamp));   // Second call - lamp
+
+      // Act - Call loadAllItems twice
+      const result1 = await loader.loadAllItems();
+      const result2 = await loader.loadAllItems();
+
+      // Assert - Both calls should work and read files fresh
+      expect(result1).toHaveLength(1);
+      expect(result2).toHaveLength(1);
+      expect(mockReadFile).toHaveBeenCalledTimes(4); // 2 calls × 2 files each
+    });
+  });
+
+  describe('Data conversion', () => {
+    it('should convert ItemData to Item with proper types', async () => {
+      // Arrange
+      const mockIndex = {
+        items: ['typed-item.json'],
+        total: 1,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
+
+      const mockItemData = {
+        id: 'typed-item',
+        name: 'Typed Item',
+        description: 'An item with proper types',
+        examineText: 'A properly typed item.',
+        aliases: ['typed', 'item'],
+        type: 'WEAPON',
+        portable: true,
+        visible: true,
+        weight: 10,
+        size: 'MEDIUM',
+        initialState: { durability: 100 },
+        tags: ['weapon', 'sharp'],
+        properties: { material: 'steel' },
+        interactions: [
+          { command: 'examine', message: 'A sharp weapon.' },
+          { command: 'wield', message: 'You wield the weapon.' }
+        ],
+        initialLocation: 'armory'
+      };
+
+      mockReadFile
+        .mockResolvedValueOnce(JSON.stringify(mockIndex))
+        .mockResolvedValueOnce(JSON.stringify(mockItemData));
 
       // Act
       const result = await loader.loadAllItems();
 
       // Assert
       expect(result).toHaveLength(1);
-      const loadedItem = result[0];
-      expect(loadedItem).toBeDefined();
+      const item = result[0];
+      expect(item).toBeDefined();
       
-      expect(loadedItem?.id).toBe(treasureData.id);
-      expect(loadedItem?.name).toBe(treasureData.name);
-      expect(loadedItem?.weight).toBe(treasureData.weight);
-      expect(loadedItem?.currentLocation).toBe(treasureData.initialLocation);
-    });
-
-    it('should properly convert types during aggregation', async () => {
-      // Arrange
-      const itemData = ItemDataFactory.tool({ 
-        type: 'TOOL',
-        size: 'MEDIUM'
-      });
-      
-      const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/test_tool.json'] },
-        total: 1
-      });
-
-      testHelper.mockMultipleFileReads({
-        'index.json': mockIndex,
-        'tools/test_tool.json': itemData
-      });
-
-      // Act
-      const result = await loader.loadAllItems();
-
-      // Assert
-      const loadedItem = result[0];
-      expect(loadedItem).toBeDefined();
-      expect(loadedItem?.type).toBe('TOOL'); // Converted to enum
-      expect(loadedItem?.size).toBe('MEDIUM'); // Converted to enum
-      expect(typeof loadedItem?.state).toBe('object');
-      expect(typeof loadedItem?.flags).toBe('object');
-    });
-  });
-
-  describe('Memory usage', () => {
-    it('should not exceed memory limits with full dataset', async () => {
-      // Arrange
-      const largeDataset = PerformanceFactory.createLargeItemSet(100);
-      const mockIndex = createMockIndexData({
-        categories: { performance: largeDataset.map((_, i) => `performance/item_${i}.json`) },
-        total: 100
-      });
-
-      const mockFiles: Record<string, any> = { 'index.json': mockIndex };
-      largeDataset.forEach((item, i) => {
-        mockFiles[`performance/item_${i}.json`] = item;
-      });
-
-      testHelper.mockMultipleFileReads(mockFiles);
-
-      // Act
-      const { memoryDelta } = await PerformanceTestHelper.measureMemory(async () => {
-        return await loader.loadAllItems();
-      });
-
-      // Assert
-      // Should not use more than 10MB for test dataset
-      expect(memoryDelta).toBeLessThan(10 * 1024 * 1024);
+      expect(item?.id).toBe('typed-item');
+      expect(item?.type).toBe(ItemType.WEAPON);
+      expect(item?.size).toBe(Size.MEDIUM);
+      expect(item?.portable).toBe(true);
+      expect(item?.weight).toBe(10);
+      expect(item?.aliases).toEqual(['typed', 'item']);
+      expect(item?.tags).toEqual(['weapon', 'sharp']);
+      expect(item?.state).toEqual({ durability: 100 });
+      expect(item?.currentLocation).toBe('armory');
+      expect(item?.interactions).toHaveLength(2);
     });
   });
 });

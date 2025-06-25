@@ -4,6 +4,15 @@
 
 This document provides specific testing guidelines for the DataLoader layer components, focusing on data integrity, type safety, and performance. DataLoaders are critical to the game's foundation, requiring comprehensive validation and error handling.
 
+**Critical Discoveries from Comprehensive Test Review:**
+- TREASURE type has 0 items in actual dataset (major discovery!)
+- TOOL type dominates with 164 items (77% of dataset)
+- Total dataset: 214 items across 5 categories
+- Category organization ≠ Type organization (treasures category ≠ TREASURE type)
+- Integration tests require `import '../setup'` for proper fs access
+- .toBe() vs .toEqual() critical for cached vs stateless architectures
+- Special character items: "!!!!!" and "*bun*" exist in real data
+
 ## DataLoader Testing Philosophy
 
 ### Core Responsibilities to Test
@@ -11,7 +20,7 @@ This document provides specific testing guidelines for the DataLoader layer comp
 1. **Data Integrity**: Ensure loaded data matches source files exactly
 2. **Type Safety**: Validate all type conversions and enum mappings
 3. **Error Handling**: Test graceful degradation and informative errors
-4. **Performance**: Verify caching and loading performance standards
+4. **Performance**: Verify loading performance standards (ItemDataLoader is stateless)
 5. **Edge Cases**: Handle special characters, empty data, and boundary conditions
 
 ### Testing Approach by Layer
@@ -28,11 +37,11 @@ This document provides specific testing guidelines for the DataLoader layer comp
 - Flag-based condition parsing
 - State initialization
 
-#### Caching and Performance
-- Multi-level cache behavior
-- Memory usage patterns
+#### Performance (Stateless Architecture)
 - Loading time requirements
-- Cache invalidation scenarios
+- Memory usage patterns
+- Consistent performance across calls
+- No caching behavior to test (ItemDataLoader is stateless)
 
 ## ItemDataLoader Specific Testing Strategy
 
@@ -44,8 +53,8 @@ This document provides specific testing guidelines for the DataLoader layer comp
 ```typescript
 describe('loadAllItems', () => {
   // Success scenarios
-  it('should load all items from all categories with caching')
-  it('should return cached result on subsequent calls')
+  it('should load all items from all categories correctly')
+  it('should return consistent results on subsequent calls')
   it('should aggregate items correctly across categories')
   
   // Error scenarios  
@@ -54,7 +63,7 @@ describe('loadAllItems', () => {
   
   // Performance scenarios
   it('should complete within 500ms performance requirement')
-  it('should cache results for performance optimization')
+  it('should maintain consistent performance across calls')
 });
 ```
 
@@ -63,7 +72,7 @@ describe('loadAllItems', () => {
 describe('loadItem', () => {
   // Success scenarios
   it('should load specific item by ID with correct type conversion')
-  it('should return cached item on subsequent calls')
+  it('should return equivalent item on subsequent calls')
   it('should handle special character IDs ("!!!!!", "*bun*")')
   
   // Error scenarios
@@ -77,43 +86,28 @@ describe('loadItem', () => {
 });
 ```
 
-**getItemsByCategory(category)**
+**getItemsByType(type)**
 ```typescript
-describe('getItemsByCategory', () => {
+describe('getItemsByType', () => {
   // Success scenarios
-  it('should load all items from treasures category (119 items)')
-  it('should load all items from tools category (86 items)')
-  it('should handle empty category gracefully')
+  it('should load all items of TOOL type (164 items)')
+  it('should load all items of CONTAINER type (36 items)')
+  it('should load all items of LIGHT_SOURCE type (2 items)')
+  it('should return empty array for TREASURE type (0 items)')
   
   // Error scenarios
-  it('should throw descriptive error for invalid category')
+  it('should handle invalid type enum gracefully')
   it('should continue loading despite individual item failures')
   
-  // Caching scenarios
-  it('should cache category results independently')
-  it('should not invalidate other category caches')
+  // Performance scenarios
+  it('should load all items then filter (stateless - no caching)')
+  it('should maintain consistent performance across calls')
 });
 ```
 
 #### Type Conversion Functions (100% Coverage Required)
 
-**parseItemType(typeString)**
-```typescript
-describe('parseItemType', () => {
-  // Valid enum conversion
-  it('should convert "TOOL" string to ItemType.TOOL enum')
-  it('should convert "WEAPON" string to ItemType.WEAPON enum')
-  it('should convert "CONTAINER" string to ItemType.CONTAINER enum')
-  it('should convert "TREASURE" string to ItemType.TREASURE enum')
-  
-  // Error scenarios
-  it('should throw error for invalid type string')
-  it('should provide descriptive error message with invalid value')
-  
-  // Case sensitivity
-  it('should handle exact case matching requirement')
-});
-```
+**Note**: Type conversion functions are tested implicitly through public methods that use them. Private methods like `parseItemType()` are not tested directly but are covered through integration testing.
 
 **parseCondition(condition)**
 ```typescript
@@ -184,46 +178,66 @@ describe('validateItemData', () => {
 
 #### Real Data Loading Tests
 
-**Category-Based Integration Tests**
+**Type-Based Integration Tests**
 ```typescript
-// testing/data_loaders/item_data_loader/integration_tests/treasures/
-describe('Treasures Category Integration', () => {
-  it('should load all 119 treasure items successfully')
-  it('should validate all treasure items have correct structure') 
-  it('should verify treasure-specific properties')
-  it('should handle category vs type mismatches correctly')
+// testing/data_loaders/item_data_loader/integration_tests/tool_items/
+describe('TOOL Type Integration', () => {
+  it('should load all 164 TOOL items successfully')
+  it('should validate TOOL items have correct structure') 
+  it('should handle diverse TOOL subtypes (weapons, treasures, consumables)')
+  it('should verify functional behavior over categorization')
 });
 
-// testing/data_loaders/item_data_loader/integration_tests/tools/
-describe('Tools Category Integration', () => {
-  it('should load all 86 tool items successfully')
-  it('should handle lamp item with light source properties')
-  it('should validate tool interaction patterns')
+// testing/data_loaders/item_data_loader/integration_tests/container_items/
+describe('CONTAINER Type Integration', () => {
+  it('should load all 36 CONTAINER items successfully')
+  it('should validate container-specific properties')
+  it('should verify storage mechanics')
 });
 
-// Similar for containers/, weapons/, consumables/
+// Similar for LIGHT_SOURCE, WEAPON, FOOD types
 ```
 
 **Full Dataset Integration Tests**
 ```typescript
 // testing/data_loaders/item_data_loader/integration_tests/full_dataset.test.ts
+// CRITICAL: Must import setup for integration tests
+import '../setup';
+
 describe('Full Dataset Integration', () => {
-  it('should load all 214 items across all categories')
+  it('should load all 214 items across all categories') // Exact count from data
   it('should verify total count matches index.json')
   it('should validate all enum values are correct')
   it('should complete full load within performance requirements')
   it('should use memory within acceptable limits')
+  
+  // CRITICAL: Test actual data distribution
+  it('should verify actual type distribution', async () => {
+    const allItems = await loader.loadAllItems();
+    const typeDistribution = allItems.reduce((acc, item) => {
+      acc[item.type] = (acc[item.type] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    
+    expect(typeDistribution[ItemType.TOOL]).toBe(164); // Dominant type
+    expect(typeDistribution[ItemType.TREASURE]).toBe(0); // No items of this type
+    expect(typeDistribution[ItemType.CONTAINER]).toBeGreaterThan(0);
+    expect(typeDistribution[ItemType.WEAPON]).toBeGreaterThan(0);
+    expect(typeDistribution[ItemType.FOOD]).toBeGreaterThan(0);
+    expect(typeDistribution[ItemType.LIGHT_SOURCE]).toBeGreaterThan(0);
+  });
 });
 ```
 
-**Cross-Category Integration Tests**
+**Type Distribution Integration Tests**
 ```typescript
-// testing/data_loaders/item_data_loader/integration_tests/cross_category.test.ts
-describe('Cross-Category Integration', () => {
-  it('should handle weapons in tools category correctly')
-  it('should handle treasures with TOOL type correctly')
-  it('should validate category vs type relationships')
-  it('should support both category and type-based queries')
+// testing/data_loaders/item_data_loader/integration_tests/type_distribution.test.ts
+describe('Type Distribution Integration', () => {
+  it('should verify 164 TOOL items across diverse functions')
+  it('should handle weapons classified as TOOL type correctly')
+  it('should validate flat file structure organization')
+  it('should support type-based queries without categories')
+  it('should verify no items use TREASURE type')
 });
 ```
 
@@ -257,9 +271,7 @@ export function createMockItemData(overrides?: Partial<ItemData>): ItemData {
 
 export function createMockIndexData(overrides?: Partial<ItemIndexData>): ItemIndexData {
   return {
-    categories: {
-      'test_category': ['test_category/test_item.json']
-    },
+    items: ['test_item.json'],
     total: 1,
     lastUpdated: '2024-06-25T00:00:00Z',
     ...overrides
@@ -328,9 +340,9 @@ describe('Performance Requirements', () => {
     expect(duration).toBeLessThan(10);
   });
   
-  it('should load category within 100ms', async () => {
+  it('should load items by type within 100ms', async () => {
     const start = performance.now();
-    await loader.getItemsByCategory('treasures');
+    await loader.getItemsByType(ItemType.TOOL);
     const duration = performance.now() - start;
     expect(duration).toBeLessThan(100);
   });
@@ -346,7 +358,7 @@ describe('Performance Requirements', () => {
 
 #### Memory Usage Tests
 
-**Cache Memory Testing**
+**Memory Usage Testing (Stateless)**
 ```typescript
 describe('Memory Usage', () => {
   it('should not exceed memory limits with full dataset', async () => {
@@ -359,19 +371,21 @@ describe('Memory Usage', () => {
     expect(memoryIncrease).toBeLessThan(50 * 1024 * 1024);
   });
   
+  // Note: ItemDataLoader is stateless - no cache to clear or test
+  // For educational comparison with cached loaders:
+  /*
   it('should release memory when cache is cleared', async () => {
-    await loader.loadAllItems();
+    await cachedLoader.loadAllItems();
     const withCacheMemory = process.memoryUsage().heapUsed;
     
-    // Clear cache (if method available)
-    // loader.clearCache();
+    cachedLoader.clearCache(); // Method would exist in cached loader
     
-    // Force garbage collection
     if (global.gc) global.gc();
     
     const afterClearMemory = process.memoryUsage().heapUsed;
     expect(afterClearMemory).toBeLessThan(withCacheMemory);
   });
+  */
 });
 ```
 
@@ -390,6 +404,17 @@ testHelper.mockMixedFileReads(
   { 'index.json': mockIndex },
   { 'error.json': new Error('File not found') }
 );
+```
+
+#### Critical Learning: Integration Test Setup Requirements
+Integration tests MUST import setup to access real filesystem:
+
+```typescript
+// CRITICAL: Must be first import in integration test files
+import '../setup';
+
+// This setup unmocks fs/promises for real file access
+// Without this, integration tests will fail with mocked fs
 ```
 
 #### Filesystem Error Scenarios
@@ -455,49 +480,57 @@ describe('Data Validation Errors', () => {
 });
 ```
 
-### Caching Test Patterns
+### ItemDataLoader Stateless Behavior Test Patterns
 
-#### Multi-Level Cache Testing
+#### Stateless Architecture Verification
 
-**Cache Behavior Validation**
+**ItemDataLoader Stateless Behavior Validation**
 ```typescript
-describe('Caching Behavior', () => {
-  it('should cache individual items correctly', async () => {
+describe('ItemDataLoader Stateless Behavior', () => {
+  it('should perform fresh file I/O on each call', async () => {
     const spy = jest.spyOn(loader as any, 'loadItemFromFile');
     
-    // First load - should hit file system
+    // First load - hits file system
     await loader.loadItem('lamp');
     expect(spy).toHaveBeenCalledTimes(1);
     
-    // Second load - should hit cache
+    // Second load - hits file system again (no caching in ItemDataLoader)
     await loader.loadItem('lamp');
-    expect(spy).toHaveBeenCalledTimes(1); // No additional calls
+    expect(spy).toHaveBeenCalledTimes(2);
   });
   
-  it('should cache categories independently', async () => {
-    const spy = jest.spyOn(loader as any, 'loadItemFromFile');
+  it('should always reload index for validation', async () => {
+    const spy = jest.spyOn(loader as any, 'loadIndex');
     
-    await loader.getItemsByCategory('treasures');
-    const treasureCalls = spy.mock.calls.length;
+    await loader.loadItem('lamp');
+    expect(spy).toHaveBeenCalledTimes(1);
     
-    await loader.getItemsByCategory('tools');
-    const toolCalls = spy.mock.calls.length - treasureCalls;
-    
-    // Second load of treasures should not reload files
-    await loader.getItemsByCategory('treasures');
-    expect(spy.mock.calls.length).toBe(treasureCalls + toolCalls);
+    // Second call should reload index (ItemDataLoader is stateless)
+    await loader.loadItem('sword');
+    expect(spy).toHaveBeenCalledTimes(2);
   });
   
-  it('should maintain cache consistency across different access patterns', async () => {
-    // Load via category
-    const categoryItems = await loader.getItemsByCategory('tools');
-    const lampFromCategory = categoryItems.find(item => item.id === 'lamp');
+  // CRITICAL: Object identity testing for ItemDataLoader
+  it('should return fresh objects (not references)', async () => {
+    const lamp1 = await loader.loadItem('lamp');
+    const lamp2 = await loader.loadItem('lamp');
     
-    // Load individual item
-    const lampIndividual = await loader.loadItem('lamp');
+    // ItemDataLoader is stateless: use .toEqual() for data equality
+    expect(lamp1).toEqual(lamp2); // Same data, different objects
+    expect(lamp1).not.toBe(lamp2); // Different object references
     
-    // Should be the same object reference (cached)
-    expect(lampFromCategory).toBe(lampIndividual);
+    // Educational comparison - for cached loaders (different architecture):
+    // expect(lamp1).toBe(lamp2); // Same object reference in cached systems
+  });
+  
+  it('should maintain consistent behavior across bulk operations', async () => {
+    const spy = jest.spyOn(loader, 'loadAllItems');
+    
+    // Each call to getItemsByType loads all items fresh (no caching)
+    await loader.getItemsByType(ItemType.TOOL);
+    await loader.getItemsByType(ItemType.CONTAINER);
+    
+    expect(spy).toHaveBeenCalledTimes(2);
   });
 });
 ```
@@ -560,12 +593,17 @@ jobs:
 ### Key Takeaways for Writing Better Tests
 
 1. **Always Read the Implementation First**: Don't assume what the code does - verify it
-2. **Use Complete Mock Data**: Include ALL required fields to avoid validation errors
-3. **Implement Flexible Path Matching**: Handle various path formats in mock systems
-4. **Ensure Object Identity When Required**: Use proper caching for reference equality
-5. **Match Error Messages Exactly**: Check the actual error strings in implementation
-6. **Understand JavaScript/TypeScript Behavior**: Arrays are objects, strict mode affects property operations
-7. **Set Realistic Performance Expectations**: 2x improvement is more realistic than 10x
+2. **Understand Actual Data Distribution**: TREASURE type has 0 items, TOOL has 164 items
+3. **Use Complete Mock Data**: Include ALL required fields to avoid validation errors
+4. **Implement Flexible Path Matching**: Handle various path formats in mock systems
+5. **Architecture Determines Testing**: ItemDataLoader is stateless (.toEqual() for data equality, not .toBe())
+6. **Integration Tests Need Setup**: Import '../setup' for real filesystem access
+7. **Category ≠ Type**: Different organizational structures in data
+8. **Match Error Messages Exactly**: Check the actual error strings in implementation
+9. **Understand JavaScript/TypeScript Behavior**: Arrays are objects, strict mode affects property operations
+10. **Set Realistic Performance Expectations**: ItemDataLoader is stateless (no caching performance benefits)
+11. **Test With Real Data**: Use actual counts (214 total, 164 TOOL, 0 TREASURE)
+12. **Handle Special Characters**: Items like "!!!!!" and "*bun*" exist in data
 
 For detailed examples and patterns, see the [Unit Test Best Practices](./unit-test-best-practices.md) document.
 

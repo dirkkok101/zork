@@ -1,5 +1,12 @@
 # Unit Test Quick Reference
 
+**CRITICAL Data Insights from Comprehensive Test Review:**
+- TREASURE type: 0 items (don't test for > 0!)
+- TOOL type: 164 items (dominant type)
+- Total items: 214 across 5 categories
+- Special characters: "!!!!!" and "*bun*" exist
+- Category ≠ Type organizational structures
+
 ## Essential Mock Patterns
 
 ### Flexible Path Matching Mock
@@ -99,27 +106,47 @@ expect(error.message).toContain('Failed');
 
 ## Object Identity Testing
 
-### Cache Testing Pattern
+### Stateless Design Pattern
 ```typescript
-// ✅ GOOD - Test object identity
+// ✅ GOOD - Test data equality (stateless design)
 const item1 = await loader.loadItem('lamp');
 const item2 = await loader.loadItem('lamp');
-expect(item1).toBe(item2); // Same reference
+expect(item1).toEqual(item2); // Same data content
 
-// ❌ BAD - Only tests data equality
-expect(item1).toEqual(item2); // Different objects OK
+// ❌ BAD - Assumes caching behavior
+expect(item1).toBe(item2); // Different objects with stateless loader
 ```
 
 ## Performance Expectations
 
 ### Realistic Benchmarks
 ```typescript
-// ✅ GOOD - Realistic expectations
-expect(cachedTime).toBeLessThan(firstTime / 2); // 2x faster
-expect(loadTime).toBeLessThan(10); // Absolute threshold
+// ✅ GOOD - Test consistent performance
+const firstTime = await measureLoadTime();
+const secondTime = await measureLoadTime();
+expect(secondTime).toBeLessThan(50); // Reasonable threshold
 
-// ❌ BAD - Too aggressive
-expect(cachedTime).toBeLessThan(firstTime / 10); // 10x faster
+// ❌ BAD - Assumes caching speedup
+expect(secondTime).toBeLessThan(firstTime / 2); // No caching guarantee
+```
+
+## Data Distribution Testing (CRITICAL!)
+
+### Actual Type Counts
+```typescript
+// ✅ GOOD - Use actual data distribution
+const toolItems = await loader.getItemsByType(ItemType.TOOL);
+expect(toolItems.length).toBe(164); // Actual count
+
+const treasureItems = await loader.getItemsByType(ItemType.TREASURE);
+expect(treasureItems.length).toBe(0); // TREASURE type has NO items!
+
+const totalItems = await loader.loadAllItems();
+expect(totalItems.length).toBe(214); // Exact total
+
+// ❌ BAD - Assuming distribution
+expect(treasureItems.length).toBeGreaterThan(0); // WRONG!
+expect(toolItems.length).toBe(50); // WRONG!
 ```
 
 ## Validation Testing
@@ -200,11 +227,24 @@ describe('ComponentName', () => {
 
 ## Pre-Test Checklist
 
+### Implementation Analysis
 - [ ] Read the actual implementation code
 - [ ] Note exact error messages
 - [ ] Identify all required fields
 - [ ] Check what validation actually exists
-- [ ] Verify caching requirements
+- [ ] Verify stateless architecture (no caching)
 - [ ] Consider TypeScript strict mode
+
+### Data Reality Check (CRITICAL!)
+- [ ] TREASURE type has 0 items - don't test for > 0
+- [ ] TOOL type has 164 items - dominant type
+- [ ] Total 214 items across 5 categories
+- [ ] Category treasures ≠ TREASURE type items
+- [ ] Special characters "!!!!!" and "*bun*" exist
+
+### Test Design
 - [ ] Plan mock strategy (single vs mixed)
+- [ ] .toEqual() for data equality (stateless design)
+- [ ] Include '../setup' for integration tests
 - [ ] Set realistic performance expectations
+- [ ] Handle flat vs category-based patterns

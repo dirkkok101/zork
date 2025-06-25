@@ -89,13 +89,13 @@ export function createMockInteractionData(overrides?: Partial<ItemInteractionDat
  */
 export function createMockIndexData(overrides?: Partial<ItemIndexData>): ItemIndexData {
   return {
-    categories: {
-      'treasures': ['treasures/test_treasure.json'],
-      'tools': ['tools/test_tool.json'],
-      'containers': ['containers/test_container.json'],
-      'weapons': ['weapons/test_weapon.json'],
-      'consumables': ['consumables/test_consumable.json']
-    },
+    items: [
+      'test_treasure.json',
+      'test_tool.json', 
+      'test_container.json',
+      'test_weapon.json',
+      'test_consumable.json'
+    ],
     total: 5,
     lastUpdated: '2024-06-25T00:00:00Z',
     ...overrides
@@ -359,21 +359,14 @@ export const PerformanceFactory = {
   },
 
   /**
-   * Creates index data with many categories
+   * Creates index data with many items
    */
-  createLargeIndexData: (categoriesCount: number, itemsPerCategory: number): ItemIndexData => {
-    const categories: Record<string, string[]> = {};
-    
-    for (let i = 0; i < categoriesCount; i++) {
-      const categoryName = `category_${i}`;
-      categories[categoryName] = Array.from({ length: itemsPerCategory }, (_, j) => 
-        `${categoryName}/item_${j}.json`
-      );
-    }
+  createLargeIndexData: (itemCount: number): ItemIndexData => {
+    const items = Array.from({ length: itemCount }, (_, i) => `item_${i}.json`);
     
     return {
-      categories,
-      total: categoriesCount * itemsPerCategory,
+      items,
+      total: itemCount,
       lastUpdated: new Date().toISOString()
     };
   }

@@ -4,10 +4,17 @@
 
 This document establishes the testing philosophy, standards, and practices for the Zork 1 Text Adventure Game project. Testing is a critical component of our development approach, ensuring code quality, reliability, and maintainability while supporting our 100% authentic recreation goals.
 
-**Important**: Before writing unit tests, review these essential documents:
-- [Unit Test Best Practices](./unit-test-best-practices.md) - Critical learnings from test implementation
+**CRITICAL**: Before writing unit tests, review these essential documents:
+- [Unit Test Best Practices](./unit-test-best-practices.md) - **CRITICAL learnings from comprehensive test review**
 - [Unit Test Quick Reference](./unit-test-quick-reference.md) - Common patterns and gotchas
 - [DataLoader Testing Guidelines](./data-loader-testing.md) - Specific patterns for data layer testing
+
+**Key Discoveries from Comprehensive Test Review:**
+- TREASURE type has 0 items in actual dataset (major assumption wrong!)
+- TOOL type dominates with 164 items (77% of all items)
+- Category vs Type are different organizational structures
+- Integration tests require `import '../setup'` to work
+- .toBe() vs .toEqual() critical for cached vs stateless architectures
 
 ## Testing Philosophy
 
@@ -220,12 +227,12 @@ const mockReadFile = readFile as jest.MockedFunction<typeof readFile>;
 - **Single Item Load**: < 10ms
 - **Category Load**: < 100ms  
 - **Full Dataset Load**: < 500ms
-- **Cache Hit**: < 1ms
+- **File Load**: < 10ms per item
 
 #### Memory Usage Standards
-- **Cache Size**: Monitor memory usage of caches
+- **Memory Usage**: Monitor memory usage of stateless operations
 - **Memory Leaks**: Verify no memory leaks in long-running tests
-- **Garbage Collection**: Test cache cleanup behavior
+- **Resource Cleanup**: Test proper resource disposal
 
 ### Performance Testing Approach
 ```typescript
@@ -393,7 +400,7 @@ export async function loadTestItem(loader: IItemDataLoader, itemId: string) {
 
 #### Object Identity vs Data Equality
 - **Problem**: Tests expect same object reference but get different instances
-- **Solution**: Implement proper caching for object identity requirements
+- **Solution**: Use .toEqual() for data equality testing with stateless design
 
 #### TypeScript Strict Mode in Tests
 - **Problem**: Type errors when manipulating test data

@@ -1,6 +1,6 @@
 /**
  * Unit tests for ItemDataLoader.getItemsByType() method
- * Tests type-based filtering and cross-category relationships
+ * Tests type-based filtering with flat item structure
  */
 
 import { ItemDataLoader } from '../../../../../src/data_loaders/ItemDataLoader';
@@ -34,15 +34,13 @@ describe('ItemDataLoader.getItemsByType()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          mixed: ['mixed/tool1.json', 'mixed/treasure1.json', 'mixed/tool2.json', 'mixed/container1.json']
-        },
+        items: ['tool1.json', 'treasure1.json', 'tool2.json', 'container1.json'],
         total: 4
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach((item) => {
-        mockFiles[`mixed/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -68,15 +66,13 @@ describe('ItemDataLoader.getItemsByType()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          mixed: mockItems.map(item => `mixed/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: 4
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`mixed/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -101,15 +97,13 @@ describe('ItemDataLoader.getItemsByType()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          mixed: mockItems.map(item => `mixed/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: 3
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`mixed/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -134,15 +128,13 @@ describe('ItemDataLoader.getItemsByType()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          mixed: mockItems.map(item => `mixed/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: 3
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`mixed/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -159,9 +151,9 @@ describe('ItemDataLoader.getItemsByType()', () => {
     });
   });
 
-  describe('Cross-category type relationships', () => {
-    it('should handle weapons in tools category correctly', async () => {
-      // Arrange - Based on actual Zork data where weapons folder contains tools
+  describe('Cross-type relationships', () => {
+    it('should handle weapons with different type classifications correctly', async () => {
+      // Arrange - Based on actual Zork data where weapon items have different type classifications
       const mockItems = [
         ItemDataFactory.weapon({ id: 'sword', type: 'TOOL' }), // Sword classified as TOOL
         ItemDataFactory.weapon({ id: 'knife', type: 'TOOL' }), // Knife classified as TOOL
@@ -169,15 +161,13 @@ describe('ItemDataLoader.getItemsByType()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          weapons: ['weapons/sword.json', 'weapons/knife.json', 'weapons/axe.json']
-        },
+        items: ['sword.json', 'knife.json', 'axe.json'],
         total: 3
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`weapons/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -192,7 +182,7 @@ describe('ItemDataLoader.getItemsByType()', () => {
     });
 
     it('should handle treasures with TOOL type correctly', async () => {
-      // Arrange - Based on actual Zork data where treasures folder contains tools
+      // Arrange - Based on actual Zork data where treasure items can have TOOL type
       const mockItems = [
         ItemDataFactory.treasure({ id: 'diamond', type: 'TOOL' }), // Diamond classified as TOOL
         ItemDataFactory.treasure({ id: 'ruby', type: 'TOOL' }), // Ruby classified as TOOL
@@ -200,15 +190,13 @@ describe('ItemDataLoader.getItemsByType()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          treasures: ['treasures/diamond.json', 'treasures/ruby.json', 'treasures/crown.json']
-        },
+        items: ['diamond.json', 'ruby.json', 'crown.json'],
         total: 3
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`treasures/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -231,15 +219,13 @@ describe('ItemDataLoader.getItemsByType()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          consumables: ['consumables/sandwich.json', 'consumables/water.json', 'consumables/cake.json']
-        },
+        items: ['sandwich.json', 'water.json', 'cake.json'],
         total: 3
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`consumables/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -262,15 +248,13 @@ describe('ItemDataLoader.getItemsByType()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          mixed: ['mixed/tool1.json', 'mixed/treasure1.json']
-        },
+        items: ['tool1.json', 'treasure1.json'],
         total: 2
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`mixed/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -292,15 +276,13 @@ describe('ItemDataLoader.getItemsByType()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          all_tools: mockItems.map(item => `all_tools/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: 3
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`all_tools/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
@@ -334,13 +316,11 @@ describe('ItemDataLoader.getItemsByType()', () => {
 
         const item = factory({ id: `item_${i}`, type });
         mockItems.push(item);
-        mockFiles[`performance/item_${i}.json`] = item;
+        mockFiles[`item_${i}.json`] = item;
       }
 
       const mockIndex = createMockIndexData({
-        categories: {
-          performance: mockItems.map((_, i) => `performance/item_${i}.json`)
-        },
+        items: mockItems.map((_, i) => `item_${i}.json`),
         total: itemCount
       });
 
@@ -356,7 +336,7 @@ describe('ItemDataLoader.getItemsByType()', () => {
       expect(duration).toBeLessThan(50);
     });
 
-    it('should use cached loadAllItems result for filtering', async () => {
+    it('should filter items correctly without performance degradation', async () => {
       // Arrange
       const mockItems = [
         ItemDataFactory.tool({ id: 'tool1', type: 'TOOL' }),
@@ -364,35 +344,34 @@ describe('ItemDataLoader.getItemsByType()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          mixed: ['mixed/tool1.json', 'mixed/treasure1.json']
-        },
+        items: ['tool1.json', 'treasure1.json'],
         total: 2
       });
 
       const mockFiles: Record<string, any> = { 'index.json': mockIndex };
       mockItems.forEach(item => {
-        mockFiles[`mixed/${item.id}.json`] = item;
+        mockFiles[`${item.id}.json`] = item;
       });
 
       testHelper.mockMultipleFileReads(mockFiles);
 
-      // Pre-load all items to populate cache
-      await loader.loadAllItems();
-      const callCountAfterLoadAll = testHelper.getFileReadCallCount();
+      // Act & Assert - Test filtering performance
+      const { duration } = await PerformanceTestHelper.measureTime(async () => {
+        const toolResults = await loader.getItemsByType(ItemType.TOOL);
+        const treasureResults = await loader.getItemsByType(ItemType.TREASURE);
+        
+        expect(toolResults).toHaveLength(1);
+        expect(treasureResults).toHaveLength(1);
+        expect(toolResults[0]?.id).toBe('tool1');
+        expect(treasureResults[0]?.id).toBe('treasure1');
+      });
 
-      // Act
-      await loader.getItemsByType(ItemType.TOOL);
-      await loader.getItemsByType(ItemType.TREASURE);
-      const finalCallCount = testHelper.getFileReadCallCount();
-
-      // Assert
-      expect(finalCallCount).toBe(callCountAfterLoadAll); // No additional file reads
+      expect(duration).toBeLessThan(20);
     });
   });
 
-  describe('Integration with category loading', () => {
-    it('should provide consistent results with category-based loading', async () => {
+  describe('Integration with item loading', () => {
+    it('should provide consistent results with loadAllItems', async () => {
       // Arrange
       const mockItems = [
         ItemDataFactory.tool({ id: 'tool1', type: 'TOOL' }),
@@ -401,39 +380,37 @@ describe('ItemDataLoader.getItemsByType()', () => {
       ];
 
       const mockIndex = createMockIndexData({
-        categories: {
-          tools: ['tools/tool1.json', 'tools/tool2.json'],
-          treasures: ['treasures/treasure1.json']
-        },
+        items: ['tool1.json', 'tool2.json', 'treasure1.json'],
         total: 3
       });
 
       const mockFiles: Record<string, any> = {
         'index.json': mockIndex,
-        'tools/tool1.json': mockItems[0],
-        'tools/tool2.json': mockItems[1],
-        'treasures/treasure1.json': mockItems[2]
+        'tool1.json': mockItems[0],
+        'tool2.json': mockItems[1],
+        'treasure1.json': mockItems[2]
       };
 
       testHelper.mockMultipleFileReads(mockFiles);
 
       // Act
       const typeResults = await loader.getItemsByType(ItemType.TOOL);
-      const categoryResults = await loader.getItemsByCategory('tools');
+      const allItems = await loader.loadAllItems();
+      const allToolItems = allItems.filter(item => item.type === ItemType.TOOL);
 
       // Assert
       expect(typeResults).toHaveLength(2);
-      expect(categoryResults).toHaveLength(2);
+      expect(allToolItems).toHaveLength(2);
       
       // Results should contain the same items (though possibly different order)
       const typeIds = typeResults.map(item => item.id).sort();
-      const categoryIds = categoryResults.map(item => item.id).sort();
-      expect(typeIds).toEqual(categoryIds);
+      const allToolIds = allToolItems.map(item => item.id).sort();
+      expect(typeIds).toEqual(allToolIds);
 
-      // Items should be the same objects (cached)
+      // Items should have equivalent data
       typeResults.forEach(typeItem => {
-        const categoryItem = categoryResults.find(catItem => catItem.id === typeItem.id);
-        expect(categoryItem).toBe(typeItem);
+        const allItem = allToolItems.find(item => item.id === typeItem.id);
+        expect(allItem).toEqual(typeItem);
       });
     });
   });
@@ -463,14 +440,12 @@ describe('ItemDataLoader.getItemsByType()', () => {
 
           const item = factory({ id: `${type.toLowerCase()}_${i}`, type });
           mockItems.push(item);
-          mockFiles[`realistic/${item.id}.json`] = item;
+          mockFiles[`${item.id}.json`] = item;
         }
       });
 
       const mockIndex = createMockIndexData({
-        categories: {
-          realistic: mockItems.map(item => `realistic/${item.id}.json`)
-        },
+        items: mockItems.map(item => `${item.id}.json`),
         total: mockItems.length
       });
 

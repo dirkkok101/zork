@@ -1,32 +1,25 @@
 /**
  * Unit tests for ItemDataLoader.validateIndexData() method
- * Tests validation for item index JSON structure
+ * Tests validation for flat item index JSON structure
  */
 
 import { ItemDataLoader } from '../../../../../src/data_loaders/ItemDataLoader';
-import { createMockIndexData, ItemDataFactory } from '../../../../utils/mock_factories';
-import { ItemDataLoaderTestHelper } from '../../../../utils/test_helpers';
 
 describe('ItemDataLoader.validateIndexData()', () => {
   let loader: ItemDataLoader;
-  let testHelper: ItemDataLoaderTestHelper;
 
   beforeEach(() => {
     loader = new ItemDataLoader('test-path/');
-    testHelper = new ItemDataLoaderTestHelper();
   });
 
   describe('Valid index data scenarios', () => {
     it('should validate complete index data successfully', () => {
       // Arrange
-      const validIndex = createMockIndexData({
-        categories: {
-          treasures: ['treasures/coin.json', 'treasures/gem.json'],
-          tools: ['tools/lamp.json'],
-          containers: ['containers/box.json']
-        },
-        total: 4
-      });
+      const validIndex = {
+        items: ['coin.json', 'gem.json', 'lamp.json', 'box.json'],
+        total: 4,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(validIndex)).not.toThrow();
@@ -34,40 +27,35 @@ describe('ItemDataLoader.validateIndexData()', () => {
 
     it('should validate minimal index data', () => {
       // Arrange
-      const minimalIndex = createMockIndexData({
-        categories: {},
-        total: 0
-      });
+      const minimalIndex = {
+        items: [],
+        total: 0,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(minimalIndex)).not.toThrow();
     });
 
-    it('should validate single category index', () => {
+    it('should validate single item index', () => {
       // Arrange
-      const singleCategoryIndex = createMockIndexData({
-        categories: {
-          tools: ['tools/lamp.json']
-        },
-        total: 1
-      });
+      const singleItemIndex = {
+        items: ['lamp.json'],
+        total: 1,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       // Act & Assert
-      expect(() => (loader as any).validateIndexData(singleCategoryIndex)).not.toThrow();
+      expect(() => (loader as any).validateIndexData(singleItemIndex)).not.toThrow();
     });
 
-    it('should validate authentic Zork category structure', () => {
+    it('should validate authentic Zork flat structure', () => {
       // Arrange
-      const zorkIndex = createMockIndexData({
-        categories: {
-          treasures: Array.from({ length: 119 }, (_, i) => `treasures/treasure_${i}.json`),
-          tools: Array.from({ length: 86 }, (_, i) => `tools/tool_${i}.json`),
-          containers: Array.from({ length: 6 }, (_, i) => `containers/container_${i}.json`),
-          weapons: Array.from({ length: 5 }, (_, i) => `weapons/weapon_${i}.json`),
-          consumables: Array.from({ length: 4 }, (_, i) => `consumables/consumable_${i}.json`)
-        },
-        total: 220
-      });
+      const zorkIndex = {
+        items: Array.from({ length: 214 }, (_, i) => `item_${i}.json`),
+        total: 214,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(zorkIndex)).not.toThrow();
@@ -75,18 +63,24 @@ describe('ItemDataLoader.validateIndexData()', () => {
   });
 
   describe('Missing required fields', () => {
-    it('should throw error for missing categories field', () => {
+    it('should throw error for missing items field', () => {
       // Arrange
-      const invalidIndex = { total: 5 };
+      const invalidIndex = { 
+        total: 5,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(invalidIndex))
-        .toThrow('Index data must have categories object');
+        .toThrow('Index data must have items array');
     });
 
     it('should throw error for missing total field', () => {
       // Arrange
-      const invalidIndex = { categories: {} };
+      const invalidIndex = { 
+        items: [],
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(invalidIndex))
@@ -94,39 +88,42 @@ describe('ItemDataLoader.validateIndexData()', () => {
     });
 
     it('should validate both required fields', () => {
-      const requiredFields = ['categories', 'total'];
+      const requiredFields = ['items', 'total'];
 
       requiredFields.forEach(field => {
-        const invalidIndex = createMockIndexData({
-          categories: { test: ['test.json'] },
-          total: 1
-        });
-        delete (invalidIndex as any)[field];
+        const validIndex = {
+          items: ['test.json'],
+          total: 1,
+          lastUpdated: '2024-06-25T00:00:00Z'
+        };
+        delete (validIndex as any)[field];
 
-        expect(() => (loader as any).validateIndexData(invalidIndex))
-          .toThrow(field === 'categories' ? 'Index data must have categories object' : 'Index data must have total number');
+        expect(() => (loader as any).validateIndexData(validIndex))
+          .toThrow(field === 'items' ? 'Index data must have items array' : 'Index data must have total number');
       });
     });
   });
 
   describe('Field type validation', () => {
-    it('should throw error for non-object categories', () => {
+    it('should throw error for non-array items', () => {
       // Arrange
       const invalidIndex = {
-        categories: 'invalid',
-        total: 0
+        items: 'invalid',
+        total: 0,
+        lastUpdated: '2024-06-25T00:00:00Z'
       };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(invalidIndex))
-        .toThrow('Index data must have categories object');
+        .toThrow('Index data must have items array');
     });
 
     it('should throw error for non-number total', () => {
       // Arrange
       const invalidIndex = {
-        categories: {},
-        total: 'invalid'
+        items: [],
+        total: 'invalid',
+        lastUpdated: '2024-06-25T00:00:00Z'
       };
 
       // Act & Assert
@@ -134,153 +131,65 @@ describe('ItemDataLoader.validateIndexData()', () => {
         .toThrow('Index data must have total number');
     });
 
-    it('should throw error for array categories', () => {
-      // Arrange - Arrays are objects in JavaScript, so this passes object check
-      const invalidIndex = {
-        categories: [], // This is typeof 'object' in JavaScript
-        total: 0
-      };
-
-      // Act & Assert - Array passes object validation in JavaScript
-      expect(() => (loader as any).validateIndexData(invalidIndex)).not.toThrow();
-    });
-
-    it('should throw error for null categories', () => {
+    it('should throw error for object items field', () => {
       // Arrange
       const invalidIndex = {
-        categories: null,
-        total: 0
+        items: { notAnArray: true },
+        total: 0,
+        lastUpdated: '2024-06-25T00:00:00Z'
       };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(invalidIndex))
-        .toThrow('Index data must have categories object');
+        .toThrow('Index data must have items array');
+    });
+
+    it('should throw error for null items', () => {
+      // Arrange
+      const invalidIndex = {
+        items: null,
+        total: 0,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
+
+      // Act & Assert
+      expect(() => (loader as any).validateIndexData(invalidIndex))
+        .toThrow('Index data must have items array');
     });
   });
 
-  describe('Categories structure validation', () => {
-    it('should validate category arrays', () => {
+  describe('Items array validation', () => {
+    it('should validate array of strings', () => {
       // Arrange
-      const validIndex = createMockIndexData({
-        categories: {
-          tools: ['tools/lamp.json', 'tools/rope.json'],
-          treasures: ['treasures/coin.json']
-        },
-        total: 3
-      });
+      const validIndex = {
+        items: ['lamp.json', 'rope.json', 'coin.json'],
+        total: 3,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(validIndex)).not.toThrow();
     });
 
-    it('should throw error for non-array category values', () => {
-      // Arrange - This test checks runtime behavior, not validation
-      const mockIndex = createMockIndexData({
-        categories: {
-          valid_category: ['valid/item.json'],
-          invalid_category: null as any // This will cause runtime error when accessed
-        }
-      });
-
-      testHelper.mockMultipleFileReads({
-        'index.json': mockIndex,
-        'valid/item.json': ItemDataFactory.tool({ id: 'valid_item' })
-      });
-
-      // Act & Assert - Runtime error when trying to access null category
-      expect(() => (loader as any).validateIndexData(mockIndex)).not.toThrow();
-    });
-
-    it('should throw error for null category values', () => {
-      // Arrange - This validation happens at runtime, not at index validation
-      const mockIndex = createMockIndexData({
-        categories: {
-          tools: null as any,
-          treasures: ['treasures/coin.json']
-        },
-        total: 1
-      });
-
-      // Act & Assert - Index validation doesn't check individual category types
-      expect(() => (loader as any).validateIndexData(mockIndex)).not.toThrow();
-    });
-
-    it('should validate empty category arrays', () => {
+    it('should validate empty items array', () => {
       // Arrange
-      const validIndex = createMockIndexData({
-        categories: {
-          empty_category: [],
-          tools: ['tools/lamp.json']
-        },
-        total: 1
-      });
-
-      // Act & Assert
-      expect(() => (loader as any).validateIndexData(validIndex)).not.toThrow();
-    });
-  });
-
-  describe('File path validation', () => {
-    it('should validate string file paths in categories', () => {
-      // Arrange
-      const validIndex = createMockIndexData({
-        categories: {
-          tools: ['tools/lamp.json', 'tools/rope.json']
-        },
-        total: 2
-      });
+      const validIndex = {
+        items: [],
+        total: 0,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(validIndex)).not.toThrow();
     });
 
-    it('should throw error for non-string file paths', () => {
-      // Arrange - File path validation happens during file loading, not index validation
-      const mockIndex = createMockIndexData({
-        categories: {
-          tools: ['tools/lamp.json', 123 as any, 'tools/rope.json']
-        },
-        total: 3
-      });
-
-      // Act & Assert - Index validation doesn't check file path types
-      expect(() => (loader as any).validateIndexData(mockIndex)).not.toThrow();
-    });
-
-    it('should throw error for null file paths', () => {
-      // Arrange - File path validation happens during file loading
-      const mockIndex = createMockIndexData({
-        categories: {
-          tools: ['tools/lamp.json', null as any]
-        },
-        total: 2
-      });
-
-      // Act & Assert - Index validation doesn't check individual file paths
-      expect(() => (loader as any).validateIndexData(mockIndex)).not.toThrow();
-    });
-
-    it('should throw error for undefined file paths', () => {
-      // Arrange - File path validation happens during file loading
-      const mockIndex = createMockIndexData({
-        categories: {
-          tools: ['tools/lamp.json', undefined as any]
-        },
-        total: 2
-      });
-
-      // Act & Assert - Index validation doesn't check individual file paths
-      expect(() => (loader as any).validateIndexData(mockIndex)).not.toThrow();
-    });
-
-    it('should allow empty string file paths', () => {
-      // Arrange
-      const validIndex = createMockIndexData({
-        categories: {
-          tools: ['tools/lamp.json', '']
-        },
-        total: 2
-      });
+    it('should allow any string in items array', () => {
+      // Arrange - File content validation happens during loading, not index validation
+      const validIndex = {
+        items: ['valid.json', '', 'special-chars_123.json'],
+        total: 3,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(validIndex)).not.toThrow();
@@ -290,10 +199,11 @@ describe('ItemDataLoader.validateIndexData()', () => {
   describe('Total field validation', () => {
     it('should allow zero total', () => {
       // Arrange
-      const validIndex = createMockIndexData({
-        categories: {},
-        total: 0
-      });
+      const validIndex = {
+        items: [],
+        total: 0,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(validIndex)).not.toThrow();
@@ -301,36 +211,35 @@ describe('ItemDataLoader.validateIndexData()', () => {
 
     it('should allow positive total', () => {
       // Arrange
-      const validIndex = createMockIndexData({
-        categories: {
-          tools: ['tools/lamp.json']
-        },
-        total: 1
-      });
+      const validIndex = {
+        items: ['lamp.json'],
+        total: 1,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(validIndex)).not.toThrow();
     });
 
-    it('should throw error for negative total', () => {
-      // Arrange - The implementation only checks if total is a number, not if it's positive
-      const invalidIndex = {
-        categories: {},
-        total: -1 // This is still a number, so validation passes
+    it('should allow negative total', () => {
+      // Arrange - The implementation only checks if total is a number
+      const validIndex = {
+        items: [],
+        total: -1,
+        lastUpdated: '2024-06-25T00:00:00Z'
       };
 
-      // Act & Assert - Negative numbers are still numbers, so validation passes
-      expect(() => (loader as any).validateIndexData(invalidIndex)).not.toThrow();
+      // Act & Assert
+      expect(() => (loader as any).validateIndexData(validIndex)).not.toThrow();
     });
 
     it('should allow large total values', () => {
       // Arrange
-      const validIndex = createMockIndexData({
-        categories: {
-          tools: Array.from({ length: 1000 }, (_, i) => `tools/tool_${i}.json`)
-        },
-        total: 1000
-      });
+      const validIndex = {
+        items: Array.from({ length: 1000 }, (_, i) => `item_${i}.json`),
+        total: 1000,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       // Act & Assert
       expect(() => (loader as any).validateIndexData(validIndex)).not.toThrow();
@@ -353,14 +262,13 @@ describe('ItemDataLoader.validateIndexData()', () => {
     it('should handle empty object', () => {
       // Act & Assert
       expect(() => (loader as any).validateIndexData({}))
-        .toThrow('Index data must have categories object');
+        .toThrow('Index data must have items array');
     });
 
     it('should handle arrays as input', () => {
-      // Act & Assert - Arrays are objects in JavaScript, so they pass the first check
-      // but fail because they don't have categories
+      // Act & Assert - Arrays are objects in JavaScript, but don't have items property
       expect(() => (loader as any).validateIndexData([]))
-        .toThrow('Index data must have categories object');
+        .toThrow('Index data must have items array');
     });
 
     it('should handle primitive types as input', () => {
@@ -373,68 +281,14 @@ describe('ItemDataLoader.validateIndexData()', () => {
     });
   });
 
-  describe('Category name validation', () => {
-    it('should allow standard category names', () => {
+  describe('Performance requirements', () => {
+    it('should validate large dataset efficiently', () => {
       // Arrange
-      const standardCategories = ['treasures', 'tools', 'containers', 'weapons', 'consumables'];
-      const categoriesObj: Record<string, string[]> = {};
-      standardCategories.forEach(cat => {
-        categoriesObj[cat] = [`${cat}/item.json`];
-      });
-
-      const validIndex = createMockIndexData({
-        categories: categoriesObj,
-        total: standardCategories.length
-      });
-
-      // Act & Assert
-      expect(() => (loader as any).validateIndexData(validIndex)).not.toThrow();
-    });
-
-    it('should allow special characters in category names', () => {
-      // Arrange
-      const validIndex = createMockIndexData({
-        categories: {
-          'category-with-dashes': ['items/item1.json'],
-          'category_with_underscores': ['items/item2.json'],
-          'category.with.dots': ['items/item3.json']
-        },
-        total: 3
-      });
-
-      // Act & Assert
-      expect(() => (loader as any).validateIndexData(validIndex)).not.toThrow();
-    });
-
-    it('should allow unicode category names', () => {
-      // Arrange
-      const validIndex = createMockIndexData({
-        categories: {
-          'catégorie': ['items/item1.json'],
-          '类别': ['items/item2.json'],
-          'κατηγορία': ['items/item3.json']
-        },
-        total: 3
-      });
-
-      // Act & Assert
-      expect(() => (loader as any).validateIndexData(validIndex)).not.toThrow();
-    });
-  });
-
-  describe('Large dataset validation', () => {
-    it('should validate realistic Zork-sized dataset efficiently', () => {
-      // Arrange
-      const largeIndex = createMockIndexData({
-        categories: {
-          treasures: Array.from({ length: 119 }, (_, i) => `treasures/treasure_${i}.json`),
-          tools: Array.from({ length: 86 }, (_, i) => `tools/tool_${i}.json`),
-          containers: Array.from({ length: 6 }, (_, i) => `containers/container_${i}.json`),
-          weapons: Array.from({ length: 5 }, (_, i) => `weapons/weapon_${i}.json`),
-          consumables: Array.from({ length: 4 }, (_, i) => `consumables/consumable_${i}.json`)
-        },
-        total: 220
-      });
+      const largeIndex = {
+        items: Array.from({ length: 214 }, (_, i) => `item_${i}.json`),
+        total: 214,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       const startTime = performance.now();
 
@@ -447,18 +301,14 @@ describe('ItemDataLoader.validateIndexData()', () => {
       // Assert
       expect(duration).toBeLessThan(50); // Should validate large dataset in under 50ms
     });
-  });
 
-  describe('Performance requirements', () => {
     it('should validate index data quickly for performance', () => {
       // Arrange
-      const testIndex = createMockIndexData({
-        categories: {
-          tools: ['tools/lamp.json', 'tools/rope.json'],
-          treasures: ['treasures/coin.json']
-        },
-        total: 3
-      });
+      const testIndex = {
+        items: ['lamp.json', 'rope.json', 'coin.json'],
+        total: 3,
+        lastUpdated: '2024-06-25T00:00:00Z'
+      };
 
       const startTime = performance.now();
 

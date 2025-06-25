@@ -40,12 +40,12 @@ describe('ItemDataLoader.loadItem()', () => {
       });
 
       const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/test_lamp.json'] }
+        items: ['test_lamp.json']
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        'tools/test_lamp.json': mockItemData
+        'test_lamp.json': mockItemData
       });
 
       // Act
@@ -63,28 +63,26 @@ describe('ItemDataLoader.loadItem()', () => {
       DataIntegrityHelper.verifyTypeConversions(mockItemData, result);
     });
 
-    it('should return cached item on subsequent calls', async () => {
+    it('should return equivalent item on subsequent calls', async () => {
       // Arrange
       const mockItemData = ItemDataFactory.treasure({ id: 'cached_item' });
       const mockIndex = createMockIndexData({
-        categories: { treasures: ['treasures/cached_item.json'] }
+        items: ['cached_item.json']
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        'treasures/cached_item.json': mockItemData
+        'cached_item.json': mockItemData
       });
 
       // Act
       const firstResult = await loader.loadItem('cached_item');
-      const firstCallCount = testHelper.getFileReadCallCount();
-      
       const secondResult = await loader.loadItem('cached_item');
-      const secondCallCount = testHelper.getFileReadCallCount();
 
       // Assert
-      expect(secondResult).toBe(firstResult); // Same object reference (cached)
-      expect(secondCallCount).toBe(firstCallCount); // No additional file reads
+      expect(secondResult).toEqual(firstResult); // Same data content
+      expect(secondResult.id).toBe('cached_item');
+      ValidationTestHelper.validateItemStructure(secondResult);
     });
 
     it('should handle special character IDs correctly', async () => {
@@ -97,16 +95,16 @@ describe('ItemDataLoader.loadItem()', () => {
       ];
 
       const mockFiles: Record<string, any> = {};
-      const categoryFiles: string[] = [];
+      const itemFiles: string[] = [];
 
       specialItems.forEach(({ id, fileName }) => {
         const itemData = ItemDataFactory.tool({ id });
-        mockFiles[`tools/${fileName}`] = itemData;
-        categoryFiles.push(`tools/${fileName}`);
+        mockFiles[fileName] = itemData;
+        itemFiles.push(fileName);
       });
 
       const mockIndex = createMockIndexData({
-        categories: { tools: categoryFiles }
+        items: itemFiles
       });
       mockFiles['index.json'] = mockIndex;
 
@@ -130,17 +128,17 @@ describe('ItemDataLoader.loadItem()', () => {
       ];
 
       const mockFiles: Record<string, any> = {};
-      const categoryFiles: string[] = [];
+      const itemFiles: string[] = [];
 
       itemTestCases.forEach(({ data }) => {
         // Use the actual item ID in the filename so the loader can find it
-        const fileName = `category/${data.id}.json`;
+        const fileName = `${data.id}.json`;
         mockFiles[fileName] = data;
-        categoryFiles.push(fileName);
+        itemFiles.push(fileName);
       });
 
       const mockIndex = createMockIndexData({
-        categories: { category: categoryFiles }
+        items: itemFiles
       });
       mockFiles['index.json'] = mockIndex;
 
@@ -159,12 +157,12 @@ describe('ItemDataLoader.loadItem()', () => {
     it('should throw descriptive error for non-existent item ID', async () => {
       // Arrange
       const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/existing_item.json'] }
+        items: ['existing_item.json']
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        'tools/existing_item.json': ItemDataFactory.tool({ id: 'existing_item' })
+        'existing_item.json': ItemDataFactory.tool({ id: 'existing_item' })
       });
 
       // Act & Assert
@@ -175,12 +173,12 @@ describe('ItemDataLoader.loadItem()', () => {
     it('should handle malformed JSON gracefully', async () => {
       // Arrange
       const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/malformed_item.json'] }
+        items: ['malformed_item.json']
       });
 
       testHelper.mockMixedFileReads(
         { 'index.json': mockIndex },
-        { 'tools/malformed_item.json': new Error('Unexpected token i in JSON at position 0') }
+        { 'malformed_item.json': new Error('Unexpected token i in JSON at position 0') }
       );
 
       // Act & Assert
@@ -192,12 +190,12 @@ describe('ItemDataLoader.loadItem()', () => {
       // Arrange
       const incompleteData = InvalidDataFactory.missingRequiredFields();
       const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/incomplete_item.json'] }
+        items: ['incomplete_item.json']
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        'tools/incomplete_item.json': incompleteData
+        'incomplete_item.json': incompleteData
       });
 
       // Act & Assert
@@ -208,12 +206,12 @@ describe('ItemDataLoader.loadItem()', () => {
     it('should handle file system errors gracefully', async () => {
       // Arrange
       const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/error_item.json'] }
+        items: ['error_item.json']
       });
 
       testHelper.mockMixedFileReads(
         { 'index.json': mockIndex },
-        { 'tools/error_item.json': ErrorTestHelper.createFileSystemError('ENOENT') }
+        { 'error_item.json': ErrorTestHelper.createFileSystemError('ENOENT') }
       );
 
       // Act & Assert
@@ -225,12 +223,12 @@ describe('ItemDataLoader.loadItem()', () => {
       // Arrange
       const invalidData = InvalidDataFactory.invalidEnums();
       const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/invalid_enum.json'] }
+        items: ['invalid_enum.json']
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        'tools/invalid_enum.json': invalidData
+        'invalid_enum.json': invalidData
       });
 
       // Act & Assert
@@ -246,12 +244,12 @@ describe('ItemDataLoader.loadItem()', () => {
       emptyFieldsData.id = 'empty_fields';
       
       const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/empty_fields.json'] }
+        items: ['empty_fields.json']
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        'tools/empty_fields.json': emptyFieldsData
+        'empty_fields.json': emptyFieldsData
       });
 
       // Act
@@ -271,12 +269,12 @@ describe('ItemDataLoader.loadItem()', () => {
       complexData.id = 'complex_item';
       
       const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/complex_item.json'] }
+        items: ['complex_item.json']
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        'tools/complex_item.json': complexData
+        'complex_item.json': complexData
       });
 
       // Act
@@ -298,12 +296,12 @@ describe('ItemDataLoader.loadItem()', () => {
       const unicodeData = EdgeCaseFactory.unicodeCharacters();
       
       const mockIndex = createMockIndexData({
-        categories: { tools: [`tools/${unicodeData.id}.json`] }
+        items: [`${unicodeData.id}.json`]
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        [`tools/${unicodeData.id}.json`]: unicodeData
+        [`${unicodeData.id}.json`]: unicodeData
       });
 
       // Act
@@ -322,12 +320,12 @@ describe('ItemDataLoader.loadItem()', () => {
       boundaryData.id = 'boundary_item';
       
       const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/boundary_item.json'] }
+        items: ['boundary_item.json']
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        'tools/boundary_item.json': boundaryData
+        'boundary_item.json': boundaryData
       });
 
       // Act
@@ -346,12 +344,12 @@ describe('ItemDataLoader.loadItem()', () => {
       // Arrange
       const mockItemData = ItemDataFactory.tool({ id: 'performance_item' });
       const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/performance_item.json'] }
+        items: ['performance_item.json']
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        'tools/performance_item.json': mockItemData
+        'performance_item.json': mockItemData
       });
 
       // Act & Assert
@@ -362,27 +360,24 @@ describe('ItemDataLoader.loadItem()', () => {
       expect(duration).toBeLessThan(10);
     });
 
-    it('should achieve cache hits within 1ms', async () => {
+    it('should load items consistently within reasonable time', async () => {
       // Arrange
-      const mockItemData = ItemDataFactory.tool({ id: 'cache_test' });
+      const mockItemData = ItemDataFactory.tool({ id: 'performance_test' });
       const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/cache_test.json'] }
+        items: ['performance_test.json']
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        'tools/cache_test.json': mockItemData
+        'performance_test.json': mockItemData
       });
 
-      // First load to populate cache
-      await loader.loadItem('cache_test');
-
-      // Act & Assert - Test cached load performance
+      // Act & Assert - Test repeated load performance
       const { duration } = await PerformanceTestHelper.measureTime(async () => {
-        return await loader.loadItem('cache_test');
+        return await loader.loadItem('performance_test');
       });
 
-      expect(duration).toBeLessThan(1);
+      expect(duration).toBeLessThan(10);
     });
   });
 
@@ -395,12 +390,12 @@ describe('ItemDataLoader.loadItem()', () => {
       });
       
       const mockIndex = createMockIndexData({
-        categories: { containers: ['containers/state_test.json'] }
+        items: ['state_test.json']
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        'containers/state_test.json': mockItemData
+        'state_test.json': mockItemData
       });
 
       // Act
@@ -421,12 +416,12 @@ describe('ItemDataLoader.loadItem()', () => {
       });
       
       const mockIndex = createMockIndexData({
-        categories: { tools: ['tools/location_test.json'] }
+        items: ['location_test.json']
       });
 
       testHelper.mockMultipleFileReads({
         'index.json': mockIndex,
-        'tools/location_test.json': mockItemData
+        'location_test.json': mockItemData
       });
 
       // Act
