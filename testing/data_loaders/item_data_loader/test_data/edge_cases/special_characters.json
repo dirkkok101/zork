@@ -1,0 +1,22 @@
+{
+  "id": "!!!!!",
+  "name": "Special Item",
+  "description": "An item with special characters",
+  "examineText": "This item has unusual characters in its ID.",
+  "aliases": ["special", "*weird*", "!!!"],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 1,
+  "size": "TINY",
+  "initialState": {},
+  "tags": ["special", "edge_case"],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "This item has unusual characters in its ID."
+    }
+  ],
+  "initialLocation": "unknown"
+}

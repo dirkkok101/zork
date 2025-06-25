@@ -1,0 +1,23 @@
+{
+  "categories": {
+    "treasures": [
+      "treasures/test_treasure.json",
+      "treasures/golden_coin.json"
+    ],
+    "tools": [
+      "tools/test_lamp.json",
+      "tools/magic_wand.json"
+    ],
+    "containers": [
+      "containers/wooden_box.json"
+    ],
+    "weapons": [
+      "weapons/steel_sword.json"
+    ],
+    "consumables": [
+      "consumables/sandwich.json"
+    ]
+  },
+  "total": 7,
+  "lastUpdated": "2024-06-25T00:00:00Z"
+}

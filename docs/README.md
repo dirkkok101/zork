@@ -20,7 +20,7 @@ But we don't want to spoil the game for the user
 
 # Architecture
 
-DataAccess layer to load data from the data files into memory using our type safe types
+DataLoader layer to load data from the data files into memory using our type safe types
 Services layer that operates on game data
 Command layer that orchestrates between services to achieve game logic
 Presentation layer to render the game state to the user and receive input from the user and marshal to commands

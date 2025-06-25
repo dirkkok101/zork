@@ -1,0 +1,40 @@
+{
+  "id": "test_lamp",
+  "name": "Test Lamp",
+  "description": "A magical testing lamp",
+  "examineText": "The lamp glows with an ethereal light, perfect for testing.",
+  "aliases": ["lamp", "light", "lantern"],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 15,
+  "size": "MEDIUM",
+  "initialState": {},
+  "tags": ["light_source", "portable"],
+  "properties": {
+    "size": 15
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "The lamp glows with an ethereal light, perfect for testing."
+    },
+    {
+      "command": "take",
+      "message": "You take the test lamp."
+    },
+    {
+      "command": "turn on",
+      "condition": "!state.lit",
+      "effect": "state.lit = true",
+      "message": "The lamp springs to life with a warm glow."
+    },
+    {
+      "command": "turn off",
+      "condition": "state.lit",
+      "effect": "state.lit = false",
+      "message": "The lamp's light fades away."
+    }
+  ],
+  "initialLocation": "unknown"
+}
