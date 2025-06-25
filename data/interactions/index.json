@@ -1,0 +1,9 @@
+{
+  "files": [
+    "verbs.json",
+    "prepositions.json",
+    "syntax_patterns.json"
+  ],
+  "total": 3,
+  "lastUpdated": "2024-06-25T00:00:00Z"
+}

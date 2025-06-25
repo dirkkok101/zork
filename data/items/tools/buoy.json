@@ -1,0 +1,32 @@
+{
+  "id": "buoy",
+  "name": "red buoy",
+  "description": "You see red buoy.",
+  "examineText": "There is a red buoy here (probably a warning).",
+  "aliases": [
+    "RED"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a red buoy here (probably a warning)."
+    },
+    {
+      "command": "take",
+      "message": "You take the red buoy."
+    }
+  ],
+  "initialLocation": "unknown"
+}

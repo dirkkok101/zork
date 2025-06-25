@@ -1,0 +1,24 @@
+{
+  "id": "inmir",
+  "title": "Inside Mirror",
+  "description": "You are in the inside mirror.",
+  "exits": {
+    "north": "mra",
+    "south": "mra",
+    "east": "mra",
+    "west": "mra",
+    "ne": "mra",
+    "nw": "mra",
+    "se": "mra",
+    "sw": "mra",
+    "out": "mra"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

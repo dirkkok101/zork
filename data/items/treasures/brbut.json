@@ -1,0 +1,28 @@
+{
+  "id": "brbut",
+  "name": "brown button",
+  "description": "You see brown button.",
+  "examineText": "It's brown button.",
+  "aliases": [
+    "BUTTO",
+    "SWITC",
+    "BROWN"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's brown button."
+    }
+  ],
+  "initialLocation": "unknown"
+}

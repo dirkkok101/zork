@@ -1,0 +1,16 @@
+{
+  "id": "vair1",
+  "title": "Volcano Core",
+  "description": "You are about one hundred feet above the bottom of the volcano.  The\ntop of the volcano is clearly visible here.",
+  "exits": {
+    "#!#!#": "!"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

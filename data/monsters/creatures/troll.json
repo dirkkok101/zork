@@ -1,0 +1,64 @@
+{
+  "id": "troll",
+  "name": "nasty troll",
+  "type": "creature",
+  "description": "A nasty-looking troll, brandishing a bloody axe, blocks all passages out of here.",
+  "examineText": "A particularly unpleasant specimen, the troll is about seven feet tall and exceptionally ugly. His skin is a mottled green and covered in warty growths. The troll carries a massive double-bladed axe that appears to have seen frequent use.",
+  "startingSceneId": "troll_room",
+  "currentSceneId": "troll_room",
+  "health": 30,
+  "maxHealth": 30,
+  "state": "GUARDING",
+  "inventory": [
+    "bloody_axe"
+  ],
+  "movementPattern": {
+    "type": "stationary",
+    "data": {
+      "guardedScenes": [
+        "troll_room"
+      ]
+    }
+  },
+  "aggressionLevel": 8,
+  "intelligence": 3,
+  "specialAbilities": [
+    "block_passage",
+    "berserker_rage"
+  ],
+  "weaknesses": [
+    "elvish_sword"
+  ],
+  "behaviors": [
+    {
+      "type": "guard",
+      "chance": 0.9,
+      "effect": "blockAllExits"
+    },
+    {
+      "type": "attack",
+      "chance": 0.7,
+      "condition": "playerInRoom && !playerHasElvishSword",
+      "effect": "attackWithAxe"
+    },
+    {
+      "type": "flee",
+      "chance": 0.9,
+      "condition": "playerHasElvishSword",
+      "effect": "runAway"
+    }
+  ],
+  "dialogue": [
+    {
+      "trigger": "hello",
+      "response": "The troll grins maliciously, showing a mouth full of yellowed fangs."
+    }
+  ],
+  "onDefeat": {
+    "message": "The troll, with a final roar of defiance, falls to the ground and dies.",
+    "dropItems": [
+      "bloody_axe"
+    ],
+    "grantScore": 25
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "parap",
+  "title": "Parapet",
+  "description": "You are in the parapet.",
+  "exits": {
+    "south": "ncorr"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

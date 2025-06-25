@@ -1,0 +1,32 @@
+{
+  "id": "flask",
+  "name": "glass flask filled with liquid",
+  "description": "You see glass flask filled with liquid.",
+  "examineText": "It's glass flask filled with liquid.",
+  "aliases": [
+    "GLASS"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's glass flask filled with liquid."
+    },
+    {
+      "command": "take",
+      "message": "You take the glass flask filled with liquid."
+    }
+  ],
+  "initialLocation": "unknown"
+}

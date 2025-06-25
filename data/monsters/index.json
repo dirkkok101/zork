@@ -1,0 +1,15 @@
+{
+  "categories": {
+    "humanoids": [
+      "humanoids/thief.json"
+    ],
+    "creatures": [
+      "creatures/troll.json",
+      "creatures/cyclops.json",
+      "creatures/grue.json"
+    ],
+    "mechanisms": []
+  },
+  "total": 4,
+  "lastUpdated": "2024-06-25T00:00:00Z"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "tube",
+  "name": "tube",
+  "description": "You see tube.",
+  "examineText": "There is an object which looks like a tube of toothpaste here.",
+  "aliases": [
+    "TOOTH"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is an object which looks like a tube of toothpaste here."
+    },
+    {
+      "command": "take",
+      "message": "You take the tube."
+    }
+  ],
+  "initialLocation": "unknown"
+}

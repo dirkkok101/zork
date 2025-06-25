@@ -1,0 +1,16 @@
+{
+  "id": "ledg3",
+  "title": "Volcano View",
+  "description": "You are on a ledge in the middle of a large volcano.  Below you\nthe volcano bottom can be seen and above is the rim of the volcano.\nA couple of ledges can be seen on the other side of the volcano;\nit appears that this ledge is intermediate in elevation between\nthose on the other side.  The exit from this room is to the east.",
+  "exits": {
+    "east": "egyptian_room"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

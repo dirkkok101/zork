@@ -1,0 +1,24 @@
+{
+  "id": "rainb",
+  "name": "rainbow",
+  "description": "You see rainbow.",
+  "examineText": "It's rainbow.",
+  "aliases": [],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's rainbow."
+    }
+  ],
+  "initialLocation": "unknown"
+}

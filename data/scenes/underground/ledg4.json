@@ -1,0 +1,18 @@
+{
+  "id": "ledg4",
+  "title": "Wide Ledge",
+  "description": "You are in the wide ledge.",
+  "exits": {
+    "launc": "vair4",
+    "west": "vlbot",
+    "south": "safe"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

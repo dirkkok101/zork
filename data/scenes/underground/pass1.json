@@ -1,0 +1,19 @@
+{
+  "id": "pass1",
+  "title": "East-West Passage",
+  "description": "This is a narrow east-west passageway.  There is a narrow stairway\nleading down at the north end of the room.",
+  "exits": {
+    "east": "carousel_room",
+    "west": "troll_room",
+    "down": "ravi1",
+    "north": "ravi1"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

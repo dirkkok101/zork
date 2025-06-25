@@ -1,0 +1,18 @@
+{
+  "id": "craw4",
+  "title": "North-South Crawlway",
+  "description": "This is a north-south crawlway; a passage goes to the east also.\nThere is a hole above, but it provides no opportunities for climbing.",
+  "exits": {
+    "north": "chas2",
+    "south": "studi",
+    "east": "troll_room"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

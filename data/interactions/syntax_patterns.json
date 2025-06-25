@@ -1,0 +1,42 @@
+{
+  "patterns": [
+    {
+      "pattern": "<verb>",
+      "description": "Simple verb with no object",
+      "example": "look"
+    },
+    {
+      "pattern": "<verb> <object>",
+      "description": "Verb with direct object",
+      "example": "take lamp"
+    },
+    {
+      "pattern": "<verb> <preposition> <object>",
+      "description": "Verb with prepositional object",
+      "example": "look at lamp"
+    },
+    {
+      "pattern": "<verb> <object> <preposition> <object>",
+      "description": "Verb with direct and indirect object",
+      "example": "give lamp to thief"
+    },
+    {
+      "pattern": "<direction>",
+      "description": "Movement command",
+      "example": "north"
+    }
+  ],
+  "articleFilters": [
+    "a",
+    "an",
+    "the",
+    "some",
+    "any"
+  ],
+  "stopWords": [
+    "and",
+    "but",
+    "or",
+    "then"
+  ]
+}

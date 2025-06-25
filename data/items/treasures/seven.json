@@ -1,0 +1,26 @@
+{
+  "id": "seven",
+  "name": "number seven",
+  "description": "You see number seven.",
+  "examineText": "It's number seven.",
+  "aliases": [
+    "7"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's number seven."
+    }
+  ],
+  "initialLocation": "unknown"
+}

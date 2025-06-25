@@ -1,0 +1,32 @@
+{
+  "id": "broch",
+  "name": "free brochure",
+  "description": "You see free brochure.",
+  "examineText": "There is a large brochure here.",
+  "aliases": [
+    "FREE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 30,
+  "size": "LARGE",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 30
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a large brochure here."
+    },
+    {
+      "command": "take",
+      "message": "You take the free brochure."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "rdwal",
+  "name": "red panel",
+  "description": "You see red panel.",
+  "examineText": "It's red panel.",
+  "aliases": [
+    "WALL",
+    "PANEL",
+    "RED"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's red panel."
+    }
+  ],
+  "initialLocation": "unknown"
+}

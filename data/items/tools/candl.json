@@ -1,0 +1,32 @@
+{
+  "id": "candl",
+  "name": "pair of candles",
+  "description": "You see pair of candles.",
+  "examineText": "There are two candles here.",
+  "aliases": [
+    "PAIR"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There are two candles here."
+    },
+    {
+      "command": "take",
+      "message": "You take the pair of candles."
+    }
+  ],
+  "initialLocation": "unknown"
+}

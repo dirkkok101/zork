@@ -1,0 +1,16 @@
+{
+  "id": "dead_end_7",
+  "title": "Dead End",
+  "description": "Dead End",
+  "exits": {
+    "south": "bladd"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Maze",
+  "tags": [
+    "maze"
+  ]
+}

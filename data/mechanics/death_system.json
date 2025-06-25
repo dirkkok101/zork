@@ -1,0 +1,17 @@
+{
+  "maxDeaths": 3,
+  "respawnLocation": "forest_1",
+  "itemsLostOnDeath": "some",
+  "deathPenalty": 10,
+  "deathMessages": [
+    "It is now pitch black in here. You are likely to be eaten by a grue.",
+    "The troll's axe removes your head from your shoulders.",
+    "The cyclops finds you quite tasty.",
+    "You have died from your injuries."
+  ],
+  "resurrectionMessages": [
+    "You find yourself in a forest clearing, somehow alive again.",
+    "A strange force has restored you to life.",
+    "You awaken, confused but breathing."
+  ]
+}

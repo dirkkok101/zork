@@ -1,0 +1,34 @@
+{
+  "id": "bar",
+  "name": "platinum bar",
+  "description": "You see platinum bar.",
+  "examineText": "There is a large platinum bar here.",
+  "aliases": [
+    "PLATI",
+    "PLATI",
+    "LARGE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 20,
+  "size": "MEDIUM",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 20
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a large platinum bar here."
+    },
+    {
+      "command": "take",
+      "message": "You take the platinum bar."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "craw2",
+  "title": "Steep Crawlway",
+  "description": "This is a steep and narrow crawlway.  There are two exits nearby to\nthe south and southwest.",
+  "exits": {
+    "south": "mirr1",
+    "sw": "pass3"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

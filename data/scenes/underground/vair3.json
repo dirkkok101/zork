@@ -1,0 +1,14 @@
+{
+  "id": "vair3",
+  "title": "Volcano near viewing ledge",
+  "description": "You are high above the floor of the volcano.  From here the rim of\nthe volcano looks very narrow and you are very near it.  To the \neast is what appears to be a viewing ledge, too thin to land on.",
+  "exits": {},
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

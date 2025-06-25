@@ -1,0 +1,18 @@
+{
+  "id": "living_room",
+  "title": "Living Room",
+  "description": "You are in the living room.",
+  "exits": {
+    "east": "kitchen",
+    "west": "strange_passage",
+    "down": "cellar"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

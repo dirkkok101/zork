@@ -1,0 +1,33 @@
+{
+  "id": "pot",
+  "name": "pot of gold",
+  "description": "You see pot of gold.",
+  "examineText": "There is a pot of gold here.",
+  "aliases": [
+    "GOLD",
+    "GOLD"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 15,
+  "size": "MEDIUM",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 15
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a pot of gold here."
+    },
+    {
+      "command": "take",
+      "message": "You take the pot of gold."
+    }
+  ],
+  "initialLocation": "unknown"
+}

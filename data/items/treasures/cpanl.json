@@ -1,0 +1,27 @@
+{
+  "id": "cpanl",
+  "name": "control panel",
+  "description": "You see control panel.",
+  "examineText": "It's control panel.",
+  "aliases": [
+    "PANEL",
+    "CONTR"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's control panel."
+    }
+  ],
+  "initialLocation": "unknown"
+}

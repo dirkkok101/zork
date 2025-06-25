@@ -1,0 +1,29 @@
+{
+  "id": "cage",
+  "name": "steel cage",
+  "description": "You see steel cage.",
+  "examineText": "There is a mangled steel cage here.",
+  "aliases": [
+    "MANGL",
+    "STEEL"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 60,
+  "size": "HUGE",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {
+    "size": 60
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a mangled steel cage here."
+    }
+  ],
+  "initialLocation": "unknown"
+}

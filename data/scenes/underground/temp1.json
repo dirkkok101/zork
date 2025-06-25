@@ -1,0 +1,17 @@
+{
+  "id": "temp1",
+  "title": "Temple",
+  "description": "This is the west end of a large temple.  On the south wall is an \nancient inscription, probably a prayer in a long-forgotten language. \nThe north wall is solid granite.  The entrance at the west end of the\nroom is through huge marble pillars.",
+  "exits": {
+    "west": "mgrai",
+    "east": "temp2"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

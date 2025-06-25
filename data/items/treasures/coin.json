@@ -1,0 +1,35 @@
+{
+  "id": "coin",
+  "name": "priceless zorkmid",
+  "description": "You see priceless zorkmid.",
+  "examineText": "There is an engraved zorkmid coin here.",
+  "aliases": [
+    "ZORKM",
+    "GOLD",
+    "GOLD",
+    "PRICE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is an engraved zorkmid coin here."
+    },
+    {
+      "command": "take",
+      "message": "You take the priceless zorkmid."
+    }
+  ],
+  "initialLocation": "unknown"
+}

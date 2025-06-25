@@ -1,0 +1,61 @@
+{
+  "id": "cyclops",
+  "name": "one-eyed cyclops",
+  "type": "creature",
+  "description": "A cyclops, who looks prepared to eat horse and rider, blocks the stairway.",
+  "examineText": "This cyclops is huge, standing nearly twelve feet tall. His single eye glares balefully at you, and his massive hands could easily crush a man. He appears to be quite hungry.",
+  "startingSceneId": "cyclops_room",
+  "currentSceneId": "cyclops_room",
+  "health": 40,
+  "maxHealth": 40,
+  "state": "GUARDING",
+  "inventory": [],
+  "movementPattern": {
+    "type": "stationary",
+    "data": {
+      "guardedScenes": [
+        "cyclops_room"
+      ]
+    }
+  },
+  "aggressionLevel": 6,
+  "intelligence": 2,
+  "specialAbilities": [
+    "eat_player",
+    "massive_strength"
+  ],
+  "weaknesses": [
+    "hot_food"
+  ],
+  "behaviors": [
+    {
+      "type": "guard",
+      "chance": 0.8,
+      "effect": "blockStairway"
+    },
+    {
+      "type": "eat",
+      "chance": 0.6,
+      "condition": "playerInRoom && !playerGaveFood",
+      "effect": "eatPlayer"
+    },
+    {
+      "type": "move_aside",
+      "chance": 1.0,
+      "condition": "playerGaveHotFood",
+      "effect": "moveAside"
+    }
+  ],
+  "dialogue": [
+    {
+      "trigger": "give food",
+      "response": "'Mmm. Just like mom used to make 'em.'",
+      "condition": "hasHotFood"
+    }
+  ],
+  "onDefeat": {
+    "message": "The cyclops, satisfied by your offering, steps aside to let you pass.",
+    "dropItems": [],
+    "grantScore": 15
+  }
+}

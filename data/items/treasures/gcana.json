@@ -1,0 +1,34 @@
+{
+  "id": "gcana",
+  "name": "clockwork canary",
+  "description": "You see clockwork canary.",
+  "examineText": "There is golden clockwork canary here.",
+  "aliases": [
+    "CANAR",
+    "CLOCK",
+    "MECHA",
+    "GOLD",
+    "GOLDE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is golden clockwork canary here."
+    },
+    {
+      "command": "take",
+      "message": "You take the clockwork canary."
+    }
+  ],
+  "initialLocation": "unknown"
+}

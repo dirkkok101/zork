@@ -1,0 +1,25 @@
+{
+  "id": "leak",
+  "name": "leak",
+  "description": "You see leak.",
+  "examineText": "It's leak.",
+  "aliases": [
+    "DRIP",
+    "HOLE"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's leak."
+    }
+  ],
+  "initialLocation": "unknown"
+}

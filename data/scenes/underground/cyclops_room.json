@@ -1,0 +1,18 @@
+{
+  "id": "cyclops_room",
+  "title": "Cyclops Room",
+  "description": "You are in the cyclops room.",
+  "exits": {
+    "west": "maze_15",
+    "north": "strange_passage",
+    "up": "treasure_room"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

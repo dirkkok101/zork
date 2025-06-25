@@ -1,0 +1,18 @@
+{
+  "id": "ledg2",
+  "title": "Narrow Ledge",
+  "description": "You are on a narrow ledge overlooking the inside of an old dormant\nvolcano.  This ledge appears to be about in the middle between the\nfloor below and the rim above. There is an exit here to the south.",
+  "exits": {
+    "launc": "vair2",
+    "west": "vlbot",
+    "south": "libra"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

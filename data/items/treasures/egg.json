@@ -1,0 +1,31 @@
+{
+  "id": "egg",
+  "name": "jewel-encrusted egg",
+  "description": "You see jewel-encrusted egg.",
+  "examineText": "There is a jewel-encrusted egg here.",
+  "aliases": [
+    "BIRDS",
+    "ENCRU"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a jewel-encrusted egg here."
+    },
+    {
+      "command": "take",
+      "message": "You take the jewel-encrusted egg."
+    }
+  ],
+  "initialLocation": "unknown"
+}

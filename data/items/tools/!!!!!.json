@@ -1,0 +1,22 @@
+{
+  "id": "!!!!!",
+  "name": "!!!!!",
+  "description": "You see !!!!!.",
+  "examineText": "It's !!!!!.",
+  "aliases": [],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's !!!!!."
+    }
+  ],
+  "initialLocation": "unknown"
+}

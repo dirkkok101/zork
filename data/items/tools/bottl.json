@@ -1,0 +1,32 @@
+{
+  "id": "bottl",
+  "name": "glass bottle",
+  "description": "You see glass bottle.",
+  "examineText": "A clear glass bottle is here.",
+  "aliases": [
+    "CONTA",
+    "CLEAR",
+    "GLASS"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "A clear glass bottle is here."
+    },
+    {
+      "command": "take",
+      "message": "You take the glass bottle."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "corps",
+  "name": "pile of corpses",
+  "description": "You see pile of corpses.",
+  "examineText": "It's pile of corpses.",
+  "aliases": [
+    "PILE",
+    "MANGL"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's pile of corpses."
+    }
+  ],
+  "initialLocation": "unknown"
+}

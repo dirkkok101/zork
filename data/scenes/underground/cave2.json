@@ -1,0 +1,18 @@
+{
+  "id": "cave2",
+  "title": "Cave",
+  "description": "This is a tiny cave with entrances west and north, and a dark,\nforbidding staircase leading down.",
+  "exits": {
+    "north": "craw3",
+    "west": "mirr2",
+    "down": "lld1"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

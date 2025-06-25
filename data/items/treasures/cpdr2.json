@@ -1,0 +1,27 @@
+{
+  "id": "cpdr2",
+  "name": "steel door",
+  "description": "You see steel door.",
+  "examineText": "It's steel door.",
+  "aliases": [
+    "DOOR",
+    "STEEL"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's steel door."
+    }
+  ],
+  "initialLocation": "unknown"
+}

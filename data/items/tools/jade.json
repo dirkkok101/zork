@@ -1,0 +1,33 @@
+{
+  "id": "jade",
+  "name": "jade figurine",
+  "description": "You see jade figurine.",
+  "examineText": "There is an exquisite jade figurine here.",
+  "aliases": [
+    "FIGUR",
+    "JADE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is an exquisite jade figurine here."
+    },
+    {
+      "command": "take",
+      "message": "You take the jade figurine."
+    }
+  ],
+  "initialLocation": "unknown"
+}

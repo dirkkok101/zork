@@ -1,0 +1,18 @@
+{
+  "id": "cany1",
+  "title": "Deep Canyon",
+  "description": "You are on the south edge of a deep canyon.  Passages lead off\nto the east, south, and northwest.  You can hear the sound of\nflowing water below.",
+  "exits": {
+    "nw": "reses",
+    "east": "dam",
+    "south": "carousel_room"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

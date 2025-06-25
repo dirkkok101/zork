@@ -1,0 +1,35 @@
+{
+  "id": "fuse",
+  "name": "wire coil",
+  "description": "You see wire coil.",
+  "examineText": "There is a coil of thin shiny wire here.",
+  "aliases": [
+    "COIL",
+    "WIRE",
+    "SHINY",
+    "THIN"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 1,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 1
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a coil of thin shiny wire here."
+    },
+    {
+      "command": "take",
+      "message": "You take the wire coil."
+    }
+  ],
+  "initialLocation": "unknown"
+}

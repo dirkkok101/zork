@@ -1,0 +1,18 @@
+{
+  "id": "rivr4",
+  "title": "Frigid River",
+  "description": "The river is running faster here and the sound ahead appears to be\nthat of rushing water.  On the west shore is a sandy beach.  A small\narea of beach can also be seen below the Cliffs.",
+  "exits": {
+    "down": "rivr5",
+    "east": "wclf2",
+    "west": "beach"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

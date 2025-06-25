@@ -1,0 +1,18 @@
+{
+  "id": "egyptian_room",
+  "title": "Egyptian Room",
+  "description": "This is a room which looks like an Egyptian tomb.  There is an\nascending staircase in the room as well as doors, east and south.",
+  "exits": {
+    "up": "icy",
+    "south": "ledg3",
+    "east": "craw1"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

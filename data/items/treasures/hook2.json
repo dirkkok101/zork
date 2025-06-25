@@ -1,0 +1,27 @@
+{
+  "id": "hook2",
+  "name": "hook",
+  "description": "You see hook.",
+  "examineText": "It's hook.",
+  "aliases": [
+    "HOOK",
+    "SMALL"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's hook."
+    }
+  ],
+  "initialLocation": "unknown"
+}

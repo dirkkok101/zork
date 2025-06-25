@@ -1,0 +1,33 @@
+{
+  "id": "blbk",
+  "name": "blue book",
+  "description": "You see blue book.",
+  "examineText": "There is a blue book here.",
+  "aliases": [
+    "BOOK",
+    "BLUE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a blue book here."
+    },
+    {
+      "command": "take",
+      "message": "You take the blue book."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "rivr3",
+  "title": "Frigid River",
+  "description": "The river descends here into a valley.  There is a narrow beach on\nthe east below the cliffs and there is some shore on the west which\nmay be suitable.  In the distance a faint rumbling can be heard.",
+  "exits": {
+    "down": "rivr4",
+    "east": "wclf1",
+    "west": "rcave"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

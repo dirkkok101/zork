@@ -1,0 +1,30 @@
+{
+  "spatial": [
+    "in",
+    "on",
+    "under",
+    "behind",
+    "above",
+    "below",
+    "beside",
+    "near"
+  ],
+  "directional": [
+    "to",
+    "from",
+    "through",
+    "into",
+    "onto",
+    "toward"
+  ],
+  "instrumental": [
+    "with",
+    "using",
+    "by"
+  ],
+  "temporal": [
+    "before",
+    "after",
+    "during"
+  ]
+}

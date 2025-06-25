@@ -1,0 +1,26 @@
+{
+  "id": "three",
+  "name": "number three",
+  "description": "You see number three.",
+  "examineText": "It's number three.",
+  "aliases": [
+    "3"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's number three."
+    }
+  ],
+  "initialLocation": "unknown"
+}

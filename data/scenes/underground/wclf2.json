@@ -1,0 +1,17 @@
+{
+  "id": "wclf2",
+  "title": "White Cliffs Beach",
+  "description": "You are on a rocky, narrow strip of beach beside the Cliffs.  A\nnarrow path leads north along the shore.",
+  "exits": {
+    "north": "wclf1",
+    "launc": "rivr4"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

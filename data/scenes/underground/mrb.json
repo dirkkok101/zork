@@ -1,0 +1,22 @@
+{
+  "id": "mrb",
+  "title": "Hallway",
+  "description": "You are in the hallway.",
+  "exits": {
+    "north": "mrc",
+    "nw": "mrc",
+    "ne": "mrc",
+    "in": "inmir",
+    "south": "mra",
+    "sw": "mra",
+    "se": "mra"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

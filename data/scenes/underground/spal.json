@@ -1,0 +1,16 @@
+{
+  "id": "spal",
+  "title": "Sooty Room",
+  "description": "This is a small room with rough walls, and a ceiling which is steeply\nsloping from north to south. There is coal dust covering almost\neverything, and little bits of coal are scattered around the only exit\n(which is a narrow passage to the north). In one corner of the room is\nan old coal stove which lights the room with a cheery red glow.  There\nis a very narrow crack in the north wall.",
+  "exits": {
+    "north": "sledg"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

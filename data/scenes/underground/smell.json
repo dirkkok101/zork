@@ -1,0 +1,17 @@
+{
+  "id": "smell",
+  "title": "Smelly Room",
+  "description": "This is a small non-descript room.  However, from the direction\nof a small descending staircase a foul odor can be detected.  To the\neast is a narrow path.",
+  "exits": {
+    "down": "boom",
+    "east": "tunne"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

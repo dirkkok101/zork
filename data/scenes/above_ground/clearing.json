@@ -1,0 +1,27 @@
+{
+  "id": "clearing",
+  "title": "Clearing",
+  "description": "You are in the clearing.",
+  "exits": {
+    "sw": "behind_house",
+    "se": "fore5",
+    "north": "clearing",
+    "east": "clearing",
+    "west": "forest_3",
+    "south": "forest_2",
+    "down": "grating_room"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "lit",
+  "region": "Above Ground",
+  "tags": [
+    "above_ground"
+  ],
+  "atmosphere": [
+    "A gentle breeze stirs the air.",
+    "Birds can be heard in the distance.",
+    "The sun filters through the trees."
+  ]
+}

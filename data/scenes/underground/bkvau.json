@@ -1,0 +1,14 @@
+{
+  "id": "bkvau",
+  "title": "Vault",
+  "description": "This is the Vault of the Bank of Zork, in which there are no doors.",
+  "exits": {},
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "sdoor",
+  "name": "stone door",
+  "description": "You see stone door.",
+  "examineText": "It's stone door.",
+  "aliases": [
+    "DOOR",
+    "STONE"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's stone door."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "mrde",
+  "title": "Narrow Room",
+  "description": "You are in the narrow room.",
+  "exits": {},
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

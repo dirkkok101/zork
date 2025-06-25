@@ -1,0 +1,16 @@
+{
+  "id": "dead_end_1",
+  "title": "You have come to a dead end in the maze.",
+  "description": "Dead End",
+  "exits": {
+    "south": "maze_4"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Maze",
+  "tags": [
+    "maze"
+  ]
+}

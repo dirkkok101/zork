@@ -1,0 +1,17 @@
+{
+  "id": "slid2",
+  "title": "Slide",
+  "description": "This is another spot within the coal chute.  Above you the rope\nclimbs into darkness and the end of the rope is dangling five feet\nbeneath you.",
+  "exits": {
+    "down": "slid3",
+    "up": "slid1"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "rboat",
+  "name": "magic boat",
+  "description": "You see magic boat.",
+  "examineText": "There is an inflated boat here.",
+  "aliases": [
+    "BOAT",
+    "MAGIC",
+    "PLAST",
+    "SEAWO"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 20,
+  "size": "MEDIUM",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 20
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is an inflated boat here."
+    },
+    {
+      "command": "take",
+      "message": "You take the magic boat."
+    }
+  ],
+  "initialLocation": "unknown"
+}

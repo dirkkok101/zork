@@ -1,0 +1,27 @@
+{
+  "id": "ghost",
+  "name": "number of ghosts",
+  "description": "You see number of ghosts.",
+  "examineText": "It's number of ghosts.",
+  "aliases": [
+    "SPIRI",
+    "FIEND"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's number of ghosts."
+    }
+  ],
+  "initialLocation": "unknown"
+}

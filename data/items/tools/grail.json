@@ -1,0 +1,32 @@
+{
+  "id": "grail",
+  "name": "grail",
+  "description": "You see grail.",
+  "examineText": "There is an extremely valuable (perhaps original) grail here.",
+  "aliases": [
+    "HOLY"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is an extremely valuable (perhaps original) grail here."
+    },
+    {
+      "command": "take",
+      "message": "You take the grail."
+    }
+  ],
+  "initialLocation": "unknown"
+}

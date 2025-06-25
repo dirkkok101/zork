@@ -1,0 +1,33 @@
+{
+  "id": "hbell",
+  "name": "red hot brass bell",
+  "description": "You see red hot brass bell.",
+  "examineText": "On the ground is a red hot bell.",
+  "aliases": [
+    "BELL",
+    "BRASS",
+    "HOT",
+    "RED"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "On the ground is a red hot bell."
+    },
+    {
+      "command": "take",
+      "message": "You take the red hot brass bell."
+    }
+  ],
+  "initialLocation": "unknown"
+}

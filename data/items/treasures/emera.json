@@ -1,0 +1,30 @@
+{
+  "id": "emera",
+  "name": "large emerald",
+  "description": "You see large emerald.",
+  "examineText": "There is an emerald here.",
+  "aliases": [
+    "LARGE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is an emerald here."
+    },
+    {
+      "command": "take",
+      "message": "You take the large emerald."
+    }
+  ],
+  "initialLocation": "unknown"
+}

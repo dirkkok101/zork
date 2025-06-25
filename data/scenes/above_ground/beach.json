@@ -1,0 +1,22 @@
+{
+  "id": "beach",
+  "title": "Sandy Beach",
+  "description": "You are on a large sandy beach at the shore of the river, which is\nflowing quickly by.  A path runs beside the river to the south here.",
+  "exits": {
+    "launc": "rivr4",
+    "south": "fante"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "lit",
+  "region": "Above Ground",
+  "tags": [
+    "above_ground"
+  ],
+  "atmosphere": [
+    "A gentle breeze stirs the air.",
+    "Birds can be heard in the distance.",
+    "The sun filters through the trees."
+  ]
+}

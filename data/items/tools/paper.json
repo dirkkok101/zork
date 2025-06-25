@@ -1,0 +1,36 @@
+{
+  "id": "paper",
+  "name": "newspaper",
+  "description": "You see newspaper.",
+  "examineText": "It's newspaper.",
+  "aliases": [
+    "NEWSP",
+    "ISSUE",
+    "REPOR",
+    "MAGAZ",
+    "NEWS"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 2,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 2
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's newspaper."
+    },
+    {
+      "command": "take",
+      "message": "You take the newspaper."
+    }
+  ],
+  "initialLocation": "unknown"
+}

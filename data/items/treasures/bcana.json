@@ -1,0 +1,35 @@
+{
+  "id": "bcana",
+  "name": "broken clockwork canary",
+  "description": "You see broken clockwork canary.",
+  "examineText": "There is a non-functional canary here.",
+  "aliases": [
+    "CANAR",
+    "BROKE",
+    "CLOCK",
+    "MECHA",
+    "GOLD",
+    "GOLDE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a non-functional canary here."
+    },
+    {
+      "command": "take",
+      "message": "You take the broken clockwork canary."
+    }
+  ],
+  "initialLocation": "unknown"
+}

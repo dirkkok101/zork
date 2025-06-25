@@ -1,0 +1,18 @@
+{
+  "id": "bshaf",
+  "title": "Lower Shaft",
+  "description": "This is a small square room which is at the bottom of a long\nshaft. To the east is a passageway and to the northeast a very narrow\npassage. In the shaft can be seen a heavy iron chain.",
+  "exits": {
+    "east": "machi",
+    "out": "timbe",
+    "ne": "timbe"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

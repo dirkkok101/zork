@@ -1,0 +1,28 @@
+{
+  "id": "scol",
+  "name": "shimmering curtain of light",
+  "description": "You see shimmering curtain of light.",
+  "examineText": "It's shimmering curtain of light.",
+  "aliases": [
+    "CURTA",
+    "LIGHT",
+    "SHIMM"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's shimmering curtain of light."
+    }
+  ],
+  "initialLocation": "unknown"
+}

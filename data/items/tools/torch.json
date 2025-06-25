@@ -1,0 +1,33 @@
+{
+  "id": "torch",
+  "name": "torch",
+  "description": "You see torch.",
+  "examineText": "There is an ivory torch here.",
+  "aliases": [
+    "IVORY",
+    "IVORY"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 20,
+  "size": "MEDIUM",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 20
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is an ivory torch here."
+    },
+    {
+      "command": "take",
+      "message": "You take the torch."
+    }
+  ],
+  "initialLocation": "unknown"
+}

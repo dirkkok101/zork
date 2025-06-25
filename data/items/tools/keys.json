@@ -1,0 +1,33 @@
+{
+  "id": "keys",
+  "name": "set of skeleton keys",
+  "description": "You see set of skeleton keys.",
+  "examineText": "There is a set of skeleton keys here.",
+  "aliases": [
+    "SET",
+    "KEY"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a set of skeleton keys here."
+    },
+    {
+      "command": "take",
+      "message": "You take the set of skeleton keys."
+    }
+  ],
+  "initialLocation": "unknown"
+}

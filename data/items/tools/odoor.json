@@ -1,0 +1,25 @@
+{
+  "id": "odoor",
+  "name": "bronze door",
+  "description": "You see bronze door.",
+  "examineText": "It's bronze door.",
+  "aliases": [
+    "DOOR",
+    "BRONZ"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's bronze door."
+    }
+  ],
+  "initialLocation": "unknown"
+}

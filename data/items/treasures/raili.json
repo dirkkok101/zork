@@ -1,0 +1,27 @@
+{
+  "id": "raili",
+  "name": "wooden railing",
+  "description": "You see wooden railing.",
+  "examineText": "It's wooden railing.",
+  "aliases": [
+    "RAIL",
+    "WOODE"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's wooden railing."
+    }
+  ],
+  "initialLocation": "unknown"
+}

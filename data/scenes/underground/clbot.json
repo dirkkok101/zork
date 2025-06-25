@@ -1,0 +1,17 @@
+{
+  "id": "clbot",
+  "title": "Canyon Bottom",
+  "description": "You are beneath the walls of the river canyon which may be climbable\nhere.  There is a small stream here, which is the lesser part of the\nrunoff of Aragain Falls. To the north is a narrow path.",
+  "exits": {
+    "up": "clmid",
+    "north": "pog"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

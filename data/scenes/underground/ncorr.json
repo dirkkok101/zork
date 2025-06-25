@@ -1,0 +1,20 @@
+{
+  "id": "ncorr",
+  "title": "North Corridor",
+  "description": "You are in the north corridor.",
+  "exits": {
+    "east": "ecorr",
+    "west": "wcorr",
+    "north": "parap",
+    "south": "cell",
+    "in": "cell"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

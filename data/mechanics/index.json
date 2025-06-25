@@ -1,0 +1,10 @@
+{
+  "files": [
+    "scoring_system.json",
+    "treasure_system.json",
+    "death_system.json",
+    "global_flags.json"
+  ],
+  "total": 4,
+  "lastUpdated": "2024-06-25T00:00:00Z"
+}

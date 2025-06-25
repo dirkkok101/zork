@@ -1,0 +1,25 @@
+{
+  "id": "behind_house",
+  "title": "Behind House",
+  "description": "You are in the behind house.",
+  "exits": {
+    "north": "north_of_house",
+    "south": "south_of_house",
+    "east": "clearing",
+    "west": "kitchen",
+    "in": "kitchen"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "lit",
+  "region": "Above Ground",
+  "tags": [
+    "above_ground"
+  ],
+  "atmosphere": [
+    "A gentle breeze stirs the air.",
+    "Birds can be heard in the distance.",
+    "The sun filters through the trees."
+  ]
+}

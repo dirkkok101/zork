@@ -1,0 +1,24 @@
+{
+  "id": "forest_2",
+  "title": "Forest",
+  "description": "This is a dimly lit forest, with large trees all around.  To the\neast, there appears to be sunlight.",
+  "exits": {
+    "north": "south_of_house",
+    "east": "clearing",
+    "south": "forest_4",
+    "west": "forest_1"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "lit",
+  "region": "Above Ground",
+  "tags": [
+    "above_ground"
+  ],
+  "atmosphere": [
+    "A gentle breeze stirs the air.",
+    "Birds can be heard in the distance.",
+    "The sun filters through the trees."
+  ]
+}

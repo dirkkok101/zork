@@ -1,0 +1,18 @@
+{
+  "id": "slide",
+  "title": "Slide Room",
+  "description": "You are in the slide room.",
+  "exits": {
+    "east": "pass3",
+    "north": "entra",
+    "down": "cave4"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "cell",
+  "title": "Prison Cell",
+  "description": "You are in the prison cell.",
+  "exits": {
+    "out": "treasury_of_zork",
+    "north": "treasury_of_zork"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Endgame",
+  "tags": [
+    "endgame"
+  ]
+}

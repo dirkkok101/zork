@@ -1,0 +1,71 @@
+{
+  "gameFlags": [
+    {
+      "id": "trophy_case_open",
+      "name": "Trophy Case Open",
+      "description": "Whether the trophy case has been opened",
+      "initialValue": false,
+      "scope": "global"
+    },
+    {
+      "id": "lamp_on",
+      "name": "Lamp On",
+      "description": "Whether the brass lamp is currently lit",
+      "initialValue": false,
+      "scope": "global"
+    },
+    {
+      "id": "troll_defeated",
+      "name": "Troll Defeated",
+      "description": "Whether the troll has been defeated",
+      "initialValue": false,
+      "scope": "global"
+    },
+    {
+      "id": "thief_defeated",
+      "name": "Thief Defeated",
+      "description": "Whether the thief has been defeated",
+      "initialValue": false,
+      "scope": "global"
+    },
+    {
+      "id": "maze_solved",
+      "name": "Maze Solved",
+      "description": "Whether the player has successfully navigated the maze",
+      "initialValue": false,
+      "scope": "global"
+    },
+    {
+      "id": "cyclops_fed",
+      "name": "Cyclops Fed",
+      "description": "Whether the cyclops has been given food",
+      "initialValue": false,
+      "scope": "global"
+    },
+    {
+      "id": "dam_state",
+      "name": "Dam State",
+      "description": "State of the dam (closed/open)",
+      "initialValue": "closed",
+      "scope": "global"
+    }
+  ],
+  "puzzleDependencies": {
+    "open_trophy_case": [
+      "defeat_thief"
+    ],
+    "cross_troll_room": [
+      "defeat_troll",
+      "have_elvish_sword"
+    ],
+    "enter_cyclops_room": [
+      "cyclops_fed"
+    ],
+    "reach_endgame": [
+      "all_treasures_found"
+    ],
+    "navigate_maze": [
+      "lamp_on"
+    ]
+  }
+}

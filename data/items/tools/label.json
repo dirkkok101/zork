@@ -1,0 +1,35 @@
+{
+  "id": "label",
+  "name": "tan label",
+  "description": "You see tan label.",
+  "examineText": "There is a tan label here.",
+  "aliases": [
+    "FINEP",
+    "PRINT",
+    "TAN",
+    "FINE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 2,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 2
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a tan label here."
+    },
+    {
+      "command": "take",
+      "message": "You take the tan label."
+    }
+  ],
+  "initialLocation": "unknown"
+}

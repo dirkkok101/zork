@@ -1,0 +1,23 @@
+{
+  "id": "west_of_house",
+  "title": "West of House",
+  "description": "This is an open field west of a white house, with a boarded front door.",
+  "exits": {
+    "north": "north_of_house",
+    "south": "south_of_house",
+    "west": "forest_1"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "lit",
+  "region": "Above Ground",
+  "tags": [
+    "above_ground"
+  ],
+  "atmosphere": [
+    "A gentle breeze stirs the air.",
+    "Birds can be heard in the distance.",
+    "The sun filters through the trees."
+  ]
+}

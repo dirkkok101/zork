@@ -1,0 +1,29 @@
+{
+  "id": "pinnd",
+  "name": "pine wall",
+  "description": "You see pine wall.",
+  "examineText": "It's pine wall.",
+  "aliases": [
+    "WALL",
+    "PANEL",
+    "DOOR",
+    "PINE"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's pine wall."
+    }
+  ],
+  "initialLocation": "unknown"
+}

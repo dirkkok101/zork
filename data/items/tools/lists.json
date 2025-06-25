@@ -1,0 +1,39 @@
+{
+  "id": "lists",
+  "name": "stack of listings",
+  "description": "You see stack of listings.",
+  "examineText": "It's stack of listings.",
+  "aliases": [
+    "PAPER",
+    "LIST",
+    "PRINT",
+    "LISTI",
+    "STACK",
+    "OUTPU",
+    "GIGAN",
+    "LINE-"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 70,
+  "size": "HUGE",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 70
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's stack of listings."
+    },
+    {
+      "command": "take",
+      "message": "You take the stack of listings."
+    }
+  ],
+  "initialLocation": "unknown"
+}

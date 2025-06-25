@@ -1,0 +1,18 @@
+{
+  "id": "bkte",
+  "title": "East Teller's Room",
+  "description": "You are in the east teller's room.",
+  "exits": {
+    "north": "bkve",
+    "south": "bkent",
+    "east": "bkbox"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

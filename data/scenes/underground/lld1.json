@@ -1,0 +1,18 @@
+{
+  "id": "lld1",
+  "title": "Entrance to Hades",
+  "description": "You are in the entrance to hades.",
+  "exits": {
+    "east": "lld2",
+    "up": "cave2",
+    "in": "lld2"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

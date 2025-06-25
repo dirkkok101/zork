@@ -1,0 +1,59 @@
+{
+  "id": "grue",
+  "name": "grue",
+  "type": "creature",
+  "description": "It is pitch black. You are likely to be eaten by a grue.",
+  "examineText": "The grue is a sinister, lurking presence in the dark places of the earth. Its favorite diet is adventurers, but its insatiable appetite is tempered by its fear of light. No grue has ever been seen by the light of day, and few have survived its fearsome jaws to tell the tale.",
+  "startingSceneId": "dark_room",
+  "currentSceneId": "dark_room",
+  "health": 50,
+  "maxHealth": 50,
+  "state": "LURKING",
+  "inventory": [],
+  "movementPattern": {
+    "type": "follow",
+    "data": {
+      "onlyInDarkness": true
+    }
+  },
+  "aggressionLevel": 10,
+  "intelligence": 5,
+  "specialAbilities": [
+    "darkness_dwelling",
+    "instant_kill"
+  ],
+  "weaknesses": [
+    "light"
+  ],
+  "behaviors": [
+    {
+      "type": "lurk",
+      "chance": 0.8,
+      "condition": "roomIsDark && playerInRoom",
+      "effect": "stalkPlayer"
+    },
+    {
+      "type": "attack",
+      "chance": 0.9,
+      "condition": "roomIsDark && playerInRoom && playerMoving",
+      "effect": "eatPlayer"
+    },
+    {
+      "type": "flee",
+      "chance": 1.0,
+      "condition": "roomIsLit",
+      "effect": "vanishIntoShadows"
+    }
+  ],
+  "dialogue": [
+    {
+      "trigger": "any",
+      "response": "*growling sounds from the darkness*"
+    }
+  ],
+  "onDefeat": {
+    "message": "The grue shrieks and dissolves into the shadows, defeated by the light.",
+    "dropItems": [],
+    "grantScore": 50
+  }
+}

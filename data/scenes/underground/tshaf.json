@@ -1,0 +1,17 @@
+{
+  "id": "tshaf",
+  "title": "Shaft Room",
+  "description": "This is a large room, in the middle of which is a small shaft\ndescending through the floor into darkness below.  To the west and\nthe north are exits from this room.  Constructed over the top of the\nshaft is a metal framework to which a heavy iron chain is attached.",
+  "exits": {
+    "west": "entra",
+    "north": "tunne"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

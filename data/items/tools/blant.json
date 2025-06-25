@@ -1,0 +1,37 @@
+{
+  "id": "blant",
+  "name": "burned-out lantern",
+  "description": "You see burned-out lantern.",
+  "examineText": "There is a burned-out lantern here.",
+  "aliases": [
+    "LANTE",
+    "LAMP",
+    "USED",
+    "BURNE",
+    "DEAD",
+    "USELE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 20,
+  "size": "MEDIUM",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 20
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a burned-out lantern here."
+    },
+    {
+      "command": "take",
+      "message": "You take the burned-out lantern."
+    }
+  ],
+  "initialLocation": "unknown"
+}

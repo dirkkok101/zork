@@ -1,0 +1,16 @@
+{
+  "id": "treasure_well",
+  "title": "Top of Well",
+  "description": "You are at the top of the well.  Well done.  There are etchings on\nthe side of the well. There is a small crack across the floor at the\nentrance to a room on the east, but it can be crossed easily.",
+  "exits": {
+    "east": "alice"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

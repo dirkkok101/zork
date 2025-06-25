@@ -1,0 +1,18 @@
+{
+  "id": "chas2",
+  "title": "West of Chasm",
+  "description": "You are on the west edge of a chasm, the bottom of which cannot be\nseen. The east side is sheer rock, providing no exits.  A narrow\npassage goes west, and the path you are on continues to the north and\nsouth.",
+  "exits": {
+    "west": "cellar",
+    "north": "craw4",
+    "south": "galle"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

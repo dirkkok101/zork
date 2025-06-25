@@ -1,0 +1,34 @@
+{
+  "id": "gunk",
+  "name": "piece of vitreous slag",
+  "description": "You see piece of vitreous slag.",
+  "examineText": "There is a small piece of vitreous slag here.",
+  "aliases": [
+    "PIECE",
+    "SLAG",
+    "VITRE"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 10,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 10
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a small piece of vitreous slag here."
+    },
+    {
+      "command": "take",
+      "message": "You take the piece of vitreous slag."
+    }
+  ],
+  "initialLocation": "unknown"
+}

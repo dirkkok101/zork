@@ -1,0 +1,17 @@
+{
+  "id": "maint",
+  "title": "Maintenance Room",
+  "description": "This is what appears to have been the maintenance room for Flood\nControl Dam #3, judging by the assortment of tool chests around the\nroom.  Apparently, this room has been ransacked recently, for most of\nthe valuable equipment is gone. On the wall in front of you is a\ngroup of buttons, which are labelled in EBCDIC. However, they are of\ndifferent colors:  Blue, Yellow, Brown, and Red. The doors to this\nroom are in the west and south ends.",
+  "exits": {
+    "south": "lobby",
+    "west": "lobby"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

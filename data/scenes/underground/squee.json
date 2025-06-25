@@ -1,0 +1,17 @@
+{
+  "id": "squee",
+  "title": "Squeaky Room",
+  "description": "You are a small room.  Strange squeaky sounds may be heard coming from\nthe passage at the west end.  You may also escape to the south.",
+  "exits": {
+    "west": "bats",
+    "south": "entra"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

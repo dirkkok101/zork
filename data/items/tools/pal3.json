@@ -1,0 +1,36 @@
+{
+  "id": "pal3",
+  "name": "red crystal sphere",
+  "description": "You see red crystal sphere.",
+  "examineText": "It's red crystal sphere.",
+  "aliases": [
+    "PALAN",
+    "STONE",
+    "SPHER",
+    "GLASS",
+    "SEEIN",
+    "CRYST",
+    "RED"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's red crystal sphere."
+    },
+    {
+      "command": "take",
+      "message": "You take the red crystal sphere."
+    }
+  ],
+  "initialLocation": "unknown"
+}

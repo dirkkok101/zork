@@ -1,0 +1,33 @@
+{
+  "id": "knife",
+  "name": "knife",
+  "description": "You see knife.",
+  "examineText": "There is a nasty-looking knife lying here.",
+  "aliases": [
+    "BLADE",
+    "NASTY",
+    "UNRUS",
+    "PLAIN"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a nasty-looking knife lying here."
+    },
+    {
+      "command": "take",
+      "message": "You take the knife."
+    }
+  ],
+  "initialLocation": "unknown"
+}

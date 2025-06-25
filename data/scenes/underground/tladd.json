@@ -1,0 +1,17 @@
+{
+  "id": "tladd",
+  "title": "Ladder Top",
+  "description": "This is a very small room.  In the corner is a rickety wooden\nladder, leading downward.  It might be safe to descend.  There is\nalso a staircase leading upward.",
+  "exits": {
+    "down": "bladd",
+    "up": "mine7"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

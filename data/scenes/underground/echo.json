@@ -1,0 +1,18 @@
+{
+  "id": "echo",
+  "title": "Loud Room",
+  "description": "This is a large room with a ceiling which cannot be detected from\nthe ground. There is a narrow passage from east to west and a stone\nstairway leading upward.  The room is extremely noisy.  In fact, it is\ndifficult to hear yourself think.",
+  "exits": {
+    "east": "chas3",
+    "west": "pass5",
+    "up": "cave3"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

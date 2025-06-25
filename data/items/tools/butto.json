@@ -1,0 +1,22 @@
+{
+  "id": "butto",
+  "name": "BUTTO",
+  "description": "You see BUTTO.",
+  "examineText": "It's BUTTO.",
+  "aliases": [],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's BUTTO."
+    }
+  ],
+  "initialLocation": "unknown"
+}

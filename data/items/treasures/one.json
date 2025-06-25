@@ -1,0 +1,26 @@
+{
+  "id": "one",
+  "name": "number one",
+  "description": "You see number one.",
+  "examineText": "It's number one.",
+  "aliases": [
+    "1"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's number one."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "dock",
+  "title": "Dam Base",
+  "description": "You are at the base of Flood Control Dam #3, which looms above you\nand to the north.  The river Frigid is flowing by here.  Across the\nriver are the White Cliffs which seem to form a giant wall stretching\nfrom north to south along the east shore of the river as it winds its\nway downstream.",
+  "exits": {
+    "north": "dam",
+    "up": "dam",
+    "launc": "rivr1"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

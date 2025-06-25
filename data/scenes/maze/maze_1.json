@@ -1,0 +1,25 @@
+{
+  "id": "maze_1",
+  "title": "Maze",
+  "description": "This is part of a maze of twisty little passages, all alike.",
+  "exits": {
+    "west": "troll_room",
+    "north": "maze_1",
+    "south": "maze_2",
+    "east": "maze_4"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Maze",
+  "tags": [
+    "maze",
+    "maze"
+  ],
+  "atmosphere": [
+    "The passages here all look the same.",
+    "You hear the echo of your footsteps.",
+    "The walls are rough stone."
+  ]
+}

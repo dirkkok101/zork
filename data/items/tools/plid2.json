@@ -1,0 +1,39 @@
+{
+  "id": "plid2",
+  "name": "metal lid",
+  "description": "You see metal lid.",
+  "examineText": "It's metal lid.",
+  "aliases": [
+    "LID",
+    "METAL"
+  ],
+  "type": "CONTAINER",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "container"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's metal lid."
+    },
+    {
+      "command": "open",
+      "condition": "!state.open",
+      "effect": "state.open = true",
+      "message": "You open the PLID2."
+    },
+    {
+      "command": "close",
+      "condition": "state.open",
+      "effect": "state.open = false",
+      "message": "You close the PLID2."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "putty",
+  "name": "viscous material",
+  "description": "You see viscous material.",
+  "examineText": "There is some gunk here",
+  "aliases": [
+    "MATER",
+    "GUNK",
+    "GLUE",
+    "VISCO"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 6,
+  "size": "SMALL",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 6
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is some gunk here"
+    },
+    {
+      "command": "take",
+      "message": "You take the viscous material."
+    }
+  ],
+  "initialLocation": "unknown"
+}

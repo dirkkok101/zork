@@ -1,0 +1,16 @@
+{
+  "id": "rivr2",
+  "title": "Frigid River",
+  "description": "The River turns a corner here making it impossible to see the\nDam.  The White Cliffs loom on the east bank and large rocks prevent\nlanding on the west.",
+  "exits": {
+    "down": "rivr3"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

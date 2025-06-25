@@ -1,0 +1,28 @@
+{
+  "id": "robot",
+  "name": "robot",
+  "description": "You see robot.",
+  "examineText": "There is a robot here.",
+  "aliases": [
+    "R2D2",
+    "C3PO",
+    "ROBBY"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "There is a robot here."
+    }
+  ],
+  "initialLocation": "unknown"
+}

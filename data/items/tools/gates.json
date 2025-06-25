@@ -1,0 +1,24 @@
+{
+  "id": "gates",
+  "name": "gates",
+  "description": "You see gates.",
+  "examineText": "It's gates.",
+  "aliases": [
+    "GATE"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's gates."
+    }
+  ],
+  "initialLocation": "unknown"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "tbar",
+  "name": "T-bar",
+  "description": "You see t-bar.",
+  "examineText": "It's t-bar.",
+  "aliases": [
+    "T-BAR",
+    "BAR",
+    "T"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's t-bar."
+    }
+  ],
+  "initialLocation": "unknown"
+}

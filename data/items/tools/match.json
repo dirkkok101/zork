@@ -1,0 +1,32 @@
+{
+  "id": "match",
+  "name": "matchbook",
+  "description": "You see matchbook.",
+  "examineText": "It's matchbook.",
+  "aliases": [
+    "FLINT"
+  ],
+  "type": "TOOL",
+  "portable": true,
+  "visible": true,
+  "weight": 2,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "portable"
+  ],
+  "properties": {
+    "size": 2
+  },
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's matchbook."
+    },
+    {
+      "command": "take",
+      "message": "You take the matchbook."
+    }
+  ],
+  "initialLocation": "unknown"
+}

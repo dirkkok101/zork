@@ -1,0 +1,19 @@
+{
+  "id": "mine4",
+  "title": "Coal mine",
+  "description": "This is a non-descript part of a coal mine.",
+  "exits": {
+    "up": "mine5",
+    "ne": "mine6",
+    "south": "mine1",
+    "west": "mine2"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

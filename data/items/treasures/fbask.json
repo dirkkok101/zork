@@ -1,0 +1,29 @@
+{
+  "id": "fbask",
+  "name": "lowered basket",
+  "description": "You see lowered basket.",
+  "examineText": "It's lowered basket.",
+  "aliases": [
+    "CAGE",
+    "DUMBW",
+    "BASKE",
+    "LOWER"
+  ],
+  "type": "TREASURE",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [
+    "treasure"
+  ],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's lowered basket."
+    }
+  ],
+  "initialLocation": "unknown"
+}

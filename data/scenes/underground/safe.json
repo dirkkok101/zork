@@ -1,0 +1,16 @@
+{
+  "id": "safe",
+  "title": "Dusty Room",
+  "description": "You are in the dusty room.",
+  "exits": {
+    "north": "ledg4"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "Underground",
+  "tags": [
+    "underground"
+  ]
+}

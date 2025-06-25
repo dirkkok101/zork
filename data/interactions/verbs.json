@@ -1,0 +1,430 @@
+{
+  "movement": [
+    {
+      "id": "go",
+      "primary": "go",
+      "synonyms": [
+        "walk",
+        "move",
+        "travel",
+        "head"
+      ],
+      "syntax": [
+        "go <direction>",
+        "go to <location>"
+      ],
+      "requiresObject": true,
+      "requiresPreposition": false,
+      "validPrepositions": [
+        "to",
+        "through"
+      ]
+    },
+    {
+      "id": "north",
+      "primary": "north",
+      "synonyms": [
+        "n",
+        "nor"
+      ],
+      "syntax": [
+        "north"
+      ],
+      "requiresObject": false
+    },
+    {
+      "id": "south",
+      "primary": "south",
+      "synonyms": [
+        "s",
+        "sou"
+      ],
+      "syntax": [
+        "south"
+      ],
+      "requiresObject": false
+    },
+    {
+      "id": "east",
+      "primary": "east",
+      "synonyms": [
+        "e",
+        "eas"
+      ],
+      "syntax": [
+        "east"
+      ],
+      "requiresObject": false
+    },
+    {
+      "id": "west",
+      "primary": "west",
+      "synonyms": [
+        "w",
+        "wes"
+      ],
+      "syntax": [
+        "west"
+      ],
+      "requiresObject": false
+    },
+    {
+      "id": "up",
+      "primary": "up",
+      "synonyms": [
+        "u",
+        "upward",
+        "climb"
+      ],
+      "syntax": [
+        "up"
+      ],
+      "requiresObject": false
+    },
+    {
+      "id": "down",
+      "primary": "down",
+      "synonyms": [
+        "d",
+        "downward",
+        "descend"
+      ],
+      "syntax": [
+        "down"
+      ],
+      "requiresObject": false
+    },
+    {
+      "id": "enter",
+      "primary": "enter",
+      "synonyms": [
+        "in",
+        "inside"
+      ],
+      "syntax": [
+        "enter",
+        "enter <object>"
+      ],
+      "requiresObject": false
+    },
+    {
+      "id": "exit",
+      "primary": "exit",
+      "synonyms": [
+        "out",
+        "outside",
+        "leave"
+      ],
+      "syntax": [
+        "exit",
+        "exit <object>"
+      ],
+      "requiresObject": false
+    }
+  ],
+  "manipulation": [
+    {
+      "id": "take",
+      "primary": "take",
+      "synonyms": [
+        "get",
+        "pick",
+        "grab",
+        "carry"
+      ],
+      "syntax": [
+        "take <object>",
+        "pick up <object>"
+      ],
+      "requiresObject": true,
+      "requiresPreposition": false,
+      "validPrepositions": [
+        "up"
+      ]
+    },
+    {
+      "id": "drop",
+      "primary": "drop",
+      "synonyms": [
+        "put",
+        "place",
+        "leave"
+      ],
+      "syntax": [
+        "drop <object>",
+        "put down <object>"
+      ],
+      "requiresObject": true,
+      "requiresPreposition": false,
+      "validPrepositions": [
+        "down"
+      ]
+    },
+    {
+      "id": "open",
+      "primary": "open",
+      "synonyms": [
+        "unlock"
+      ],
+      "syntax": [
+        "open <object>",
+        "open <object> with <object>"
+      ],
+      "requiresObject": true,
+      "requiresPreposition": false,
+      "validPrepositions": [
+        "with"
+      ]
+    },
+    {
+      "id": "close",
+      "primary": "close",
+      "synonyms": [
+        "shut",
+        "lock"
+      ],
+      "syntax": [
+        "close <object>"
+      ],
+      "requiresObject": true
+    },
+    {
+      "id": "turn",
+      "primary": "turn",
+      "synonyms": [
+        "rotate",
+        "twist"
+      ],
+      "syntax": [
+        "turn <object>",
+        "turn on <object>",
+        "turn off <object>"
+      ],
+      "requiresObject": true,
+      "requiresPreposition": false,
+      "validPrepositions": [
+        "on",
+        "off"
+      ]
+    }
+  ],
+  "examination": [
+    {
+      "id": "look",
+      "primary": "look",
+      "synonyms": [
+        "l",
+        "observe",
+        "see"
+      ],
+      "syntax": [
+        "look",
+        "look at <object>",
+        "look around"
+      ],
+      "requiresObject": false,
+      "requiresPreposition": false,
+      "validPrepositions": [
+        "at",
+        "around",
+        "under",
+        "behind",
+        "in"
+      ]
+    },
+    {
+      "id": "examine",
+      "primary": "examine",
+      "synonyms": [
+        "x",
+        "inspect",
+        "study"
+      ],
+      "syntax": [
+        "examine <object>"
+      ],
+      "requiresObject": true
+    },
+    {
+      "id": "search",
+      "primary": "search",
+      "synonyms": [
+        "hunt",
+        "seek"
+      ],
+      "syntax": [
+        "search <object>"
+      ],
+      "requiresObject": true
+    },
+    {
+      "id": "read",
+      "primary": "read",
+      "synonyms": [],
+      "syntax": [
+        "read <object>"
+      ],
+      "requiresObject": true
+    }
+  ],
+  "interaction": [
+    {
+      "id": "attack",
+      "primary": "attack",
+      "synonyms": [
+        "kill",
+        "fight",
+        "hit",
+        "strike"
+      ],
+      "syntax": [
+        "attack <object>",
+        "attack <object> with <object>"
+      ],
+      "requiresObject": true,
+      "requiresPreposition": false,
+      "validPrepositions": [
+        "with"
+      ]
+    },
+    {
+      "id": "give",
+      "primary": "give",
+      "synonyms": [
+        "offer",
+        "hand"
+      ],
+      "syntax": [
+        "give <object> to <object>"
+      ],
+      "requiresObject": true,
+      "requiresPreposition": true,
+      "validPrepositions": [
+        "to"
+      ]
+    },
+    {
+      "id": "throw",
+      "primary": "throw",
+      "synonyms": [
+        "toss",
+        "hurl"
+      ],
+      "syntax": [
+        "throw <object>",
+        "throw <object> at <object>"
+      ],
+      "requiresObject": true,
+      "requiresPreposition": false,
+      "validPrepositions": [
+        "at",
+        "to"
+      ]
+    },
+    {
+      "id": "use",
+      "primary": "use",
+      "synonyms": [
+        "operate",
+        "activate"
+      ],
+      "syntax": [
+        "use <object>",
+        "use <object> on <object>"
+      ],
+      "requiresObject": true,
+      "requiresPreposition": false,
+      "validPrepositions": [
+        "on",
+        "with"
+      ]
+    }
+  ],
+  "communication": [
+    {
+      "id": "say",
+      "primary": "say",
+      "synonyms": [
+        "speak",
+        "tell"
+      ],
+      "syntax": [
+        "say <text>",
+        "say <text> to <object>"
+      ],
+      "requiresObject": false,
+      "requiresPreposition": false,
+      "validPrepositions": [
+        "to"
+      ]
+    },
+    {
+      "id": "yell",
+      "primary": "yell",
+      "synonyms": [
+        "shout",
+        "scream"
+      ],
+      "syntax": [
+        "yell",
+        "yell <text>"
+      ],
+      "requiresObject": false
+    }
+  ],
+  "utility": [
+    {
+      "id": "inventory",
+      "primary": "inventory",
+      "synonyms": [
+        "i",
+        "inv"
+      ],
+      "syntax": [
+        "inventory"
+      ],
+      "requiresObject": false
+    },
+    {
+      "id": "score",
+      "primary": "score",
+      "synonyms": [],
+      "syntax": [
+        "score"
+      ],
+      "requiresObject": false
+    },
+    {
+      "id": "save",
+      "primary": "save",
+      "synonyms": [],
+      "syntax": [
+        "save"
+      ],
+      "requiresObject": false
+    },
+    {
+      "id": "restore",
+      "primary": "restore",
+      "synonyms": [
+        "load"
+      ],
+      "syntax": [
+        "restore"
+      ],
+      "requiresObject": false
+    },
+    {
+      "id": "quit",
+      "primary": "quit",
+      "synonyms": [
+        "q",
+        "exit"
+      ],
+      "syntax": [
+        "quit"
+      ],
+      "requiresObject": false
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "door",
+  "name": "trap door",
+  "description": "You see trap door.",
+  "examineText": "It's trap door.",
+  "aliases": [
+    "TRAPD",
+    "TRAP-",
+    "TRAP"
+  ],
+  "type": "TOOL",
+  "portable": false,
+  "visible": true,
+  "weight": 5,
+  "size": "TINY",
+  "initialState": {},
+  "tags": [],
+  "properties": {},
+  "interactions": [
+    {
+      "command": "examine",
+      "message": "It's trap door."
+    }
+  ],
+  "initialLocation": "unknown"
+}
