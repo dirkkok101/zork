@@ -409,11 +409,13 @@ Before writing unit tests, verify:
 
 ### Data Understanding (Critical Learnings)
 - [ ] What is the actual data distribution? (Use integration test insights)
-- [ ] TREASURE type: 0 items (don't test for > 0)
-- [ ] TOOL type: 164 items (dominant type) 
-- [ ] Total items: 214 across 5 categories
+- [ ] TREASURE type: 35+ items (after extraction fix)
+- [ ] TOOL type: ~133 items (after treasure reclassification)
+- [ ] Total items: 214 across 6 active types (13 enum values)
 - [ ] Special character items: "!!!!!" and "*bun*" exist
 - [ ] Category vs Type: Different organizational structures
+- [ ] Condition/effect parsing: Returns flexible types (string | string[] | function)
+- [ ] scoreChange and success: New properties in ItemInteraction
 
 ### Test Design
 - [ ] What are the required fields for test data?
@@ -425,7 +427,7 @@ Before writing unit tests, verify:
 ### Integration Test Requirements
 - [ ] Include import '../setup' for integration tests
 - [ ] Use real data paths for integration tests
-- [ ] Test with actual item counts (214 total, 164 TOOL, 0 TREASURE)
+- [ ] Test with actual item counts (214 total, ~133 TOOL, 35+ TREASURE)
 - [ ] Handle special character items in real data tests
 
 ## Common Test Utilities
@@ -473,6 +475,56 @@ export class PerformanceTestHelper {
 }
 ```
 
+### 9. Flexible Type Parsing Pattern
+
+#### Critical Learning: Service Layer Responsibility
+**Problem**: Tests expected parseCondition/parseEffect to return arrays, but flexible parsing is better.
+
+```typescript
+// BAD: Expecting rigid array parsing in data loader
+expect(parseCondition('!flag')).toEqual(['not', 'flag']);
+expect(parseEffect('set:flag')).toEqual(['set', 'flag']);
+```
+
+**Solution**: Let data loader return raw strings, services handle parsing:
+
+```typescript
+// GOOD: Flexible type handling
+const condition = parseCondition('!flag');
+expect(condition).toBe('!flag'); // Raw string returned
+
+// Service layer decides how to parse
+if (typeof condition === 'string') {
+  // Parse string condition
+} else if (Array.isArray(condition)) {
+  // Handle array condition
+} else if (typeof condition === 'function') {
+  // Execute function condition
+}
+```
+
+#### Pitfall: Overly Complex Data Layer
+**Problem**: Data loaders trying to parse complex logic instead of services.
+
+```typescript
+// BAD: Data loader doing too much
+private parseCondition(condition: string): string[] {
+  if (condition.startsWith('!')) {
+    return ['not', condition.slice(1)];
+  }
+  // More parsing logic...
+}
+```
+
+**Solution**: Keep data layer simple, let services handle complexity:
+
+```typescript
+// GOOD: Simple data layer
+private parseCondition(condition: string): string | string[] | ((gameState: any) => boolean) {
+  return condition; // Let services handle parsing
+}
+```
+
 ## Summary
 
 Writing good unit tests requires:
@@ -484,5 +536,7 @@ Writing good unit tests requires:
 6. Setting realistic performance expectations for stateless architecture (ItemDataLoader)
 7. Properly handling async operations
 8. Maintaining TypeScript type safety even in tests
+9. Respecting layer boundaries - data loaders load, services parse
+10. Testing with actual data distributions after fixes (TREASURE items now exist)
 
 By following these practices and avoiding common pitfalls, future unit tests can be written correctly from the start, saving significant debugging time.

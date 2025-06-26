@@ -13,20 +13,20 @@ describe('ItemDataLoader.parseCondition()', () => {
   });
 
   describe('Basic condition parsing', () => {
-    it('should parse positive condition correctly', () => {
+    it('should return condition string as-is for service parsing', () => {
       // Act
       const result = (loader as any).parseCondition('has_key');
 
       // Assert
-      expect(result).toEqual(['has_key']);
+      expect(result).toBe('has_key');
     });
 
-    it('should parse negative condition correctly', () => {
+    it('should return negative condition string as-is', () => {
       // Act
       const result = (loader as any).parseCondition('!has_key');
 
       // Assert
-      expect(result).toEqual(['not', 'has_key']);
+      expect(result).toBe('!has_key');
     });
 
     it('should handle state-based conditions', () => {
@@ -34,7 +34,7 @@ describe('ItemDataLoader.parseCondition()', () => {
       const result = (loader as any).parseCondition('state.open');
 
       // Assert
-      expect(result).toEqual(['state.open']);
+      expect(result).toBe('state.open');
     });
 
     it('should handle negated state conditions', () => {
@@ -42,25 +42,25 @@ describe('ItemDataLoader.parseCondition()', () => {
       const result = (loader as any).parseCondition('!state.open');
 
       // Assert
-      expect(result).toEqual(['not', 'state.open']);
+      expect(result).toBe('!state.open');
     });
   });
 
   describe('Flag-based conditions', () => {
-    it('should parse item flag conditions', () => {
+    it('should return item flag conditions as strings', () => {
       // Act
       const result = (loader as any).parseCondition('flags.portable');
 
       // Assert
-      expect(result).toEqual(['flags.portable']);
+      expect(result).toBe('flags.portable');
     });
 
-    it('should parse negated flag conditions', () => {
+    it('should return negated flag conditions as strings', () => {
       // Act
       const result = (loader as any).parseCondition('!flags.portable');
 
       // Assert
-      expect(result).toEqual(['not', 'flags.portable']);
+      expect(result).toBe('!flags.portable');
     });
 
     it('should handle player flag conditions', () => {
@@ -68,7 +68,7 @@ describe('ItemDataLoader.parseCondition()', () => {
       const result = (loader as any).parseCondition('player.has_light');
 
       // Assert
-      expect(result).toEqual(['player.has_light']);
+      expect(result).toBe('player.has_light');
     });
 
     it('should handle scene flag conditions', () => {
@@ -76,7 +76,7 @@ describe('ItemDataLoader.parseCondition()', () => {
       const result = (loader as any).parseCondition('scene.dark');
 
       // Assert
-      expect(result).toEqual(['scene.dark']);
+      expect(result).toBe('scene.dark');
     });
   });
 
@@ -86,7 +86,7 @@ describe('ItemDataLoader.parseCondition()', () => {
       const result = (loader as any).parseCondition('inventory.item.lamp.state.on');
 
       // Assert
-      expect(result).toEqual(['inventory.item.lamp.state.on']);
+      expect(result).toBe('inventory.item.lamp.state.on');
     });
 
     it('should handle negated nested conditions', () => {
@@ -94,7 +94,7 @@ describe('ItemDataLoader.parseCondition()', () => {
       const result = (loader as any).parseCondition('!inventory.item.lamp.state.on');
 
       // Assert
-      expect(result).toEqual(['not', 'inventory.item.lamp.state.on']);
+      expect(result).toBe('!inventory.item.lamp.state.on');
     });
 
     it('should preserve complex flag paths', () => {
@@ -106,7 +106,7 @@ describe('ItemDataLoader.parseCondition()', () => {
 
       complexConditions.forEach(condition => {
         const result = (loader as any).parseCondition(condition);
-        expect(result).toEqual([condition]);
+        expect(result).toBe(condition);
       });
     });
   });
@@ -126,11 +126,11 @@ describe('ItemDataLoader.parseCondition()', () => {
 
       zorkConditions.forEach(condition => {
         const result = (loader as any).parseCondition(condition);
-        expect(result).toEqual([condition]);
+        expect(result).toBe(condition);
         
         // Test negated version
         const negatedResult = (loader as any).parseCondition(`!${condition}`);
-        expect(negatedResult).toEqual(['not', condition]);
+        expect(negatedResult).toBe(`!${condition}`);
       });
     });
 
@@ -145,7 +145,7 @@ describe('ItemDataLoader.parseCondition()', () => {
 
       zorkStates.forEach(state => {
         const result = (loader as any).parseCondition(state);
-        expect(result).toEqual([state]);
+        expect(result).toBe(state);
       });
     });
   });
@@ -156,7 +156,7 @@ describe('ItemDataLoader.parseCondition()', () => {
       const result = (loader as any).parseCondition('');
 
       // Assert
-      expect(result).toEqual(['']);
+      expect(result).toBe('');
     });
 
     it('should handle single exclamation condition', () => {
@@ -164,7 +164,7 @@ describe('ItemDataLoader.parseCondition()', () => {
       const result = (loader as any).parseCondition('!');
 
       // Assert
-      expect(result).toEqual(['not', '']);
+      expect(result).toBe('!');
     });
 
     it('should handle conditions with spaces', () => {
@@ -172,7 +172,7 @@ describe('ItemDataLoader.parseCondition()', () => {
       const result = (loader as any).parseCondition('condition with spaces');
 
       // Assert
-      expect(result).toEqual(['condition with spaces']);
+      expect(result).toBe('condition with spaces');
     });
 
     it('should handle special characters in conditions', () => {
@@ -185,7 +185,7 @@ describe('ItemDataLoader.parseCondition()', () => {
 
       specialConditions.forEach(condition => {
         const result = (loader as any).parseCondition(condition);
-        expect(result).toEqual([condition]);
+        expect(result).toBe(condition);
       });
     });
 
@@ -198,18 +198,18 @@ describe('ItemDataLoader.parseCondition()', () => {
 
       numericConditions.forEach(condition => {
         const result = (loader as any).parseCondition(condition);
-        expect(result).toEqual([condition]);
+        expect(result).toBe(condition);
       });
     });
   });
 
   describe('Negation handling', () => {
-    it('should only process single leading exclamation', () => {
+    it('should preserve double exclamation as-is', () => {
       // Act
       const result = (loader as any).parseCondition('!!double_negative');
 
       // Assert
-      expect(result).toEqual(['not', '!double_negative']);
+      expect(result).toBe('!!double_negative');
     });
 
     it('should handle exclamation within condition text', () => {
@@ -217,7 +217,7 @@ describe('ItemDataLoader.parseCondition()', () => {
       const result = (loader as any).parseCondition('message.hello!world');
 
       // Assert
-      expect(result).toEqual(['message.hello!world']);
+      expect(result).toBe('message.hello!world');
     });
 
     it('should handle exclamation at end of condition', () => {
@@ -225,7 +225,7 @@ describe('ItemDataLoader.parseCondition()', () => {
       const result = (loader as any).parseCondition('exclamation!');
 
       // Assert
-      expect(result).toEqual(['exclamation!']);
+      expect(result).toBe('exclamation!');
     });
   });
 
@@ -257,7 +257,7 @@ describe('ItemDataLoader.parseCondition()', () => {
   });
 
   describe('Data structure consistency', () => {
-    it('should always return array format', () => {
+    it('should always return string format', () => {
       const testConditions = [
         'simple',
         '!negated',
@@ -269,12 +269,12 @@ describe('ItemDataLoader.parseCondition()', () => {
 
       testConditions.forEach(condition => {
         const result = (loader as any).parseCondition(condition);
-        expect(Array.isArray(result)).toBe(true);
-        expect(result.length).toBeGreaterThan(0);
+        expect(typeof result).toBe('string');
+        expect(result).toBe(condition);
       });
     });
 
-    it('should maintain consistent negation structure', () => {
+    it('should maintain consistent string format', () => {
       const conditions = [
         'simple_condition',
         'complex.nested.condition',
@@ -285,8 +285,8 @@ describe('ItemDataLoader.parseCondition()', () => {
         const positiveResult = (loader as any).parseCondition(condition);
         const negativeResult = (loader as any).parseCondition(`!${condition}`);
 
-        expect(positiveResult).toEqual([condition]);
-        expect(negativeResult).toEqual(['not', condition]);
+        expect(positiveResult).toBe(condition);
+        expect(negativeResult).toBe(`!${condition}`);
       });
     });
   });

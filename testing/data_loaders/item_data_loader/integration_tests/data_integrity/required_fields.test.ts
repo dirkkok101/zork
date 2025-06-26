@@ -263,12 +263,20 @@ describe('ItemDataLoader Integration - Required Fields', () => {
                     expect(interaction.command.length).toBeGreaterThan(0);
                     expect(interaction.message.length).toBeGreaterThan(0);
                     
-                    // Optional fields
+                    // Optional fields - can be string, array, or function
                     if (interaction.condition) {
-                        expect(Array.isArray(interaction.condition)).toBe(true);
+                        const conditionType = typeof interaction.condition;
+                        expect(['string', 'object', 'function']).toContain(conditionType);
+                        if (conditionType === 'object') {
+                            expect(Array.isArray(interaction.condition)).toBe(true);
+                        }
                     }
                     if (interaction.effect) {
-                        expect(Array.isArray(interaction.effect)).toBe(true);
+                        const effectType = typeof interaction.effect;
+                        expect(['string', 'object', 'function']).toContain(effectType);
+                        if (effectType === 'object') {
+                            expect(Array.isArray(interaction.effect)).toBe(true);
+                        }
                     }
                 });
             });

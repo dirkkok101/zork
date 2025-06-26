@@ -283,12 +283,12 @@ describe('ItemDataLoader.loadItem()', () => {
       // Assert
       expect(result.interactions).toHaveLength(3);
       
-      // Verify condition parsing - parseCondition only handles simple negation
+      // Verify condition parsing - conditions are now returned as raw strings
       const openInteraction = result.interactions.find(i => i.command === 'open');
-      expect(openInteraction?.condition).toEqual(['not', 'state.open && !state.locked']); // The condition parser keeps the whole string after '!'
+      expect(openInteraction?.condition).toBe('!state.open && !state.locked'); // String format now
       
       const lockInteraction = result.interactions.find(i => i.command === 'lock');
-      expect(lockInteraction?.condition).toEqual(['not', 'state.locked && inventory.hasKey']); // Same here
+      expect(lockInteraction?.condition).toBe('!state.locked && inventory.hasKey'); // String format now
     });
 
     it('should handle unicode characters in item data', async () => {

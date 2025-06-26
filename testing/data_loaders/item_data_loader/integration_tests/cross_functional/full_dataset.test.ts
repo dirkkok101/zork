@@ -68,7 +68,7 @@ describe('ItemDataLoader Integration - Full Dataset', () => {
             
             // Verify we have items of expected types
             const typeCount = Object.keys(typeDistribution).length;
-            expect(typeCount).toBe(5); // Exactly 5 types based on actual data
+            expect(typeCount).toBe(6); // Now 6 types including TREASURE after extractor fix
             
             // Verify items exist for major types
             expect(typeDistribution[ItemType.TOOL]).toBeGreaterThan(0);

@@ -114,9 +114,9 @@ describe('ItemDataLoader Integration - Missing Files Error Handling', () => {
                 });
             }
             
-            // Test that TREASURE type returns empty array (has 0 items)
+            // Test that TREASURE type now has items after extractor fix
             const treasures = await loader.getItemsByType(ItemType.TREASURE);
-            expect(treasures.length).toBe(0);
+            expect(treasures.length).toBeGreaterThan(0);
         });
     });
 

@@ -8,13 +8,17 @@ This document establishes the testing philosophy, standards, and practices for t
 - [Unit Test Best Practices](./unit-test-best-practices.md) - **CRITICAL learnings from comprehensive test review**
 - [Unit Test Quick Reference](./unit-test-quick-reference.md) - Common patterns and gotchas
 - [DataLoader Testing Guidelines](./data-loader-testing.md) - Specific patterns for data layer testing
+- [Treasure Extraction Learnings](./treasure-extraction-learnings.md) - Case study on data changes affecting tests
+- [Test Update Summary](./test-update-summary.md) - Comprehensive summary of ItemDataLoader test updates
 
 **Key Discoveries from Comprehensive Test Review:**
-- TREASURE type has 0 items in actual dataset (major assumption wrong!)
-- TOOL type dominates with 164 items (77% of all items)
+- TREASURE type has 35+ items after extraction fix (was 0 before)
+- TOOL type has ~133 items after treasure reclassification (was 164)
 - Category vs Type are different organizational structures
 - Integration tests require `import '../setup'` to work
 - .toBe() vs .toEqual() critical for cached vs stateless architectures
+- Flexible condition/effect parsing: string | string[] | function types
+- New ItemInteraction properties: scoreChange and success
 
 ## Testing Philosophy
 
@@ -172,6 +176,8 @@ const mockReadFile = readFile as jest.MockedFunction<typeof readFile>;
 - **Edge Cases**: Create mocks for boundary conditions
 - **Invalid Data**: Test error handling with malformed data
 - **Performance Data**: Large datasets for performance testing
+- **New Properties**: Include scoreChange and success in ItemInteraction mocks
+- **Flexible Types**: Support string | string[] | function for conditions/effects
 
 ### Integration Test Data Strategy
 

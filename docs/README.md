@@ -25,6 +25,14 @@ Services layer that operates on game data
 Command layer that orchestrates between services to achieve game logic
 Presentation layer to render the game state to the user and receive input from the user and marshal to commands
 
+## Documentation Structure
+
+- [Services Documentation](./services/) - Complete service architecture and interfaces
+- [Data Documentation](./data/) - Item data analysis and structure
+- [Testing Documentation](./testing/) - Testing guidelines and best practices
+- [Commands Documentation](./commands/) - Command layer implementation
+- [UI Documentation](./ui/) - User interface and presentation layer
+
 # Development approach
 
 We are making use of typescript in strict mode

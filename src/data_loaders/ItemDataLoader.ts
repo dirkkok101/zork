@@ -1,4 +1,4 @@
-import { ItemData, ItemInteractionData, ItemIndexData } from '../types/ItemData';
+import { ItemData, ItemInteractionData, ItemIndexData, ItemProperties } from '../types/ItemData';
 import { Item, ItemType, Size, ItemInteraction } from '../types/ItemTypes';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
@@ -197,7 +197,7 @@ export class ItemDataLoader implements IItemDataLoader {
             weight: itemData.weight,
             size: this.parseSize(itemData.size),
             tags: itemData.tags,
-            properties: itemData.properties,
+            properties: this.convertProperties(itemData.properties),
             interactions: this.parseInteractions(itemData.interactions),
             currentLocation: itemData.initialLocation,
             state: { ...itemData.initialState },
@@ -228,7 +228,7 @@ export class ItemDataLoader implements IItemDataLoader {
     }
 
     /**
-     * Parse interactions and convert condition/effect strings to flag arrays
+     * Parse interactions and convert condition/effect strings to flexible types
      */
     private parseInteractions(interactionData: ItemInteractionData[]): ItemInteraction[] {
         return interactionData.map(interaction => {
@@ -245,32 +245,79 @@ export class ItemDataLoader implements IItemDataLoader {
                 result.effect = this.parseEffect(interaction.effect);
             }
             
+            // Handle additional properties that may exist in the data
+            if (interaction.scoreChange !== undefined) {
+                result.scoreChange = interaction.scoreChange;
+            }
+            
+            if (interaction.success !== undefined) {
+                result.success = interaction.success;
+            }
+            
             return result;
         });
     }
 
     /**
-     * Parse condition string into flag-based condition array
-     * Example: "!state.open" -> ["not", "state.open"]
+     * Parse condition string into flexible condition type
+     * Returns the condition as-is to preserve flexibility for services
+     * Example: "!state.open" -> "!state.open" (string)
      */
-    private parseCondition(condition: string): string[] {
-        // Handle negation
-        if (condition.startsWith('!')) {
-            return ["not", condition.substring(1)];
-        }
-        return [condition];
+    private parseCondition(condition: string): string | string[] | ((gameState: any) => boolean) {
+        // Return condition as string to let services handle the parsing
+        // This maintains flexibility for different condition formats
+        return condition;
     }
 
     /**
-     * Parse effect string into flag-based effect array
-     * Example: "state.open = true" -> ["set", "state.open", "true"]
+     * Parse effect string into flexible effect type
+     * Returns the effect as-is to preserve flexibility for services
+     * Example: "state.open = true" -> "state.open = true" (string)
      */
-    private parseEffect(effect: string): string[] {
-        const assignmentMatch = effect.match(/^(\w+(?:\.\w+)*)\s*=\s*(.+)$/);
-        if (assignmentMatch && assignmentMatch[1] && assignmentMatch[2]) {
-            return ["set", assignmentMatch[1], assignmentMatch[2]];
+    private parseEffect(effect: string): string | string[] | ((gameState: any) => void) {
+        // Return effect as string to let services handle the parsing
+        // This maintains flexibility for different effect formats
+        return effect;
+    }
+
+    /**
+     * Convert raw properties to structured ItemProperties interface
+     * Maps known properties to typed fields while preserving unknown ones
+     */
+    private convertProperties(rawProperties: Record<string, any>): ItemProperties {
+        const properties: ItemProperties = {};
+
+        // Map known properties to typed fields
+        if (rawProperties.size !== undefined) {
+            properties.size = rawProperties.size;
         }
-        return [effect];
+        if (rawProperties.value !== undefined) {
+            properties.value = rawProperties.value;
+        }
+        if (rawProperties.treasurePoints !== undefined) {
+            properties.treasurePoints = rawProperties.treasurePoints;
+        }
+        if (rawProperties.capacity !== undefined) {
+            properties.capacity = rawProperties.capacity;
+        }
+        if (rawProperties.readText !== undefined) {
+            properties.readText = rawProperties.readText;
+        }
+        if (rawProperties.lightTimer !== undefined) {
+            properties.lightTimer = rawProperties.lightTimer;
+        }
+        if (rawProperties.matchCount !== undefined) {
+            properties.matchCount = rawProperties.matchCount;
+        }
+
+        // Preserve any other properties using the index signature
+        for (const [key, value] of Object.entries(rawProperties)) {
+            if (!['size', 'value', 'treasurePoints', 'capacity', 'readText', 'lightTimer', 'matchCount'].includes(key)) {
+                properties[key] = value;
+            }
+        }
+
+        return properties;
     }
 
     /**

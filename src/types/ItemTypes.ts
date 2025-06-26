@@ -22,7 +22,14 @@ export enum ItemType {
     CONTAINER = 'CONTAINER',
     TREASURE = 'TREASURE',
     FOOD = 'FOOD',
-    LIGHT_SOURCE = 'LIGHT_SOURCE'
+    LIGHT_SOURCE = 'LIGHT_SOURCE',
+    VEHICLE = 'VEHICLE',
+    MECHANISM = 'MECHANISM',
+    FIXTURE = 'FIXTURE',
+    DOOR = 'DOOR',
+    KEY = 'KEY',
+    ROPE = 'ROPE',
+    READABLE = 'READABLE'
 }
 
 /**
@@ -33,14 +40,20 @@ export interface ItemInteraction {
     /** The command that triggers this interaction */
     command: string;
     
-    /** Flag-based conditions that must be met for the interaction to occur */
-    condition?: string[];
+    /** Flexible conditions that must be met for the interaction to occur */
+    condition?: string | string[] | ((gameState: any) => boolean);
     
-    /** Flag-based effects that occur when the interaction is triggered */
-    effect?: string[];
+    /** Flexible effects that occur when the interaction is triggered */
+    effect?: string | string[] | ((gameState: any) => void);
     
     /** Message displayed when the interaction occurs */
     message: string;
+    
+    /** Score change when this interaction is performed */
+    scoreChange?: number;
+    
+    /** Whether the interaction is successful (default: true) */
+    success?: boolean;
 }
 
 /**
@@ -83,7 +96,7 @@ export interface Item {
     tags: string[];
 
     /** Additional properties from the data file */
-    properties: Record<string, any>;
+    properties: import('../types/ItemData').ItemProperties;
 
     /** Available interactions for this item */
     interactions: ItemInteraction[];
@@ -96,5 +109,181 @@ export interface Item {
 
     /** Item-specific flags for conditional logic */
     flags: Record<string, boolean>;
+}
+
+/**
+ * Common result interface for all item operations
+ * Used by all service methods to provide consistent responses
+ */
+export interface ItemOperationResult {
+    /** Whether the operation was successful */
+    success: boolean;
+    
+    /** Message to display to the player */
+    message: string;
+    
+    /** Optional score change from this operation */
+    scoreChange?: number;
+    
+    /** Optional state updates to apply to the game */
+    stateUpdates?: any;
+}
+
+/**
+ * Consumption effects for food and drink items
+ */
+export interface ConsumptionEffects {
+    /** Health change */
+    health?: number;
+    
+    /** Thirst change */
+    thirst?: number;
+    
+    /** Hunger change */
+    hunger?: number;
+    
+    /** Special effects or flags to set */
+    effects?: Record<string, any>;
+}
+
+/**
+ * Weapon item interface
+ * Extends base Item with weapon-specific properties
+ */
+export interface WeaponItem extends Item {
+    /** Base damage dealt by this weapon */
+    damage: number;
+    
+    /** Type of weapon for combat calculations */
+    weaponType: 'SWORD' | 'AXE' | 'KNIFE' | 'BLUNT' | 'PROJECTILE';
+    
+    /** Whether the weapon is currently wielded */
+    isWielded: boolean;
+    
+    /** Weapon durability (optional) */
+    durability?: number;
+    
+    /** Maximum durability (optional) */
+    maxDurability?: number;
+}
+
+/**
+ * Vehicle item interface
+ * Extends base Item with vehicle-specific properties
+ */
+export interface VehicleItem extends Item {
+    /** Maximum number of items the vehicle can carry */
+    capacity: number;
+    
+    /** Maximum weight the vehicle can carry */
+    maxWeight: number;
+    
+    /** Current passengers in the vehicle */
+    passengers: string[];
+    
+    /** Items currently in the vehicle */
+    contents: string[];
+}
+
+/**
+ * Consumable item interface
+ * Extends base Item with consumable-specific properties
+ */
+export interface ConsumableItem extends Item {
+    /** Type of consumable */
+    consumptionType: 'FOOD' | 'DRINK';
+    
+    /** Nutritional or hydration value */
+    value?: number;
+    
+    /** Effects when consumed */
+    effects?: ConsumptionEffects;
+    
+    /** Whether the item is consumed after use */
+    destroyOnConsumption?: boolean;
+}
+
+/**
+ * Container item interface
+ * Extends base Item with container-specific properties
+ */
+export interface ContainerItem extends Item {
+    /** Items currently in the container */
+    contents: string[];
+    
+    /** Maximum number of items the container can hold */
+    capacity?: number;
+    
+    /** Maximum weight the container can hold */
+    maxWeight?: number;
+    
+    /** Whether the container is currently open */
+    isOpen?: boolean;
+    
+    /** Whether the container is locked */
+    isLocked?: boolean;
+    
+    /** Whether container contents are visible when closed */
+    contentsVisible?: boolean;
+}
+
+/**
+ * Light source item interface
+ * Extends base Item with light source properties
+ */
+export interface LightSourceItem extends Item {
+    /** Whether the light source is currently lit */
+    isLit: boolean;
+    
+    /** Remaining fuel/battery (-1 for infinite) */
+    remainingFuel?: number;
+    
+    /** Maximum fuel capacity */
+    maxFuel?: number;
+    
+    /** Light intensity (affects how much area is illuminated) */
+    intensity?: number;
+    
+    /** Whether the light source is functional */
+    isFunctional?: (gameState: any) => boolean;
+    
+    /** Method to light the source */
+    lightOn?: (gameState: any) => ItemOperationResult;
+    
+    /** Method to extinguish the source */
+    lightOff?: (gameState: any) => ItemOperationResult;
+}
+
+/**
+ * Openable item interface
+ * For items that can be opened and closed
+ */
+export interface OpenableItem extends Item {
+    /** Whether the item is currently open */
+    isOpen: boolean;
+    
+    /** Method to open the item */
+    open?: (gameState: any) => ItemOperationResult;
+    
+    /** Method to close the item */
+    close?: (gameState: any) => ItemOperationResult;
+}
+
+/**
+ * Lockable item interface
+ * For items that can be locked and unlocked
+ */
+export interface LockableItem extends Item {
+    /** Whether the item is currently locked */
+    isLocked: boolean;
+    
+    /** Required key ID to unlock this item */
+    requiredKey?: string;
+    
+    /** Method to lock the item */
+    lock?: (gameState: any, keyId: string) => ItemOperationResult;
+    
+    /** Method to unlock the item */
+    unlock?: (gameState: any, keyId: string) => ItemOperationResult;
 }
 

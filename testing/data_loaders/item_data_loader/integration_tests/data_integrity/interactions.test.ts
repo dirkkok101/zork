@@ -82,13 +82,20 @@ describe('ItemDataLoader Integration - Interactions', () => {
             itemsWithConditions.forEach(item => {
                 item.interactions.forEach(interaction => {
                     if (interaction.condition) {
-                        expect(Array.isArray(interaction.condition)).toBe(true);
-                        expect(interaction.condition.length).toBeGreaterThan(0);
+                        // Condition can be string, string[], or function
+                        expect(interaction.condition).toBeDefined();
                         
-                        interaction.condition.forEach(conditionPart => {
-                            expect(typeof conditionPart).toBe('string');
-                            expect(conditionPart.length).toBeGreaterThan(0);
-                        });
+                        if (typeof interaction.condition === 'string') {
+                            expect(interaction.condition.length).toBeGreaterThan(0);
+                        } else if (Array.isArray(interaction.condition)) {
+                            expect(interaction.condition.length).toBeGreaterThan(0);
+                            interaction.condition.forEach(conditionPart => {
+                                expect(typeof conditionPart).toBe('string');
+                                expect(conditionPart.length).toBeGreaterThan(0);
+                            });
+                        } else if (typeof interaction.condition === 'function') {
+                            expect(typeof interaction.condition).toBe('function');
+                        }
                     }
                 });
             });
@@ -100,11 +107,19 @@ describe('ItemDataLoader Integration - Interactions', () => {
             
             allItems.forEach(item => {
                 item.interactions.forEach(interaction => {
-                    if (interaction.condition && interaction.condition[0] === 'not') {
-                        negatedConditions.push({
-                            item: item.id,
-                            condition: interaction.condition
-                        });
+                    if (interaction.condition) {
+                        // Check for negated conditions in string format
+                        if (typeof interaction.condition === 'string' && interaction.condition.startsWith('!')) {
+                            negatedConditions.push({
+                                item: item.id,
+                                condition: [interaction.condition] // Convert to array for test compatibility
+                            });
+                        } else if (Array.isArray(interaction.condition) && interaction.condition[0] === 'not') {
+                            negatedConditions.push({
+                                item: item.id,
+                                condition: interaction.condition
+                            });
+                        }
                     }
                 });
             });
@@ -112,10 +127,17 @@ describe('ItemDataLoader Integration - Interactions', () => {
             console.log(`Found ${negatedConditions.length} negated conditions`);
             
             negatedConditions.forEach(negCond => {
-                expect(negCond.condition).toHaveLength(2);
-                expect(negCond.condition[0]).toBe('not');
-                expect(negCond.condition[1]).toBeTruthy();
-                expect(negCond.condition[1]!.length).toBeGreaterThan(0);
+                expect(negCond.condition.length).toBeGreaterThanOrEqual(1);
+                if (negCond.condition[0] === 'not') {
+                    // Array format negation
+                    expect(negCond.condition).toHaveLength(2);
+                    expect(negCond.condition[0]).toBe('not');
+                    expect(negCond.condition[1]).toBeTruthy();
+                    expect(negCond.condition[1]!.length).toBeGreaterThan(0);
+                } else if (negCond.condition[0]?.startsWith('!')) {
+                    // String format negation
+                    expect(negCond.condition[0]?.length).toBeGreaterThan(1);
+                }
             });
             
             if (negatedConditions.length > 0) {
@@ -130,13 +152,23 @@ describe('ItemDataLoader Integration - Interactions', () => {
             allItems.forEach(item => {
                 item.interactions.forEach(interaction => {
                     if (interaction.condition) {
-                        const hasStateCondition = interaction.condition.some(part => 
-                            part.includes('state.') || part.includes('flag.')
-                        );
+                        let hasStateCondition = false;
+                        let conditionArray: string[] = [];
+                        
+                        if (typeof interaction.condition === 'string') {
+                            hasStateCondition = interaction.condition.includes('state.') || interaction.condition.includes('flag.');
+                            conditionArray = [interaction.condition];
+                        } else if (Array.isArray(interaction.condition)) {
+                            hasStateCondition = interaction.condition.some(part => 
+                                part.includes('state.') || part.includes('flag.')
+                            );
+                            conditionArray = interaction.condition;
+                        }
+                        
                         if (hasStateCondition) {
                             stateConditions.push({
                                 item: item.id,
-                                condition: interaction.condition
+                                condition: conditionArray
                             });
                         }
                     }
@@ -170,13 +202,20 @@ describe('ItemDataLoader Integration - Interactions', () => {
             itemsWithEffects.forEach(item => {
                 item.interactions.forEach(interaction => {
                     if (interaction.effect) {
-                        expect(Array.isArray(interaction.effect)).toBe(true);
-                        expect(interaction.effect.length).toBeGreaterThan(0);
+                        // Effect can be string, string[], or function
+                        expect(interaction.effect).toBeDefined();
                         
-                        interaction.effect.forEach(effectPart => {
-                            expect(typeof effectPart).toBe('string');
-                            expect(effectPart.length).toBeGreaterThan(0);
-                        });
+                        if (typeof interaction.effect === 'string') {
+                            expect(interaction.effect.length).toBeGreaterThan(0);
+                        } else if (Array.isArray(interaction.effect)) {
+                            expect(interaction.effect.length).toBeGreaterThan(0);
+                            interaction.effect.forEach(effectPart => {
+                                expect(typeof effectPart).toBe('string');
+                                expect(effectPart.length).toBeGreaterThan(0);
+                            });
+                        } else if (typeof interaction.effect === 'function') {
+                            expect(typeof interaction.effect).toBe('function');
+                        }
                     }
                 });
             });
@@ -188,11 +227,28 @@ describe('ItemDataLoader Integration - Interactions', () => {
             
             allItems.forEach(item => {
                 item.interactions.forEach(interaction => {
-                    if (interaction.effect && interaction.effect[0] === 'set') {
-                        assignmentEffects.push({
-                            item: item.id,
-                            effect: interaction.effect
-                        });
+                    if (interaction.effect) {
+                        // Check for assignment effects in various formats
+                        let isAssignmentEffect = false;
+                        let effectArray: string[] = [];
+                        
+                        if (typeof interaction.effect === 'string') {
+                            // String format like "state.open = true"
+                            if (interaction.effect.includes('=')) {
+                                isAssignmentEffect = true;
+                                effectArray = [interaction.effect];
+                            }
+                        } else if (Array.isArray(interaction.effect) && interaction.effect[0] === 'set') {
+                            isAssignmentEffect = true;
+                            effectArray = interaction.effect;
+                        }
+                        
+                        if (isAssignmentEffect) {
+                            assignmentEffects.push({
+                                item: item.id,
+                                effect: effectArray
+                            });
+                        }
                     }
                 });
             });
@@ -200,10 +256,17 @@ describe('ItemDataLoader Integration - Interactions', () => {
             console.log(`Found ${assignmentEffects.length} assignment effects`);
             
             assignmentEffects.forEach(assEffect => {
-                expect(assEffect.effect).toHaveLength(3);
-                expect(assEffect.effect[0]).toBe('set');
-                expect(assEffect.effect[1]).toBeTruthy(); // property name
-                expect(assEffect.effect[2]).toBeTruthy(); // value
+                if (assEffect.effect[0] === 'set') {
+                    // Array format
+                    expect(assEffect.effect).toHaveLength(3);
+                    expect(assEffect.effect[0]).toBe('set');
+                    expect(assEffect.effect[1]).toBeTruthy(); // property name
+                    expect(assEffect.effect[2]).toBeTruthy(); // value
+                } else {
+                    // String format
+                    expect(assEffect.effect[0]).toContain('=');
+                    expect(assEffect.effect[0]?.length).toBeGreaterThan(0);
+                }
             });
             
             if (assignmentEffects.length > 0) {
@@ -218,13 +281,23 @@ describe('ItemDataLoader Integration - Interactions', () => {
             allItems.forEach(item => {
                 item.interactions.forEach(interaction => {
                     if (interaction.effect) {
-                        const hasStateEffect = interaction.effect.some(part => 
-                            part.includes('state.') || part.includes('flag.')
-                        );
+                        let hasStateEffect = false;
+                        let effectArray: string[] = [];
+                        
+                        if (typeof interaction.effect === 'string') {
+                            hasStateEffect = interaction.effect.includes('state.') || interaction.effect.includes('flag.');
+                            effectArray = [interaction.effect];
+                        } else if (Array.isArray(interaction.effect)) {
+                            hasStateEffect = interaction.effect.some(part => 
+                                part.includes('state.') || part.includes('flag.')
+                            );
+                            effectArray = interaction.effect;
+                        }
+                        
                         if (hasStateEffect) {
                             stateEffects.push({
                                 item: item.id,
-                                effect: interaction.effect
+                                effect: effectArray
                             });
                         }
                     }
@@ -344,8 +417,14 @@ describe('ItemDataLoader Integration - Interactions', () => {
                 
                 conditionalInteractions.forEach(interaction => {
                     expect(interaction.condition).toBeDefined();
-                    expect(Array.isArray(interaction.condition)).toBe(true);
-                    expect(interaction.condition!.length).toBeGreaterThan(0);
+                    // Condition can be string, array, or function now
+                    if (typeof interaction.condition === 'string') {
+                        expect(interaction.condition.length).toBeGreaterThan(0);
+                    } else if (Array.isArray(interaction.condition)) {
+                        expect(interaction.condition.length).toBeGreaterThan(0);
+                    } else {
+                        expect(typeof interaction.condition).toBe('function');
+                    }
                 });
             });
         });
@@ -366,10 +445,24 @@ describe('ItemDataLoader Integration - Interactions', () => {
                 complexInteractions.forEach(interaction => {
                     expect(interaction.condition).toBeDefined();
                     expect(interaction.effect).toBeDefined();
-                    expect(Array.isArray(interaction.condition)).toBe(true);
-                    expect(Array.isArray(interaction.effect)).toBe(true);
-                    expect(interaction.condition!.length).toBeGreaterThan(0);
-                    expect(interaction.effect!.length).toBeGreaterThan(0);
+                    
+                    // Validate condition (can be string, array, or function)
+                    if (typeof interaction.condition === 'string') {
+                        expect(interaction.condition.length).toBeGreaterThan(0);
+                    } else if (Array.isArray(interaction.condition)) {
+                        expect(interaction.condition.length).toBeGreaterThan(0);
+                    } else {
+                        expect(typeof interaction.condition).toBe('function');
+                    }
+                    
+                    // Validate effect (can be string, array, or function)
+                    if (typeof interaction.effect === 'string') {
+                        expect(interaction.effect.length).toBeGreaterThan(0);
+                    } else if (Array.isArray(interaction.effect)) {
+                        expect(interaction.effect.length).toBeGreaterThan(0);
+                    } else {
+                        expect(typeof interaction.effect).toBe('function');
+                    }
                 });
             });
         });
@@ -411,16 +504,24 @@ describe('ItemDataLoader Integration - Interactions', () => {
                     expect(interaction.command).not.toBeNull();
                     expect(interaction.message).not.toBeNull();
                     
-                    // Optional fields should be undefined or valid arrays
+                    // Optional fields should be undefined or valid types
                     if (interaction.condition !== undefined) {
-                        expect(Array.isArray(interaction.condition)).toBe(true);
+                        const conditionType = typeof interaction.condition;
+                        expect(['string', 'object', 'function']).toContain(conditionType);
+                        if (conditionType === 'object') {
+                            expect(Array.isArray(interaction.condition)).toBe(true);
+                        }
                     }
                     if (interaction.effect !== undefined) {
-                        expect(Array.isArray(interaction.effect)).toBe(true);
+                        const effectType = typeof interaction.effect;
+                        expect(['string', 'object', 'function']).toContain(effectType);
+                        if (effectType === 'object') {
+                            expect(Array.isArray(interaction.effect)).toBe(true);
+                        }
                     }
                     
-                    // No unexpected properties
-                    const validProps = ['command', 'message', 'condition', 'effect'];
+                    // No unexpected properties (updated for new interface)
+                    const validProps = ['command', 'message', 'condition', 'effect', 'scoreChange', 'success'];
                     Object.keys(interaction).forEach(key => {
                         expect(validProps).toContain(key);
                     });
@@ -451,17 +552,32 @@ describe('ItemDataLoader Integration - Interactions', () => {
                     expect(typeof interactionObj.message).toBe('string');
                     
                     if (interactionObj.condition) {
-                        expect(Array.isArray(interactionObj.condition)).toBe(true);
-                        interactionObj.condition.forEach(part => {
-                            expect(typeof part).toBe('string');
-                        });
+                        const conditionType = typeof interactionObj.condition;
+                        expect(['string', 'object', 'function']).toContain(conditionType);
+                        if (Array.isArray(interactionObj.condition)) {
+                            interactionObj.condition.forEach(part => {
+                                expect(typeof part).toBe('string');
+                            });
+                        }
                     }
                     
                     if (interactionObj.effect) {
-                        expect(Array.isArray(interactionObj.effect)).toBe(true);
-                        interactionObj.effect.forEach(part => {
-                            expect(typeof part).toBe('string');
-                        });
+                        const effectType = typeof interactionObj.effect;
+                        expect(['string', 'object', 'function']).toContain(effectType);
+                        if (Array.isArray(interactionObj.effect)) {
+                            interactionObj.effect.forEach(part => {
+                                expect(typeof part).toBe('string');
+                            });
+                        }
+                    }
+                    
+                    // Test new optional properties
+                    if (interactionObj.scoreChange !== undefined) {
+                        expect(typeof interactionObj.scoreChange).toBe('number');
+                    }
+                    
+                    if (interactionObj.success !== undefined) {
+                        expect(typeof interactionObj.success).toBe('boolean');
                     }
                 });
             });

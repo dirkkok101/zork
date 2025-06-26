@@ -240,7 +240,7 @@ describe('ItemDataLoader Integration - Performance', () => {
             const typeResults = await Promise.all(typePromises);
             const loadTime = Date.now() - startTime;
             
-            expect(typeResults).toHaveLength(6);
+            expect(typeResults).toHaveLength(13); // 13 ItemType enum values
             typeResults.forEach(typeItems => {
                 expect(typeItems.length).toBeGreaterThanOrEqual(0);
             });

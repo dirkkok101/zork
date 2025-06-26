@@ -65,6 +65,12 @@ export interface ItemInteractionData {
 
     /** Message displayed when the interaction occurs */
     message: string;
+
+    /** Score change when this interaction is performed (optional) */
+    scoreChange?: number;
+
+    /** Whether the interaction is successful (optional) */
+    success?: boolean;
 }
 
 /**

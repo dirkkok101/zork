@@ -13,113 +13,113 @@ describe('ItemDataLoader.parseEffect()', () => {
   });
 
   describe('Basic effect parsing', () => {
-    it('should parse simple effect correctly', () => {
+    it('should return effect string as-is for service parsing', () => {
       // Act
       const result = (loader as any).parseEffect('set_visible');
 
       // Assert
-      expect(result).toEqual(['set_visible']);
+      expect(result).toBe('set_visible');
     });
 
-    it('should parse state change effects', () => {
+    it('should return state change effects as strings', () => {
       // Act
       const result = (loader as any).parseEffect('state.open=true');
 
       // Assert
-      expect(result).toEqual(['set', 'state.open', 'true']);
+      expect(result).toBe('state.open=true');
     });
 
-    it('should parse flag setting effects', () => {
+    it('should return flag setting effects as strings', () => {
       // Act
       const result = (loader as any).parseEffect('flags.portable=false');
 
       // Assert
-      expect(result).toEqual(['set', 'flags.portable', 'false']);
+      expect(result).toBe('flags.portable=false');
     });
 
-    it('should parse player state effects', () => {
+    it('should return player state effects as strings', () => {
       // Act
       const result = (loader as any).parseEffect('player.has_key=true');
 
       // Assert
-      expect(result).toEqual(['set', 'player.has_key', 'true']);
+      expect(result).toBe('player.has_key=true');
     });
   });
 
   describe('State modification effects', () => {
     it('should handle boolean state changes', () => {
       const booleanEffects = [
-        { input: 'state.open=true', expected: ['set', 'state.open', 'true'] },
-        { input: 'state.locked=false', expected: ['set', 'state.locked', 'false'] },
-        { input: 'state.lit=true', expected: ['set', 'state.lit', 'true'] },
-        { input: 'state.visible=false', expected: ['set', 'state.visible', 'false'] }
+        'state.open=true',
+        'state.locked=false',
+        'state.lit=true',
+        'state.visible=false'
       ];
 
-      booleanEffects.forEach(({ input, expected }) => {
+      booleanEffects.forEach(input => {
         const result = (loader as any).parseEffect(input);
-        expect(result).toEqual(expected);
+        expect(result).toBe(input);
       });
     });
 
     it('should handle numeric state changes', () => {
       const numericEffects = [
-        { input: 'state.count=5', expected: ['set', 'state.count', '5'] },
-        { input: 'state.level=1', expected: ['set', 'state.level', '1'] },
-        { input: 'player.score=100', expected: ['set', 'player.score', '100'] },
-        { input: 'item.weight=15', expected: ['set', 'item.weight', '15'] }
+        'state.count=5',
+        'state.level=1',
+        'player.score=100',
+        'item.weight=15'
       ];
 
-      numericEffects.forEach(({ input, expected }) => {
+      numericEffects.forEach(input => {
         const result = (loader as any).parseEffect(input);
-        expect(result).toEqual(expected);
+        expect(result).toBe(input);
       });
     });
 
     it('should handle string state changes', () => {
       const stringEffects = [
-        { input: 'state.description="opened chest"', expected: ['set', 'state.description', '"opened chest"'] },
-        { input: 'player.location="kitchen"', expected: ['set', 'player.location', '"kitchen"'] },
-        { input: 'item.name="magic lamp"', expected: ['set', 'item.name', '"magic lamp"'] }
+        'state.description="opened chest"',
+        'player.location="kitchen"',
+        'item.name="magic lamp"'
       ];
 
-      stringEffects.forEach(({ input, expected }) => {
+      stringEffects.forEach(input => {
         const result = (loader as any).parseEffect(input);
-        expect(result).toEqual(expected);
+        expect(result).toBe(input);
       });
     });
   });
 
   describe('Flag-based effects', () => {
-    it('should parse flag modification effects', () => {
+    it('should return flag modification effects as strings', () => {
       const flagEffects = [
-        { input: 'flags.portable=true', expected: ['set', 'flags.portable', 'true'] },
-        { input: 'flags.visible=false', expected: ['set', 'flags.visible', 'false'] },
-        { input: 'flags.takeable=true', expected: ['set', 'flags.takeable', 'true'] },
-        { input: 'flags.consumable=false', expected: ['set', 'flags.consumable', 'false'] }
+        'flags.portable=true',
+        'flags.visible=false',
+        'flags.takeable=true',
+        'flags.consumable=false'
       ];
 
-      flagEffects.forEach(({ input, expected }) => {
+      flagEffects.forEach(input => {
         const result = (loader as any).parseEffect(input);
-        expect(result).toEqual(expected);
+        expect(result).toBe(input);
       });
     });
 
     it('should handle complex flag paths', () => {
       const complexFlagEffects = [
-        { input: 'game.flags.dungeon_accessible=true', expected: ['set', 'game.flags.dungeon_accessible', 'true'] },
-        { input: 'monster.troll.flags.defeated=true', expected: ['set', 'monster.troll.flags.defeated', 'true'] },
-        { input: 'treasure.chest.flags.unlocked=true', expected: ['set', 'treasure.chest.flags.unlocked', 'true'] }
+        'game.flags.dungeon_accessible=true',
+        'monster.troll.flags.defeated=true',
+        'treasure.chest.flags.unlocked=true'
       ];
 
-      complexFlagEffects.forEach(({ input, expected }) => {
+      complexFlagEffects.forEach(input => {
         const result = (loader as any).parseEffect(input);
-        expect(result).toEqual(expected);
+        expect(result).toBe(input);
       });
     });
   });
 
   describe('Action-based effects', () => {
-    it('should parse action effects without parameters', () => {
+    it('should return action effects without parameters as strings', () => {
       const actionEffects = [
         'show_message',
         'update_score',
@@ -129,7 +129,7 @@ describe('ItemDataLoader.parseEffect()', () => {
 
       actionEffects.forEach(effect => {
         const result = (loader as any).parseEffect(effect);
-        expect(result).toEqual([effect]);
+        expect(result).toBe(effect);
       });
     });
 
@@ -143,7 +143,7 @@ describe('ItemDataLoader.parseEffect()', () => {
 
       parameterizedEffects.forEach(effect => {
         const result = (loader as any).parseEffect(effect);
-        expect(result).toEqual([effect]);
+        expect(result).toBe(effect);
       });
     });
   });
@@ -151,47 +151,47 @@ describe('ItemDataLoader.parseEffect()', () => {
   describe('Authentic Zork effects', () => {
     it('should handle typical Zork game effects', () => {
       const zorkEffects = [
-        { input: 'state.open=true', expected: ['set', 'state.open', 'true'] },
-        { input: 'state.lit=true', expected: ['set', 'state.lit', 'true'] },
-        { input: 'flags.portable=false', expected: ['set', 'flags.portable', 'false'] },
-        { input: 'player.has_light=true', expected: ['set', 'player.has_light', 'true'] },
-        { input: 'scene.visited=true', expected: ['set', 'scene.visited', 'true'] },
-        { input: 'show_description', expected: ['show_description'] },
-        { input: 'update_inventory', expected: ['update_inventory'] }
+        'state.open=true',
+        'state.lit=true',
+        'flags.portable=false',
+        'player.has_light=true',
+        'scene.visited=true',
+        'show_description',
+        'update_inventory'
       ];
 
-      zorkEffects.forEach(({ input, expected }) => {
+      zorkEffects.forEach(input => {
         const result = (loader as any).parseEffect(input);
-        expect(result).toEqual(expected);
+        expect(result).toBe(input);
       });
     });
 
     it('should handle Zork item state changes', () => {
       const itemStateEffects = [
-        { input: 'state.on=true', expected: ['set', 'state.on', 'true'] },      // lamp turning on
-        { input: 'state.empty=true', expected: ['set', 'state.empty', 'true'] },   // container emptied
-        { input: 'state.broken=true', expected: ['set', 'state.broken', 'true'] },  // item damaged
-        { input: 'state.used=true', expected: ['set', 'state.used', 'true'] },    // consumable used
-        { input: 'state.hidden=false', expected: ['set', 'state.hidden', 'false'] }  // item revealed
+        'state.on=true',      // lamp turning on
+        'state.empty=true',   // container emptied
+        'state.broken=true',  // item damaged
+        'state.used=true',    // consumable used
+        'state.hidden=false'  // item revealed
       ];
 
-      itemStateEffects.forEach(({ input, expected }) => {
+      itemStateEffects.forEach(input => {
         const result = (loader as any).parseEffect(input);
-        expect(result).toEqual(expected);
+        expect(result).toBe(input);
       });
     });
 
     it('should handle Zork location effects', () => {
       const locationEffects = [
-        { input: 'player.location="kitchen"', expected: ['set', 'player.location', '"kitchen"'] },
-        { input: 'item.location="inventory"', expected: ['set', 'item.location', '"inventory"'] },
-        { input: 'move_to("living_room")', expected: ['move_to("living_room")'] },
-        { input: 'reveal_exit("north")', expected: ['reveal_exit("north")'] }
+        'player.location="kitchen"',
+        'item.location="inventory"',
+        'move_to("living_room")',
+        'reveal_exit("north")'
       ];
 
-      locationEffects.forEach(({ input, expected }) => {
+      locationEffects.forEach(input => {
         const result = (loader as any).parseEffect(input);
-        expect(result).toEqual(expected);
+        expect(result).toBe(input);
       });
     });
   });
@@ -202,7 +202,7 @@ describe('ItemDataLoader.parseEffect()', () => {
       const result = (loader as any).parseEffect('');
 
       // Assert
-      expect(result).toEqual(['']);
+      expect(result).toBe('');
     });
 
     it('should handle effects with spaces', () => {
@@ -210,7 +210,7 @@ describe('ItemDataLoader.parseEffect()', () => {
       const result = (loader as any).parseEffect('effect with spaces');
 
       // Assert
-      expect(result).toEqual(['effect with spaces']);
+      expect(result).toBe('effect with spaces');
     });
 
     it('should handle special characters in effects', () => {
@@ -223,7 +223,7 @@ describe('ItemDataLoader.parseEffect()', () => {
 
       specialEffects.forEach(effect => {
         const result = (loader as any).parseEffect(effect);
-        expect(result).toEqual([effect]);
+        expect(result).toBe(effect);
       });
     });
 
@@ -237,20 +237,20 @@ describe('ItemDataLoader.parseEffect()', () => {
 
       complexEffects.forEach(effect => {
         const result = (loader as any).parseEffect(effect);
-        expect(result).toEqual([effect]);
+        expect(result).toBe(effect);
       });
     });
 
     it('should handle quoted string values', () => {
       const quotedEffects = [
-        { input: 'state.message="Hello World"', expected: ['set', 'state.message', '"Hello World"'] },
-        { input: "state.name='single quotes'", expected: ['set', 'state.name', "'single quotes'"] },
-        { input: 'show_message("You found a treasure!")', expected: ['show_message("You found a treasure!")'] }
+        'state.message="Hello World"',
+        "state.name='single quotes'",
+        'show_message("You found a treasure!")'
       ];
 
-      quotedEffects.forEach(({ input, expected }) => {
+      quotedEffects.forEach(input => {
         const result = (loader as any).parseEffect(input);
-        expect(result).toEqual(expected);
+        expect(result).toBe(input);
       });
     });
   });
@@ -261,14 +261,14 @@ describe('ItemDataLoader.parseEffect()', () => {
       const singleEffect = 'state.open=true';
       
       const result = (loader as any).parseEffect(singleEffect);
-      expect(result).toEqual(['set', 'state.open', 'true']);
+      expect(result).toBe(singleEffect);
     });
 
     it('should preserve complex effect syntax', () => {
       const complexEffect = 'trigger_event("chest_opened", { item: "treasure", location: "dungeon" })';
       
       const result = (loader as any).parseEffect(complexEffect);
-      expect(result).toEqual([complexEffect]);
+      expect(result).toBe(complexEffect);
     });
   });
 
@@ -300,20 +300,20 @@ describe('ItemDataLoader.parseEffect()', () => {
   });
 
   describe('Data structure consistency', () => {
-    it('should always return array format', () => {
+    it('should always return string format', () => {
       const testEffects = [
-        { input: 'simple', expectedLength: 1 },
-        { input: 'state.change=true', expectedLength: 3 },
-        { input: 'complex.nested.effect=value', expectedLength: 3 },
-        { input: '', expectedLength: 1 },
-        { input: 'with spaces', expectedLength: 1 },
-        { input: 'action(parameters)', expectedLength: 1 }
+        'simple',
+        'state.change=true',
+        'complex.nested.effect=value',
+        '',
+        'with spaces',
+        'action(parameters)'
       ];
 
-      testEffects.forEach(({ input, expectedLength }) => {
+      testEffects.forEach(input => {
         const result = (loader as any).parseEffect(input);
-        expect(Array.isArray(result)).toBe(true);
-        expect(result.length).toBe(expectedLength);
+        expect(typeof result).toBe('string');
+        expect(result).toBe(input);
       });
     });
 
@@ -327,7 +327,7 @@ describe('ItemDataLoader.parseEffect()', () => {
 
       preciseEffects.forEach(effect => {
         const result = (loader as any).parseEffect(effect);
-        expect(result[0]).toBe(effect);
+        expect(result).toBe(effect);
       });
     });
   });
