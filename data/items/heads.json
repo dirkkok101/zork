@@ -14,15 +14,17 @@
     "IMPLE",
     "LOSER"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 5,
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "dangerous",
+    "visible",
     "portable",
-    "portable"
+    "treasure"
   ],
   "properties": {},
   "interactions": [

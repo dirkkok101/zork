@@ -15,11 +15,13 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "container"
+    "container",
+    "visible",
+    "portable"
   ],
-  "properties": {},
+  "properties": {
+    "capacity": 4
+  },
   "interactions": [
     {
       "command": "examine",

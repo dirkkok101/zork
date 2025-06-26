@@ -9,18 +9,20 @@
     "OLD",
     "LEATH"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 15,
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "portable"
   ],
   "properties": {
-    "size": 15
+    "size": 15,
+    "value": 10,
+    "treasurePoints": 5
   },
   "interactions": [
     {

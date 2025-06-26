@@ -8,18 +8,26 @@
     "OLD",
     "ANCIE"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": false,
   "visible": true,
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "readable",
+    "visible",
+    "treasure"
+  ],
   "properties": {},
   "interactions": [
     {
       "command": "examine",
       "message": "There are old engravings on the walls here."
+    },
+    {
+      "command": "read",
+      "message": "You read the ENGRA."
     }
   ],
   "initialLocation": "unknown"

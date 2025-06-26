@@ -8,18 +8,26 @@
     "ANCIE",
     "OLD"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": false,
   "visible": true,
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "readable",
+    "visible",
+    "treasure"
+  ],
   "properties": {},
   "interactions": [
     {
       "command": "examine",
       "message": "It's prayer."
+    },
+    {
+      "command": "read",
+      "message": "You read the PRAYE."
     }
   ],
   "initialLocation": "unknown"

@@ -7,20 +7,24 @@
     "IVORY",
     "IVORY"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 20,
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
+    "flame_source",
+    "switchable",
+    "visible",
     "light_source",
-    "tool"
+    "tool",
+    "portable"
   ],
   "properties": {
-    "size": 20
+    "size": 20,
+    "value": 14,
+    "treasurePoints": 6
   },
   "interactions": [
     {
@@ -42,6 +46,18 @@
       "condition": "state.lit",
       "effect": "state.lit = false",
       "message": "The TORCH is now off."
+    },
+    {
+      "command": "turn on",
+      "condition": "!state.on",
+      "effect": "state.on = true",
+      "message": "You turn on the TORCH."
+    },
+    {
+      "command": "turn off",
+      "condition": "state.on",
+      "effect": "state.on = false",
+      "message": "You turn off the TORCH."
     }
   ],
   "initialLocation": "unknown"

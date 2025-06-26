@@ -7,17 +7,20 @@
     "BRASS",
     "BEAUT"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 5,
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "portable"
   ],
-  "properties": {},
+  "properties": {
+    "value": 1,
+    "treasurePoints": 1
+  },
   "interactions": [
     {
       "command": "examine",

@@ -12,12 +12,29 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "switchable",
+    "no_description",
+    "flame_source",
+    "visible"
+  ],
   "properties": {},
   "interactions": [
     {
       "command": "examine",
       "message": "It's old coal stove."
+    },
+    {
+      "command": "turn on",
+      "condition": "!state.on",
+      "effect": "state.on = true",
+      "message": "You turn on the STOVE."
+    },
+    {
+      "command": "turn off",
+      "condition": "state.on",
+      "effect": "state.on = false",
+      "message": "You turn off the STOVE."
     }
   ],
   "initialLocation": "unknown"

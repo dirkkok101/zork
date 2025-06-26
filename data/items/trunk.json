@@ -8,18 +8,19 @@
     "JEWEL",
     "OLD"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
-  "visible": true,
+  "visible": false,
   "weight": 35,
   "size": "LARGE",
   "initialState": {},
   "tags": [
-    "portable",
     "portable"
   ],
   "properties": {
-    "size": 35
+    "size": 35,
+    "value": 15,
+    "treasurePoints": 8
   },
   "interactions": [
     {

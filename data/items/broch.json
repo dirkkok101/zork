@@ -13,13 +13,16 @@
   "size": "LARGE",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
     "container",
-    "openable"
+    "readable",
+    "flammable",
+    "openable",
+    "visible",
+    "portable"
   ],
   "properties": {
-    "size": 30
+    "size": 30,
+    "capacity": 1
   },
   "interactions": [
     {
@@ -41,6 +44,10 @@
       "condition": "state.open",
       "effect": "state.open = false",
       "message": "You close the BROCH."
+    },
+    {
+      "command": "read",
+      "message": "You read the BROCH."
     }
   ],
   "initialLocation": "unknown"

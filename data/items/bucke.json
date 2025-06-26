@@ -14,10 +14,11 @@
   "initialState": {},
   "tags": [
     "openable",
-    "openable",
+    "visible",
     "vehicle"
   ],
   "properties": {
+    "capacity": 100,
     "size": 100
   },
   "interactions": [

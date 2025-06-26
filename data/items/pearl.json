@@ -7,18 +7,20 @@
     "NECKL",
     "PEARL"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 10,
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "portable"
   ],
   "properties": {
-    "size": 10
+    "size": 10,
+    "value": 9,
+    "treasurePoints": 5
   },
   "interactions": [
     {

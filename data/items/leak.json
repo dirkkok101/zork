@@ -9,11 +9,13 @@
   ],
   "type": "TOOL",
   "portable": false,
-  "visible": true,
+  "visible": false,
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "no_description"
+  ],
   "properties": {},
   "interactions": [
     {

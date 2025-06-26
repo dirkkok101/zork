@@ -15,11 +15,14 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "openable"
+    "flammable",
+    "openable",
+    "searchable",
+    "visible",
+    "portable"
   ],
   "properties": {
+    "capacity": 2,
     "size": 9
   },
   "interactions": [
@@ -42,6 +45,10 @@
       "condition": "state.open",
       "effect": "state.open = false",
       "message": "You close the BRICK."
+    },
+    {
+      "command": "search",
+      "message": "You search the BRICK."
     }
   ],
   "initialLocation": "unknown"

@@ -16,11 +16,13 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
+    "flammable",
+    "visible",
     "portable"
   ],
   "properties": {
-    "size": 1
+    "size": 1,
+    "lightTimer": 2
   },
   "interactions": [
     {

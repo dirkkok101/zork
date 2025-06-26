@@ -6,19 +6,22 @@
   "aliases": [
     "HOLY"
   ],
-  "type": "CONTAINER",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 10,
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "container"
+    "container",
+    "visible",
+    "portable"
   ],
   "properties": {
-    "size": 10
+    "capacity": 5,
+    "size": 10,
+    "value": 2,
+    "treasurePoints": 5
   },
   "interactions": [
     {

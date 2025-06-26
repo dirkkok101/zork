@@ -15,12 +15,21 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "readable",
+    "no_description",
+    "visible",
+    "door"
+  ],
   "properties": {},
   "interactions": [
     {
       "command": "examine",
       "message": "It's wooden door."
+    },
+    {
+      "command": "read",
+      "message": "You read the WDOOR."
     }
   ],
   "initialLocation": "unknown"

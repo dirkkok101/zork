@@ -14,11 +14,14 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "openable"
+    "flammable",
+    "openable",
+    "visible",
+    "portable"
   ],
-  "properties": {},
+  "properties": {
+    "capacity": 20
+  },
   "interactions": [
     {
       "command": "examine",

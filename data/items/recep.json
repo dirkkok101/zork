@@ -14,9 +14,12 @@
   "initialState": {},
   "tags": [
     "container",
-    "container"
+    "searchable",
+    "visible"
   ],
-  "properties": {},
+  "properties": {
+    "capacity": 6
+  },
   "interactions": [
     {
       "command": "examine",
@@ -33,6 +36,10 @@
       "condition": "state.open",
       "effect": "state.open = false",
       "message": "You close the RECEP."
+    },
+    {
+      "command": "search",
+      "message": "You search the RECEP."
     }
   ],
   "initialLocation": "unknown"

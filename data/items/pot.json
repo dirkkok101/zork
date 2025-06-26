@@ -7,18 +7,19 @@
     "GOLD",
     "GOLD"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
-  "visible": true,
+  "visible": false,
   "weight": 15,
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "portable",
     "portable"
   ],
   "properties": {
-    "size": 15
+    "size": 15,
+    "value": 10,
+    "treasurePoints": 10
   },
   "interactions": [
     {

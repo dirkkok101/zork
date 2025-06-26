@@ -16,12 +16,14 @@
   "size": "LARGE",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "weapon"
+    "switchable",
+    "weapon",
+    "visible",
+    "portable"
   ],
   "properties": {
-    "size": 30
+    "size": 30,
+    "treasurePoints": 0
   },
   "interactions": [
     {
@@ -31,6 +33,18 @@
     {
       "command": "take",
       "message": "You take the sword."
+    },
+    {
+      "command": "turn on",
+      "condition": "!state.on",
+      "effect": "state.on = true",
+      "message": "You turn on the SWORD."
+    },
+    {
+      "command": "turn off",
+      "condition": "state.on",
+      "effect": "state.on = false",
+      "message": "You turn off the SWORD."
     }
   ],
   "initialLocation": "unknown"

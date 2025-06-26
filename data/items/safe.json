@@ -15,9 +15,11 @@
   "initialState": {},
   "tags": [
     "container",
-    "container"
+    "visible"
   ],
-  "properties": {},
+  "properties": {
+    "capacity": 15
+  },
   "interactions": [
     {
       "command": "examine",

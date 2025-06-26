@@ -14,12 +14,21 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "no_description",
+    "turnable",
+    "visible",
+    "door"
+  ],
   "properties": {},
   "interactions": [
     {
       "command": "examine",
       "message": "It's bolt."
+    },
+    {
+      "command": "turn",
+      "message": "You turn the BOLT."
     }
   ],
   "initialLocation": "unknown"

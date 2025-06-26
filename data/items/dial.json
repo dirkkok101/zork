@@ -13,12 +13,20 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "no_description",
+    "turnable",
+    "visible"
+  ],
   "properties": {},
   "interactions": [
     {
       "command": "examine",
       "message": "It's sundial."
+    },
+    {
+      "command": "turn",
+      "message": "You turn the DIAL."
     }
   ],
   "initialLocation": "unknown"

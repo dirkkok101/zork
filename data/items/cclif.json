@@ -15,7 +15,11 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "climbable",
+    "no_description",
+    "visible"
+  ],
   "properties": {},
   "interactions": [
     {

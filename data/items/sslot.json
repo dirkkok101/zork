@@ -15,9 +15,11 @@
   "initialState": {},
   "tags": [
     "openable",
-    "openable"
+    "visible"
   ],
-  "properties": {},
+  "properties": {
+    "capacity": 10
+  },
   "interactions": [
     {
       "command": "examine",

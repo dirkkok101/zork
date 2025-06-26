@@ -15,12 +15,13 @@
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "portable",
     "light_source"
   ],
   "properties": {
-    "size": 15
+    "size": 15,
+    "lightTimer": 350
   },
   "interactions": [
     {

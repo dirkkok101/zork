@@ -10,18 +10,21 @@
     "PICTU",
     "WORK"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 15,
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "portable",
+    "flammable",
+    "visible",
     "portable"
   ],
   "properties": {
-    "size": 15
+    "size": 15,
+    "value": 4,
+    "treasurePoints": 7
   },
   "interactions": [
     {

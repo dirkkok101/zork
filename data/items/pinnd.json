@@ -15,7 +15,11 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "no_description",
+    "visible",
+    "door"
+  ],
   "properties": {},
   "interactions": [
     {

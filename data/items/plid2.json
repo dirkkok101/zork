@@ -15,8 +15,9 @@
   "initialState": {},
   "tags": [
     "container",
-    "container",
-    "openable"
+    "no_description",
+    "openable",
+    "visible"
   ],
   "properties": {},
   "interactions": [

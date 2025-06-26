@@ -15,8 +15,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "readable",
+    "visible",
     "portable",
-    "portable"
+    "flammable"
   ],
   "properties": {},
   "interactions": [
@@ -27,6 +29,10 @@
     {
       "command": "take",
       "message": "You take the note of warning."
+    },
+    {
+      "command": "read",
+      "message": "You read the WARNI."
     }
   ],
   "initialLocation": "unknown"

@@ -6,18 +6,22 @@
   "aliases": [
     "FLATH"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 1,
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "readable",
+    "visible",
     "portable",
-    "portable"
+    "flammable"
   ],
   "properties": {
-    "size": 1
+    "size": 1,
+    "value": 4,
+    "treasurePoints": 10
   },
   "interactions": [
     {
@@ -27,6 +31,10 @@
     {
       "command": "take",
       "message": "You take the Flathead stamp."
+    },
+    {
+      "command": "read",
+      "message": "You read the STAMP."
     }
   ],
   "initialLocation": "unknown"

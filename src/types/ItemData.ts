@@ -40,7 +40,7 @@ export interface ItemData {
     tags: string[];
 
     /** Additional properties - usually empty object, sometimes contains size */
-    properties: Record<string, any>;
+    properties: ItemProperties;
 
     /** Available interactions for this item */
     interactions: ItemInteractionData[];
@@ -65,6 +65,36 @@ export interface ItemInteractionData {
 
     /** Message displayed when the interaction occurs */
     message: string;
+}
+
+/**
+ * Interface representing item properties extracted from reference data
+ * These correspond to MDL object properties like OSIZE, OFVAL, OTVAL, etc.
+ */
+export interface ItemProperties {
+    /** Size/weight value from OSIZE */
+    size?: number;
+
+    /** Fence value from OFVAL (what thief values it at) */
+    value?: number;
+
+    /** Treasure points from OTVAL (score awarded to player) */
+    treasurePoints?: number;
+
+    /** Container capacity from OCAPAC */
+    capacity?: number;
+
+    /** Readable text from OREAD */
+    readText?: string;
+
+    /** Light timer duration from OLINT */
+    lightTimer?: number;
+
+    /** Match count from OMATCH */
+    matchCount?: number;
+
+    /** Any other properties not yet categorized */
+    [key: string]: any;
 }
 
 /**

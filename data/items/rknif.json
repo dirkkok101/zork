@@ -14,9 +14,10 @@
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "weapon"
+    "switchable",
+    "weapon",
+    "visible",
+    "portable"
   ],
   "properties": {
     "size": 20
@@ -29,6 +30,18 @@
     {
       "command": "take",
       "message": "You take the rusty knife."
+    },
+    {
+      "command": "turn on",
+      "condition": "!state.on",
+      "effect": "state.on = true",
+      "message": "You turn on the RKNIF."
+    },
+    {
+      "command": "turn off",
+      "condition": "state.on",
+      "effect": "state.on = false",
+      "message": "You turn off the RKNIF."
     }
   ],
   "initialLocation": "unknown"

@@ -7,18 +7,20 @@
     "FORK",
     "CRYST"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 20,
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "portable"
   ],
   "properties": {
-    "size": 20
+    "size": 20,
+    "value": 4,
+    "treasurePoints": 11
   },
   "interactions": [
     {

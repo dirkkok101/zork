@@ -9,18 +9,21 @@
     "GOLD",
     "PRICE"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 10,
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
+    "readable",
+    "visible",
     "portable"
   ],
   "properties": {
-    "size": 10
+    "size": 10,
+    "value": 10,
+    "treasurePoints": 12
   },
   "interactions": [
     {
@@ -30,6 +33,10 @@
     {
       "command": "take",
       "message": "You take the priceless zorkmid."
+    },
+    {
+      "command": "read",
+      "message": "You read the COIN."
     }
   ],
   "initialLocation": "unknown"

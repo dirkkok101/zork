@@ -6,7 +6,7 @@
   "aliases": [],
   "type": "TOOL",
   "portable": false,
-  "visible": true,
+  "visible": false,
   "weight": 5,
   "size": "TINY",
   "initialState": {},

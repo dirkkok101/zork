@@ -15,10 +15,13 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "no_description",
     "openable",
-    "openable"
+    "visible"
   ],
-  "properties": {},
+  "properties": {
+    "capacity": 1000
+  },
   "interactions": [
     {
       "command": "examine",

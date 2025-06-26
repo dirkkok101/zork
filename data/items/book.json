@@ -17,9 +17,11 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "container"
+    "container",
+    "readable",
+    "flammable",
+    "visible",
+    "portable"
   ],
   "properties": {
     "size": 10
@@ -44,6 +46,10 @@
       "condition": "state.open",
       "effect": "state.open = false",
       "message": "You close the BOOK."
+    },
+    {
+      "command": "read",
+      "message": "You read the BOOK."
     }
   ],
   "initialLocation": "unknown"

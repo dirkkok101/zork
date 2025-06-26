@@ -16,11 +16,14 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "readable",
+    "visible",
     "portable",
-    "portable"
+    "flammable"
   ],
   "properties": {
-    "size": 1
+    "size": 1,
+    "treasurePoints": 1
   },
   "interactions": [
     {
@@ -30,6 +33,10 @@
     {
       "command": "take",
       "message": "You take the Don Woods stamp."
+    },
+    {
+      "command": "read",
+      "message": "You read the DSTMP."
     }
   ],
   "initialLocation": "unknown"

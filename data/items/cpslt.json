@@ -15,9 +15,13 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "openable"
+    "no_description",
+    "openable",
+    "visible"
   ],
-  "properties": {},
+  "properties": {
+    "capacity": 4
+  },
   "interactions": [
     {
       "command": "examine",

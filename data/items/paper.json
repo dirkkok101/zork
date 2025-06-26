@@ -17,8 +17,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "readable",
+    "visible",
     "portable",
-    "portable"
+    "flammable"
   ],
   "properties": {
     "size": 2
@@ -31,6 +33,10 @@
     {
       "command": "take",
       "message": "You take the newspaper."
+    },
+    {
+      "command": "read",
+      "message": "You read the PAPER."
     }
   ],
   "initialLocation": "unknown"

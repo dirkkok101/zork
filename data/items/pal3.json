@@ -12,17 +12,20 @@
     "CRYST",
     "RED"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 5,
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "portable"
   ],
-  "properties": {},
+  "properties": {
+    "treasurePoints": 5,
+    "value": 10
+  },
   "interactions": [
     {
       "command": "examine",

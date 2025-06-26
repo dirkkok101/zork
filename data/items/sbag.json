@@ -16,11 +16,13 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "container",
+    "visible",
     "portable",
-    "portable",
-    "container"
+    "flammable"
   ],
   "properties": {
+    "capacity": 15,
     "size": 3
   },
   "interactions": [

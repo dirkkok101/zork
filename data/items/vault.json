@@ -15,12 +15,19 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "readable",
+    "visible"
+  ],
   "properties": {},
   "interactions": [
     {
       "command": "examine",
       "message": "It's large stone cube."
+    },
+    {
+      "command": "read",
+      "message": "You read the VAULT."
     }
   ],
   "initialLocation": "unknown"

@@ -8,18 +8,21 @@
     "PLATI",
     "LARGE"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 20,
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
+    "visible",
     "portable",
-    "portable"
+    "treasure"
   ],
   "properties": {
-    "size": 20
+    "size": 20,
+    "value": 12,
+    "treasurePoints": 10
   },
   "interactions": [
     {

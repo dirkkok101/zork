@@ -8,18 +8,19 @@
     "SPICE",
     "RARE"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
-  "visible": true,
+  "visible": false,
   "weight": 8,
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
     "portable"
   ],
   "properties": {
-    "size": 8
+    "size": 8,
+    "value": 5,
+    "treasurePoints": 5
   },
   "interactions": [
     {

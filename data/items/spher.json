@@ -12,18 +12,22 @@
     "GLASS",
     "WHITE"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 10,
   "size": "SMALL",
   "initialState": {},
   "tags": [
+    "dangerous",
+    "visible",
     "portable",
-    "portable"
+    "treasure"
   ],
   "properties": {
-    "size": 10
+    "size": 10,
+    "value": 6,
+    "treasurePoints": 6
   },
   "interactions": [
     {

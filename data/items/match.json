@@ -13,11 +13,13 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
+    "readable",
+    "visible",
     "portable"
   ],
   "properties": {
-    "size": 2
+    "size": 2,
+    "matchCount": 5
   },
   "interactions": [
     {
@@ -27,6 +29,10 @@
     {
       "command": "take",
       "message": "You take the matchbook."
+    },
+    {
+      "command": "read",
+      "message": "You read the MATCH."
     }
   ],
   "initialLocation": "unknown"

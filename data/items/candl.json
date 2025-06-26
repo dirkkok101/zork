@@ -13,12 +13,15 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "light_source"
+    "flame_source",
+    "switchable",
+    "visible",
+    "light_source",
+    "portable"
   ],
   "properties": {
-    "size": 10
+    "size": 10,
+    "lightTimer": 50
   },
   "interactions": [
     {
@@ -40,6 +43,18 @@
       "condition": "state.lit",
       "effect": "state.lit = false",
       "message": "The CANDL is now off."
+    },
+    {
+      "command": "turn on",
+      "condition": "!state.on",
+      "effect": "state.on = true",
+      "message": "You turn on the CANDL."
+    },
+    {
+      "command": "turn off",
+      "condition": "state.on",
+      "effect": "state.on = false",
+      "message": "You turn off the CANDL."
     }
   ],
   "initialLocation": "unknown"

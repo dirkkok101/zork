@@ -14,7 +14,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
+    "readable",
+    "visible",
     "portable"
   ],
   "properties": {},
@@ -26,6 +27,10 @@
     {
       "command": "take",
       "message": "You take the gold card."
+    },
+    {
+      "command": "read",
+      "message": "You read the GCARD."
     }
   ],
   "initialLocation": "unknown"

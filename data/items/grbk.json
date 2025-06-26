@@ -14,11 +14,14 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "container"
+    "container",
+    "readable",
+    "flammable",
+    "visible",
+    "portable"
   ],
   "properties": {
+    "capacity": 2,
     "size": 10
   },
   "interactions": [
@@ -41,6 +44,10 @@
       "condition": "state.open",
       "effect": "state.open = false",
       "message": "You close the GRBK."
+    },
+    {
+      "command": "read",
+      "message": "You read the GRBK."
     }
   ],
   "initialLocation": "unknown"

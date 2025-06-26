@@ -14,12 +14,20 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "readable",
+    "no_description",
+    "visible"
+  ],
   "properties": {},
   "interactions": [
     {
       "command": "examine",
       "message": "It's wall with etchings."
+    },
+    {
+      "command": "read",
+      "message": "You read the ETCH2."
     }
   ],
   "initialLocation": "unknown"

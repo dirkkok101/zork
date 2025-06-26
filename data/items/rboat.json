@@ -16,12 +16,14 @@
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
+    "flammable",
     "openable",
-    "vehicle"
+    "visible",
+    "vehicle",
+    "portable"
   ],
   "properties": {
+    "capacity": 100,
     "size": 20
   },
   "interactions": [

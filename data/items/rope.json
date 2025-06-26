@@ -8,15 +8,17 @@
     "COIL",
     "LARGE"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 10,
   "size": "SMALL",
   "initialState": {},
   "tags": [
+    "tieable",
+    "visible",
     "portable",
-    "portable"
+    "treasure"
   ],
   "properties": {
     "size": 10

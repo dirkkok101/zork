@@ -8,18 +8,22 @@
     "ART",
     "FLATH"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 25,
   "size": "LARGE",
   "initialState": {},
   "tags": [
+    "readable",
+    "visible",
     "portable",
-    "portable"
+    "flammable"
   ],
   "properties": {
-    "size": 25
+    "size": 25,
+    "treasurePoints": 5,
+    "value": 10
   },
   "interactions": [
     {
@@ -29,6 +33,10 @@
     {
       "command": "take",
       "message": "You take the portrait of J. Pierpont Flathead."
+    },
+    {
+      "command": "read",
+      "message": "You read the PORTR."
     }
   ],
   "initialLocation": "unknown"

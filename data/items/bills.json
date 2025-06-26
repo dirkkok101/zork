@@ -10,18 +10,22 @@
     "200",
     "ZORKM"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 10,
   "size": "SMALL",
   "initialState": {},
   "tags": [
+    "readable",
+    "visible",
     "portable",
-    "portable"
+    "flammable"
   ],
   "properties": {
-    "size": 10
+    "size": 10,
+    "treasurePoints": 15,
+    "value": 10
   },
   "interactions": [
     {
@@ -31,6 +35,10 @@
     {
       "command": "take",
       "message": "You take the stack of zorkmid bills."
+    },
+    {
+      "command": "read",
+      "message": "You read the BILLS."
     }
   ],
   "initialLocation": "unknown"

@@ -7,18 +7,22 @@
     "BIRDS",
     "ENCRU"
   ],
-  "type": "CONTAINER",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 5,
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "container"
+    "container",
+    "visible",
+    "portable"
   ],
-  "properties": {},
+  "properties": {
+    "value": 5,
+    "treasurePoints": 5,
+    "capacity": 6
+  },
   "interactions": [
     {
       "command": "examine",

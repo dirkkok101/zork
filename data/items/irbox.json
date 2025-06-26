@@ -10,16 +10,16 @@
   ],
   "type": "CONTAINER",
   "portable": true,
-  "visible": true,
+  "visible": false,
   "weight": 40,
   "size": "LARGE",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "container"
+    "container",
+    "portable"
   ],
   "properties": {
+    "capacity": 20,
     "size": 40
   },
   "interactions": [

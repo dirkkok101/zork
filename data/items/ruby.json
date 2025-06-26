@@ -6,17 +6,20 @@
   "aliases": [
     "MOBY"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 5,
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "portable"
   ],
-  "properties": {},
+  "properties": {
+    "value": 15,
+    "treasurePoints": 8
+  },
   "interactions": [
     {
       "command": "examine",

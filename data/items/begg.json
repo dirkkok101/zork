@@ -16,12 +16,14 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
     "container",
-    "openable"
+    "openable",
+    "visible",
+    "portable"
   ],
-  "properties": {},
+  "properties": {
+    "capacity": 6
+  },
   "interactions": [
     {
       "command": "examine",

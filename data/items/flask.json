@@ -13,10 +13,11 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "portable"
   ],
   "properties": {
+    "capacity": 5,
     "size": 10
   },
   "interactions": [

@@ -13,11 +13,13 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "container"
+    "container",
+    "readable",
+    "visible",
+    "portable"
   ],
   "properties": {
+    "capacity": 7,
     "size": 10
   },
   "interactions": [
@@ -40,6 +42,10 @@
       "condition": "state.open",
       "effect": "state.open = false",
       "message": "You close the TUBE."
+    },
+    {
+      "command": "read",
+      "message": "You read the TUBE."
     }
   ],
   "initialLocation": "unknown"

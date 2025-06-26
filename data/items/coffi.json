@@ -7,19 +7,23 @@
     "CASKE",
     "GOLD"
   ],
-  "type": "CONTAINER",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 55,
   "size": "HUGE",
   "initialState": {},
   "tags": [
+    "container",
+    "visible",
     "portable",
-    "portable",
-    "container"
+    "treasure"
   ],
   "properties": {
-    "size": 55
+    "capacity": 35,
+    "size": 55,
+    "value": 3,
+    "treasurePoints": 7
   },
   "interactions": [
     {

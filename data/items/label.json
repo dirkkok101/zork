@@ -16,8 +16,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "readable",
+    "visible",
     "portable",
-    "portable"
+    "flammable"
   ],
   "properties": {
     "size": 2
@@ -30,6 +32,10 @@
     {
       "command": "take",
       "message": "You take the tan label."
+    },
+    {
+      "command": "read",
+      "message": "You read the LABEL."
     }
   ],
   "initialLocation": "unknown"

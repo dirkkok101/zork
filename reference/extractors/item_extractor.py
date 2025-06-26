@@ -13,7 +13,7 @@ from typing import Dict, List, Any, Optional
 class ItemExtractor:
     def __init__(self, dung_file: str):
         self.dung_file = Path(dung_file)
-        self.output_dir = Path("data")
+        self.output_dir = Path(__file__).parent.parent.parent / "data"
         self.objects = self.parse_objects()
         
         # Item type categorization based on flags and properties
@@ -93,31 +93,45 @@ class ItemExtractor:
                     match = re.search(r'OSIZE\s+(\d+)', line)
                     if match:
                         obj_data['properties']['size'] = int(match.group(1))
-                elif 'TAKEBIT' in line:
-                    obj_data['flags'].append('PORTABLE')
-                elif 'LIGHTBIT' in line:
-                    obj_data['flags'].append('LIGHT_SOURCE')
-                elif 'CONTBIT' in line:
-                    obj_data['flags'].append('CONTAINER')
-                elif 'OPENBIT' in line:
-                    obj_data['flags'].append('OPENABLE')
-                elif 'WEAPONBIT' in line:
-                    obj_data['flags'].append('WEAPON')
-                elif 'TREASUREBIT' in line:
-                    obj_data['flags'].append('TREASURE')
-                elif 'TOOLBIT' in line:
-                    obj_data['flags'].append('TOOL')
-                elif 'FOODBIT' in line:
-                    obj_data['flags'].append('FOOD')
-                elif 'DRINKBIT' in line:
-                    obj_data['flags'].append('DRINK')
-                elif 'VEHBIT' in line:
-                    obj_data['flags'].append('VEHICLE')
+                elif 'OFVAL' in line:
+                    # Extract treasure value
+                    match = re.search(r'OFVAL\s+(\d+)', line)
+                    if match:
+                        obj_data['properties']['value'] = int(match.group(1))
+                elif 'OTVAL' in line:
+                    # Extract treasure points
+                    match = re.search(r'OTVAL\s+(\d+)', line)
+                    if match:
+                        obj_data['properties']['treasurePoints'] = int(match.group(1))
+                elif 'OCAPAC' in line:
+                    # Extract container capacity
+                    match = re.search(r'OCAPAC\s+(\d+)', line)
+                    if match:
+                        obj_data['properties']['capacity'] = int(match.group(1))
+                elif 'OREAD' in line:
+                    # Extract readable text
+                    match = re.search(r'OREAD\s+"([^"]*)"', line)
+                    if match:
+                        obj_data['properties']['readText'] = match.group(1)
+                elif 'OLINT' in line:
+                    # Extract light timer info (simplified)
+                    if 'CLOCK-INT' in line:
+                        timer_match = re.search(r'CLOCK-INT.*?(\d+)', line)
+                        if timer_match:
+                            obj_data['properties']['lightTimer'] = int(timer_match.group(1))
+                elif 'OMATCH' in line:
+                    # Extract match count
+                    match = re.search(r'OMATCH\s+(\d+)', line)
+                    if match:
+                        obj_data['properties']['matchCount'] = int(match.group(1))
                 
                 # Parse flag combinations in single line like "<+ ,OVISON ,TAKEBIT ,WEAPONBIT>"
                 flag_match = re.search(r'<\+[^>]*>', line)
                 if flag_match:
                     flag_line = flag_match.group(0)
+                    # Core functionality flags
+                    if 'OVISON' in flag_line:
+                        obj_data['flags'].append('VISIBLE')
                     if 'TAKEBIT' in flag_line:
                         obj_data['flags'].append('PORTABLE')
                     if 'LIGHTBIT' in flag_line:
@@ -130,6 +144,8 @@ class ItemExtractor:
                         obj_data['flags'].append('WEAPON')
                     if 'TREASUREBIT' in flag_line:
                         obj_data['flags'].append('TREASURE')
+                    if 'SACREDBIT' in flag_line:
+                        obj_data['flags'].append('TREASURE')
                     if 'TOOLBIT' in flag_line:
                         obj_data['flags'].append('TOOL')
                     if 'FOODBIT' in flag_line:
@@ -138,6 +154,90 @@ class ItemExtractor:
                         obj_data['flags'].append('DRINK')
                     if 'VEHBIT' in flag_line:
                         obj_data['flags'].append('VEHICLE')
+                    # Additional flags found in reference data
+                    if 'READBIT' in flag_line:
+                        obj_data['flags'].append('READABLE')
+                    if 'BURNBIT' in flag_line:
+                        obj_data['flags'].append('FLAMMABLE')
+                    if 'DOORBIT' in flag_line:
+                        obj_data['flags'].append('DOOR')
+                    if 'TURNBIT' in flag_line:
+                        obj_data['flags'].append('TURNABLE')
+                    if 'ONBIT' in flag_line:
+                        obj_data['flags'].append('SWITCHABLE')
+                    if 'FLAMEBIT' in flag_line:
+                        obj_data['flags'].append('FLAME_SOURCE')
+                    if 'SEARCHBIT' in flag_line:
+                        obj_data['flags'].append('SEARCHABLE')
+                    if 'VICBIT' in flag_line:
+                        obj_data['flags'].append('CHARACTER')
+                    if 'NDESCBIT' in flag_line:
+                        obj_data['flags'].append('NO_DESCRIPTION')
+                    # Additional flags found in reference data
+                    if 'TIEBIT' in flag_line:
+                        obj_data['flags'].append('TIEABLE')
+                    if 'DIGBIT' in flag_line:
+                        obj_data['flags'].append('DIGGABLE')
+                    if 'CLIMBBIT' in flag_line:
+                        obj_data['flags'].append('CLIMBABLE')
+                    if 'TRYTAKEBIT' in flag_line:
+                        obj_data['flags'].append('DANGEROUS')
+                    if 'BUNCHBIT' in flag_line:
+                        obj_data['flags'].append('COLLECTIVE')
+                
+                # Parse individual flag lines (for flags not in combinations)
+                elif 'OVISON' in line:
+                    obj_data['flags'].append('VISIBLE')
+                elif 'TAKEBIT' in line:
+                    obj_data['flags'].append('PORTABLE')
+                elif 'LIGHTBIT' in line:
+                    obj_data['flags'].append('LIGHT_SOURCE')
+                elif 'CONTBIT' in line:
+                    obj_data['flags'].append('CONTAINER')
+                elif 'OPENBIT' in line:
+                    obj_data['flags'].append('OPENABLE')
+                elif 'WEAPONBIT' in line:
+                    obj_data['flags'].append('WEAPON')
+                elif 'TREASUREBIT' in line:
+                    obj_data['flags'].append('TREASURE')
+                elif 'SACREDBIT' in line:
+                    obj_data['flags'].append('TREASURE')
+                elif 'TOOLBIT' in line:
+                    obj_data['flags'].append('TOOL')
+                elif 'FOODBIT' in line:
+                    obj_data['flags'].append('FOOD')
+                elif 'DRINKBIT' in line:
+                    obj_data['flags'].append('DRINK')
+                elif 'VEHBIT' in line:
+                    obj_data['flags'].append('VEHICLE')
+                elif 'READBIT' in line:
+                    obj_data['flags'].append('READABLE')
+                elif 'BURNBIT' in line:
+                    obj_data['flags'].append('FLAMMABLE')
+                elif 'DOORBIT' in line:
+                    obj_data['flags'].append('DOOR')
+                elif 'TURNBIT' in line:
+                    obj_data['flags'].append('TURNABLE')
+                elif 'ONBIT' in line:
+                    obj_data['flags'].append('SWITCHABLE')
+                elif 'FLAMEBIT' in line:
+                    obj_data['flags'].append('FLAME_SOURCE')
+                elif 'SEARCHBIT' in line:
+                    obj_data['flags'].append('SEARCHABLE')
+                elif 'VICBIT' in line:
+                    obj_data['flags'].append('CHARACTER')
+                elif 'NDESCBIT' in line:
+                    obj_data['flags'].append('NO_DESCRIPTION')
+                elif 'TIEBIT' in line:
+                    obj_data['flags'].append('TIEABLE')
+                elif 'DIGBIT' in line:
+                    obj_data['flags'].append('DIGGABLE')
+                elif 'CLIMBBIT' in line:
+                    obj_data['flags'].append('CLIMBABLE')
+                elif 'TRYTAKEBIT' in line:
+                    obj_data['flags'].append('DANGEROUS')
+                elif 'BUNCHBIT' in line:
+                    obj_data['flags'].append('COLLECTIVE')
             
             objects.append(obj_data)
         
@@ -157,11 +257,11 @@ class ItemExtractor:
             "aliases": obj['names'][1:] + obj['adjectives'],  # Additional names as aliases
             "type": self.determine_item_type(obj),
             "portable": 'PORTABLE' in obj['flags'],
-            "visible": True,
+            "visible": 'VISIBLE' in obj['flags'],
             "weight": obj['properties'].get('size', 5),
             "size": self.convert_size(obj['properties'].get('size', 5)),
             "initialState": {},
-            "tags": [tag.lower() for tag in obj['flags']],
+            "tags": list(set([tag.lower() for tag in obj['flags']])),  # Remove duplicates
             "properties": obj['properties'],
             "interactions": self.generate_interactions(obj),
             "initialLocation": "unknown"  # Would need additional parsing to determine
@@ -172,18 +272,22 @@ class ItemExtractor:
     def determine_item_type(self, obj: Dict[str, Any]) -> str:
         """Determine the primary item type - aligned with categorization logic"""
         flags = [flag.upper() for flag in obj['flags']]
+        properties = obj.get('properties', {})
         
+        # Treasure detection: items with both value (OFVAL) and treasurePoints (OTVAL)
+        if 'value' in properties and 'treasurePoints' in properties:
+            return 'TREASURE'
         # Priority order matches categorize_item() method
-        if 'FOOD' in flags or 'DRINK' in flags:
+        elif 'FOOD' in flags or 'DRINK' in flags:
             return 'FOOD'
         elif 'WEAPON' in flags:
             return 'WEAPON'
         elif 'CONTAINER' in flags or 'OPENABLE' in flags:
             return 'CONTAINER'
-        elif 'TOOL' in flags:
-            return 'TOOL'
         elif 'LIGHT_SOURCE' in flags:
             return 'LIGHT_SOURCE'
+        elif 'TOOL' in flags:
+            return 'TOOL'
         elif 'TREASURE' in flags:
             return 'TREASURE'
         else:
@@ -250,6 +354,44 @@ class ItemExtractor:
                     "condition": "state.open", 
                     "effect": "state.open = false",
                     "message": f"You close the {obj['names'][0]}."
+                }
+            ])
+        
+        # Read interaction for readable items
+        if 'READABLE' in obj['flags']:
+            interactions.append({
+                "command": "read",
+                "message": f"You read the {obj['names'][0]}."
+            })
+        
+        # Turn interaction for turnable items
+        if 'TURNABLE' in obj['flags']:
+            interactions.append({
+                "command": "turn",
+                "message": f"You turn the {obj['names'][0]}."
+            })
+        
+        # Search interaction for searchable items
+        if 'SEARCHABLE' in obj['flags']:
+            interactions.append({
+                "command": "search",
+                "message": f"You search the {obj['names'][0]}."
+            })
+        
+        # Switch interactions for switchable items
+        if 'SWITCHABLE' in obj['flags']:
+            interactions.extend([
+                {
+                    "command": "turn on",
+                    "condition": "!state.on",
+                    "effect": "state.on = true",
+                    "message": f"You turn on the {obj['names'][0]}."
+                },
+                {
+                    "command": "turn off",
+                    "condition": "state.on",
+                    "effect": "state.on = false",
+                    "message": f"You turn off the {obj['names'][0]}."
                 }
             ])
         

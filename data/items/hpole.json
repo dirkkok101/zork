@@ -12,7 +12,9 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "visible"
+  ],
   "properties": {},
   "interactions": [
     {

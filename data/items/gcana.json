@@ -10,17 +10,20 @@
     "GOLD",
     "GOLDE"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 5,
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "portable"
   ],
-  "properties": {},
+  "properties": {
+    "value": 6,
+    "treasurePoints": 2
+  },
   "interactions": [
     {
       "command": "examine",

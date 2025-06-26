@@ -14,11 +14,13 @@
   "size": "HUGE",
   "initialState": {},
   "tags": [
+    "flammable",
     "openable",
-    "openable",
+    "visible",
     "vehicle"
   ],
   "properties": {
+    "capacity": 100,
     "size": 70
   },
   "interactions": [

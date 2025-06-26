@@ -16,9 +16,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
-    "portable",
-    "weapon"
+    "switchable",
+    "weapon",
+    "visible",
+    "portable"
   ],
   "properties": {},
   "interactions": [
@@ -29,6 +30,18 @@
     {
       "command": "take",
       "message": "You take the knife."
+    },
+    {
+      "command": "turn on",
+      "condition": "!state.on",
+      "effect": "state.on = true",
+      "message": "You turn on the KNIFE."
+    },
+    {
+      "command": "turn off",
+      "condition": "state.on",
+      "effect": "state.on = false",
+      "message": "You turn off the KNIFE."
     }
   ],
   "initialLocation": "unknown"

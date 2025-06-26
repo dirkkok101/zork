@@ -8,18 +8,20 @@
     "SAPPH",
     "SAPPH"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
   "visible": true,
   "weight": 10,
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "portable"
   ],
   "properties": {
-    "size": 10
+    "size": 10,
+    "value": 5,
+    "treasurePoints": 3
   },
   "interactions": [
     {

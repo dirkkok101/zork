@@ -8,13 +8,17 @@
     "C3PO",
     "ROBBY"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": false,
   "visible": true,
   "weight": 5,
   "size": "TINY",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "character",
+    "visible",
+    "treasure"
+  ],
   "properties": {},
   "interactions": [
     {

@@ -13,7 +13,10 @@
   "weight": 60,
   "size": "HUGE",
   "initialState": {},
-  "tags": [],
+  "tags": [
+    "no_description",
+    "visible"
+  ],
   "properties": {
     "size": 60
   },

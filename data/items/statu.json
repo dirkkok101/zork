@@ -8,18 +8,19 @@
     "ROCK",
     "BEAUT"
   ],
-  "type": "TOOL",
+  "type": "TREASURE",
   "portable": true,
-  "visible": true,
+  "visible": false,
   "weight": 8,
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
     "portable"
   ],
   "properties": {
-    "size": 8
+    "size": 8,
+    "value": 10,
+    "treasurePoints": 13
   },
   "interactions": [
     {
