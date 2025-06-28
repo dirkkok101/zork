@@ -54,53 +54,7 @@ export class MonsterDataLoader implements IMonsterDataLoader {
         return allMonsters;
     }
 
-    /**
-     * Load a specific monster by its ID
-     */
-    public async loadMonster(monsterId: string): Promise<Monster> {
-        const index = await this.loadIndex();
-        
-        if (!index.monsters.includes(monsterId)) {
-            throw new Error(`Monster with ID '${monsterId}' not found`);
-        }
-
-        return await this.loadMonsterFromFile(monsterId);
-    }
-
-    /**
-     * Load monsters of a specific type
-     */
-    public async getMonstersByType(type: MonsterType): Promise<Monster[]> {
-        const allMonsters = await this.loadAllMonsters();
-        return allMonsters.filter(monster => monster.type === type);
-    }
-
-    /**
-     * Load monsters currently at a specific scene
-     */
-    public async getMonstersInScene(sceneId: string): Promise<Monster[]> {
-        const allMonsters = await this.loadAllMonsters();
-        return allMonsters.filter(monster => monster.currentSceneId === sceneId);
-    }
-
-    /**
-     * Get total monster count
-     */
-    public async getTotalCount(): Promise<number> {
-        const index = await this.loadIndex();
-        return index.total;
-    }
-
-    /**
-     * Check if a monster exists by ID
-     */
-    public async monsterExists(monsterId: string): Promise<boolean> {
-        if (monsterId === null || monsterId === undefined) {
-            throw new Error('Monster ID cannot be null or undefined');
-        }
-        const index = await this.loadIndex();
-        return index.monsters.includes(monsterId);
-    }
+    
 
     /**
      * Load the monster index

@@ -26,40 +26,5 @@ export interface IMonsterDataLoader {
      */
     loadAllMonsters(): Promise<Monster[]>;
 
-    /**
-     * Load a specific monster by its ID
-     * @param monsterId Unique identifier of the monster
-     * @returns Promise resolving to the monster
-     * @throws Error if monster not found
-     */
-    loadMonster(monsterId: string): Promise<Monster>;
 
-    /**
-     * Load monsters of a specific type.
-     * Loads all monsters and filters client-side (no caching optimization).
-     * @param type Monster type enum value
-     * @returns Promise resolving to array of monsters with the specified type
-     */
-    getMonstersByType(type: MonsterType): Promise<Monster[]>;
-
-    /**
-     * Load monsters currently at a specific scene.
-     * Loads all monsters and filters client-side (no caching optimization).
-     * @param sceneId Scene ID to check
-     * @returns Promise resolving to array of monsters at the scene
-     */
-    getMonstersInScene(sceneId: string): Promise<Monster[]>;
-
-    /**
-     * Get total monster count from index.json.
-     * @returns Promise resolving to total number of monsters (9)
-     */
-    getTotalCount(): Promise<number>;
-
-    /**
-     * Check if a monster exists by ID
-     * @param monsterId Unique identifier of the monster
-     * @returns Promise resolving to boolean indicating existence
-     */
-    monsterExists(monsterId: string): Promise<boolean>;
 }

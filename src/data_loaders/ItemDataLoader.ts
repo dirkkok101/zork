@@ -1,66 +1,11 @@
-import { ItemData, ItemInteractionData, ItemIndexData, ItemProperties } from '../types/ItemData';
-import { Item, ItemType, Size, ItemInteraction } from '../types/ItemTypes';
+
 import { readFile } from 'fs/promises';
 import { join } from 'path';
+import {IItemDataLoader} from '@/data_loaders/IItemDataLoader';
+import {Item, ItemInteraction, ItemType, Size} from '@/types/ItemTypes';
+import {ItemData, ItemIndexData, ItemInteractionData, ItemProperties} from '@/types/ItemData';
 
-/**
- * Interface defining the contract for item data loading operations.
- * 
- * The ItemDataLoader follows a stateless architecture with no internal caching.
- * Each method call performs fresh file I/O operations, ensuring consistent behavior
- * and eliminating memory overhead from cached data.
- * 
- * Data Structure:
- * - 214 items stored in flat file structure (data/items/)
- * - No hierarchical category folders
- * - Items indexed by index.json containing array of filenames
- * 
- * Type Distribution:
- * - TOOL: 164 items (76.6% - includes weapons, treasures, consumables)
- * - CONTAINER: 36 items
- * - FOOD: 7 items  
- * - WEAPON: 5 items
- * - LIGHT_SOURCE: 2 items
- * - TREASURE: 0 items (enum exists but unused)
- */
-export interface IItemDataLoader {
-    /**
-     * Load all items from flat structure.
-     * Performs fresh file I/O on each call (no caching).
-     * @returns Promise resolving to array of all 214 items
-     */
-    loadAllItems(): Promise<Item[]>;
 
-    /**
-     * Load a specific item by its ID
-     * @param itemId Unique identifier of the item
-     * @returns Promise resolving to the item
-     * @throws Error if item not found
-     */
-    loadItem(itemId: string): Promise<Item>;
-
-    /**
-     * Load items of a specific type.
-     * Loads all items and filters client-side (no caching optimization).
-     * @param type Item type enum value
-     * @returns Promise resolving to array of items with the specified type
-     */
-    getItemsByType(type: ItemType): Promise<Item[]>;
-
-    /**
-     * Load items currently at a specific location.
-     * Loads all items and filters client-side (no caching optimization).
-     * @param location Scene ID or 'inventory'
-     * @returns Promise resolving to array of items at the location
-     */
-    getItemsByLocation(location: string): Promise<Item[]>;
-
-    /**
-     * Get total item count from index.json.
-     * @returns Promise resolving to total number of items (214)
-     */
-    getTotalCount(): Promise<number>;
-}
 
 /**
  * Implementation of stateless item data loading.
@@ -109,44 +54,6 @@ export class ItemDataLoader implements IItemDataLoader {
         }
 
         return allItems;
-    }
-
-    /**
-     * Load a specific item by its ID
-     */
-    public async loadItem(itemId: string): Promise<Item> {
-        const index = await this.loadIndex();
-        const filename = `${itemId}.json`;
-        
-        if (!index.items.includes(filename)) {
-            throw new Error(`Item with ID '${itemId}' not found`);
-        }
-
-        return await this.loadItemFromFile(filename);
-    }
-
-    /**
-     * Load items of a specific type
-     */
-    public async getItemsByType(type: ItemType): Promise<Item[]> {
-        const allItems = await this.loadAllItems();
-        return allItems.filter(item => item.type === type);
-    }
-
-    /**
-     * Load items currently at a specific location
-     */
-    public async getItemsByLocation(location: string): Promise<Item[]> {
-        const allItems = await this.loadAllItems();
-        return allItems.filter(item => item.currentLocation === location);
-    }
-
-    /**
-     * Get total item count
-     */
-    public async getTotalCount(): Promise<number> {
-        const index = await this.loadIndex();
-        return index.total;
     }
 
     /**
