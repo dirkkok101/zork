@@ -16,6 +16,11 @@ import {
   IPersistenceService,
   IOutputService
 } from '../services/interfaces';
+import { GameStateService } from '../services/GameStateService';
+import { SceneService } from '../services/SceneService';
+import { InventoryService } from '../services/InventoryService';
+import { ItemService } from '../services/ItemService';
+import { OutputService } from '../services/OutputService';
 
 /**
  * Collection of all game services
@@ -62,29 +67,43 @@ export class ServiceInitializer {
   }
   
   /**
-   * Create mock service implementations
-   * These will be replaced with real services incrementally
+   * Create service implementations
+   * Mix of real and mock implementations as services are built incrementally
    * @param gameData Game data for service initialization
    * @param loggingService Logging service
-   * @returns Mock service implementations
+   * @returns Service implementations
    */
-  private static createMockServices(_gameData: GameData, loggingService: LoggingService): Services {
+  private static createMockServices(gameData: GameData, loggingService: LoggingService): Services {
     const logger = loggingService.getLogger('ServiceInitializer');
     
-    logger.debug('Creating mock service implementations...');
+    logger.debug('Creating service implementations...');
     
-    // TODO: Replace these mocks with real service implementations as they are built
+    // Create real services that are implemented
+    const gameStateService = new GameStateService('west_of_house', logger);
+    
+    // Convert arrays to Records for service consumption
+    const itemsRecord = gameData.items.reduce((acc, item) => ({ ...acc, [item.id]: item }), {});
+    const scenesRecord = gameData.scenes.reduce((acc, scene) => ({ ...acc, [scene.id]: scene }), {});
+    const monstersRecord = gameData.monsters.reduce((acc, monster) => ({ ...acc, [monster.id]: monster }), {});
+    
+    gameStateService.loadGameData(itemsRecord, scenesRecord, monstersRecord);
+    
+    const sceneService = new SceneService(gameStateService, logger);
+    const inventoryService = new InventoryService(gameStateService, logger);
+    const itemService = new ItemService(gameStateService, logger);
+    const outputService = new OutputService(logger);
+    
     const services: Services = {
-      gameState: null as any,
-      scene: null as any,
-      inventory: null as any,
-      items: null as any,
-      combat: null as any,
-      persistence: null as any,
-      output: null as any
+      gameState: gameStateService,
+      scene: sceneService,
+      inventory: inventoryService,
+      items: itemService,
+      combat: null as any, // Still mock - not needed for Look command
+      persistence: null as any, // Still mock - not needed for Look command
+      output: outputService
     };
     
-    logger.debug('✅ Mock services created (ready for real implementations)');
+    logger.debug('✅ Services created (mix of real and mock implementations)');
     
     return services;
   }

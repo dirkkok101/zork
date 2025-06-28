@@ -78,6 +78,26 @@ export class MonsterDataLoader implements IMonsterDataLoader {
     
 
     /**
+     * Load file content - works in both browser (fetch) and Node.js (fs) environments
+     */
+    private async loadFileContent(filePath: string): Promise<string> {
+        if (typeof window !== 'undefined') {
+            // Browser environment - use fetch
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+            }
+            return response.text();
+        } else {
+            // Node.js environment - use fs.readFile
+            const fs = await import('fs/promises');
+            const path = await import('path');
+            const fullPath = path.resolve(process.cwd(), filePath);
+            return fs.readFile(fullPath, 'utf-8');
+        }
+    }
+
+    /**
      * Load the monster index
      */
     private async loadIndex(): Promise<MonsterIndex> {
@@ -85,12 +105,8 @@ export class MonsterDataLoader implements IMonsterDataLoader {
             const indexUrl = `${this.dataPath}index.json`;
             this.logger.debug(`Loading monster index from ${indexUrl}`);
             
-            const response = await fetch(indexUrl);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch index: ${response.status} ${response.statusText}`);
-            }
-            
-            const indexData = await response.json() as MonsterIndex;
+            const jsonContent = await this.loadFileContent(indexUrl);
+            const indexData = JSON.parse(jsonContent) as MonsterIndex;
             
             this.validateIndexData(indexData);
             this.logger.debug(`Index loaded: ${indexData.total} monsters found`);
@@ -110,12 +126,8 @@ export class MonsterDataLoader implements IMonsterDataLoader {
             const filename = `${monsterId}.json`;
             const monsterUrl = `${this.dataPath}${filename}`;
             
-            const response = await fetch(monsterUrl);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch monster: ${response.status} ${response.statusText}`);
-            }
-            
-            const monsterData = await response.json() as MonsterData;
+            const jsonContent = await this.loadFileContent(monsterUrl);
+            const monsterData = JSON.parse(jsonContent) as MonsterData;
             
             this.validateMonsterData(monsterData);
             return this.convertMonsterDataToMonster(monsterData);

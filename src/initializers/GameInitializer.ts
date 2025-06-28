@@ -44,9 +44,12 @@ export class GameInitializer {
       logger.info('📚 Loading game data from files...');
       const startTime = Date.now();
       
-      const itemLoader = new ItemDataLoader('/items/', loggingService.getLogger('ItemDataLoader'));
-      const sceneLoader = new SceneDataLoader('/scenes/', loggingService.getLogger('SceneDataLoader'));
-      const monsterLoader = new MonsterDataLoader('/monsters/', loggingService.getLogger('MonsterDataLoader'));
+      // Use environment-appropriate paths
+      const dataPathPrefix = typeof window !== 'undefined' ? '/' : 'data/';
+      
+      const itemLoader = new ItemDataLoader(`${dataPathPrefix}items/`, loggingService.getLogger('ItemDataLoader'));
+      const sceneLoader = new SceneDataLoader(`${dataPathPrefix}scenes/`, loggingService.getLogger('SceneDataLoader'));
+      const monsterLoader = new MonsterDataLoader(`${dataPathPrefix}monsters/`, loggingService.getLogger('MonsterDataLoader'));
       
       // Load all data in parallel for performance
       const [items, scenes, monsters] = await Promise.all([

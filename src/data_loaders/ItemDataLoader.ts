@@ -83,6 +83,26 @@ export class ItemDataLoader implements IItemDataLoader {
     }
 
     /**
+     * Load file content - works in both browser (fetch) and Node.js (fs) environments
+     */
+    private async loadFileContent(filePath: string): Promise<string> {
+        if (typeof window !== 'undefined') {
+            // Browser environment - use fetch
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+            }
+            return response.text();
+        } else {
+            // Node.js environment - use fs.readFile
+            const fs = await import('fs/promises');
+            const path = await import('path');
+            const fullPath = path.resolve(process.cwd(), filePath);
+            return fs.readFile(fullPath, 'utf-8');
+        }
+    }
+
+    /**
      * Load the item index
      */
     private async loadIndex(): Promise<ItemIndexData> {
@@ -90,12 +110,8 @@ export class ItemDataLoader implements IItemDataLoader {
             const indexUrl = `${this.dataPath}index.json`;
             this.logger.debug(`Loading item index from ${indexUrl}`);
             
-            const response = await fetch(indexUrl);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch index: ${response.status} ${response.statusText}`);
-            }
-            
-            const indexData = await response.json() as ItemIndexData;
+            const jsonContent = await this.loadFileContent(indexUrl);
+            const indexData = JSON.parse(jsonContent) as ItemIndexData;
             
             this.validateIndexData(indexData);
             this.logger.debug(`Index loaded: ${indexData.total} items found`);
@@ -115,12 +131,8 @@ export class ItemDataLoader implements IItemDataLoader {
             const itemUrl = `${this.dataPath}${filename}`;
             this.logger.trace(`Loading item from ${itemUrl}`);
             
-            const response = await fetch(itemUrl);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch item: ${response.status} ${response.statusText}`);
-            }
-            
-            const itemData = await response.json() as ItemData;
+            const jsonContent = await this.loadFileContent(itemUrl);
+            const itemData = JSON.parse(jsonContent) as ItemData;
             
             this.validateItemData(itemData);
             const item = this.convertItemDataToItem(itemData);

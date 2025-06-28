@@ -1,6 +1,7 @@
 import {Item} from '../../types/ItemTypes';
 import {Scene} from '../../types/SceneTypes';
 import {Monster} from '../../types/Monster';
+import {GameState} from '../../types/GameState';
 
 /**
  * Manages core game state including player location, flags, scoring, game lifecycle, and data access.
@@ -79,4 +80,10 @@ export interface IGameStateService {
   
   /** Update scene-specific runtime state */
   updateSceneRuntimeState(sceneId: string, updates: Record<string, any>): void;
+
+  /** Get the complete game state (for persistence) */
+  getGameState(): GameState;
+
+  /** Set the complete game state (for restoration) */
+  setGameState(gameState: GameState): void;
 }

@@ -99,6 +99,26 @@ export class SceneDataLoader implements ISceneDataLoader {
     }
 
     /**
+     * Load file content - works in both browser (fetch) and Node.js (fs) environments
+     */
+    private async loadFileContent(filePath: string): Promise<string> {
+        if (typeof window !== 'undefined') {
+            // Browser environment - use fetch
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+            }
+            return response.text();
+        } else {
+            // Node.js environment - use fs.readFile
+            const fs = await import('fs/promises');
+            const path = await import('path');
+            const fullPath = path.resolve(process.cwd(), filePath);
+            return fs.readFile(fullPath, 'utf-8');
+        }
+    }
+
+    /**
      * Load the scene index
      */
     private async loadIndex(): Promise<SceneIndexData> {
@@ -106,12 +126,8 @@ export class SceneDataLoader implements ISceneDataLoader {
             const indexUrl = `${this.dataPath}index.json`;
             this.logger.debug(`Loading scene index from ${indexUrl}`);
             
-            const response = await fetch(indexUrl);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch index: ${response.status} ${response.statusText}`);
-            }
-            
-            const indexData = await response.json() as SceneIndexData;
+            const jsonContent = await this.loadFileContent(indexUrl);
+            const indexData = JSON.parse(jsonContent) as SceneIndexData;
             
             this.validateIndexData(indexData);
             this.logger.debug(`Index loaded: ${indexData.total} scenes found in ${Object.keys(indexData.regions).length} regions`);
@@ -131,12 +147,8 @@ export class SceneDataLoader implements ISceneDataLoader {
             const sceneUrl = `${this.dataPath}${filename}`;
             this.logger.trace(`Loading scene from ${sceneUrl}`);
             
-            const response = await fetch(sceneUrl);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch scene: ${response.status} ${response.statusText}`);
-            }
-            
-            const sceneData = await response.json() as SceneData;
+            const jsonContent = await this.loadFileContent(sceneUrl);
+            const sceneData = JSON.parse(jsonContent) as SceneData;
             
             this.validateSceneData(sceneData);
             const scene = this.convertSceneDataToScene(sceneData);
