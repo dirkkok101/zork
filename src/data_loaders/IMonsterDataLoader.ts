@@ -1,5 +1,4 @@
-import { Monster } from '../types/Monster';
-import { MonsterType } from '../types/MonsterTypes';
+import {Monster} from '@/types/Monster';
 
 /**
  * Interface defining the contract for monster data loading operations.

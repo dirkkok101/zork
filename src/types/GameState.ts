@@ -29,6 +29,9 @@ export interface GameState {
 
     /** Scenes in the game world */
     scenes: Record<string, any>;
+
+    /** Monsters in the game world */
+    monsters: Record<string, any>;
 }
 
 /**
@@ -63,6 +66,7 @@ export function createInitialGameState(startingSceneId: string): GameState {
         flags: {},
         variables: {},
         items: {},
-        scenes: {}
+        scenes: {},
+        monsters: {}
     };
 }

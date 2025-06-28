@@ -1,69 +1,35 @@
 /**
  * Service Interfaces Index
- * Exports all service interfaces following SOLID principles
- * Each interface has a single responsibility and is dependency-inverted
+ * Exports lean service interfaces following SOLID principles
+ * Each interface has a single responsibility and clear boundaries
  */
 
-// Core service interfaces
-export { IItemService } from './IItemService';
-export { IContainerService, ContainerResult } from './IContainerService';
-export { ILightSourceService } from './ILightSourceService';
+// Core lean service interfaces
+export { IGameStateService } from './IGameStateService';
+export { ISceneService } from './ISceneService';
+export { IInventoryService } from './IInventoryService';
+export { IItemService, ItemResult } from './IItemService';
+export { ICombatService, CombatResult, InteractionResult } from './ICombatService';
+export { IPersistenceService } from './IPersistenceService';
+export { IOutputService } from './IOutputService';
 
-// Monster service interfaces
-export { IMonsterService } from './IMonsterService';
-export { IMonsterCombatService, CombatResult as MonsterCombatResult, MonsterDeathResult } from './IMonsterCombatService';
-export { IMonsterMovementService, MovementResult, MovementDecision } from './IMonsterMovementService';
-export { IMonsterBehaviorService, BehaviorResult, AbilityResult } from './IMonsterBehaviorService';
-export { IMonsterInteractionService, InteractionResult, DialogueEntry } from './IMonsterInteractionService';
-export { IMonsterAIService, AIDecision, MonsterAction, ThreatAssessment } from './IMonsterAIService';
-
-// Specialized interaction service interfaces
-export { IPhysicalInteractionService } from './IPhysicalInteractionService';
-export { IWeaponService, CombatResult } from './IWeaponService';
-export { IConsumableService, ConsumptionResult, NutritionStatus } from './IConsumableService';
-export { IFireService, FireResult, FireHazard } from './IFireService';
-export { IVehicleService, VehicleResult, TravelRoute } from './IVehicleService';
-
-// Scene and navigation services
-export { ISceneNavigationService, NavigationResult } from './ISceneNavigationService';
-export { ISceneLightingService, LightingEvaluation, LightSource } from './ISceneLightingService';
-
-// Game state management services
-export { IGamePersistenceService, SaveSlot, PersistenceResult } from './IGamePersistenceService';
-export { IGameFlagService, FlagChangeEvent, VariableChangeEvent, FlagQuery } from './IGameFlagService';
-
-// Command processing services
-export { ICommandParserService, ParsedCommand, CommandSuggestion, ParseError, CommandValidation } from './ICommandParserService';
-export { IConditionEvaluationService, ConditionResult, ConditionExpression, ConditionContext } from './IConditionEvaluationService';
-export { IEffectApplicationService, EffectResult, EffectChange, EffectExpression, EffectContext } from './IEffectApplicationService';
-
-// Game mechanics services
-export { IPuzzleService, Puzzle, PuzzleAttemptResult, PuzzleState, PuzzleHint, PuzzleReward } from './IPuzzleService';
-export { IAudioService, AudioSource, AudioConfig, AudioEvent, AudioEventType } from './IAudioService';
-
-// Orchestration service
-export { IGameOrchestrationService, CommandExecutionResult, GameEvent, TurnResult, OrchestrationContext } from './IGameOrchestrationService';
-
-// Service registry interface
-export {
-  IServiceRegistry,
-  ServiceHealthReport,
-  ServiceConfiguration
-} from './IServiceRegistry';
-
-// Re-export common types from ItemTypes
+// Re-export core types needed by commands
 export type {
-  ItemOperationResult,
-  ConsumptionEffects,
-  WeaponItem,
-  VehicleItem,
-  ConsumableItem,
-  ContainerItem,
-  LightSourceItem,
-  OpenableItem,
-  LockableItem,
   Item,
-  ItemInteraction,
-  ItemType,
-  Size
+  ItemType
 } from '../../types/ItemTypes';
+
+export type {
+  Scene
+} from '../../types/SceneTypes';
+
+export type {
+  Monster
+} from '../../types/Monster';
+
+// Command result interface for use by commands
+export interface CommandResult {
+  success: boolean;
+  message: string;
+  endTurn: boolean;
+}

@@ -1,4 +1,4 @@
-import {Item, ItemType} from '@/types/ItemTypes';
+import {Item} from '@/types/ItemTypes';
 
 /**
  * Interface defining the contract for item data loading operations.

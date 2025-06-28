@@ -5,7 +5,7 @@
  */
 
 // Item data loading
-export { IItemDataLoader } from './ItemDataLoader';
+export { IItemDataLoader } from './IItemDataLoader';
 export { ItemDataLoader } from './ItemDataLoader';
 
 // Monster data loading
