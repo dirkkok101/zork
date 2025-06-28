@@ -1,6 +1,6 @@
 import { MonsterData, MonsterIndex } from '../types/MonsterData';
 import { Monster } from '../types/Monster';
-import { MonsterType, MonsterState, MovementPattern } from '../types/MonsterTypes';
+import { MonsterState, MovementPattern } from '../types/MonsterTypes';
 import { IMonsterDataLoader } from './IMonsterDataLoader';
 import { readFile } from 'fs/promises';
 import { join } from 'path';

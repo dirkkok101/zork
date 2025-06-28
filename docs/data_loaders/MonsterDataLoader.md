@@ -2,16 +2,15 @@
 
 ## Overview
 
-The `MonsterDataLoader` class is a core component of the DataLoader layer in the 4-layer architecture. It provides type-safe, validated loading of monster data from JSON files with stateless architecture, MDL (Monster Description Language) property handling, and comprehensive error handling.
+The `MonsterDataLoader` class is a core component of the DataLoader layer in the 4-layer architecture. It provides type-safe, validated loading of game monsters from JSON data files with **stateless architecture** and comprehensive error handling, following the **minimal interface pattern**.
 
 ## Purpose and Scope
 
 ### Primary Responsibilities
-- Load and validate 9 monster JSON files in flat structure
-- Convert raw JSON data to type-safe TypeScript interfaces with MDL property mapping
-- Handle optional fields gracefully (67% of monsters lack fixed starting locations)
-- Provide efficient access patterns for the Services layer
-- Infer monster states from flags with proper precedence rules
+- Load and validate 9 monster JSON files in flat structure (no categories)
+- Convert raw JSON data to type-safe TypeScript interfaces
+- Provide **single-method interface** for the Services layer
+- Parse MDL flags, behavior functions, and movement demons
 - Stateless file I/O operations without caching
 
 ### Architecture Position
@@ -25,292 +24,187 @@ Services Layer ← MonsterDataLoader (DataLoader Layer)
 Data Files (JSON)
 ```
 
+## Minimal Interface Pattern
+
+### Interface Design Philosophy
+The `IMonsterDataLoader` follows a **minimal interface pattern** with only essential methods:
+
+```typescript
+export interface IMonsterDataLoader {
+    /**
+     * Load all monsters from flat structure.
+     * Performs fresh file I/O on each call (no caching).
+     * @returns Promise resolving to array of all 9 monsters
+     */
+    loadAllMonsters(): Promise<Monster[]>;
+}
+```
+
+### Rationale for Minimal Interface
+- **Single Responsibility**: One method, one clear purpose
+- **Services Layer Filtering**: Query operations (by type, location) handled by Services
+- **Stateless Architecture**: No caching means no need for cache management methods
+- **Consistent Pattern**: All data loaders follow the same minimal interface
+- **Testing Simplicity**: Only one public method to test thoroughly
+
 ## Data Structure and Organization
 
 ### Monster Storage (9 total monsters)
 Monsters are stored in a **flat file structure** with individual JSON files:
 - All monsters in single `data/monsters/` directory
 - No hierarchical category folders
-- Indexed by `index.json` file containing registry information
+- Indexed by `index.json` file containing array of monster IDs
 
 ### Monster Type Distribution (by actual type property)
-- **HUMANOID** (5 monsters): Human-like creatures with intelligence and tools
-- **CREATURE** (2 monsters): Non-human animate beings
-- **ENVIRONMENTAL** (2 monsters): Context-dependent entities tied to game conditions
+- **HUMANOID** (5 monsters): thief, troll, cyclops, gnome_of_zurich, guardian_of_zork
+- **CREATURE** (2 monsters): ghost, volcano_gnome
+- **ENVIRONMENTAL** (2 monsters): grue, vampire_bat
 
 ### Type System Architecture
 
 #### Raw Data Interface (`MonsterData`)
-Represents the exact JSON file structure with optional fields:
+Represents the exact JSON file structure:
 ```typescript
 interface MonsterData {
   id: string;
   name: string;
-  type: MonsterType;
+  type: MonsterType;           // Raw string from JSON
   description: string;
   examineText: string;
-  startingSceneId?: string;     // Optional - 67% of monsters don't have this
-  currentSceneId?: string;
   inventory: string[];
   synonyms: string[];
   flags: Record<string, boolean>;
   properties: Record<string, any>;
-  
-  // MDL Properties (optional)
+  // Optional MDL properties
   combatStrength?: number;
   meleeMessages?: MeleeMessages;
   behaviorFunction?: string;
   movementDemon?: string;
-  specialAbilities?: string[];
+  // ... other fields
 }
 ```
 
 #### Runtime Interface (`Monster`)
-Type-safe interface with converted properties and computed fields:
+Type-safe interface with converted types and computed properties:
 ```typescript
 interface Monster {
   id: string;
   name: string;
-  type: MonsterType;
-  description: string;
-  examineText: string;
-  
-  // Location handling
-  currentSceneId: string | null;      // Null for mobile/environmental monsters
-  startingSceneId?: string | null;    // Optional for mobile creatures
-  
-  // Combat properties
-  health: number;
-  maxHealth: number;
-  combatStrength?: number;
-  meleeMessages?: MeleeMessages;
-  
-  // Behavior and movement
-  state: MonsterState;                // Inferred from flags/type
-  movementPattern: MovementPattern;   // Converted from movementDemon
-  allowedScenes: string[];
-  behaviorFunction?: string;
-  movementDemon?: string;
-  behaviors?: string[];               // Extracted from functions
-  
-  // Game state
+  type: MonsterType;           // Converted enum
+  state: MonsterState;         // Computed from flags/type
+  movementPattern: MovementPattern; // Computed from demon
+  currentSceneId: string | null;
+  startingSceneId?: string | null;
+  health: number;              // Computed from data
+  maxHealth: number;           // Computed from data
   inventory: string[];
-  variables: Record<string, any>;     // Monster-specific variables
-  synonyms: string[];
-  flags: Record<string, boolean>;
-  properties: Record<string, any>;
-  
-  // Scoring
-  defeatScore?: number;
+  variables: Record<string, any>; // Monster-specific state
+  // ... MDL properties preserved
 }
 ```
 
-## Validated Enum Values
+## Monster Data Conversion Logic
 
-### MonsterType Enum
-Based on actual data distribution:
+### State Determination
+Monsters have their initial state determined by a priority system:
 ```typescript
-enum MonsterType {
-  HUMANOID = 'humanoid',        // 5 instances
-  CREATURE = 'creature',        // 2 instances  
-  ENVIRONMENTAL = 'environmental' // 2 instances
-}
+// Priority order:
+1. Explicit state in data
+2. VILLAIN flag → HOSTILE state
+3. INVISIBLE/OVISON flags → LURKING state  
+4. GUARD behavior function → GUARDING state
+5. Type-based defaults:
+   - humanoid → IDLE
+   - creature → WANDERING  
+   - environmental → LURKING
 ```
 
-### MonsterState Enum
-Inferred from flags and properties:
+### Movement Pattern Inference
+Movement patterns are inferred from movement demon names:
 ```typescript
-enum MonsterState {
-  IDLE = 'idle',
-  ALERT = 'alert', 
-  HOSTILE = 'hostile',          // From VILLAIN flag
-  FLEEING = 'fleeing',
-  FRIENDLY = 'friendly',
-  DEAD = 'dead',
-  GUARDING = 'guarding',        // From GUARD behavior
-  WANDERING = 'wandering',      // Default for creatures
-  LURKING = 'lurking',          // From OVISON flag
-  SLEEPING = 'sleeping'
-}
+// Demon name patterns (case-sensitive):
+- ROBBER/FOLLOW → 'follow'
+- FLEE → 'flee'
+- PATROL → 'patrol'
+- RANDOM → 'random'
+- Default → 'stationary'
 ```
 
-### MovementPattern Enum
-Converted from movementDemon properties:
+### Monster-Specific Variables
+Special monsters get initialized with game-specific variables:
 ```typescript
-enum MovementPattern {
-  STATIONARY = 'stationary',    // Default
-  RANDOM = 'random',
-  PATROL = 'patrol', 
-  FOLLOW = 'follow',            // From ROBBER-DEMON
-  FLEE = 'flee'
-}
-```
+// Thief variables
+{ hasStolen: false, stolenItems: [], engagedInCombat: false }
 
-## MDL Property Conversion System
+// Troll variables  
+{ hasBeenPaid: false, isGuarding: true }
 
-### State Inference Logic
-Converts flags to runtime states with proper precedence:
-```typescript
-// Priority order (higher precedence first):
-// 1. Explicit state property
-// 2. VILLAIN flag → HOSTILE
-// 3. INVISIBLE or OVISON flag → LURKING  
-// 4. GUARD behavior → GUARDING
-// 5. Type-based defaults
-```
-
-### Movement Pattern Conversion
-Maps MDL movement demons to runtime patterns:
-```typescript
-// Movement demon mappings:
-movementDemon: "ROBBER-DEMON" → movementPattern: "follow"
-movementDemon: "FLEE-DEMON"   → movementPattern: "flee"  
-movementDemon: "PATROL-DEMON" → movementPattern: "patrol"
-movementDemon: "RANDOM-DEMON" → movementPattern: "random"
-// No demon or unknown      → movementPattern: "stationary"
-```
-
-### Behavior Extraction
-Extracts behaviors from function names and properties:
-```typescript
-// Function name mappings:
-behaviorFunction: "ROBBER-FUNCTION" → behaviors: ["steal"]
-behaviorFunction: "GUARD-FUNCTION"  → behaviors: ["guard"]
-behaviorFunction: "VANISH-FUNCTION" → behaviors: ["vanish"]
-
-// Plus special abilities and properties.behaviors
-```
-
-### Variable Initialization
-Initializes monster-specific game variables:
-```typescript
-// Monster-specific variables:
-thief: { hasStolen: false, stolenItems: [], engagedInCombat: false }
-troll: { hasBeenPaid: false, isGuarding: true }
-cyclops: { isAsleep: true, hasBeenAwakened: false }
+// Cyclops variables
+{ isAsleep: true, hasBeenAwakened: false }
 ```
 
 ## API Documentation
 
-### Core Loading Methods
-
-#### `loadMonster(monsterId: string): Promise<Monster>`
-Loads a specific monster by ID with full validation and type conversion.
-```typescript
-const loader = new MonsterDataLoader();
-const thief = await loader.loadMonster('thief');
-console.log(thief.combatStrength);        // 5
-console.log(thief.behaviorFunction);      // "ROBBER-FUNCTION"
-console.log(thief.movementPattern);       // "follow"
-console.log(thief.state);                 // "hostile"
-```
+### Core Loading Method
 
 #### `loadAllMonsters(): Promise<Monster[]>`
-Loads all 9 monsters from flat structure. Each call performs fresh file I/O operations.
+The **only public method** in the minimal interface. Loads all 9 monsters from flat structure. Each call performs fresh file I/O operations.
+
 ```typescript
+const loader = new MonsterDataLoader();
 const allMonsters = await loader.loadAllMonsters();
 console.log(`Loaded ${allMonsters.length} monsters`); // 9
+
+// Services layer handles filtering
+const humanoids = allMonsters.filter(monster => monster.type === MonsterType.HUMANOID);
+const creatures = allMonsters.filter(monster => monster.type === MonsterType.CREATURE);
+const environmental = allMonsters.filter(monster => monster.type === MonsterType.ENVIRONMENTAL);
 ```
 
-### Query Methods
+### Removed Methods (Services Layer Responsibility)
+The following methods were **removed from the interface** to follow the minimal pattern:
 
-#### `getMonstersByType(type: MonsterType): Promise<Monster[]>`
-Filters monsters by type enum. Loads all monsters fresh from disk and filters client-side.
+- ❌ `loadMonster(monsterId: string)` → Use Services layer + `loadAllMonsters()`
+- ❌ `getMonstersByType(type: MonsterType)` → Use Services layer + `loadAllMonsters()` + filter
+- ❌ `getMonstersInScene(sceneId: string)` → Use Services layer + `loadAllMonsters()` + filter
+- ❌ `getTotalCount()` → Use `loadAllMonsters().length`
+- ❌ `monsterExists(monsterId: string)` → Use Services layer + `loadAllMonsters()` + find
+
+### Services Layer Integration Pattern
 ```typescript
-const humanoids = await loader.getMonstersByType(MonsterType.HUMANOID); // 5 monsters
-const creatures = await loader.getMonstersByType(MonsterType.CREATURE); // 2 monsters
-const environmental = await loader.getMonstersByType(MonsterType.ENVIRONMENTAL); // 2 monsters
+// MonsterService handles complex queries using loadAllMonsters()
+class MonsterService {
+  constructor(private monsterLoader: IMonsterDataLoader) {}
+  
+  async getMonster(monsterId: string): Promise<Monster | null> {
+    const allMonsters = await this.monsterLoader.loadAllMonsters();
+    return allMonsters.find(monster => monster.id === monsterId) || null;
+  }
+  
+  async getMonstersByType(type: MonsterType): Promise<Monster[]> {
+    const allMonsters = await this.monsterLoader.loadAllMonsters();
+    return allMonsters.filter(monster => monster.type === type);
+  }
+  
+  async getMonstersInScene(sceneId: string): Promise<Monster[]> {
+    const allMonsters = await this.monsterLoader.loadAllMonsters();
+    return allMonsters.filter(monster => monster.currentSceneId === sceneId);
+  }
+  
+  async getHostileMonsters(): Promise<Monster[]> {
+    const allMonsters = await this.monsterLoader.loadAllMonsters();
+    return allMonsters.filter(monster => monster.state === MonsterState.HOSTILE);
+  }
+}
 ```
-
-#### `getMonstersInScene(sceneId: string): Promise<Monster[]>`
-Finds monsters at a specific scene. Loads all monsters fresh from disk and filters client-side.
-```typescript
-const treasureRoomMonsters = await loader.getMonstersInScene('treasure_room'); // [thief]
-const trollRoomMonsters = await loader.getMonstersInScene('troll_room'); // [troll]
-```
-
-### Metadata Methods
-
-#### `getTotalCount(): Promise<number>`
-Returns total monster count from index.json.
-```typescript
-const total = await loader.getTotalCount(); // 9
-```
-
-#### `monsterExists(monsterId: string): Promise<boolean>`
-Checks if a monster exists in the registry.
-```typescript
-const exists = await loader.monsterExists('thief'); // true
-const missing = await loader.monsterExists('dragon'); // false
-```
-
-## Monster Data Analysis
-
-### Real Data Structure Patterns
-
-#### Fixed vs Mobile Monsters
-
-**Monsters WITH startingSceneId (33%):**
-- `thief` → `"treasure_room"` (guards treasure)
-- `troll` → `"troll_room"` (guards bridge)
-- `cyclops` → `"cyclops_room"` (guards specific area)
-
-**Monsters WITHOUT startingSceneId (67%):**
-- `grue`, `vampire_bat` → Environmental (appear based on darkness/conditions)
-- `ghost`, `volcano_gnome` → Mobile creatures (move dynamically)
-- `gnome_of_zurich`, `guardian_of_zork` → Context-dependent (special circumstances)
-
-#### Combat Strength Distribution
-
-**Defined Combat Strengths (44%):**
-- `cyclops`: 10000 (boss-level threat)
-- `guardian_of_zork`: 10000 (boss-level threat)  
-- `thief`: 5 (moderate threat)
-- `troll`: 2 (low threat)
-
-**Undefined Combat Strengths (56%):**
-- `grue`, `ghost`, `vampire_bat`, `volcano_gnome`, `gnome_of_zurich` (no combat stats)
-
-#### Flag Patterns in Real Data
-
-**VILLAIN Flag (aggressive monsters):**
-- `thief`: `OVISON: true, VICBIT: true, VILLAIN: true` → State: `hostile`
-- `troll`: `OVISON: true, VICBIT: true, VILLAIN: true` → State: `hostile`
-
-**OVISON Flag (lurking monsters):**
-- `grue`: `OVISON: true` → State: `lurking`
-- `ghost`: `OVISON: true, VICBIT: true` → State: `lurking`
-
-**Behavior Function Patterns:**
-- `thief`: `"ROBBER-FUNCTION"` → behaviors: `["steal"]`
-- `grue`: `"GRUE-FUNCTION"` → environmental behavior
-- `ghost`: `"GHOST-FUNCTION"` → incorporeal behavior
-- `vampire_bat`: `"FLY-ME"` → flight behavior
-- `troll`, `guardian_of_zork`: No behavior function
-
-### Design Rationale
-
-The monster system reflects authentic Zork design where:
-- **Environmental monsters** (grue, vampire_bat) are tied to game conditions, not locations
-- **Mobile creatures** can appear in multiple contexts
-- **Guardian monsters** protect specific locations and treasures
-- **Combat strength** varies dramatically (2 to 10000) for gameplay balance
-- **Behavior functions** drive unique monster interactions
 
 ## Error Handling and Validation
 
-### Field Validation Strategy
-
-#### Required Fields (always present)
-- `id`, `name`, `type`, `description`, `examineText`
-- `inventory`, `synonyms`, `flags`, `properties`
-
-#### Optional Fields (gracefully handled)
-- `startingSceneId` (missing from 67% of monsters)
-- `combatStrength` (missing from 56% of monsters)
-- `meleeMessages` (only for combat-capable monsters)
-- `behaviorFunction` (missing from 2 monsters)
-- `movementDemon` (only thief has this)
+### File-Level Validation
+- JSON syntax validation
+- Required field presence checking
+- Type validation for all fields
+- Monster type validation
 
 ### Graceful Degradation
 ```typescript
@@ -322,30 +216,13 @@ const allMonsters = await loader.loadAllMonsters();
 ### Comprehensive Error Messages
 ```typescript
 try {
-  await loader.loadMonster('dragon');
+  await loader.loadAllMonsters();
 } catch (error) {
-  // "Monster with ID 'dragon' not found"
+  // "Failed to load monster index: ENOENT: no such file"
+  // "Failed to load monster thief.json: Invalid JSON syntax"
+  // "Monster data missing required field: id"
+  // "Invalid monster type: invalid_type"
 }
-
-try {
-  await loader.monsterExists(null);
-} catch (error) {
-  // "Monster ID cannot be null or undefined"
-}
-```
-
-### Validation Logic
-```typescript
-// Handles missing optional fields
-currentSceneId: data.currentSceneId !== undefined 
-  ? data.currentSceneId 
-  : (data.startingSceneId || null),
-
-startingSceneId: data.startingSceneId || null,
-
-// Provides sensible defaults
-health: data.health ?? data.maxHealth ?? 100,
-maxHealth: data.maxHealth ?? 100,
 ```
 
 ## Performance Considerations
@@ -361,241 +238,249 @@ The MonsterDataLoader follows a **stateless design** with no internal caching:
 
 ### File I/O Performance Characteristics
 
-#### Individual Monster Loading
-- `loadMonster()`: Single file read operation per call (~10ms)
-- Index read required for validation on each call
-- Direct file access for single monster requests
-
-#### Bulk Operations
-- `loadAllMonsters()`: Reads index.json + 9 individual monster files (~50-100ms)
-- `getMonstersByType()`: Calls `loadAllMonsters()` then filters client-side
-- `getMonstersInScene()`: Calls `loadAllMonsters()` then filters client-side
-- Lower latency than ItemDataLoader due to smaller dataset (9 vs 214 files)
+#### Single Method Design
+- `loadAllMonsters()`: Reads index.json + 9 individual monster files
+- All filtering operations handled by Services layer after loading
+- Consistent performance profile for all operations
+- Fast loading due to small dataset (9 monsters vs 214 items)
 
 ### Performance Benchmarks
-- **Single Monster Load**: <10ms requirement
-- **All Monsters Load**: <100ms for full dataset (9 monsters)
-- **Type/Scene Filtering**: <150ms including full load + filter
-- **Memory Usage**: ~2MB for full dataset
+Based on integration testing with real data:
+- Single `loadAllMonsters()` call: < 100ms
+- Concurrent loading (3 simultaneous calls): < 200ms
+- Memory usage: < 5MB for all 9 monsters
+- Filtering operations: < 10ms after loading
+
+## Testing Strategy
+
+### Unit Testing Pattern
+Following the minimal interface pattern, testing focuses on the single public method:
+
+```typescript
+describe('MonsterDataLoader.loadAllMonsters()', () => {
+  // Success scenarios
+  it('should load all 9 monsters successfully');
+  it('should return consistent results on subsequent calls');
+  it('should handle stateless behavior correctly');
+  
+  // Error scenarios  
+  it('should handle index loading failures gracefully');
+  it('should handle individual monster loading failures');
+  it('should log errors but continue with successful monsters');
+  
+  // Performance scenarios
+  it('should complete within 100ms performance requirement');
+  it('should not cache results between calls');
+  
+  // Data integrity scenarios
+  it('should preserve monster order from index');
+  it('should apply all type conversions correctly');
+});
+```
+
+### Integration Testing Pattern
+```typescript
+// Real data testing with actual files
+describe('MonsterDataLoader Integration', () => {
+  beforeEach(() => {
+    // CRITICAL: Must import '../setup' for real file access
+    loader = new MonsterDataLoader('data/monsters/');
+  });
+
+  it('should load all 9 real monsters');
+  it('should validate type distribution (5 humanoid, 2 creature, 2 environmental)');
+  it('should handle real monster data structures correctly');
+  it('should validate known monster IDs are present');
+  it('should performance test with actual file I/O');
+  it('should validate combat strength distributions');
+  it('should validate MDL properties are present');
+});
+```
+
+### Private Method Testing
+```typescript
+// Test critical conversion logic through type assertions
+describe('Private Method Testing', () => {
+  it('should test convertMonsterDataToMonster conversion logic');
+  it('should test determineInitialState priority system');
+  it('should test convertMovementPattern demon parsing');
+  it('should test initializeVariables monster-specific logic');
+  it('should test parseMonsterState validation and normalization');
+});
+```
 
 ## Integration Patterns
 
-### With SceneDataLoader (Future)
+### With Services Layer
 ```typescript
-// Scene population workflow - stateless loading
-const sceneMonsters = await monsterLoader.getMonstersInScene(sceneId);
+// Services layer provides the query interface that was removed from DataLoader
+class MonsterService {
+  constructor(private monsterLoader: IMonsterDataLoader) {}
+  
+  async getAllMonsters(): Promise<Monster[]> {
+    return await this.monsterLoader.loadAllMonsters();
+  }
+  
+  async getMonster(monsterId: string): Promise<Monster | null> {
+    const monsters = await this.getAllMonsters();
+    return monsters.find(monster => monster.id === monsterId) || null;
+  }
+  
+  // Services layer can implement caching here if needed
+  private monsterCache?: Monster[];
+  
+  async getCachedMonsters(): Promise<Monster[]> {
+    if (!this.monsterCache) {
+      this.monsterCache = await this.monsterLoader.loadAllMonsters();
+    }
+    return this.monsterCache;
+  }
+  
+  // Complex queries handled by Services
+  async getActiveThreats(): Promise<Monster[]> {
+    const monsters = await this.getAllMonsters();
+    return monsters.filter(monster => 
+      monster.state === MonsterState.HOSTILE && 
+      monster.health > 0
+    );
+  }
+}
+```
+
+### With Other DataLoaders
+```typescript
+// All data loaders follow the same minimal interface pattern
+const sceneLoader = new SceneDataLoader();
+const itemLoader = new ItemDataLoader();
+const monsterLoader = new MonsterDataLoader();
+
+// Services layer coordinates between data loaders
+const allScenes = await sceneLoader.loadAllScenes();
+const allItems = await itemLoader.loadAllItems();
+const allMonsters = await monsterLoader.loadAllMonsters();
+
+// Scene population handled by Services
+const sceneMonsters = allMonsters.filter(monster => monster.currentSceneId === sceneId);
 scene.monsters = sceneMonsters.map(monster => monster.id);
 ```
 
-### With Services Layer
+## Common Usage Examples
+
+### Loading All Monsters
 ```typescript
-// Service layer usage - where game logic is implemented
-class MonsterCombatService {
-  constructor(private monsterLoader: IMonsterDataLoader) {}
-  
-  async performAttack(monsterId: string, targetId: string): Promise<CombatResult> {
-    const monster = await this.monsterLoader.loadMonster(monsterId);
-    const attackStrength = monster.combatStrength || 1;
-    
-    // Use actual melee messages from monster data
-    const messages = monster.meleeMessages;
-    const message = this.selectMessage(messages, 'attack');
-    
-    return { damage: attackStrength, message };
-  }
+async function getAllGameMonsters(): Promise<Monster[]> {
+  const loader = new MonsterDataLoader();
+  return await loader.loadAllMonsters();
 }
 ```
 
-### With AI System
+### Monster Queries (Services Layer)
 ```typescript
-// Monster AI decision making
-class MonsterAIService {
-  constructor(private monsterLoader: IMonsterDataLoader) {}
-  
-  async updateMonsterAI(monsterId: string): Promise<MonsterAction> {
-    const monster = await this.monsterLoader.loadMonster(monsterId);
-    
-    // Execute behavior function if present
-    if (monster.behaviorFunction === 'ROBBER-FUNCTION') {
-      return this.executeThiefBehavior(monster);
-    }
-    
-    // Default behavior based on state
-    switch (monster.state) {
-      case MonsterState.HOSTILE: return MonsterAction.ATTACK;
-      case MonsterState.LURKING: return MonsterAction.HIDE;
-      case MonsterState.WANDERING: return MonsterAction.MOVE_RANDOM;
-      default: return MonsterAction.IDLE;
-    }
-  }
-}
-```
-
-## Unit Testing Strategy
-
-### Test Categories Required (100% Coverage)
-
-#### 1. Data Loading Tests
-- All 9 monsters load successfully
-- Index loads correctly
-- Optional field handling validated
-
-#### 2. Validation Tests
-- Enum validation for all type values
-- Required field validation
-- Optional field graceful handling
-- Error handling for malformed data
-
-#### 3. MDL Conversion Tests
-- MonsterData → Monster conversion accuracy
-- State inference from flags (VILLAIN > OVISON precedence)
-- Movement pattern conversion from demons
-- Behavior extraction from function names
-- Variable initialization for specific monsters
-
-#### 4. Stateless Operation Tests
-- Consistent behavior across repeated calls
-- Memory efficiency (no cached state)
-- Fresh data loading verification
-
-#### 5. Real Data Edge Cases
-- Monsters without startingSceneId (grue, ghost, etc.)
-- Monsters without combatStrength (environmental monsters)
-- Flag precedence testing (thief with both VILLAIN and OVISON)
-- Empty properties handling
-
-### Mock Strategy
-```typescript
-// Mock filesystem for isolated testing
-jest.mock('fs/promises');
-const mockReadFile = readFile as jest.MockedFunction<typeof readFile>;
-
-// Integration tests unmock for real file access
-import '../setup'; // Critical for integration tests
-```
-
-## Common Patterns and Usage Examples
-
-### Loading Monsters for Scene Population
-```typescript
-async function populateScene(sceneId: string): Promise<void> {
-  const sceneMonsters = await monsterLoader.getMonstersInScene(sceneId);
-  scene.monsters = sceneMonsters.map(monster => monster.id);
-}
-```
-
-### Monster Combat Processing
-```typescript
-async function processMonsterAttack(monsterId: string): Promise<string> {
-  const monster = await monsterLoader.loadMonster(monsterId);
-  
-  if (!monster.combatStrength) {
-    return "The monster is not hostile.";
-  }
-  
-  // Use actual melee messages from data
-  const messages = monster.meleeMessages?.miss || ["The monster misses."];
-  return messages[Math.floor(Math.random() * messages.length)];
-}
-```
-
-### Monster Behavior Execution
-```typescript
-async function executeMonsterBehavior(monsterId: string): Promise<void> {
-  const monster = await monsterLoader.loadMonster(monsterId);
-  
-  // Check for specific behavior functions
-  if (monster.behaviorFunction === 'ROBBER-FUNCTION') {
-    await executeThiefStealing(monster);
-  }
-  
-  // Execute behaviors array
-  if (monster.behaviors?.includes('steal')) {
-    await attemptStealing(monster);
-  }
-}
-```
-
-### Type-Based Monster Operations
-```typescript
-async function listHostileMonsters(): Promise<Monster[]> {
+async function findHostileMonsters(): Promise<Monster[]> {
   const allMonsters = await monsterLoader.loadAllMonsters();
-  return allMonsters.filter(monster => monster.state === MonsterState.HOSTILE);
+  return allMonsters.filter(monster => 
+    monster.state === MonsterState.HOSTILE ||
+    monster.flags.VILLAIN
+  );
 }
 
-async function getGuardianMonsters(): Promise<Monster[]> {
-  const humanoids = await monsterLoader.getMonstersByType(MonsterType.HUMANOID);
-  return humanoids.filter(monster => monster.startingSceneId); // Has fixed location
+async function getMonstersInRoom(roomId: string): Promise<Monster[]> {
+  const allMonsters = await monsterLoader.loadAllMonsters();
+  return allMonsters.filter(monster => 
+    monster.currentSceneId === roomId
+  );
+}
+
+async function getMonstersByMovementPattern(pattern: MovementPattern): Promise<Monster[]> {
+  const allMonsters = await monsterLoader.loadAllMonsters();
+  return allMonsters.filter(monster => monster.movementPattern === pattern);
 }
 ```
 
-## Integration Test Requirements
-
-### Critical Setup Pattern
+### Monster Interaction Processing
 ```typescript
-// CRITICAL: Must be first import in ALL monster integration tests
-import '../setup';
-
-describe('Monster Integration Tests', () => {
-  let loader: MonsterDataLoader;
-  const ACTUAL_DATA_PATH = 'data/monsters/';
-
-  beforeEach(() => {
-    loader = new MonsterDataLoader(ACTUAL_DATA_PATH);
-  });
+async function processMonsterInteraction(monsterId: string, action: string): Promise<string> {
+  const allMonsters = await monsterLoader.loadAllMonsters();
+  const monster = allMonsters.find(monster => monster.id === monsterId);
   
-  it('should load all 9 real monsters', async () => {
-    const monsters = await loader.loadAllMonsters();
-    expect(monsters).toHaveLength(9);
-  });
+  if (!monster) return "Monster not found.";
   
-  it('should match actual type distribution', async () => {
-    const monsters = await loader.loadAllMonsters();
-    const typeDistribution = monsters.reduce((acc, monster) => {
-      acc[monster.type] = (acc[monster.type] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-    
-    expect(typeDistribution).toEqual({
-      'humanoid': 5,
-      'creature': 2,
-      'environmental': 2
-    });
-  });
-});
+  // Use monster state and flags for interaction logic
+  if (monster.state === MonsterState.HOSTILE) {
+    return "The monster attacks you!";
+  }
+  
+  if (monster.state === MonsterState.SLEEPING) {
+    return "The monster is sleeping peacefully.";
+  }
+  
+  return `You ${action} the ${monster.name}.`;
+}
 ```
+
+## Real Data Insights
+
+### Type Distribution Reality
+Based on actual data analysis:
+- **HUMANOID**: 5 monsters (thief, troll, cyclops, gnome_of_zurich, guardian_of_zork)
+- **CREATURE**: 2 monsters (ghost, volcano_gnome)  
+- **ENVIRONMENTAL**: 2 monsters (grue, vampire_bat)
+
+### Combat Strength Reality
+- thief: 5
+- troll: 2  
+- cyclops: 10,000 (boss-level)
+- guardian_of_zork: 10,000 (boss-level)
+- Many monsters have no combat strength (environmental types)
+
+### Location Reality
+- 67% of monsters don't have `startingSceneId`
+- Environmental monsters are location-independent
+- Mobile creatures don't have fixed starting locations
+
+### Flag Patterns
+- Real data uses `OVISON` not `INVISIBLE` 
+- `VILLAIN` flag takes precedence in state determination
+- Flag combinations determine complex behaviors
+
+## Benefits of Minimal Interface Pattern
+
+### Development Benefits
+- **Clear Responsibility**: DataLoader loads, Services filter/query
+- **Consistent Architecture**: All data loaders follow same pattern
+- **Simple Testing**: Only one method to test thoroughly
+- **Easy Mocking**: Single method easy to mock in Services tests
+
+### Architectural Benefits
+- **Separation of Concerns**: File I/O separate from business logic
+- **Flexibility**: Services can implement caching, querying, transformation
+- **Maintainability**: Changes to filtering logic don't affect DataLoader
+- **Scalability**: Services layer can optimize queries independently
+
+### Testing Benefits
+- **Focused Tests**: DataLoader tests only loading, Services tests only logic
+- **Clear Boundaries**: Integration vs unit test responsibilities obvious
+- **Performance Isolation**: Can test DataLoader I/O separately from query logic
+- **Mock Simplicity**: Easy to mock single method in dependent tests
 
 ## Future Considerations
 
 ### Extensibility Points
-- Additional monster types can be added to enum
-- New behavior functions supported through string matching
-- Variable system extensible for complex monster mechanics
-- Flag system supports additional state inference rules
+- Services layer can add complex querying without changing DataLoader
+- AI behavior systems can be implemented at Services level
+- Combat mechanics handled by Services using monster data
+- Movement systems implemented at Services level
 
 ### Performance Optimization Opportunities
-- **Service Layer Caching**: Implement caching at service level for frequently accessed monsters
-- **Bulk Combat Operations**: Optimized loading for large battle scenarios
-- **Lazy Loading**: For larger monster datasets, consider streaming approaches
-- **Behavior Caching**: Cache parsed behavior patterns for repeated execution
+- **Services Layer Caching**: Implement caching at service level for frequently accessed monsters
+- **Smart Loading**: Services can implement location-based loading strategies
+- **AI Optimization**: Services can optimize monster behavior calculations
+- **Combat Optimization**: Services can cache combat-related calculations
 
-### Stateless Design Benefits
-- **Scalability**: Each instance is independent and thread-safe
-- **Simplicity**: No state management complexity
-- **Testing**: Predictable behavior simplifies unit testing
-- **Memory**: No memory leaks from cached monster data
-- **Authenticity**: Always reflects current data files
+### Architecture Evolution
+- DataLoader interface remains stable as Services evolve
+- New monster behaviors can be added without changing DataLoader
+- Services layer provides abstraction for complex AI operations
+- Testing strategy scales with additional Services functionality
 
-### Data Migration Support
-- MonsterDataLoader provides clean abstraction for data format changes
-- MDL conversion layer allows for property structure evolution
-- Validation ensures data integrity during updates
-- Flat structure simplifies monster data management tools
-
-### Real Data Insights for Future Development
-- **67% of monsters are mobile** - design systems to handle dynamic positioning
-- **Combat strengths vary 5000x** (2 to 10000) - ensure combat systems scale appropriately
-- **Flag precedence matters** - document and test state inference rules carefully
-- **Behavior functions are sparse** - provide graceful defaults for monsters without them
-
-This documentation reflects the current stateless implementation working with authentic Zork monster data and provides guidance for future developers building monster-related services while maintaining the authentic Zork recreation standards.
+This minimal interface pattern ensures the MonsterDataLoader remains focused on its core responsibility of loading data while enabling flexible, testable, and maintainable monster management operations at the Services layer.

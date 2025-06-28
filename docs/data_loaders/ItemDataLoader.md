@@ -2,14 +2,14 @@
 
 ## Overview
 
-The `ItemDataLoader` class is a core component of the DataLoader layer in the 4-layer architecture. It provides type-safe, validated loading of game items from JSON data files with stateless architecture and comprehensive error handling.
+The `ItemDataLoader` class is a core component of the DataLoader layer in the 4-layer architecture. It provides type-safe, validated loading of game items from JSON data files with **stateless architecture** and comprehensive error handling, following the **minimal interface pattern**.
 
 ## Purpose and Scope
 
 ### Primary Responsibilities
 - Load and validate 214 item JSON files in flat structure (no categories)
 - Convert raw JSON data to type-safe TypeScript interfaces
-- Provide efficient access patterns for the Services layer
+- Provide **single-method interface** for the Services layer
 - Parse flag-based conditions and effects for game logic
 - Stateless file I/O operations without caching
 
@@ -23,6 +23,29 @@ Services Layer ← ItemDataLoader (DataLoader Layer)
   ↓
 Data Files (JSON)
 ```
+
+## Minimal Interface Pattern
+
+### Interface Design Philosophy
+The `IItemDataLoader` follows a **minimal interface pattern** with only essential methods:
+
+```typescript
+export interface IItemDataLoader {
+    /**
+     * Load all items from flat structure.
+     * Performs fresh file I/O on each call (no caching).
+     * @returns Promise resolving to array of all 214 items
+     */
+    loadAllItems(): Promise<Item[]>;
+}
+```
+
+### Rationale for Minimal Interface
+- **Single Responsibility**: One method, one clear purpose
+- **Services Layer Filtering**: Query operations (by type, location) handled by Services
+- **Stateless Architecture**: No caching means no need for cache management methods
+- **Consistent Pattern**: All data loaders follow the same minimal interface
+- **Testing Simplicity**: Only one public method to test thoroughly
 
 ## Data Structure and Organization
 
@@ -70,32 +93,6 @@ interface Item {
 }
 ```
 
-## Validated Enum Values
-
-### ItemType Enum
-Based on actual data distribution:
-```typescript
-enum ItemType {
-  TOOL = 'TOOL',                    // 164 instances
-  CONTAINER = 'CONTAINER',          // 36 instances
-  FOOD = 'FOOD',                    // 7 instances
-  WEAPON = 'WEAPON',                // 5 instances
-  LIGHT_SOURCE = 'LIGHT_SOURCE',    // 2 instances
-  TREASURE = 'TREASURE'             // 0 instances (defined but unused)
-}
-```
-
-### Size Enum
-```typescript
-enum Size {
-  TINY = 'TINY',     
-  SMALL = 'SMALL',   
-  MEDIUM = 'MEDIUM', 
-  LARGE = 'LARGE',   
-  HUGE = 'HUGE'      
-}
-```
-
 ## Flag-Based Condition System
 
 ### Condition Parsing
@@ -130,69 +127,52 @@ if (canExecute) {
 
 ## API Documentation
 
-### Core Loading Methods
+### Core Loading Method
 
 #### `loadAllItems(): Promise<Item[]>`
-Loads all 214 items from flat structure. Each call performs fresh file I/O operations.
+The **only public method** in the minimal interface. Loads all 214 items from flat structure. Each call performs fresh file I/O operations.
+
 ```typescript
 const loader = new ItemDataLoader();
 const allItems = await loader.loadAllItems();
 console.log(`Loaded ${allItems.length} items`); // 214
+
+// Services layer handles filtering
+const tools = allItems.filter(item => item.type === ItemType.TOOL);
+const containers = allItems.filter(item => item.type === ItemType.CONTAINER);
+const lightSources = allItems.filter(item => item.type === ItemType.LIGHT_SOURCE);
 ```
 
-#### `loadItem(itemId: string): Promise<Item>`
-Loads a specific item by ID with validation.
+### Removed Methods (Services Layer Responsibility)
+The following methods were **removed from the interface** to follow the minimal pattern:
+
+- ❌ `loadItem(itemId: string)` → Use Services layer + `loadAllItems()`
+- ❌ `getItemsByType(type: ItemType)` → Use Services layer + `loadAllItems()` + filter
+- ❌ `getItemsByLocation(location: string)` → Use Services layer + `loadAllItems()` + filter
+- ❌ `getTotalCount()` → Use `loadAllItems().length`
+
+### Services Layer Integration Pattern
 ```typescript
-const lamp = await loader.loadItem('lamp');
-console.log(lamp.type); // ItemType.LIGHT_SOURCE
-console.log(lamp.size); // Size.MEDIUM
+// ItemService handles complex queries using loadAllItems()
+class ItemService {
+  constructor(private itemLoader: IItemDataLoader) {}
+  
+  async getItem(itemId: string): Promise<Item | null> {
+    const allItems = await this.itemLoader.loadAllItems();
+    return allItems.find(item => item.id === itemId) || null;
+  }
+  
+  async getItemsByType(type: ItemType): Promise<Item[]> {
+    const allItems = await this.itemLoader.loadAllItems();
+    return allItems.filter(item => item.type === type);
+  }
+  
+  async getItemsByLocation(location: string): Promise<Item[]> {
+    const allItems = await this.itemLoader.loadAllItems();
+    return allItems.filter(item => item.initialLocation === location);
+  }
+}
 ```
-
-### Query Methods
-
-#### `getItemsByType(type: ItemType): Promise<Item[]>`
-Filters items by type enum. Loads all items fresh from disk and filters client-side.
-```typescript
-const tools = await loader.getItemsByType(ItemType.TOOL); // 164 items
-const containers = await loader.getItemsByType(ItemType.CONTAINER); // 36 items
-const lightSources = await loader.getItemsByType(ItemType.LIGHT_SOURCE); // 2 items
-```
-
-#### `getItemsByLocation(location: string): Promise<Item[]>`
-Finds items at a specific location (for scene population). Loads all items fresh from disk and filters client-side.
-```typescript
-const livingRoomItems = await loader.getItemsByLocation('living_room');
-const inventoryItems = await loader.getItemsByLocation('inventory');
-```
-
-### Metadata Methods
-
-#### `getTotalCount(): Promise<number>`
-Returns total item count from index.json.
-```typescript
-const total = await loader.getTotalCount(); // 214
-```
-
-## Item Type Analysis
-
-### Type Distribution Patterns
-The data reveals interesting patterns in the original Zork type system:
-
-#### Most Items Are Tools
-164 out of 214 items (76.6%) are classified as `type: "TOOL"`, including:
-- Weapons: `sword.json`, `knife.json`, `rknif.json` → `type: "TOOL"`
-- Treasures: `diamo.json` (diamond), `ruby.json`, `pearl.json` → `type: "TOOL"`
-- Food items: Most consumables → `type: "TOOL"`
-- Interactive objects: doors, buttons, switches → `type: "TOOL"`
-
-#### Specialized Types Are Rare
-- Only 5 items use `type: "WEAPON"` (axe, still, sword, knife, rknif)
-- Only 2 items use `type: "LIGHT_SOURCE"` (lamp, candl)
-- Only 7 items use `type: "FOOD"`
-- No items use `type: "TREASURE"` despite the enum existing
-
-### Design Rationale
-This suggests the original game prioritized **functional behavior** over **intuitive categorization**. Most game objects function as "tools" that can be interacted with, regardless of their real-world classification. The DataLoader preserves this authentic structure while providing type-based query methods.
 
 ## Error Handling and Validation
 
@@ -212,9 +192,10 @@ const allItems = await loader.loadAllItems();
 ### Comprehensive Error Messages
 ```typescript
 try {
-  await loader.loadItem('nonexistent');
+  await loader.loadAllItems();
 } catch (error) {
-  // "Item with ID 'nonexistent' not found"
+  // "Failed to load item index: ENOENT: no such file"
+  // "Failed to load item lamp.json: Invalid JSON syntax"
 }
 ```
 
@@ -231,16 +212,10 @@ The ItemDataLoader follows a **stateless design** with no internal caching:
 
 ### File I/O Performance Characteristics
 
-#### Individual Item Loading
-- `loadItem()`: Single file read operation per call
-- Index read required for validation on each call
-- Direct file access for single item requests
-
-#### Bulk Operations
+#### Single Method Design
 - `loadAllItems()`: Reads index.json + 214 individual item files
-- `getItemsByType()`: Calls `loadAllItems()` then filters client-side
-- `getItemsByLocation()`: Calls `loadAllItems()` then filters client-side
-- Higher latency for bulk operations due to multiple file reads
+- All filtering operations handled by Services layer after loading
+- Consistent performance profile for all operations
 
 ### Performance Trade-offs
 
@@ -253,87 +228,135 @@ The ItemDataLoader follows a **stateless design** with no internal caching:
 #### Performance Implications
 - Higher I/O overhead for repeated operations
 - No performance benefit from repeated calls
-- Bulk filtering operations load entire dataset
+- Services layer can implement caching if needed
+
+## Testing Strategy
+
+### Unit Testing Pattern
+Following the minimal interface pattern, testing focuses on the single public method:
+
+```typescript
+describe('ItemDataLoader.loadAllItems()', () => {
+  // Success scenarios
+  it('should load all 214 items successfully');
+  it('should return consistent results on subsequent calls');
+  it('should handle stateless behavior correctly');
+  
+  // Error scenarios  
+  it('should handle index loading failures gracefully');
+  it('should handle individual item loading failures');
+  
+  // Performance scenarios
+  it('should complete within performance requirements');
+  it('should not cache results between calls');
+});
+```
+
+### Integration Testing Pattern
+```typescript
+// Real data testing with actual files
+describe('ItemDataLoader Integration', () => {
+  it('should load all 214 real items');
+  it('should validate type distribution matches documentation');
+  it('should handle real item structures correctly');
+  it('should performance test with actual file I/O');
+});
+```
+
+### Private Method Testing
+```typescript
+// Test critical conversion logic through type assertions
+describe('Private Method Testing', () => {
+  it('should test convertItemDataToItem via type assertion');
+  it('should test parseCondition logic');
+  it('should test parseEffect logic');
+  it('should test validateItemData logic');
+});
+```
 
 ## Integration Patterns
 
-### With SceneDataLoader (Future)
-```typescript
-// Scene population workflow - stateless loading
-const sceneItems = await itemLoader.getItemsByLocation(sceneId);
-scene.items = sceneItems.map(item => item.id);
-```
-
 ### With Services Layer
 ```typescript
-// Service layer usage - this is where caching could be implemented if needed
+// Services layer provides the query interface that was removed from DataLoader
 class ItemService {
   constructor(private itemLoader: IItemDataLoader) {}
   
-  async canTakeItem(itemId: string): Promise<boolean> {
-    const item = await this.itemLoader.loadItem(itemId);
-    return item.portable && item.visible;
+  async getAllItems(): Promise<Item[]> {
+    return await this.itemLoader.loadAllItems();
+  }
+  
+  async getItem(itemId: string): Promise<Item | null> {
+    const items = await this.getAllItems();
+    return items.find(item => item.id === itemId) || null;
+  }
+  
+  // Services layer can implement caching here if needed
+  private itemCache?: Item[];
+  
+  async getCachedItems(): Promise<Item[]> {
+    if (!this.itemCache) {
+      this.itemCache = await this.itemLoader.loadAllItems();
+    }
+    return this.itemCache;
   }
 }
 ```
 
-### With Mechanics System
+### With SceneDataLoader Pattern
 ```typescript
-// Note: No items currently use TREASURE type
-const tools = await itemLoader.getItemsByType(ItemType.TOOL); // 164 items
-const valuableTools = tools.filter(item => item.tags.includes('valuable'));
+// All data loaders follow the same minimal interface pattern
+const sceneLoader = new SceneDataLoader();
+const itemLoader = new ItemDataLoader();
+const monsterLoader = new MonsterDataLoader();
+
+// Services layer coordinates between data loaders
+const allScenes = await sceneLoader.loadAllScenes();
+const allItems = await itemLoader.loadAllItems();
+const allMonsters = await monsterLoader.loadAllMonsters();
+
+// Scene population handled by Services
+const sceneItems = allItems.filter(item => item.initialLocation === sceneId);
+scene.items = sceneItems.map(item => item.id);
 ```
 
-## Unit Testing Strategy
+## Common Usage Examples
 
-### Test Categories Required (100% Coverage)
-
-#### 1. Data Loading Tests
-- All 214 items load successfully
-- Index loads correctly
-- Category organization validated
-
-#### 2. Validation Tests
-- Enum validation for all type/size values
-- Required field validation
-- Error handling for malformed data
-
-#### 3. Conversion Tests
-- ItemData → Item conversion accuracy
-- Condition/effect parsing correctness
-- Type safety preservation
-
-#### 4. Stateless Operation Tests
-- Consistent behavior across repeated calls
-- Memory efficiency (no cached state)
-- Fresh data loading verification
-
-#### 5. Edge Case Tests
-- Special character IDs ("!!!!!", "*bun*")
-- Empty arrays/objects handling
-- Cross-category type mismatches
-
-### Mock Strategy
+### Loading All Items
 ```typescript
-// Mock filesystem for isolated testing
-jest.mock('fs/promises');
-const mockReadFile = readFile as jest.MockedFunction<typeof readFile>;
+async function getAllGameItems(): Promise<Item[]> {
+  const loader = new ItemDataLoader();
+  return await loader.loadAllItems();
+}
 ```
 
-## Common Patterns and Usage Examples
-
-### Loading Items for Scene Population
+### Item Queries (Services Layer)
 ```typescript
-async function populateScene(sceneId: string): Promise<void> {
-  const sceneItems = await itemLoader.getItemsByLocation(sceneId);
-  scene.items = sceneItems.filter(item => item.visible).map(item => item.id);
+async function findTreasures(): Promise<Item[]> {
+  const allItems = await itemLoader.loadAllItems();
+  return allItems.filter(item => 
+    item.tags.includes('treasure') || 
+    item.type === ItemType.TREASURE
+  );
+}
+
+async function getContainersInRoom(roomId: string): Promise<Item[]> {
+  const allItems = await itemLoader.loadAllItems();
+  return allItems.filter(item => 
+    item.type === ItemType.CONTAINER && 
+    item.initialLocation === roomId
+  );
 }
 ```
 
 ### Item Interaction Processing
 ```typescript
 async function processInteraction(itemId: string, command: string): Promise<string> {
-  const item = await itemLoader.loadItem(itemId);
+  const allItems = await itemLoader.loadAllItems();
+  const item = allItems.find(item => item.id === itemId);
+  
+  if (!item) return "Item not found.";
+  
   const interaction = item.interactions.find(i => i.command === command);
   
   if (interaction?.condition) {
@@ -349,38 +372,44 @@ async function processInteraction(itemId: string, command: string): Promise<stri
 }
 ```
 
-### Type-Based Operations
-```typescript
-// Note: Loads all 214 items fresh from disk to filter by type
-async function listValueableItems(): Promise<string[]> {
-  const tools = await itemLoader.getItemsByType(ItemType.TOOL);
-  return tools.filter(item => item.tags.includes('valuable')).map(t => t.name);
-}
-```
+## Benefits of Minimal Interface Pattern
+
+### Development Benefits
+- **Clear Responsibility**: DataLoader loads, Services filter/query
+- **Consistent Architecture**: All data loaders follow same pattern
+- **Simple Testing**: Only one method to test thoroughly
+- **Easy Mocking**: Single method easy to mock in Services tests
+
+### Architectural Benefits
+- **Separation of Concerns**: File I/O separate from business logic
+- **Flexibility**: Services can implement caching, querying, transformation
+- **Maintainability**: Changes to filtering logic don't affect DataLoader
+- **Scalability**: Services layer can optimize queries independently
+
+### Testing Benefits
+- **Focused Tests**: DataLoader tests only loading, Services tests only logic
+- **Clear Boundaries**: Integration vs unit test responsibilities obvious
+- **Performance Isolation**: Can test DataLoader I/O separately from query logic
+- **Mock Simplicity**: Easy to mock single method in dependent tests
 
 ## Future Considerations
 
 ### Extensibility Points
-- Additional item types can be added to enum
-- Flag system extensible for complex game logic
-- Flat file structure simplifies data management
+- Services layer can add complex querying without changing DataLoader
+- Caching strategies implemented at Services level
+- Additional data validation can be added to Services
+- Performance optimizations handled by Services layer
 
 ### Performance Optimization Opportunities
-- **Service Layer Caching**: Implement caching at service level for frequently accessed items
-- **Bulk Operations**: Consider optimized bulk loading methods for better performance
-- **Lazy Loading**: For very large datasets, consider streaming or pagination
-- **Metrics Collection**: Add performance monitoring for file I/O operations
+- **Services Layer Caching**: Implement caching at service level for frequently accessed items
+- **Lazy Loading**: Services can implement smart loading strategies
+- **Query Optimization**: Services can optimize common query patterns
+- **Metrics Collection**: Add performance monitoring at Services level
 
-### Stateless Design Benefits
-- **Scalability**: Each instance is independent and thread-safe
-- **Simplicity**: No state management complexity
-- **Testing**: Predictable behavior simplifies unit testing
-- **Memory**: No memory leaks from cached data
+### Architecture Evolution
+- DataLoader interface remains stable as Services evolve
+- New data sources can be added without changing existing DataLoaders
+- Services layer provides abstraction for complex data operations
+- Testing strategy scales with additional Services functionality
 
-### Data Migration Support
-- ItemDataLoader provides clean abstraction for data format changes
-- Type conversion layer allows for data structure evolution
-- Validation ensures data integrity during updates
-- Flat structure simplifies data management tools
-
-This documentation reflects the current stateless implementation and provides guidance for future developers working with the ItemDataLoader while maintaining the authentic Zork recreation standards.
+This minimal interface pattern ensures the ItemDataLoader remains focused on its core responsibility of loading data while enabling flexible, testable, and maintainable query operations at the Services layer.
