@@ -1,0 +1,23 @@
+{
+  "id": "rainb",
+  "title": "Rainbow Room",
+  "description": "You are on top of a rainbow (I bet you never thought you would walk\non a rainbow), with a magnificent view of the Falls.  The rainbow\ntravels east-west here.  There is an NBC Commissary here.",
+  "exits": {
+    "east": "pog",
+    "west": "top_of_falls"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "attic",
+  "title": "Attic",
+  "description": "This is the attic.  The only exit is stairs that lead down.",
+  "exits": {
+    "down": {
+      "to": "kitchen",
+      "condition": "light_load",
+      "failureMessage": "The chimney is too narrow for you and all of your baggage."
+    }
+  },
+  "items": [
+    "rope"
+  ],
+  "monsters": [],
+  "state": {},
+  "lighting": "lit",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

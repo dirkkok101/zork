@@ -1,0 +1,28 @@
+{
+  "id": "treasure_room",
+  "title": "Treasure Room",
+  "description": "This is a large room, whose north wall is solid granite.  A number\nof discarded bags, which crumble at your touch, are scattered about\non the floor.  There is an exit down and what appears to be a newly\ncreated passage to the east.",
+  "exits": {
+    "down": "cyclops_room",
+    "east": "cpant"
+  },
+  "items": [
+    "bagco"
+  ],
+  "monsters": [
+    "thief"
+  ],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground",
+    "dangerous"
+  ]
+}

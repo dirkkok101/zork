@@ -1,0 +1,26 @@
+{
+  "id": "test_thief",
+  "name": "thief",
+  "type": "humanoid",
+  "description": "A suspicious-looking individual holding a bag.",
+  "examineText": "A shifty character with nimble fingers and a large sack.",
+  "startingSceneId": "treasure_room",
+  "inventory": ["stiletto"],
+  "synonyms": ["thief", "robber", "bandit"],
+  "flags": {
+    "VILLAIN": true,
+    "OVISON": true
+  },
+  "combatStrength": 5,
+  "meleeMessages": {
+    "miss": ["The thief stabs nonchalantly with his stiletto and misses."],
+    "kill": ["The stiletto severs your jugular. It looks like the end."],
+    "light_wound": ["A quick thrust pinks your left arm, and blood starts to trickle down."]
+  },
+  "behaviorFunction": "ROBBER-FUNCTION",
+  "movementDemon": "ROBBER-DEMON",
+  "properties": {
+    "canSteal": true,
+    "hasLoot": true
+  }
+}

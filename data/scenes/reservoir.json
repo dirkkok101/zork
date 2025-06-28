@@ -1,0 +1,38 @@
+{
+  "id": "reservoir",
+  "title": "Reservoir",
+  "description": "You are in the reservoir.",
+  "exits": {
+    "north": "resen",
+    "south": {
+      "to": "reses",
+      "condition": "egypt_flag",
+      "failureMessage": "The passage is too steep for carrying the coffin."
+    },
+    "up": "instr",
+    "down": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "It's a long way down!"
+    },
+    "land": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "Specify the direction to land."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "daylight",
+  "region": "above_ground",
+  "atmosphere": [
+    "A gentle breeze stirs the leaves overhead.",
+    "You hear birds chirping in the distance.",
+    "Sunlight filters through the trees.",
+    "The air is fresh and clean here."
+  ],
+  "tags": [
+    "above_ground"
+  ]
+}

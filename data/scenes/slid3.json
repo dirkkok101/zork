@@ -1,0 +1,24 @@
+{
+  "id": "slid3",
+  "title": "Slide",
+  "description": "You have reached the end of your rope.  Below you is darkness as\nthe chute makes a sharp turn.  On the east here is a small ledge\nwhich you might be able to stand on.",
+  "exits": {
+    "down": "cellar",
+    "up": "slid2",
+    "east": "sledg"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "volcano_gnome",
+  "name": "Volcano Gnome",
+  "type": "creature",
+  "description": "There is a nervous Volcano Gnome here.",
+  "examineText": "A small, nervous creature that seems uncomfortable being away from volcanic regions. He shifts anxiously from foot to foot.",
+  "synonyms": [
+    "gnome",
+    "troll",
+    "volca"
+  ],
+  "flags": {
+    "OVISON": true,
+    "VICBIT": true
+  },
+  "inventory": [],
+  "properties": {},
+  "behaviorFunction": "GNOME-FUNCTION"
+}

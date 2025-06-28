@@ -1,0 +1,19 @@
+{
+  "id": "grue",
+  "name": "lurking grue",
+  "type": "environmental",
+  "description": "It is pitch black. You are likely to be eaten by a grue.",
+  "examineText": "The grue is a sinister, lurking presence in the dark places of the earth. Its favorite diet is adventurers, but its insatiable appetite is tempered by its fear of light.",
+  "synonyms": [
+    "grue"
+  ],
+  "flags": {
+    "OVISON": true
+  },
+  "inventory": [],
+  "properties": {
+    "requiresDarkness": true,
+    "instantKill": true
+  },
+  "behaviorFunction": "GRUE-FUNCTION"
+}

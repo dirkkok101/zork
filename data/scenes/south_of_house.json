@@ -1,0 +1,29 @@
+{
+  "id": "south_of_house",
+  "title": "South of House",
+  "description": "You are facing the south side of a white house. There is no door here,\nand all the windows are barred.",
+  "exits": {
+    "west": "west_of_house",
+    "east": "behind_house",
+    "south": "forest_2",
+    "north": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "You would be burned to a crisp in no time."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "daylight",
+  "region": "above_ground",
+  "atmosphere": [
+    "A gentle breeze stirs the leaves overhead.",
+    "You hear birds chirping in the distance.",
+    "Sunlight filters through the trees.",
+    "The air is fresh and clean here."
+  ],
+  "tags": [
+    "above_ground"
+  ]
+}

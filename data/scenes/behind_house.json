@@ -1,0 +1,40 @@
+{
+  "id": "behind_house",
+  "title": "Behind House",
+  "description": "You are in the behind house.",
+  "exits": {
+    "north": "north_of_house",
+    "south": "south_of_house",
+    "east": "clearing",
+    "west": {
+      "to": "kitchen",
+      "description": "You see window west.",
+      "condition": "door_windo_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The windo is closed."
+    },
+    "in": {
+      "to": "kitchen",
+      "description": "You see window in.",
+      "condition": "door_windo_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The windo is closed."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "daylight",
+  "region": "above_ground",
+  "atmosphere": [
+    "A gentle breeze stirs the leaves overhead.",
+    "You hear birds chirping in the distance.",
+    "Sunlight filters through the trees.",
+    "The air is fresh and clean here."
+  ],
+  "tags": [
+    "above_ground"
+  ]
+}

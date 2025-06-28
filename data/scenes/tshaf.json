@@ -1,0 +1,28 @@
+{
+  "id": "tshaf",
+  "title": "Shaft Room",
+  "description": "This is a large room, in the middle of which is a small shaft\ndescending through the floor into darkness below.  To the west and\nthe north are exits from this room.  Constructed over the top of the\nshaft is a metal framework to which a heavy iron chain is attached.",
+  "exits": {
+    "down": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "It's a long way down!"
+    },
+    "west": "entra",
+    "north": "tunne"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "mine1",
+  "title": "Coal mine",
+  "description": "This is a non-descript part of a coal mine.",
+  "exits": {
+    "north": "mine4",
+    "sw": "mine2",
+    "east": "tunne"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

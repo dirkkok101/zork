@@ -1,0 +1,13 @@
+{
+  "monsters": [
+    "test_thief",
+    "test_troll",
+    "test_cyclops"
+  ],
+  "total": 3,
+  "types": {
+    "humanoid": ["test_thief", "test_troll", "test_cyclops"],
+    "creature": [],
+    "environmental": []
+  }
+}

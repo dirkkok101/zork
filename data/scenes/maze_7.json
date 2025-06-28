@@ -1,0 +1,28 @@
+{
+  "id": "maze_7",
+  "title": "Maze",
+  "description": "This is part of a maze of twisty little passages, all alike.",
+  "exits": {
+    "up": "maze_14",
+    "west": "maze_6",
+    "ne": "dead_end_1",
+    "east": "maze_8",
+    "south": "maze_15"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "maze",
+  "atmosphere": [
+    "The passages here all look alike.",
+    "You hear the sound of your own breathing.",
+    "The walls are lined with ancient stonework.",
+    "A faint draft stirs the stale air."
+  ],
+  "tags": [
+    "maze",
+    "maze",
+    "confusing"
+  ]
+}

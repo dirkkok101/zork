@@ -1,0 +1,32 @@
+{
+  "id": "lld1",
+  "title": "Entrance to Hades",
+  "description": "You are in the entrance to hades.",
+  "exits": {
+    "east": {
+      "to": "lld2",
+      "condition": "lld_flag",
+      "failureMessage": "Some invisible force prevents you from passing through the gate."
+    },
+    "up": "cave2",
+    "in": {
+      "to": "lld2",
+      "condition": "lld_flag",
+      "failureMessage": "Some invisible force prevents you from passing through the gate."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

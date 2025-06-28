@@ -1,0 +1,31 @@
+{
+  "id": "top_of_falls",
+  "title": "Aragain Falls",
+  "description": "You are in the aragain falls.",
+  "exits": {
+    "east": "rainb",
+    "down": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "It's a long way down!"
+    },
+    "north": "fante",
+    "up": "rainb"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "endgame",
+  "atmosphere": [
+    "An aura of ancient power fills this place.",
+    "The air shimmers with mystical energy.",
+    "You sense you are nearing your goal.",
+    "This place feels sacred and untouchable."
+  ],
+  "tags": [
+    "endgame",
+    "sacred",
+    "final_area"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "id": "cyclops",
+  "name": "cyclops",
+  "type": "humanoid",
+  "description": "The cyclops, a one-eyed giant, blocks the stairway.",
+  "examineText": "This cyclops is huge, standing nearly twelve feet tall. His single eye glares balefully at you, and his massive hands could easily crush a man. He appears to be quite hungry.",
+  "synonyms": [
+    "cyclo",
+    "one-e",
+    "monst"
+  ],
+  "flags": {
+    "OVISON": true,
+    "VICBIT": true,
+    "VILLAIN": true
+  },
+  "inventory": [],
+  "properties": {
+    "isVillain": true,
+    "wantsFood": true,
+    "blocksStairway": true
+  },
+  "combatStrength": 10000,
+  "meleeMessages": {
+    "miss": [
+      "The Cyclops misses, but the backwash almost knocks you over.",
+      "The Cyclops rushes you, but runs into the wall.",
+      "The Cyclops trips over his feet trying to get at you.",
+      "The Cyclops unleashes a roundhouse punch, but you have time to dodge."
+    ],
+    "unconscious": [
+      "The Cyclops knocks you unconscious.",
+      "The Cyclops sends you crashing to the floor, unconscious."
+    ],
+    "kill": [
+      "The Cyclops raises his arms and crushes your skull.",
+      "The Cyclops has just essentially ripped you to shreds.",
+      "The Cyclops decks you. In fact, you are dead.",
+      "The Cyclops breaks your neck with a massive smash."
+    ],
+    "light_wound": [
+      "A quick punch, but it was only a glancing blow.",
+      "The Cyclops grabs but you twist free, leaving part of your cloak.",
+      "A glancing blow from the Cyclops' fist.",
+      "The Cyclops chops at you with the side of his hand, and it connects, but not solidly."
+    ],
+    "severe_wound": [
+      "The Cyclops gets a good grip and breaks your arm.",
+      "The monster smashes his huge fist into your chest, breaking several ribs.",
+      "The Cyclops almost knocks the wind out of you with a quick punch.",
+      "A flying drop kick breaks your jaw.",
+      "The Cyclops breaks your leg with a staggering blow."
+    ],
+    "stagger": [
+      "The Cyclops knocks you silly, and you reel back.",
+      "The Cyclops lands a punch that knocks the wind out of you.",
+      "Heedless of your weapons, the Cyclops tosses you against the rock wall of the room.",
+      "The Cyclops grabs you, and almost strangles you before you wiggle free, breathless."
+    ],
+    "disarm": []
+  },
+  "behaviorFunction": "CYCLOPS",
+  "startingSceneId": "cyclops_room"
+}

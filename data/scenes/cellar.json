@@ -1,0 +1,36 @@
+{
+  "id": "cellar",
+  "title": "Cellar",
+  "description": "You are in the cellar.",
+  "exits": {
+    "east": "troll_room",
+    "south": "chas2",
+    "up": {
+      "to": "living_room",
+      "description": "You see TRAP up.",
+      "condition": "door_door_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The door is closed."
+    },
+    "west": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "It is too narrow for most insects."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

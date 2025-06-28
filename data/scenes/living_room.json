@@ -1,0 +1,43 @@
+{
+  "id": "living_room",
+  "title": "Living Room",
+  "description": "You are in the living room.",
+  "exits": {
+    "east": {
+      "to": "kitchen",
+      "condition": "light_load",
+      "failureMessage": "The chimney is too narrow for you and all of your baggage."
+    },
+    "west": {
+      "to": "strange_passage",
+      "condition": "magic_flag",
+      "failureMessage": "The north wall is solid rock."
+    },
+    "down": {
+      "to": "cellar",
+      "description": "You see TRAP down.",
+      "condition": "door_door_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The door is closed."
+    }
+  },
+  "items": [
+    "tcase",
+    "lamp"
+  ],
+  "monsters": [],
+  "state": {},
+  "lighting": "lit",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ],
+  "firstVisitDescription": "You are in the living room. There is a doorway to the east, a wooden door with strange gothic lettering to the west, which appears to be nailed shut, a trophy case, and a large oriental rug in the center of the room."
+}

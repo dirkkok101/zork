@@ -1,0 +1,31 @@
+{
+  "id": "bwell",
+  "title": "Circular Room",
+  "description": "This is a damp circular room, whose walls are made of brick and\nmortar.  The roof of this room is not visible, but there appear to be\nsome etchings on the walls.  There is a passageway to the west.",
+  "exits": {
+    "west": {
+      "to": "mpear",
+      "condition": "riddle_flag",
+      "failureMessage": "Your way is blocked by an invisible force."
+    },
+    "up": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "The walls cannot be climbed."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

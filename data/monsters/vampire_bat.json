@@ -1,0 +1,23 @@
+{
+  "id": "vampire_bat",
+  "name": "bat",
+  "type": "environmental",
+  "description": "There is a vampire bat here.",
+  "examineText": "A large bat with leathery wings and sharp fangs. Despite its fearsome appearance, it seems more interested in flying than fighting.",
+  "synonyms": [
+    "bat",
+    "vampi",
+    "vampi"
+  ],
+  "flags": {
+    "OVISON": true,
+    "NDESCBIT": true,
+    "TRYTAKEBIT": true
+  },
+  "inventory": [],
+  "properties": {
+    "canCarryPlayer": true,
+    "canFly": true
+  },
+  "behaviorFunction": "FLY-ME"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "forest_4",
+  "title": "Forest",
+  "description": "This is a large forest, with trees obstructing all views except\nto the east, where a small clearing may be seen through the trees.",
+  "exits": {
+    "up": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "The walls cannot be climbed."
+    },
+    "east": "cltop",
+    "north": "fore5",
+    "south": "forest_4",
+    "west": "forest_2"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "endgame",
+  "atmosphere": [
+    "An aura of ancient power fills this place.",
+    "The air shimmers with mystical energy.",
+    "You sense you are nearing your goal.",
+    "This place feels sacred and untouchable."
+  ],
+  "tags": [
+    "endgame",
+    "sacred",
+    "final_area"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "id": "thief",
+  "name": "thief",
+  "type": "humanoid",
+  "description": "There is a suspicious-looking individual, holding a bag, leaning against one wall. He is armed with a vicious-looking stiletto.",
+  "examineText": "A suspicious-looking individual of medium build, leaning casually against the wall. He holds a large sack and is armed with a deadly stiletto which he handles with obvious skill.",
+  "synonyms": [
+    "thief",
+    "robbe",
+    "crook",
+    "crimi",
+    "bandi",
+    "gent",
+    "gentl",
+    "man",
+    "indiv",
+    "shady",
+    "suspi"
+  ],
+  "flags": {
+    "OVISON": true,
+    "VICBIT": true,
+    "VILLAIN": true
+  },
+  "inventory": [
+    "stiletto"
+  ],
+  "properties": {
+    "isVillain": true,
+    "canSteal": true,
+    "hasLoot": true
+  },
+  "combatStrength": 5,
+  "meleeMessages": {
+    "miss": [
+      "The thief stabs nonchalantly with his stiletto and misses.",
+      "You dodge as the thief comes in low.",
+      "You parry a lightning thrust, and the thief salutes you with a grim nod.",
+      "The thief tries to sneak past your guard, but you twist away."
+    ],
+    "unconscious": [
+      "Shifting in the midst of a thrust, the thief knocks you unconscious with the haft of his stiletto.",
+      "The thief knocks you out."
+    ],
+    "kill": [
+      "Finishing you off, a lightning throw right to the heart.",
+      "The stiletto severs your jugular. It looks like the end.",
+      "The thief comes in from the side, feints, and inserts the blade into your ribs.",
+      "The thief bows formally, raises his stiletto, and with a wry grin, ends the battle and your life."
+    ],
+    "light_wound": [
+      "A quick thrust pinks your left arm, and blood starts to trickle down.",
+      "The thief draws blood, raking his stiletto across your arm.",
+      "The stiletto flashes faster than you can follow, and blood wells from your leg.",
+      "The thief slowly approaches, strikes like a snake, and leaves you wounded."
+    ],
+    "severe_wound": [
+      "The thief strikes like a snake! The resulting wound is serious.",
+      "The thief stabs a deep cut in your upper arm.",
+      "The stiletto touches your forehead, and the blood obscures your vision."
+    ],
+    "stagger": [
+      "The butt of his stiletto cracks you on the skull, and you stagger back.",
+      "You are forced back, and trip over your own feet, falling heavily to the floor.",
+      "The thief rams the haft of his blade into your stomach, leaving you out of breath.",
+      "The thief attacks, and you fall back desperately."
+    ],
+    "disarm": []
+  },
+  "behaviorFunction": "ROBBER-FUNCTION",
+  "movementDemon": "ROBBER-DEMON",
+  "startingSceneId": "treasure_room"
+}

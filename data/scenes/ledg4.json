@@ -1,0 +1,29 @@
+{
+  "id": "ledg4",
+  "title": "Wide Ledge",
+  "description": "You are in the wide ledge.",
+  "exits": {
+    "down": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "It's a long way down!"
+    },
+    "launc": "vair4",
+    "west": "vlbot",
+    "south": "safe"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

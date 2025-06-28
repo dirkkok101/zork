@@ -12,6 +12,22 @@ import { IWeaponService } from './IWeaponService';
 import { IConsumableService } from './IConsumableService';
 import { IFireService } from './IFireService';
 import { IVehicleService } from './IVehicleService';
+import { IMonsterService } from './IMonsterService';
+import { IMonsterCombatService } from './IMonsterCombatService';
+import { IMonsterMovementService } from './IMonsterMovementService';
+import { IMonsterBehaviorService } from './IMonsterBehaviorService';
+import { IMonsterInteractionService } from './IMonsterInteractionService';
+import { IMonsterAIService } from './IMonsterAIService';
+import { ISceneNavigationService } from './ISceneNavigationService';
+import { ISceneLightingService } from './ISceneLightingService';
+import { IGamePersistenceService } from './IGamePersistenceService';
+import { IGameFlagService } from './IGameFlagService';
+import { ICommandParserService } from './ICommandParserService';
+import { IConditionEvaluationService } from './IConditionEvaluationService';
+import { IEffectApplicationService } from './IEffectApplicationService';
+import { IPuzzleService } from './IPuzzleService';
+import { IAudioService } from './IAudioService';
+import { IGameOrchestrationService } from './IGameOrchestrationService';
 
 /**
  * Service Registry Interface
@@ -30,6 +46,34 @@ export interface IServiceRegistry {
   getConsumableService(): IConsumableService;
   getFireService(): IFireService;
   getVehicleService(): IVehicleService;
+  
+  // Monster services
+  getMonsterService(): IMonsterService;
+  getMonsterCombatService(): IMonsterCombatService;
+  getMonsterMovementService(): IMonsterMovementService;
+  getMonsterBehaviorService(): IMonsterBehaviorService;
+  getMonsterInteractionService(): IMonsterInteractionService;
+  getMonsterAIService(): IMonsterAIService;
+  
+  // Scene and navigation services
+  getSceneNavigationService(): ISceneNavigationService;
+  getSceneLightingService(): ISceneLightingService;
+  
+  // Game state management services
+  getGamePersistenceService(): IGamePersistenceService;
+  getGameFlagService(): IGameFlagService;
+  
+  // Command processing services
+  getCommandParserService(): ICommandParserService;
+  getConditionEvaluationService(): IConditionEvaluationService;
+  getEffectApplicationService(): IEffectApplicationService;
+  
+  // Game mechanics services
+  getPuzzleService(): IPuzzleService;
+  getAudioService(): IAudioService;
+  
+  // Orchestration service
+  getGameOrchestrationService(): IGameOrchestrationService;
   
   // Service lifecycle management
   initializeServices(): Promise<void>;
@@ -60,6 +104,22 @@ export interface ServiceHealthReport {
     consumableService: boolean;
     fireService: boolean;
     vehicleService: boolean;
+    monsterService: boolean;
+    monsterCombatService: boolean;
+    monsterMovementService: boolean;
+    monsterBehaviorService: boolean;
+    monsterInteractionService: boolean;
+    monsterAIService: boolean;
+    sceneNavigationService: boolean;
+    sceneLightingService: boolean;
+    gamePersistenceService: boolean;
+    gameFlagService: boolean;
+    commandParserService: boolean;
+    conditionEvaluationService: boolean;
+    effectApplicationService: boolean;
+    puzzleService: boolean;
+    audioService: boolean;
+    gameOrchestrationService: boolean;
   };
   
   /** Any error messages */
@@ -122,5 +182,13 @@ export interface ServiceConfiguration {
     enableFuelConsumption?: boolean;
     defaultLightDuration?: number;
     lightFadeWarning?: boolean;
+  };
+  
+  monsterConfig?: {
+    enableAI?: boolean;
+    defaultAggressionLevel?: number;
+    enableDynamicBehavior?: boolean;
+    respawnMonsters?: boolean;
+    monsterMemory?: boolean;
   };
 }

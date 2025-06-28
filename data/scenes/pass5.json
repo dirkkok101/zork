@@ -1,0 +1,24 @@
+{
+  "id": "pass5",
+  "title": "North-South Passage",
+  "description": "This is a high north-south passage, which forks to the northeast.",
+  "exits": {
+    "north": "chas1",
+    "ne": "echo",
+    "south": "carousel_room"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

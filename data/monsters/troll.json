@@ -1,0 +1,62 @@
+{
+  "id": "troll",
+  "name": "troll",
+  "type": "humanoid",
+  "description": "A nasty-looking troll, brandishing a bloody axe, blocks all passages out of the room.",
+  "examineText": "A particularly unpleasant specimen, the troll is about seven feet tall and exceptionally ugly. His skin is a mottled green and covered in warty growths. He carries a massive double-bladed axe.",
+  "synonyms": [
+    "troll",
+    "nasty"
+  ],
+  "flags": {
+    "OVISON": true,
+    "VICBIT": true,
+    "VILLAIN": true
+  },
+  "inventory": [
+    "axe"
+  ],
+  "properties": {
+    "isVillain": true,
+    "blocksPassage": true
+  },
+  "combatStrength": 2,
+  "meleeMessages": {
+    "miss": [
+      "The troll swings his axe, but it misses.",
+      "The troll's axe barely misses your ear.",
+      "The axe sweeps past as you jump aside.",
+      "The axe crashes against the rock, throwing sparks!"
+    ],
+    "unconscious": [
+      "The flat of the troll's axe hits you delicately on the head, knocking you out."
+    ],
+    "kill": [
+      "The troll lands a killing blow. You are dead.",
+      "The troll neatly removes your head.",
+      "The troll's axe stroke cleaves you from the nave to the chops.",
+      "The troll's axe removes your head."
+    ],
+    "light_wound": [
+      "The axe gets you right in the side. Ouch!",
+      "The flat of the troll's axe skins across your forearm.",
+      "The troll's swing almost knocks you over as you barely parry in time.",
+      "The troll swings his axe, and it nicks your arm as you dodge."
+    ],
+    "severe_wound": [
+      "An axe stroke makes a deep wound in your leg.",
+      "The troll's axe swings down, gashing your shoulder.",
+      "The troll sees a hole in your defense, and a lightning stroke opens a wound in your left side."
+    ],
+    "stagger": [
+      "The troll hits you with a glancing blow, and you are momentarily stunned.",
+      "The troll swings; the blade turns on your armor but crashes broadside into your head.",
+      "You stagger back under a hail of axe strokes.",
+      "The troll's mighty blow drops you to your knees."
+    ],
+    "disarm": [
+      "The troll swings, you parry, but the force of his blow disarms you."
+    ]
+  },
+  "startingSceneId": "troll_room"
+}

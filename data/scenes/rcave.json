@@ -1,0 +1,23 @@
+{
+  "id": "rcave",
+  "title": "Rocky Shore",
+  "description": "You are on the west shore of the river.  An entrance to a cave is\nto the northwest.  The shore is very rocky here.",
+  "exits": {
+    "launc": "rivr3",
+    "nw": "tcave"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

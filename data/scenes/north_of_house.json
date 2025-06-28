@@ -1,0 +1,29 @@
+{
+  "id": "north_of_house",
+  "title": "North of House",
+  "description": "You are facing the north side of a white house.  There is no door here,\nand all the windows are barred.",
+  "exits": {
+    "west": "west_of_house",
+    "east": "behind_house",
+    "north": "forest_3",
+    "south": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "The wall is solid rock."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "daylight",
+  "region": "above_ground",
+  "atmosphere": [
+    "A gentle breeze stirs the leaves overhead.",
+    "You hear birds chirping in the distance.",
+    "Sunlight filters through the trees.",
+    "The air is fresh and clean here."
+  ],
+  "tags": [
+    "above_ground"
+  ]
+}

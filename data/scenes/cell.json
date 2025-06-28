@@ -1,0 +1,44 @@
+{
+  "id": "cell",
+  "title": "Prison Cell",
+  "description": "You are in the prison cell.",
+  "exits": {
+    "south": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "The wall is solid rock."
+    },
+    "out": {
+      "to": "treasury_of_zork",
+      "description": "You see BRONZ out.",
+      "condition": "door_odoor_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The odoor is closed."
+    },
+    "north": {
+      "to": "treasury_of_zork",
+      "description": "You see BRONZ north.",
+      "condition": "door_odoor_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The odoor is closed."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "endgame",
+  "atmosphere": [
+    "An aura of ancient power fills this place.",
+    "The air shimmers with mystical energy.",
+    "You sense you are nearing your goal.",
+    "This place feels sacred and untouchable."
+  ],
+  "tags": [
+    "endgame",
+    "sacred",
+    "final_area"
+  ]
+}

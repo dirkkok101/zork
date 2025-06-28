@@ -1,0 +1,30 @@
+{
+  "id": "forest_1",
+  "title": "Forest",
+  "description": "This is a forest, with trees in all directions around you.",
+  "exits": {
+    "up": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "The walls cannot be climbed."
+    },
+    "north": "forest_1",
+    "east": "forest_3",
+    "south": "forest_2",
+    "west": "forest_1"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "daylight",
+  "region": "above_ground",
+  "atmosphere": [
+    "A gentle breeze stirs the leaves overhead.",
+    "You hear birds chirping in the distance.",
+    "Sunlight filters through the trees.",
+    "The air is fresh and clean here."
+  ],
+  "tags": [
+    "above_ground"
+  ]
+}

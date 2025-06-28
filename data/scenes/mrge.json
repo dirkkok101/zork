@@ -1,0 +1,20 @@
+{
+  "id": "mrge",
+  "title": "Narrow Room",
+  "description": "You are in the narrow room.",
+  "exits": {},
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

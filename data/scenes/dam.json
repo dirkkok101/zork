@@ -1,0 +1,25 @@
+{
+  "id": "dam",
+  "title": "Dam",
+  "description": "You are in the dam.",
+  "exits": {
+    "south": "cany1",
+    "down": "dock",
+    "east": "cave3",
+    "north": "lobby"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "daylight",
+  "region": "above_ground",
+  "atmosphere": [
+    "A gentle breeze stirs the leaves overhead.",
+    "You hear birds chirping in the distance.",
+    "Sunlight filters through the trees.",
+    "The air is fresh and clean here."
+  ],
+  "tags": [
+    "above_ground"
+  ]
+}

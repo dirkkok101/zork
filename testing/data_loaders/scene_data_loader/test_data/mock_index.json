@@ -1,0 +1,18 @@
+{
+  "scenes": [
+    "test_outdoor.json",
+    "test_indoor.json",
+    "test_underground.json",
+    "test_maze.json",
+    "complex_exits.json"
+  ],
+  "total": 5,
+  "regions": {
+    "above_ground": ["test_outdoor.json"],
+    "house": ["test_indoor.json"],
+    "underground": ["test_underground.json"],
+    "maze": ["test_maze.json"],
+    "special": ["complex_exits.json"]
+  },
+  "lastUpdated": "2024-06-25T00:00:00Z"
+}

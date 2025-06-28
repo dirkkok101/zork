@@ -1,0 +1,29 @@
+{
+  "id": "bshaf",
+  "title": "Lower Shaft",
+  "description": "This is a small square room which is at the bottom of a long\nshaft. To the east is a passageway and to the northeast a very narrow\npassage. In the shaft can be seen a heavy iron chain.",
+  "exits": {
+    "east": "machi",
+    "out": "timbe",
+    "ne": "timbe",
+    "up": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "The walls cannot be climbed."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

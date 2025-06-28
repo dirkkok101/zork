@@ -1,0 +1,26 @@
+{
+  "id": "forest_3",
+  "title": "Forest",
+  "description": "This is a dimly lit forest, with large trees all around.  One\nparticularly large tree with some low branches stands here.",
+  "exits": {
+    "up": "tree",
+    "north": "forest_2",
+    "east": "clearing",
+    "south": "clearing",
+    "west": "north_of_house"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "daylight",
+  "region": "above_ground",
+  "atmosphere": [
+    "A gentle breeze stirs the leaves overhead.",
+    "You hear birds chirping in the distance.",
+    "Sunlight filters through the trees.",
+    "The air is fresh and clean here."
+  ],
+  "tags": [
+    "above_ground"
+  ]
+}

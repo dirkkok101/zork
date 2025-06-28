@@ -1,0 +1,48 @@
+{
+  "id": "test_outdoor",
+  "title": "Forest Clearing",
+  "description": "You are in a peaceful forest clearing.",
+  "firstVisitDescription": "You emerge into a sunlit forest clearing. Birds chirp overhead.",
+  "exits": {
+    "north": "deep_forest",
+    "south": "forest_path",
+    "east": {
+      "to": "river_bank",
+      "description": "A narrow path leads east toward the sound of running water."
+    },
+    "west": {
+      "to": "hill_top",
+      "condition": "has_rope",
+      "failureMessage": "The hill is too steep to climb without rope."
+    }
+  },
+  "items": [
+    "branch",
+    {
+      "itemId": "mushroom",
+      "visible": false,
+      "condition": "examined_log"
+    }
+  ],
+  "monsters": [],
+  "state": {
+    "examined": false,
+    "hasLight": true
+  },
+  "lighting": "daylight",
+  "region": "above_ground",
+  "atmosphere": [
+    "Birds chirp overhead.",
+    "A gentle breeze rustles the leaves.",
+    "You hear the distant sound of water."
+  ],
+  "entryActions": [
+    {
+      "action": "revealMushroom",
+      "condition": "first_visit",
+      "message": "As you enter, you notice something peculiar about a fallen log.",
+      "once": true
+    }
+  ],
+  "tags": ["outdoor", "forest", "peaceful"]
+}

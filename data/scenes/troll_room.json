@@ -1,0 +1,30 @@
+{
+  "id": "troll_room",
+  "title": "The Troll Room",
+  "description": "This is a small room with passages off in all directions. \nBloodstains and deep scratches (perhaps made by an axe) mar the\nwalls.",
+  "exits": {
+    "west": "cellar",
+    "east": "craw4",
+    "north": "pass1",
+    "south": "maze_1"
+  },
+  "items": [
+    "axe"
+  ],
+  "monsters": [
+    "troll"
+  ],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground",
+    "dangerous"
+  ]
+}

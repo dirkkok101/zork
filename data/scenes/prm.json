@@ -1,0 +1,50 @@
+{
+  "id": "prm",
+  "title": "Tiny Room",
+  "description": "You are in the tiny room.",
+  "exits": {
+    "north": {
+      "to": "palan",
+      "description": "You see WOODE north.",
+      "condition": "door_pdoor_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The pdoor is closed."
+    },
+    "in": {
+      "to": "palan",
+      "description": "You see WOODE in.",
+      "condition": "door_pdoor_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The pdoor is closed."
+    },
+    "#!#!#": {
+      "to": "palan",
+      "description": "You see WOODE #!#!#.",
+      "condition": "door_pdoor_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The pdoor is closed."
+    },
+    "east": {
+      "to": "mtorc",
+      "condition": "dome_flag",
+      "failureMessage": "You cannot go down without fracturing many bones."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

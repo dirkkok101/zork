@@ -1,0 +1,19 @@
+{
+  "id": "ghost",
+  "name": "number of ghosts",
+  "type": "creature",
+  "description": "There are sinister spirits lurking in the darkness.",
+  "examineText": "Translucent spirits that seem to shift between this world and the next. Their forms are indistinct and unsettling.",
+  "synonyms": [
+    "ghost",
+    "spiri",
+    "fiend"
+  ],
+  "flags": {
+    "OVISON": true,
+    "VICBIT": true
+  },
+  "inventory": [],
+  "properties": {},
+  "behaviorFunction": "GHOST-FUNCTION"
+}

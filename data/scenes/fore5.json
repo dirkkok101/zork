@@ -1,0 +1,30 @@
+{
+  "id": "fore5",
+  "title": "Forest",
+  "description": "This is a forest, with trees in all directions around you.",
+  "exits": {
+    "up": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "The walls cannot be climbed."
+    },
+    "north": "fore5",
+    "se": "cltop",
+    "south": "forest_4",
+    "west": "forest_2"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

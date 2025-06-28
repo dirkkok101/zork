@@ -1,0 +1,30 @@
+{
+  "id": "forest_2",
+  "title": "Forest",
+  "description": "This is a dimly lit forest, with large trees all around.  To the\neast, there appears to be sunlight.",
+  "exits": {
+    "up": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "The walls cannot be climbed."
+    },
+    "north": "south_of_house",
+    "east": "clearing",
+    "south": "forest_4",
+    "west": "forest_1"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "daylight",
+  "region": "above_ground",
+  "atmosphere": [
+    "A gentle breeze stirs the leaves overhead.",
+    "You hear birds chirping in the distance.",
+    "Sunlight filters through the trees.",
+    "The air is fresh and clean here."
+  ],
+  "tags": [
+    "above_ground"
+  ]
+}

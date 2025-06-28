@@ -1,0 +1,30 @@
+{
+  "id": "west_of_house",
+  "title": "West of House",
+  "description": "This is an open field west of a white house, with a boarded front door.",
+  "exits": {
+    "north": "north_of_house",
+    "south": "south_of_house",
+    "west": "forest_1",
+    "east": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "Only a mouse could get in there."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "daylight",
+  "region": "above_ground",
+  "atmosphere": [
+    "A gentle breeze stirs the leaves overhead.",
+    "You hear birds chirping in the distance.",
+    "Sunlight filters through the trees.",
+    "The air is fresh and clean here."
+  ],
+  "tags": [
+    "above_ground"
+  ],
+  "firstVisitDescription": "You are standing in an open field west of a white house, with a boarded front door."
+}

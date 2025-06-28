@@ -1,0 +1,20 @@
+{
+  "id": "gnome_of_zurich",
+  "name": "Gnome of Zurich",
+  "type": "humanoid",
+  "description": "There is a Gnome of Zurich here.",
+  "examineText": "A dignified gnome dressed in banker's attire. He regards you with a calculating expression.",
+  "synonyms": [
+    "zgnom",
+    "gnome",
+    "zuric"
+  ],
+  "flags": {
+    "OVISON": true,
+    "VICBIT": true,
+    "VILLAIN": true
+  },
+  "inventory": [],
+  "properties": {},
+  "behaviorFunction": "ZGNOME-FUNCTION"
+}

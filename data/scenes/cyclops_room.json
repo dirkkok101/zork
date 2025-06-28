@@ -1,0 +1,35 @@
+{
+  "id": "cyclops_room",
+  "title": "Cyclops Room",
+  "description": "You are in the cyclops room.",
+  "exits": {
+    "west": "maze_15",
+    "north": {
+      "to": "strange_passage",
+      "condition": "magic_flag",
+      "failureMessage": "The north wall is solid rock."
+    },
+    "up": {
+      "to": "treasure_room",
+      "condition": "cyclops_flag",
+      "failureMessage": "The cyclops doesn't look like he'll let you past."
+    }
+  },
+  "items": [],
+  "monsters": [
+    "cyclops"
+  ],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground",
+    "dangerous"
+  ]
+}

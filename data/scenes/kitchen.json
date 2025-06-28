@@ -1,0 +1,47 @@
+{
+  "id": "kitchen",
+  "title": "Kitchen",
+  "description": "You are in the kitchen.",
+  "exits": {
+    "east": {
+      "to": "behind_house",
+      "description": "You see window east.",
+      "condition": "door_windo_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The windo is closed."
+    },
+    "west": "living_room",
+    "out": {
+      "to": "behind_house",
+      "description": "You see window out.",
+      "condition": "door_windo_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The windo is closed."
+    },
+    "up": "attic",
+    "down": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "It's a long way down!"
+    }
+  },
+  "items": [
+    "sbag",
+    "bottl"
+  ],
+  "monsters": [],
+  "state": {},
+  "lighting": "lit",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

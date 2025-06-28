@@ -1,0 +1,49 @@
+{
+  "id": "clearing",
+  "title": "Clearing",
+  "description": "You are in the clearing.",
+  "exits": {
+    "sw": "behind_house",
+    "se": "fore5",
+    "north": {
+      "to": "clearing",
+      "description": "You see grating north.",
+      "condition": "door_grate_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The grating is locked."
+    },
+    "east": {
+      "to": "clearing",
+      "description": "You see grating east.",
+      "condition": "door_grate_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The grating is locked."
+    },
+    "west": "forest_3",
+    "south": "forest_2",
+    "down": {
+      "to": "grating_room",
+      "description": "You see grating down.",
+      "condition": "door_grate_open",
+      "locked": false,
+      "keyId": null,
+      "failureMessage": "The grating is locked."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "daylight",
+  "region": "above_ground",
+  "atmosphere": [
+    "A gentle breeze stirs the leaves overhead.",
+    "You hear birds chirping in the distance.",
+    "Sunlight filters through the trees.",
+    "The air is fresh and clean here."
+  ],
+  "tags": [
+    "above_ground"
+  ]
+}

@@ -1,15 +1,31 @@
 {
-  "categories": {
-    "humanoids": [
-      "humanoids/thief.json"
+  "monsters": [
+    "thief",
+    "troll",
+    "cyclops",
+    "grue",
+    "ghost",
+    "volcano_gnome",
+    "gnome_of_zurich",
+    "guardian_of_zork",
+    "vampire_bat"
+  ],
+  "total": 9,
+  "types": {
+    "humanoid": [
+      "thief",
+      "troll",
+      "cyclops",
+      "gnome_of_zurich",
+      "guardian_of_zork"
     ],
-    "creatures": [
-      "creatures/troll.json",
-      "creatures/cyclops.json",
-      "creatures/grue.json"
+    "creature": [
+      "ghost",
+      "volcano_gnome"
     ],
-    "mechanisms": []
-  },
-  "total": 4,
-  "lastUpdated": "2024-06-25T00:00:00Z"
+    "environmental": [
+      "grue",
+      "vampire_bat"
+    ]
+  }
 }

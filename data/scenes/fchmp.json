@@ -1,0 +1,26 @@
+{
+  "id": "fchmp",
+  "title": "Moby lossage",
+  "description": "You are in the moby lossage.",
+  "exits": {
+    "north": {
+      "to": null,
+      "blocked": true,
+      "failureMessage": "You would be burned to a crisp in no time."
+    }
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

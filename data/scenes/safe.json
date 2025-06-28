@@ -1,0 +1,22 @@
+{
+  "id": "safe",
+  "title": "Dusty Room",
+  "description": "You are in the dusty room.",
+  "exits": {
+    "north": "ledg4"
+  },
+  "items": [],
+  "monsters": [],
+  "state": {},
+  "lighting": "dark",
+  "region": "underground",
+  "atmosphere": [
+    "The air is cool and damp.",
+    "Water drips somewhere in the darkness.",
+    "Your footsteps echo off the stone walls.",
+    "The walls are rough-hewn stone."
+  ],
+  "tags": [
+    "underground"
+  ]
+}

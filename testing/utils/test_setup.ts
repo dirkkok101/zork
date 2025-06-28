@@ -3,10 +3,16 @@
  * This file is run before each test file is executed
  */
 
-// Mock fs/promises for unit tests
-jest.mock('fs/promises', () => ({
-  readFile: jest.fn()
-}));
+// Mock fs/promises only for unit tests, not integration tests
+// Integration tests need real file system access
+const testPath = expect.getState().testPath || '';
+const isIntegrationTest = testPath.includes('integration_tests');
+
+if (!isIntegrationTest) {
+  jest.mock('fs/promises', () => ({
+    readFile: jest.fn()
+  }));
+}
 
 // Global test configuration
 beforeAll(() => {
