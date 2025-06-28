@@ -1,4 +1,4 @@
-import { Scene } from '../types/SceneTypes';
+import { Scene } from '../../types/SceneTypes';
 
 /**
  * Interface defining the contract for scene data loading operations.

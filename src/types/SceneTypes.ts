@@ -105,7 +105,9 @@ export interface SceneAction {
 
 /**
  * Scene interface
- * Represents a location in the game world
+ * Pure data structure representing a location in the game world
+ * All behavior is handled by services, following SOLID principles
+ * Runtime state (like visited status) is tracked in GameState.sceneStates
  */
 export interface Scene {
     /** Unique identifier for the scene */
@@ -132,9 +134,6 @@ export interface Scene {
     /** Current lighting condition */
     lighting: LightingCondition;
 
-    /** Whether the player has visited this scene */
-    visited: boolean;
-
     /** Region the scene belongs to */
     region?: string;
 
@@ -149,57 +148,4 @@ export interface Scene {
 
     /** Tags for categorizing the scene */
     tags: string[];
-
-    /**
-     * Get the description of the scene
-     * @param gameState Current game state
-     * @returns Scene description text
-     */
-    getDescription(gameState: GameState): string;
-
-    /**
-     * Get available exits from the scene
-     * @param gameState Current game state
-     * @returns Array of available exits
-     */
-    getAvailableExits(gameState: GameState): Exit[];
-
-    /**
-     * Get visible items in the scene
-     * @param gameState Current game state
-     * @returns Array of visible scene items
-     */
-    getVisibleItems(gameState: GameState): SceneItem[];
-
-    /**
-     * Check if the player can enter this scene
-     * @param gameState Current game state
-     * @returns Whether entry is allowed
-     */
-    canEnter(gameState: GameState): boolean;
-
-    /**
-     * Called when the player enters the scene
-     * @param gameState Current game state
-     */
-    onEnter(gameState: GameState): void;
-
-    /**
-     * Called when the player exits the scene
-     * @param gameState Current game state
-     */
-    onExit(gameState: GameState): void;
-
-    /**
-     * Called when the player looks around the scene
-     * @param gameState Current game state
-     * @returns Look description text
-     */
-    onLook(gameState: GameState): string;
-
-    /**
-     * Update the scene state
-     * @param updates Partial state updates
-     */
-    updateState(updates: Partial<Record<string, any>>): void;
 }

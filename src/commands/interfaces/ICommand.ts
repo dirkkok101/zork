@@ -1,4 +1,5 @@
-import { CommandResult } from '../../services/interfaces';
+import {CommandResult} from '../../types/CommandTypes';
+
 
 /**
  * Command interface

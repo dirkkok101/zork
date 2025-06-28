@@ -838,18 +838,28 @@ export class SceneDataLoaderTestHelper {
  */
 export class SceneValidationTestHelper {
   /**
-   * Test that a scene has all required fields
+   * Test that a scene has all required fields (pure data structure, no methods)
    */
   static validateSceneStructure(scene: any): void {
     const requiredFields = [
       'id', 'title', 'description', 'exits', 'items', 'monsters',
-      'lighting', 'visited', 'state', 'tags',
-      'getDescription', 'getAvailableExits', 'getVisibleItems',
-      'canEnter', 'onEnter', 'onExit', 'onLook', 'updateState'
+      'lighting', 'state', 'tags'
+      // Note: 'visited' removed - now tracked in GameState.sceneStates
+      // Note: methods removed - behavior handled by SceneService
     ];
     
     for (const field of requiredFields) {
       expect(scene).toHaveProperty(field);
+    }
+    
+    // Ensure no methods exist on the Scene object (pure data structure)
+    const forbiddenMethods = [
+      'getDescription', 'getAvailableExits', 'getVisibleItems',
+      'canEnter', 'onEnter', 'onExit', 'onLook', 'updateState'
+    ];
+    
+    for (const method of forbiddenMethods) {
+      expect(scene).not.toHaveProperty(method);
     }
   }
 

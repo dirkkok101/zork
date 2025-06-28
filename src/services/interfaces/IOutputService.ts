@@ -1,4 +1,5 @@
-import { Scene } from '../../types/SceneTypes';
+import {Scene} from '../../types/SceneTypes';
+
 
 /**
  * Manages all user interface output and message display.

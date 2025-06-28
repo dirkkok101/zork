@@ -1,6 +1,6 @@
-import { Item } from '../../types/ItemTypes';
-import { Scene } from '../../types/SceneTypes';
-import { Monster } from '../../types/Monster';
+import {Item} from '../../types/ItemTypes';
+import {Scene} from '../../types/SceneTypes';
+import {Monster} from '../../types/Monster';
 
 /**
  * Manages core game state including player location, flags, scoring, game lifecycle, and data access.
@@ -65,4 +65,18 @@ export interface IGameStateService {
   
   /** Update monster state properties (for monster state changes) */
   updateMonsterState(id: string, updates: Partial<Monster>): void;
+  
+  // Scene State Management
+  
+  /** Check if a scene has been visited by the player */
+  hasVisitedScene(sceneId: string): boolean;
+  
+  /** Mark a scene as visited */
+  markSceneVisited(sceneId: string): void;
+  
+  /** Get scene-specific runtime state */
+  getSceneState(sceneId: string): Record<string, any>;
+  
+  /** Update scene-specific runtime state */
+  updateSceneRuntimeState(sceneId: string, updates: Record<string, any>): void;
 }

@@ -1,8 +1,11 @@
-import { GameState } from './GameState';
+
 
 /**
  * Command result interface
  * Represents the result of executing a command
+ * 
+ * Note: Commands use services to modify state directly rather than returning state updates.
+ * This keeps the command result simple and maintains service encapsulation.
  */
 export interface CommandResult {
     /** Success status of the command */
@@ -16,9 +19,6 @@ export interface CommandResult {
 
     /** Score change from the command (if any) */
     scoreChange?: number;
-
-    /** State updates to apply (if any) */
-    stateUpdates?: Partial<GameState>;
 }
 
 /**

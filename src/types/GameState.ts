@@ -1,3 +1,7 @@
+import {Scene} from './SceneTypes';
+import {Item} from './ItemTypes';
+import {Monster} from './Monster';
+
 /**
  * Core game state interface
  * Represents the complete state of the game at any point in time
@@ -25,13 +29,13 @@ export interface GameState {
     variables: Record<string, any>;
 
     /** Items in the game world */
-    items: Record<string, any>;
+    items: Record<string, Item>;
 
     /** Scenes in the game world */
-    scenes: Record<string, any>;
+    scenes: Record<string, Scene>;
 
     /** Monsters in the game world */
-    monsters: Record<string, any>;
+    monsters: Record<string, Monster>;
 }
 
 /**

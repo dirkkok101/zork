@@ -5,15 +5,15 @@
  */
 
 // Item data loading
-export { IItemDataLoader } from './IItemDataLoader';
+export { IItemDataLoader } from './interfaces/IItemDataLoader';
 export { ItemDataLoader } from './ItemDataLoader';
 
 // Monster data loading
-export { IMonsterDataLoader } from './IMonsterDataLoader';
+export { IMonsterDataLoader } from './interfaces/IMonsterDataLoader';
 export { MonsterDataLoader } from './MonsterDataLoader';
 
 // Scene data loading
-export { ISceneDataLoader } from './ISceneDataLoader';
+export { ISceneDataLoader } from './interfaces/ISceneDataLoader';
 export { SceneDataLoader } from './SceneDataLoader';
 
 // Re-export data types for convenience

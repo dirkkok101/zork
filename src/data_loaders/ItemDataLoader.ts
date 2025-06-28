@@ -1,9 +1,10 @@
 
 import { readFile } from 'fs/promises';
 import { join } from 'path';
-import {IItemDataLoader} from '@/data_loaders/IItemDataLoader';
-import {Item, ItemInteraction, ItemType, Size} from '@/types/ItemTypes';
-import {ItemData, ItemIndexData, ItemInteractionData, ItemProperties} from '@/types/ItemData';
+import * as log from 'loglevel';
+import {IItemDataLoader} from './interfaces/IItemDataLoader';
+import {Item, ItemInteraction, ItemType, Size} from '../types/ItemTypes';
+import {ItemData, ItemIndexData, ItemInteractionData, ItemProperties} from '../types/ItemData';
 
 
 
@@ -27,30 +28,57 @@ import {ItemData, ItemIndexData, ItemInteractionData, ItemProperties} from '@/ty
  */
 export class ItemDataLoader implements IItemDataLoader {
     private readonly dataPath: string;
+    private readonly logger: log.Logger;
 
     /**
      * Initialize the ItemDataLoader
      * @param dataPath Base path to the items data directory
+     * @param logger Logger instance for this loader
      */
-    constructor(dataPath: string = 'data/items/') {
+    constructor(dataPath: string = 'data/items/', logger?: log.Logger) {
         this.dataPath = dataPath;
+        this.logger = logger || log.getLogger('ItemDataLoader');
     }
 
     /**
      * Load all items from flat structure
      */
     public async loadAllItems(): Promise<Item[]> {
+        const startTime = Date.now();
+        this.logger.info(`Loading all items from ${this.dataPath}...`);
+        
         const index = await this.loadIndex();
         const allItems: Item[] = [];
+        const totalItems = index.items.length;
+        let loadedCount = 0;
+        let errorCount = 0;
 
         for (const filename of index.items) {
             try {
+                const itemStartTime = Date.now();
                 const item = await this.loadItemFromFile(filename);
                 allItems.push(item);
+                loadedCount++;
+                
+                const itemLoadTime = Date.now() - itemStartTime;
+                this.logger.debug(`Loaded item ${item.id} from ${filename} in ${itemLoadTime}ms`);
+                
+                // Log progress every 50 items
+                if (loadedCount % 50 === 0) {
+                    this.logger.debug(`Progress: ${loadedCount}/${totalItems} items loaded`);
+                }
             } catch (error) {
-                console.error(`Failed to load item from ${filename}:`, error);
+                errorCount++;
+                this.logger.error(`Failed to load item from ${filename}:`, error);
                 // Continue loading other items instead of failing completely
             }
+        }
+
+        const totalTime = Date.now() - startTime;
+        this.logger.info(`✅ Loaded ${loadedCount}/${totalItems} items in ${totalTime}ms (${errorCount} errors)`);
+        
+        if (errorCount > 0) {
+            this.logger.warn(`⚠️ ${errorCount} items failed to load`);
         }
 
         return allItems;
@@ -62,12 +90,17 @@ export class ItemDataLoader implements IItemDataLoader {
     private async loadIndex(): Promise<ItemIndexData> {
         try {
             const indexPath = join(this.dataPath, 'index.json');
+            this.logger.debug(`Loading item index from ${indexPath}`);
+            
             const indexContent = await readFile(indexPath, 'utf-8');
             const indexData = JSON.parse(indexContent) as ItemIndexData;
             
             this.validateIndexData(indexData);
+            this.logger.debug(`Index loaded: ${indexData.total} items found`);
+            
             return indexData;
         } catch (error) {
+            this.logger.error(`Failed to load item index:`, error);
             throw new Error(`Failed to load item index: ${error}`);
         }
     }
@@ -78,12 +111,18 @@ export class ItemDataLoader implements IItemDataLoader {
     private async loadItemFromFile(filename: string): Promise<Item> {
         try {
             const fullPath = join(this.dataPath, filename);
+            this.logger.trace(`Loading item from ${fullPath}`);
+            
             const fileContent = await readFile(fullPath, 'utf-8');
             const itemData = JSON.parse(fileContent) as ItemData;
             
             this.validateItemData(itemData);
-            return this.convertItemDataToItem(itemData);
+            const item = this.convertItemDataToItem(itemData);
+            
+            this.logger.trace(`Successfully converted item ${item.id} (${item.name})`);
+            return item;
         } catch (error) {
+            this.logger.error(`Failed to load item from ${filename}:`, error);
             throw new Error(`Failed to load item from ${filename}: ${error}`);
         }
     }

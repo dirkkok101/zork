@@ -1,9 +1,10 @@
 import { MonsterData, MonsterIndex } from '../types/MonsterData';
 import { Monster } from '../types/Monster';
 import { MonsterState, MovementPattern } from '../types/MonsterTypes';
-import { IMonsterDataLoader } from './IMonsterDataLoader';
+import { IMonsterDataLoader } from './interfaces/IMonsterDataLoader';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
+import * as log from 'loglevel';
 
 /**
  * Implementation of stateless monster data loading.
@@ -25,30 +26,52 @@ import { join } from 'path';
  */
 export class MonsterDataLoader implements IMonsterDataLoader {
     private readonly dataPath: string;
+    private readonly logger: log.Logger;
 
     /**
      * Initialize the MonsterDataLoader
      * @param dataPath Base path to the monsters data directory
+     * @param logger Logger instance for this loader
      */
-    constructor(dataPath: string = 'data/monsters/') {
+    constructor(dataPath: string = 'data/monsters/', logger?: log.Logger) {
         this.dataPath = dataPath;
+        this.logger = logger || log.getLogger('MonsterDataLoader');
     }
 
     /**
      * Load all monsters from flat structure
      */
     public async loadAllMonsters(): Promise<Monster[]> {
+        const startTime = Date.now();
+        this.logger.info(`Loading all monsters from ${this.dataPath}...`);
+        
         const index = await this.loadIndex();
         const allMonsters: Monster[] = [];
+        const totalMonsters = index.monsters.length;
+        let loadedCount = 0;
+        let errorCount = 0;
 
         for (const monsterId of index.monsters) {
             try {
+                const monsterStartTime = Date.now();
                 const monster = await this.loadMonsterFromFile(monsterId);
                 allMonsters.push(monster);
+                loadedCount++;
+                
+                const monsterLoadTime = Date.now() - monsterStartTime;
+                this.logger.debug(`Loaded monster ${monster.id} in ${monsterLoadTime}ms`);
             } catch (error) {
-                console.error(`Failed to load monster ${monsterId}:`, error);
+                errorCount++;
+                this.logger.error(`Failed to load monster ${monsterId}:`, error);
                 // Continue loading other monsters instead of failing completely
             }
+        }
+
+        const totalTime = Date.now() - startTime;
+        this.logger.info(`✅ Loaded ${loadedCount}/${totalMonsters} monsters in ${totalTime}ms (${errorCount} errors)`);
+        
+        if (errorCount > 0) {
+            this.logger.warn(`⚠️ ${errorCount} monsters failed to load`);
         }
 
         return allMonsters;
@@ -62,12 +85,17 @@ export class MonsterDataLoader implements IMonsterDataLoader {
     private async loadIndex(): Promise<MonsterIndex> {
         try {
             const indexPath = join(this.dataPath, 'index.json');
+            this.logger.debug(`Loading monster index from ${indexPath}`);
+            
             const indexContent = await readFile(indexPath, 'utf-8');
             const indexData = JSON.parse(indexContent) as MonsterIndex;
             
             this.validateIndexData(indexData);
+            this.logger.debug(`Index loaded: ${indexData.total} monsters found`);
+            
             return indexData;
         } catch (error) {
+            this.logger.error(`Failed to load monster index:`, error);
             throw new Error(`Failed to load monster index: ${error}`);
         }
     }

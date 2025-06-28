@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zork: Great Underground Empire</title>
+    <link rel="stylesheet" href="styles.scss">
+</head>
+<body>
+    <div id="game-container">
+        <header>
+            <h1>ZORK I: The Great Underground Empire</h1>
+            <p class="subtitle">A Text Adventure</p>
+        </header>
+        
+        <main id="game-main">
+            <div id="output-area">
+                <div id="game-text">
+                    <div class="loading">🎮 Loading Zork...</div>
+                </div>
+            </div>
+            
+            <div id="input-area">
+                <div id="prompt">></div>
+                <input type="text" id="command-input" placeholder="Enter command..." autocomplete="off">
+            </div>
+        </main>
+        
+        <footer>
+            <div id="status-bar">
+                <span id="score">Score: 0</span>
+                <span id="moves">Moves: 0</span>
+                <span id="status">Ready</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Game scripts -->
+    <script type="module" src="index.ts"></script>
+</body>
+</html>

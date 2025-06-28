@@ -3,17 +3,17 @@
  * Tests batch loading of all scenes with error handling and performance
  */
 
-import { SceneDataLoader } from '../../../../../src/data_loaders/SceneDataLoader';
+import { SceneDataLoader } from '@/data_loaders';
 import { 
   SceneDataLoaderTestHelper, 
   SceneValidationTestHelper,
   ErrorTestHelper
-} from '../../../../utils/test_helpers';
+} from '@testing/utils/test_helpers';
 import { 
   createMockSceneIndex, 
   SceneDataFactory,
   InvalidSceneDataFactory
-} from '../../../../utils/mock_factories';
+} from '@testing/utils/mock_factories';
 
 describe('SceneDataLoader.loadAllScenes()', () => {
   let loader: SceneDataLoader;
@@ -94,10 +94,10 @@ describe('SceneDataLoader.loadAllScenes()', () => {
       sceneTypes.forEach(({ type }, index) => {
         const scene = result.find(s => s.id === `${type}_scene_${index}`)!;
         expect(scene).toBeDefined();
-        // Verify the scene was properly converted from SceneData to Scene
-        expect(scene.visited).toBe(false);
-        expect(typeof scene.getDescription).toBe('function');
+        // Verify the scene was properly converted from SceneData to Scene (pure data structure)
+        expect(typeof scene.description).toBe('string'); // Description is data, not a function
         expect(Array.isArray(scene.exits)).toBe(true);
+        expect(scene.id).toBe(`${type}_scene_${index}`);
       });
     });
 
@@ -237,7 +237,7 @@ describe('SceneDataLoader.loadAllScenes()', () => {
       // Assert
       expect(result).toHaveLength(3); // Only valid scenes
       expect(result.map(s => s.id)).toEqual(['scene1', 'scene3', 'scene5']);
-      expect(consoleErrorSpy).toHaveBeenCalledTimes(2); // For scene2 and scene4
+      expect(consoleErrorSpy).toHaveBeenCalledTimes(4); // 2 errors each for scene2 and scene4 (loadSceneFromFile + loadAllScenes)
 
       consoleErrorSpy.mockRestore();
     });

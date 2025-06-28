@@ -10,11 +10,13 @@ export interface ItemResult {
 /**
  * Manages item business logic and interactions.
  * 
- * This service is responsible for:
- * - Validating item interactions (can open, can use, etc.)
- * - Executing item operations (open, close, use)
- * - Providing item descriptions and readable content
- * - Implementing item-specific behavior rules
+ * This service handles all behavior that was previously on Item objects:
+ * - Item interactions and validations
+ * - Container operations (open, close, get contents)
+ * - Light source operations (light on/off, fuel management)
+ * - Lockable item operations (lock, unlock with keys)
+ * - Item state changes and condition checking
+ * - Item descriptions and readable content
  * 
  * Boundaries:
  * - Does NOT manage item data access (GameStateService responsibility)
@@ -24,27 +26,64 @@ export interface ItemResult {
  * - Focus is purely on item-specific business logic
  */
 export interface IItemService {
+  // Basic item operations
   /** Check if an item can be picked up */
   canTake(itemId: string): boolean;
-  
-  /** Check if an item can be opened */
-  canOpen(itemId: string): boolean;
-  
-  /** Check if an item can be used/activated */
-  canUse(itemId: string): boolean;
-  
-  /** Open an item, optionally with a key */
-  openItem(itemId: string, keyId?: string): ItemResult;
-  
-  /** Close an item */
-  closeItem(itemId: string): ItemResult;
-  
-  /** Use an item, optionally on a target */
-  useItem(itemId: string, targetId?: string): ItemResult;
   
   /** Get detailed examination description of an item */
   examineItem(itemId: string): string;
   
   /** Read text content of an item (books, signs, etc.) */
   readItem(itemId: string): string;
+  
+  /** Use an item, optionally on a target */
+  useItem(itemId: string, targetId?: string): ItemResult;
+  
+  // Container operations
+  /** Check if an item is a container */
+  isContainer(itemId: string): boolean;
+  
+  /** Check if a container can be opened */
+  canOpen(itemId: string): boolean;
+  
+  /** Open a container, optionally with a key */
+  openItem(itemId: string, keyId?: string): ItemResult;
+  
+  /** Close a container */
+  closeItem(itemId: string): ItemResult;
+  
+  /** Get items inside a container */
+  getContainerContents(itemId: string): string[];
+  
+  /** Add item to container */
+  addToContainer(containerId: string, itemId: string): ItemResult;
+  
+  /** Remove item from container */
+  removeFromContainer(containerId: string, itemId: string): ItemResult;
+  
+  // Light source operations
+  /** Check if an item is a light source */
+  isLightSource(itemId: string): boolean;
+  
+  /** Check if a light source is currently lit */
+  isLit(itemId: string): boolean;
+  
+  /** Turn on a light source */
+  lightOn(itemId: string): ItemResult;
+  
+  /** Turn off a light source */
+  lightOff(itemId: string): ItemResult;
+  
+  // Lockable operations
+  /** Check if an item can be locked/unlocked */
+  isLockable(itemId: string): boolean;
+  
+  /** Check if an item is currently locked */
+  isLocked(itemId: string): boolean;
+  
+  /** Lock an item with a key */
+  lockItem(itemId: string, keyId: string): ItemResult;
+  
+  /** Unlock an item with a key */
+  unlockItem(itemId: string, keyId: string): ItemResult;
 }

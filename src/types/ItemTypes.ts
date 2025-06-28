@@ -229,7 +229,8 @@ export interface ContainerItem extends Item {
 
 /**
  * Light source item interface
- * Extends base Item with light source properties
+ * Pure data structure extending base Item with light source properties
+ * All behavior handled by services
  */
 export interface LightSourceItem extends Item {
     /** Whether the light source is currently lit */
@@ -243,35 +244,22 @@ export interface LightSourceItem extends Item {
     
     /** Light intensity (affects how much area is illuminated) */
     intensity?: number;
-    
-    /** Whether the light source is functional */
-    isFunctional?: (gameState: any) => boolean;
-    
-    /** Method to light the source */
-    lightOn?: (gameState: any) => ItemOperationResult;
-    
-    /** Method to extinguish the source */
-    lightOff?: (gameState: any) => ItemOperationResult;
 }
 
 /**
  * Openable item interface
- * For items that can be opened and closed
+ * Pure data structure for items that can be opened and closed
+ * All behavior handled by services
  */
 export interface OpenableItem extends Item {
     /** Whether the item is currently open */
     isOpen: boolean;
-    
-    /** Method to open the item */
-    open?: (gameState: any) => ItemOperationResult;
-    
-    /** Method to close the item */
-    close?: (gameState: any) => ItemOperationResult;
 }
 
 /**
  * Lockable item interface
- * For items that can be locked and unlocked
+ * Pure data structure for items that can be locked and unlocked
+ * All behavior handled by services
  */
 export interface LockableItem extends Item {
     /** Whether the item is currently locked */
@@ -279,11 +267,5 @@ export interface LockableItem extends Item {
     
     /** Required key ID to unlock this item */
     requiredKey?: string;
-    
-    /** Method to lock the item */
-    lock?: (gameState: any, keyId: string) => ItemOperationResult;
-    
-    /** Method to unlock the item */
-    unlock?: (gameState: any, keyId: string) => ItemOperationResult;
 }
 

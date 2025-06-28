@@ -1,8 +1,9 @@
 import { SceneData } from '../types/SceneData';
 import { Scene, LightingCondition, Exit, SceneItem, SceneAction } from '../types/SceneTypes';
-import { ISceneDataLoader } from './ISceneDataLoader';
+import { ISceneDataLoader } from './interfaces/ISceneDataLoader';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
+import * as log from 'loglevel';
 
 /**
  * Scene index data structure from index.json
@@ -43,30 +44,57 @@ export interface SceneIndexData {
  */
 export class SceneDataLoader implements ISceneDataLoader {
     private readonly dataPath: string;
+    private readonly logger: log.Logger;
 
     /**
      * Initialize the SceneDataLoader
      * @param dataPath Base path to the scenes data directory
+     * @param logger Logger instance for this loader
      */
-    constructor(dataPath: string = 'data/scenes/') {
+    constructor(dataPath: string = 'data/scenes/', logger?: log.Logger) {
         this.dataPath = dataPath;
+        this.logger = logger || log.getLogger('SceneDataLoader');
     }
 
     /**
      * Load all scenes from flat structure
      */
     public async loadAllScenes(): Promise<Scene[]> {
+        const startTime = Date.now();
+        this.logger.info(`Loading all scenes from ${this.dataPath}...`);
+        
         const index = await this.loadIndex();
         const allScenes: Scene[] = [];
+        const totalScenes = index.scenes.length;
+        let loadedCount = 0;
+        let errorCount = 0;
 
         for (const filename of index.scenes) {
             try {
+                const sceneStartTime = Date.now();
                 const scene = await this.loadSceneFromFile(filename);
                 allScenes.push(scene);
+                loadedCount++;
+                
+                const sceneLoadTime = Date.now() - sceneStartTime;
+                this.logger.debug(`Loaded scene ${scene.id} from ${filename} in ${sceneLoadTime}ms`);
+                
+                // Log progress every 50 scenes
+                if (loadedCount % 50 === 0) {
+                    this.logger.debug(`Progress: ${loadedCount}/${totalScenes} scenes loaded`);
+                }
             } catch (error) {
-                console.error(`Failed to load scene from ${filename}:`, error);
+                errorCount++;
+                this.logger.error(`Failed to load scene from ${filename}:`, error);
                 // Continue loading other scenes instead of failing completely
             }
+        }
+
+        const totalTime = Date.now() - startTime;
+        this.logger.info(`✅ Loaded ${loadedCount}/${totalScenes} scenes in ${totalTime}ms (${errorCount} errors)`);
+        
+        if (errorCount > 0) {
+            this.logger.warn(`⚠️ ${errorCount} scenes failed to load`);
         }
 
         return allScenes;
@@ -78,12 +106,17 @@ export class SceneDataLoader implements ISceneDataLoader {
     private async loadIndex(): Promise<SceneIndexData> {
         try {
             const indexPath = join(this.dataPath, 'index.json');
+            this.logger.debug(`Loading scene index from ${indexPath}`);
+            
             const indexContent = await readFile(indexPath, 'utf-8');
             const indexData = JSON.parse(indexContent) as SceneIndexData;
             
             this.validateIndexData(indexData);
+            this.logger.debug(`Index loaded: ${indexData.total} scenes found in ${Object.keys(indexData.regions).length} regions`);
+            
             return indexData;
         } catch (error) {
+            this.logger.error(`Failed to load scene index:`, error);
             throw new Error(`Failed to load scene index: ${error}`);
         }
     }
@@ -94,21 +127,28 @@ export class SceneDataLoader implements ISceneDataLoader {
     private async loadSceneFromFile(filename: string): Promise<Scene> {
         try {
             const fullPath = join(this.dataPath, filename);
+            this.logger.trace(`Loading scene from ${fullPath}`);
+            
             const fileContent = await readFile(fullPath, 'utf-8');
             const sceneData = JSON.parse(fileContent) as SceneData;
             
             this.validateSceneData(sceneData);
-            return this.convertSceneDataToScene(sceneData);
+            const scene = this.convertSceneDataToScene(sceneData);
+            
+            this.logger.trace(`Successfully converted scene ${scene.id} (${scene.title})`);
+            return scene;
         } catch (error) {
+            this.logger.error(`Failed to load scene from ${filename}:`, error);
             throw new Error(`Failed to load scene from ${filename}: ${error}`);
         }
     }
 
     /**
      * Convert SceneData (raw JSON) to Scene (typed interface)
+     * Returns pure data Scene objects without methods, following our data/behavior separation architecture
      */
     private convertSceneDataToScene(sceneData: SceneData): Scene {
-        const sceneResult: Scene = {
+        const scene: Scene = {
             id: sceneData.id,
             title: sceneData.title,
             description: sceneData.description,
@@ -116,64 +156,23 @@ export class SceneDataLoader implements ISceneDataLoader {
             items: this.convertItems(sceneData.items),
             monsters: this.convertMonsters(sceneData.monsters),
             lighting: this.parseLightingCondition(sceneData.lighting),
-            visited: false, // Runtime default
             atmosphere: sceneData.atmosphere || [],
             entryActions: this.convertEntryActions(sceneData.entryActions || []),
             state: { ...sceneData.state },
-            tags: sceneData.tags,
-            
-            // Runtime methods with default implementations
-            getDescription: function(_gameState) {
-                if (!this.visited && this.firstVisitDescription) {
-                    return this.firstVisitDescription;
-                }
-                return this.description;
-            },
-            
-            getAvailableExits: function(_gameState) {
-                // Return all exits - Services layer will handle condition evaluation
-                return this.exits;
-            },
-            
-            getVisibleItems: function(_gameState) {
-                // Return all items - Services layer will handle visibility/condition evaluation
-                return this.items;
-            },
-            
-            canEnter: function(_gameState) {
-                // Default: all scenes can be entered - Services layer can override
-                return true;
-            },
-            
-            onEnter: function(_gameState) {
-                // Mark as visited
-                this.visited = true;
-                // Services layer will handle entry actions
-            },
-            
-            onExit: function(_gameState) {
-                // Default: no action on exit - Services layer can override
-            },
-            
-            onLook: function(gameState) {
-                return this.getDescription(gameState);
-            },
-            
-            updateState: function(updates) {
-                Object.assign(this.state, updates);
-            }
+            tags: sceneData.tags
+            // NO METHODS - pure data only, behavior handled by SceneService
         };
 
         // Handle optional properties with exactOptionalPropertyTypes compliance
         if (sceneData.firstVisitDescription !== undefined) {
-            sceneResult.firstVisitDescription = sceneData.firstVisitDescription;
+            scene.firstVisitDescription = sceneData.firstVisitDescription;
         }
 
         if (sceneData.region !== undefined) {
-            sceneResult.region = sceneData.region;
+            scene.region = sceneData.region;
         }
 
-        return sceneResult;
+        return scene;
     }
 
     /**

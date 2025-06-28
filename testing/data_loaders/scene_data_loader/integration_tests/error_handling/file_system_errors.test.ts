@@ -345,7 +345,7 @@ describe('SceneDataLoader - File System Error Integration Tests', () => {
       expect(regionScenes).toHaveLength(3);
       expect(regionScenes.map(s => s.id).sort()).toEqual(['good1', 'good2', 'good3']);
       
-      expect(consoleErrorSpy).toHaveBeenCalledTimes(2); // Two bad files
+      expect(consoleErrorSpy).toHaveBeenCalledTimes(4); // 2 errors each for bad1.json and bad2.json (loadSceneFromFile + loadAllScenes)
 
       consoleErrorSpy.mockRestore();
     });

@@ -12,6 +12,7 @@ export { IItemService, ItemResult } from './IItemService';
 export { ICombatService, CombatResult, InteractionResult } from './ICombatService';
 export { IPersistenceService } from './IPersistenceService';
 export { IOutputService } from './IOutputService';
+export { ICommandService } from './ICommandService';
 
 // Re-export core types needed by commands
 export type {
@@ -27,9 +28,7 @@ export type {
   Monster
 } from '../../types/Monster';
 
-// Command result interface for use by commands
-export interface CommandResult {
-  success: boolean;
-  message: string;
-  endTurn: boolean;
-}
+// Re-export command types
+export type {
+  CommandResult
+} from '../../types/CommandTypes';
