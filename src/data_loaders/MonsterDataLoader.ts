@@ -2,8 +2,6 @@ import { MonsterData, MonsterIndex } from '../types/MonsterData';
 import { Monster } from '../types/Monster';
 import { MonsterState, MovementPattern } from '../types/MonsterTypes';
 import { IMonsterDataLoader } from './interfaces/IMonsterDataLoader';
-import { readFile } from 'fs/promises';
-import { join } from 'path';
 import * as log from 'loglevel';
 
 /**
@@ -33,7 +31,7 @@ export class MonsterDataLoader implements IMonsterDataLoader {
      * @param dataPath Base path to the monsters data directory
      * @param logger Logger instance for this loader
      */
-    constructor(dataPath: string = 'data/monsters/', logger?: log.Logger) {
+    constructor(dataPath: string = '/monsters/', logger?: log.Logger) {
         this.dataPath = dataPath;
         this.logger = logger || log.getLogger('MonsterDataLoader');
     }
@@ -84,11 +82,15 @@ export class MonsterDataLoader implements IMonsterDataLoader {
      */
     private async loadIndex(): Promise<MonsterIndex> {
         try {
-            const indexPath = join(this.dataPath, 'index.json');
-            this.logger.debug(`Loading monster index from ${indexPath}`);
+            const indexUrl = `${this.dataPath}index.json`;
+            this.logger.debug(`Loading monster index from ${indexUrl}`);
             
-            const indexContent = await readFile(indexPath, 'utf-8');
-            const indexData = JSON.parse(indexContent) as MonsterIndex;
+            const response = await fetch(indexUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch index: ${response.status} ${response.statusText}`);
+            }
+            
+            const indexData = await response.json() as MonsterIndex;
             
             this.validateIndexData(indexData);
             this.logger.debug(`Index loaded: ${indexData.total} monsters found`);
@@ -106,9 +108,14 @@ export class MonsterDataLoader implements IMonsterDataLoader {
     private async loadMonsterFromFile(monsterId: string): Promise<Monster> {
         try {
             const filename = `${monsterId}.json`;
-            const fullPath = join(this.dataPath, filename);
-            const fileContent = await readFile(fullPath, 'utf-8');
-            const monsterData = JSON.parse(fileContent) as MonsterData;
+            const monsterUrl = `${this.dataPath}${filename}`;
+            
+            const response = await fetch(monsterUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch monster: ${response.status} ${response.statusText}`);
+            }
+            
+            const monsterData = await response.json() as MonsterData;
             
             this.validateMonsterData(monsterData);
             return this.convertMonsterDataToMonster(monsterData);

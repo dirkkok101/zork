@@ -1,8 +1,6 @@
 import { SceneData } from '../types/SceneData';
 import { Scene, LightingCondition, Exit, SceneItem, SceneAction } from '../types/SceneTypes';
 import { ISceneDataLoader } from './interfaces/ISceneDataLoader';
-import { readFile } from 'fs/promises';
-import { join } from 'path';
 import * as log from 'loglevel';
 
 /**
@@ -51,7 +49,7 @@ export class SceneDataLoader implements ISceneDataLoader {
      * @param dataPath Base path to the scenes data directory
      * @param logger Logger instance for this loader
      */
-    constructor(dataPath: string = 'data/scenes/', logger?: log.Logger) {
+    constructor(dataPath: string = '/scenes/', logger?: log.Logger) {
         this.dataPath = dataPath;
         this.logger = logger || log.getLogger('SceneDataLoader');
     }
@@ -105,11 +103,15 @@ export class SceneDataLoader implements ISceneDataLoader {
      */
     private async loadIndex(): Promise<SceneIndexData> {
         try {
-            const indexPath = join(this.dataPath, 'index.json');
-            this.logger.debug(`Loading scene index from ${indexPath}`);
+            const indexUrl = `${this.dataPath}index.json`;
+            this.logger.debug(`Loading scene index from ${indexUrl}`);
             
-            const indexContent = await readFile(indexPath, 'utf-8');
-            const indexData = JSON.parse(indexContent) as SceneIndexData;
+            const response = await fetch(indexUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch index: ${response.status} ${response.statusText}`);
+            }
+            
+            const indexData = await response.json() as SceneIndexData;
             
             this.validateIndexData(indexData);
             this.logger.debug(`Index loaded: ${indexData.total} scenes found in ${Object.keys(indexData.regions).length} regions`);
@@ -126,11 +128,15 @@ export class SceneDataLoader implements ISceneDataLoader {
      */
     private async loadSceneFromFile(filename: string): Promise<Scene> {
         try {
-            const fullPath = join(this.dataPath, filename);
-            this.logger.trace(`Loading scene from ${fullPath}`);
+            const sceneUrl = `${this.dataPath}${filename}`;
+            this.logger.trace(`Loading scene from ${sceneUrl}`);
             
-            const fileContent = await readFile(fullPath, 'utf-8');
-            const sceneData = JSON.parse(fileContent) as SceneData;
+            const response = await fetch(sceneUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch scene: ${response.status} ${response.statusText}`);
+            }
+            
+            const sceneData = await response.json() as SceneData;
             
             this.validateSceneData(sceneData);
             const scene = this.convertSceneDataToScene(sceneData);

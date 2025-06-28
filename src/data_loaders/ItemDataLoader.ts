@@ -1,6 +1,4 @@
 
-import { readFile } from 'fs/promises';
-import { join } from 'path';
 import * as log from 'loglevel';
 import {IItemDataLoader} from './interfaces/IItemDataLoader';
 import {Item, ItemInteraction, ItemType, Size} from '../types/ItemTypes';
@@ -32,10 +30,10 @@ export class ItemDataLoader implements IItemDataLoader {
 
     /**
      * Initialize the ItemDataLoader
-     * @param dataPath Base path to the items data directory
+     * @param dataPath Base URL to the items data directory
      * @param logger Logger instance for this loader
      */
-    constructor(dataPath: string = 'data/items/', logger?: log.Logger) {
+    constructor(dataPath: string = '/items/', logger?: log.Logger) {
         this.dataPath = dataPath;
         this.logger = logger || log.getLogger('ItemDataLoader');
     }
@@ -89,11 +87,15 @@ export class ItemDataLoader implements IItemDataLoader {
      */
     private async loadIndex(): Promise<ItemIndexData> {
         try {
-            const indexPath = join(this.dataPath, 'index.json');
-            this.logger.debug(`Loading item index from ${indexPath}`);
+            const indexUrl = `${this.dataPath}index.json`;
+            this.logger.debug(`Loading item index from ${indexUrl}`);
             
-            const indexContent = await readFile(indexPath, 'utf-8');
-            const indexData = JSON.parse(indexContent) as ItemIndexData;
+            const response = await fetch(indexUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch index: ${response.status} ${response.statusText}`);
+            }
+            
+            const indexData = await response.json() as ItemIndexData;
             
             this.validateIndexData(indexData);
             this.logger.debug(`Index loaded: ${indexData.total} items found`);
@@ -110,11 +112,15 @@ export class ItemDataLoader implements IItemDataLoader {
      */
     private async loadItemFromFile(filename: string): Promise<Item> {
         try {
-            const fullPath = join(this.dataPath, filename);
-            this.logger.trace(`Loading item from ${fullPath}`);
+            const itemUrl = `${this.dataPath}${filename}`;
+            this.logger.trace(`Loading item from ${itemUrl}`);
             
-            const fileContent = await readFile(fullPath, 'utf-8');
-            const itemData = JSON.parse(fileContent) as ItemData;
+            const response = await fetch(itemUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch item: ${response.status} ${response.statusText}`);
+            }
+            
+            const itemData = await response.json() as ItemData;
             
             this.validateItemData(itemData);
             const item = this.convertItemDataToItem(itemData);
