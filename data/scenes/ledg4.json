@@ -12,7 +12,12 @@
     "west": "vlbot",
     "south": "safe"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "hook2",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

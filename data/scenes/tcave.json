@@ -6,7 +6,16 @@
     "south": "rcave",
     "nw": "chas3"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "guano",
+      "visible": true
+    },
+    {
+      "itemId": "shove",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

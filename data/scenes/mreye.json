@@ -8,7 +8,12 @@
     "ne": "mra",
     "south": "mrant"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "rbeam",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

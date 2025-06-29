@@ -10,7 +10,80 @@
       "failureMessage": "You would be burned to a crisp in no time."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "dbutt",
+      "visible": true
+    },
+    {
+      "itemId": "dial",
+      "visible": true
+    },
+    {
+      "itemId": "one",
+      "visible": true
+    },
+    {
+      "itemId": "two",
+      "visible": true
+    },
+    {
+      "itemId": "three",
+      "visible": true
+    },
+    {
+      "itemId": "four",
+      "visible": true
+    },
+    {
+      "itemId": "five",
+      "visible": true
+    },
+    {
+      "itemId": "six",
+      "visible": true
+    },
+    {
+      "itemId": "seven",
+      "visible": true
+    },
+    {
+      "itemId": "eight",
+      "visible": true
+    },
+    {
+      "itemId": "one",
+      "visible": true
+    },
+    {
+      "itemId": "two",
+      "visible": true
+    },
+    {
+      "itemId": "three",
+      "visible": true
+    },
+    {
+      "itemId": "four",
+      "visible": true
+    },
+    {
+      "itemId": "five",
+      "visible": true
+    },
+    {
+      "itemId": "six",
+      "visible": true
+    },
+    {
+      "itemId": "seven",
+      "visible": true
+    },
+    {
+      "itemId": "eight",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

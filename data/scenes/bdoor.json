@@ -13,7 +13,16 @@
       "failureMessage": "The qdoor is closed."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "maste",
+      "visible": true
+    },
+    {
+      "itemId": "qdoor",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

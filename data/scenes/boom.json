@@ -5,7 +5,12 @@
   "exits": {
     "up": "smell"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "brace",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

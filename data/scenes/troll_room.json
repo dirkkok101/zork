@@ -9,7 +9,10 @@
     "south": "maze_1"
   },
   "items": [
-    "axe"
+    {
+      "itemId": "troll",
+      "visible": true
+    }
   ],
   "monsters": [
     "troll"

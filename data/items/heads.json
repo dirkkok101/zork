@@ -21,10 +21,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "dangerous",
     "visible",
-    "portable",
-    "treasure"
+    "dangerous",
+    "treasure",
+    "portable"
   ],
   "properties": {},
   "interactions": [

@@ -14,7 +14,16 @@
       "failureMessage": "The walls cannot be climbed."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "bucke",
+      "visible": true
+    },
+    {
+      "itemId": "etch1",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

@@ -21,7 +21,12 @@
       "failureMessage": "Specify the direction to land."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "trunk",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "daylight",

@@ -12,7 +12,16 @@
     "west": "vlbot",
     "south": "libra"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "hook1",
+      "visible": true
+    },
+    {
+      "itemId": "coin",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

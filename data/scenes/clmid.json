@@ -6,7 +6,12 @@
     "up": "cltop",
     "down": "clbot"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "cclif",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

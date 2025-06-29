@@ -7,7 +7,12 @@
     "south": "forest_4",
     "west": "fore5"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "cclif",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

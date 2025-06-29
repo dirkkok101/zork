@@ -12,13 +12,17 @@
   "visible": true,
   "weight": 5,
   "size": "TINY",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false
+  },
   "tags": [
-    "container",
+    "visible",
     "no_description",
-    "visible"
+    "container"
   ],
-  "properties": {},
+  "properties": {
+    "container": true
+  },
   "interactions": [
     {
       "command": "examine",

@@ -11,15 +11,18 @@
   "visible": true,
   "weight": 100,
   "size": "HUGE",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false
+  },
   "tags": [
-    "openable",
     "visible",
-    "vehicle"
+    "vehicle",
+    "openable"
   ],
   "properties": {
     "capacity": 100,
-    "size": 100
+    "size": 100,
+    "openable": true
   },
   "interactions": [
     {

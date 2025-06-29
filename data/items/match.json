@@ -19,7 +19,8 @@
   ],
   "properties": {
     "size": 2,
-    "matchCount": 5
+    "matchCount": 5,
+    "readable": true
   },
   "interactions": [
     {

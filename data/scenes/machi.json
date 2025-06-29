@@ -5,7 +5,16 @@
   "exits": {
     "nw": "bshaf"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "mswit",
+      "visible": true
+    },
+    {
+      "itemId": "machi",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

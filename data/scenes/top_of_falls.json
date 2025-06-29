@@ -12,7 +12,16 @@
     "north": "fante",
     "up": "rainb"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "rainb",
+      "visible": true
+    },
+    {
+      "itemId": "barre",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

@@ -12,16 +12,19 @@
   "visible": true,
   "weight": 70,
   "size": "HUGE",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false
+  },
   "tags": [
-    "flammable",
-    "openable",
     "visible",
-    "vehicle"
+    "vehicle",
+    "openable",
+    "flammable"
   ],
   "properties": {
     "capacity": 100,
-    "size": 70
+    "size": 70,
+    "openable": true
   },
   "interactions": [
     {

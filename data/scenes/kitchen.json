@@ -28,8 +28,18 @@
     }
   },
   "items": [
-    "sbag",
-    "bottl"
+    {
+      "itemId": "windo",
+      "visible": true
+    },
+    {
+      "itemId": "sbag",
+      "visible": true
+    },
+    {
+      "itemId": "bottl",
+      "visible": true
+    }
   ],
   "monsters": [],
   "state": {},

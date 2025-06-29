@@ -17,7 +17,12 @@
       "failureMessage": "Specify the direction to land."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "buoy",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

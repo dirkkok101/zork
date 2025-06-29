@@ -5,7 +5,12 @@
   "exits": {
     "north": "cmach"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "spher",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

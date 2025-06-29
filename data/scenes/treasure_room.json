@@ -7,7 +7,10 @@
     "east": "cpant"
   },
   "items": [
-    "bagco"
+    {
+      "itemId": "chali",
+      "visible": true
+    }
   ],
   "monsters": [
     "thief"

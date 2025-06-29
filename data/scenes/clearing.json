@@ -32,7 +32,16 @@
       "failureMessage": "The grating is locked."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "grate",
+      "visible": true
+    },
+    {
+      "itemId": "leave",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "daylight",

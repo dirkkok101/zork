@@ -6,7 +6,12 @@
     "west": "lava",
     "south": "icy"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "ruby",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

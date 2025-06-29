@@ -10,7 +10,12 @@
       "failureMessage": "It's a long way down!"
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "etch2",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

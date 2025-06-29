@@ -7,7 +7,12 @@
     "south": "studi",
     "west": "bkent"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "paint",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

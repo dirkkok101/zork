@@ -15,12 +15,14 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "no_description",
-    "turnable",
     "visible",
-    "door"
+    "door",
+    "no_description",
+    "turnable"
   ],
-  "properties": {},
+  "properties": {
+    "turnable": true
+  },
   "interactions": [
     {
       "command": "examine",

@@ -5,7 +5,16 @@
   "exits": {
     "north": "ledg4"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "sslot",
+      "visible": true
+    },
+    {
+      "itemId": "safe",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

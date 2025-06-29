@@ -23,7 +23,8 @@
   "properties": {
     "size": 25,
     "treasurePoints": 5,
-    "value": 10
+    "value": 10,
+    "readable": true
   },
   "interactions": [
     {

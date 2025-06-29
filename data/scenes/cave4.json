@@ -6,7 +6,12 @@
     "north": "carousel_room",
     "se": "riddl"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "engra",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

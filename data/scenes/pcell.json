@@ -9,7 +9,12 @@
       "failureMessage": "You can't go out from here."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "ldoor",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

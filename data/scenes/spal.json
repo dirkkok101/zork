@@ -5,7 +5,16 @@
   "exits": {
     "north": "sledg"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "pal3",
+      "visible": true
+    },
+    {
+      "itemId": "stove",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

@@ -19,7 +19,9 @@
     "visible",
     "treasure"
   ],
-  "properties": {},
+  "properties": {
+    "readable": true
+  },
   "interactions": [
     {
       "command": "examine",

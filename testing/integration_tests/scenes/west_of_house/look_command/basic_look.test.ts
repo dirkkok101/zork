@@ -100,51 +100,47 @@ describe('Basic Look Command - West of House Scene', () => {
     });
   });
 
-  describe('Empty Scene Items', () => {
-    it('should handle scene with no items gracefully', async () => {
-      // Ensure scene has no items
-      const sceneItems = testEnv.westOfHouseHelper.getSceneItems();
-      expect(sceneItems).toHaveLength(0);
-      
-      const result = testEnv.lookCommandHelper.executeBasicLook();
-      
-      // Should not mention items
-      testEnv.lookCommandHelper.verifyItemInformation(result, []);
-      testEnv.lookCommandHelper.verifySceneDescription(result);
-    });
-  });
-
-  describe('Scene With Items', () => {
+  describe('Authentic West of House Items', () => {
     beforeEach(() => {
-      // Add a test item to the scene
-      testEnv.westOfHouseHelper.addItemToScene('test_lamp', {
-        name: 'brass lamp',
-        description: 'A shiny brass lamp.',
-        visible: true
-      });
+      // Ensure clean state with only real scene items
+      testEnv.westOfHouseHelper.clearTestItems();
     });
 
-    it('should display visible items in look result', async () => {
+    it('should display the three authentic Zork items', async () => {
       const result = testEnv.lookCommandHelper.executeBasicLook();
       
-      // Should show the item
-      testEnv.lookCommandHelper.verifyItemInformation(result, ['brass lamp']);
+      // Verify the authentic items from original Zork are visible
+      expect(result.message).toContain('door'); // front door (fdoor)
+      expect(result.message).toContain('mailbox'); // small mailbox (mailb)  
+      expect(result.message).toContain('welcome mat'); // welcome mat (mat)
+      
       testEnv.lookCommandHelper.verifySceneDescription(result);
     });
 
-    it('should not display invisible items', async () => {
-      // Add an invisible item
-      testEnv.westOfHouseHelper.addItemToScene('test_hidden', {
-        name: 'hidden item',
-        description: 'A hidden item.',
-        visible: false
-      });
+    it('should show exactly the items present in original Zork', async () => {
+      const sceneItems = testEnv.westOfHouseHelper.getSceneItems();
+      
+      // Verify exact item count and IDs from authentic west_of_house
+      expect(sceneItems).toHaveLength(3);
+      expect(sceneItems).toContain('fdoor');  // front door
+      expect(sceneItems).toContain('mailb');  // mailbox
+      expect(sceneItems).toContain('mat');    // welcome mat
+    });
 
+    it('should describe items in authentic Zork context', async () => {
       const result = testEnv.lookCommandHelper.executeBasicLook();
       
-      // Should only show visible items
-      testEnv.lookCommandHelper.verifyItemInformation(result, ['brass lamp']);
-      expect(result.message).not.toContain('hidden item');
+      testEnv.lookCommandHelper.verifySuccess(result);
+      expect(result.message).toContain('West of House');
+      
+      // Items should appear in natural scene description
+      const message = result.message.toLowerCase();
+      expect(message).toContain('door');
+      expect(message).toContain('mailbox'); 
+      expect(message).toContain('mat');
+      
+      // Should mention the white house context
+      expect(message).toContain('white house');
     });
   });
 

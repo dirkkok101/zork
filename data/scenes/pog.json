@@ -13,7 +13,16 @@
       "failureMessage": "The sharp rocks endanger your boat."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "rainb",
+      "visible": true
+    },
+    {
+      "itemId": "pot",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

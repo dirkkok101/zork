@@ -6,7 +6,20 @@
     "west": "magne",
     "south": "cager"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "sqbut",
+      "visible": true
+    },
+    {
+      "itemId": "rnbut",
+      "visible": true
+    },
+    {
+      "itemId": "trbut",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

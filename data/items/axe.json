@@ -11,14 +11,18 @@
   "visible": true,
   "weight": 25,
   "size": "LARGE",
-  "initialState": {},
+  "initialState": {
+    "isOn": false
+  },
   "tags": [
+    "visible",
     "switchable",
-    "weapon",
-    "visible"
+    "weapon"
   ],
   "properties": {
-    "size": 25
+    "size": 25,
+    "weapon": true,
+    "switchable": true
   },
   "interactions": [
     {

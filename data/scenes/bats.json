@@ -5,7 +5,16 @@
   "exits": {
     "east": "squee"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "jade",
+      "visible": true
+    },
+    {
+      "itemId": "bat",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

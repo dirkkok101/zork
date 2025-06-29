@@ -15,13 +15,15 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "tool",
-    "turnable",
     "no_description",
+    "tool",
+    "visible",
+    "turnable",
     "portable"
   ],
-  "properties": {},
+  "properties": {
+    "turnable": true
+  },
   "interactions": [
     {
       "command": "examine",

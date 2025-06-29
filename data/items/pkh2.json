@@ -12,14 +12,20 @@
   "visible": true,
   "weight": 5,
   "size": "TINY",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false,
+    "contents": [
+      "pkey"
+    ]
+  },
   "tags": [
-    "no_description",
+    "visible",
     "openable",
-    "visible"
+    "no_description"
   ],
   "properties": {
-    "capacity": 12
+    "capacity": 12,
+    "openable": true
   },
   "interactions": [
     {

@@ -11,7 +11,12 @@
     },
     "down": "fchmp"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "warni",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

@@ -10,7 +10,12 @@
       "failureMessage": "The steel door bars the way."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "cpdr2",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

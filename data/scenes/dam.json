@@ -8,7 +8,24 @@
     "east": "cave3",
     "north": "lobby"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "bolt",
+      "visible": true
+    },
+    {
+      "itemId": "dam",
+      "visible": true
+    },
+    {
+      "itemId": "bubbl",
+      "visible": true
+    },
+    {
+      "itemId": "cpanl",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "daylight",

@@ -30,6 +30,12 @@ export interface IItemService {
   /** Check if an item can be picked up */
   canTake(itemId: string): boolean;
   
+  /** Take an item and add it to inventory */
+  takeItem(itemId: string): ItemResult;
+  
+  /** Put an item in a container or location */
+  putItem(itemId: string, targetId?: string, preposition?: string): ItemResult;
+  
   /** Get detailed examination description of an item */
   examineItem(itemId: string): string;
   

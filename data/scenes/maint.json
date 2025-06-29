@@ -6,7 +6,44 @@
     "south": "lobby",
     "west": "lobby"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "leak",
+      "visible": true
+    },
+    {
+      "itemId": "tube",
+      "visible": true
+    },
+    {
+      "itemId": "wrenc",
+      "visible": true
+    },
+    {
+      "itemId": "blbut",
+      "visible": true
+    },
+    {
+      "itemId": "rbutt",
+      "visible": true
+    },
+    {
+      "itemId": "brbut",
+      "visible": true
+    },
+    {
+      "itemId": "ybutt",
+      "visible": true
+    },
+    {
+      "itemId": "screw",
+      "visible": true
+    },
+    {
+      "itemId": "tchst",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

@@ -12,17 +12,24 @@
   "visible": true,
   "weight": 10,
   "size": "SMALL",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false,
+    "contents": [
+      "stamp"
+    ]
+  },
   "tags": [
-    "container",
     "readable",
-    "flammable",
     "visible",
-    "portable"
+    "flammable",
+    "portable",
+    "container"
   ],
   "properties": {
     "capacity": 2,
-    "size": 10
+    "size": 10,
+    "container": true,
+    "readable": true
   },
   "interactions": [
     {

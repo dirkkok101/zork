@@ -6,7 +6,16 @@
     "launc": "rivr4",
     "south": "fante"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "statu",
+      "visible": true
+    },
+    {
+      "itemId": "sand",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "daylight",

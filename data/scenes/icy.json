@@ -7,7 +7,12 @@
     "east": "egyptian_room",
     "west": "rubyr"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "ice",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

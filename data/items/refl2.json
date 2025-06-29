@@ -14,8 +14,8 @@
   "initialState": {},
   "tags": [
     "character",
-    "dangerous",
     "visible",
+    "dangerous",
     "portable"
   ],
   "properties": {},

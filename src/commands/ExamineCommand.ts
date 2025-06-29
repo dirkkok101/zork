@@ -197,7 +197,7 @@ export class ExamineCommand extends BaseCommand {
     
     // Open/closed state
     if (this.items.canOpen(item.id)) {
-      const isOpen = item.isOpen || false;
+      const isOpen = item.state?.isOpen || item.isOpen || false;
       parts.push(`The ${item.name} is ${isOpen ? 'open' : 'closed'}.`);
       
       // Contents (if open or transparent)

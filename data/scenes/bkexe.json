@@ -5,7 +5,56 @@
   "exits": {
     "north": "bkbox"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "portr",
+      "visible": true
+    },
+    {
+      "itemId": "weast",
+      "visible": true
+    },
+    {
+      "itemId": "wwest",
+      "visible": true
+    },
+    {
+      "itemId": "wsout",
+      "visible": true
+    },
+    {
+      "itemId": "wnort",
+      "visible": true
+    },
+    {
+      "itemId": "gcard",
+      "visible": true
+    },
+    {
+      "itemId": "cpslt",
+      "visible": true
+    },
+    {
+      "itemId": "cpdor",
+      "visible": true
+    },
+    {
+      "itemId": "cpswl",
+      "visible": true
+    },
+    {
+      "itemId": "cpnwl",
+      "visible": true
+    },
+    {
+      "itemId": "cpewl",
+      "visible": true
+    },
+    {
+      "itemId": "cpwwl",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

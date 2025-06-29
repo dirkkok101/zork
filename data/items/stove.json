@@ -11,14 +11,18 @@
   "visible": true,
   "weight": 5,
   "size": "TINY",
-  "initialState": {},
+  "initialState": {
+    "isOn": false
+  },
   "tags": [
-    "switchable",
-    "no_description",
+    "visible",
     "flame_source",
-    "visible"
+    "switchable",
+    "no_description"
   ],
-  "properties": {},
+  "properties": {
+    "switchable": true
+  },
   "interactions": [
     {
       "command": "examine",

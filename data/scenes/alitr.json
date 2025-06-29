@@ -6,7 +6,24 @@
     "out": "alism",
     "west": "alism"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "flask",
+      "visible": true
+    },
+    {
+      "itemId": "pool",
+      "visible": true
+    },
+    {
+      "itemId": "pleak",
+      "visible": true
+    },
+    {
+      "itemId": "saffr",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

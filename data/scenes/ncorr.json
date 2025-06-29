@@ -23,7 +23,12 @@
       "failureMessage": "The cdoor is closed."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "cdoor",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

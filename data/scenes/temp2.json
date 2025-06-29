@@ -5,7 +5,16 @@
   "exits": {
     "west": "temp1"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "book",
+      "visible": true
+    },
+    {
+      "itemId": "candl",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

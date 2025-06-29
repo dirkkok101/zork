@@ -14,16 +14,19 @@
   "visible": true,
   "weight": 3,
   "size": "TINY",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false
+  },
   "tags": [
-    "container",
     "visible",
     "portable",
+    "container",
     "flammable"
   ],
   "properties": {
     "capacity": 15,
-    "size": 3
+    "size": 3,
+    "container": true
   },
   "interactions": [
     {

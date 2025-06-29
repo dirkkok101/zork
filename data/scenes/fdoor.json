@@ -23,7 +23,12 @@
     "se": "mrd",
     "sw": "mrd"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "qdoor",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

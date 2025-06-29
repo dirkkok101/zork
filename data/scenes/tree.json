@@ -10,7 +10,16 @@
       "failureMessage": "The walls cannot be climbed."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "nest",
+      "visible": true
+    },
+    {
+      "itemId": "ttree",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

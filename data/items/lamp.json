@@ -13,7 +13,9 @@
   "visible": true,
   "weight": 15,
   "size": "MEDIUM",
-  "initialState": {},
+  "initialState": {
+    "isLit": false
+  },
   "tags": [
     "visible",
     "portable",
@@ -21,7 +23,8 @@
   ],
   "properties": {
     "size": 15,
-    "lightTimer": 350
+    "lightTimer": 350,
+    "lightSource": true
   },
   "interactions": [
     {

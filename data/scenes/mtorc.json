@@ -11,7 +11,12 @@
     "west": "prm",
     "down": "craw4"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "torch",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

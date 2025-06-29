@@ -14,14 +14,19 @@
   "visible": true,
   "weight": 5,
   "size": "TINY",
-  "initialState": {},
+  "initialState": {
+    "isOn": false
+  },
   "tags": [
+    "visible",
     "switchable",
     "weapon",
-    "visible",
     "portable"
   ],
-  "properties": {},
+  "properties": {
+    "weapon": true,
+    "switchable": true
+  },
   "interactions": [
     {
       "command": "examine",

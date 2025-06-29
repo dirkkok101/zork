@@ -14,17 +14,23 @@
   "visible": true,
   "weight": 20,
   "size": "MEDIUM",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false,
+    "contents": [
+      "label"
+    ]
+  },
   "tags": [
-    "flammable",
     "openable",
     "visible",
+    "flammable",
     "vehicle",
     "portable"
   ],
   "properties": {
     "capacity": 100,
-    "size": 20
+    "size": 20,
+    "openable": true
   },
   "interactions": [
     {

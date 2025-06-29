@@ -7,7 +7,12 @@
     "north": "craw2",
     "east": "cave1"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "refl1",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

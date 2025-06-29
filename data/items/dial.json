@@ -14,11 +14,13 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "no_description",
+    "visible",
     "turnable",
-    "visible"
+    "no_description"
   ],
-  "properties": {},
+  "properties": {
+    "turnable": true
+  },
   "interactions": [
     {
       "command": "examine",

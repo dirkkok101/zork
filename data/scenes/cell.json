@@ -25,7 +25,16 @@
       "failureMessage": "The odoor is closed."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "odoor",
+      "visible": true
+    },
+    {
+      "itemId": "mdoor",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

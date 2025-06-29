@@ -23,7 +23,12 @@
       "failureMessage": "The windo is closed."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "windo",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "daylight",

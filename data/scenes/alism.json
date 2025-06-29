@@ -20,7 +20,12 @@
       "failureMessage": "It's a long way down!"
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "posts",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

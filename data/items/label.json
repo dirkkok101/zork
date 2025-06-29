@@ -22,7 +22,8 @@
     "flammable"
   ],
   "properties": {
-    "size": 2
+    "size": 2,
+    "readable": true
   },
   "interactions": [
     {

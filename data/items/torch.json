@@ -12,19 +12,24 @@
   "visible": true,
   "weight": 20,
   "size": "MEDIUM",
-  "initialState": {},
+  "initialState": {
+    "isLit": false,
+    "isOn": false
+  },
   "tags": [
-    "flame_source",
     "switchable",
-    "visible",
-    "light_source",
     "tool",
-    "portable"
+    "visible",
+    "flame_source",
+    "portable",
+    "light_source"
   ],
   "properties": {
     "size": 20,
     "value": 14,
-    "treasurePoints": 6
+    "treasurePoints": 6,
+    "lightSource": true,
+    "switchable": true
   },
   "interactions": [
     {

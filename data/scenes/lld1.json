@@ -15,7 +15,20 @@
       "failureMessage": "Some invisible force prevents you from passing through the gate."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "corps",
+      "visible": true
+    },
+    {
+      "itemId": "gates",
+      "visible": true
+    },
+    {
+      "itemId": "ghost",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

@@ -15,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "drink",
     "visible",
+    "drink",
     "portable"
   ],
   "properties": {

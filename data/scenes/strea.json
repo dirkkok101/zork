@@ -11,7 +11,12 @@
     },
     "north": "icy"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "fuse",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

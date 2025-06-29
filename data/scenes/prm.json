@@ -33,7 +33,24 @@
       "failureMessage": "You cannot go down without fracturing many bones."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "pdoor",
+      "visible": true
+    },
+    {
+      "itemId": "pwind",
+      "visible": true
+    },
+    {
+      "itemId": "plid1",
+      "visible": true
+    },
+    {
+      "itemId": "pkh1",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

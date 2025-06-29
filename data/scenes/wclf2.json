@@ -6,7 +6,12 @@
     "north": "wclf1",
     "launc": "rivr4"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "wclif",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

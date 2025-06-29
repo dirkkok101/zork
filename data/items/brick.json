@@ -13,17 +13,21 @@
   "visible": true,
   "weight": 9,
   "size": "SMALL",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false
+  },
   "tags": [
-    "flammable",
     "openable",
-    "searchable",
     "visible",
-    "portable"
+    "flammable",
+    "portable",
+    "searchable"
   ],
   "properties": {
     "capacity": 2,
-    "size": 9
+    "size": 9,
+    "openable": true,
+    "searchable": true
   },
   "interactions": [
     {

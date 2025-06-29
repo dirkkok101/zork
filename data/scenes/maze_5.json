@@ -7,7 +7,28 @@
     "north": "maze_3",
     "sw": "maze_6"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "bones",
+      "visible": true
+    },
+    {
+      "itemId": "bagco",
+      "visible": true
+    },
+    {
+      "itemId": "keys",
+      "visible": true
+    },
+    {
+      "itemId": "blant",
+      "visible": true
+    },
+    {
+      "itemId": "rknif",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

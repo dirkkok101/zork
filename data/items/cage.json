@@ -14,8 +14,8 @@
   "size": "HUGE",
   "initialState": {},
   "tags": [
-    "no_description",
-    "visible"
+    "visible",
+    "no_description"
   ],
   "properties": {
     "size": 60

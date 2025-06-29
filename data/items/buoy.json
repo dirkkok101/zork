@@ -11,15 +11,21 @@
   "visible": true,
   "weight": 10,
   "size": "SMALL",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false,
+    "contents": [
+      "emera"
+    ]
+  },
   "tags": [
-    "container",
     "visible",
-    "portable"
+    "portable",
+    "container"
   ],
   "properties": {
     "capacity": 20,
-    "size": 10
+    "size": 10,
+    "container": true
   },
   "interactions": [
     {

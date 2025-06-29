@@ -13,14 +13,20 @@
   "visible": false,
   "weight": 40,
   "size": "LARGE",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false,
+    "contents": [
+      "strad"
+    ]
+  },
   "tags": [
-    "container",
-    "portable"
+    "portable",
+    "container"
   ],
   "properties": {
     "capacity": 20,
-    "size": 40
+    "size": 40,
+    "container": true
   },
   "interactions": [
     {

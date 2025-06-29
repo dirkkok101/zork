@@ -12,7 +12,12 @@
       "failureMessage": "The walls cannot be climbed."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "fbask",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

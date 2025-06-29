@@ -166,6 +166,7 @@ export class SceneDataLoader implements ISceneDataLoader {
      * Returns pure data Scene objects without methods, following our data/behavior separation architecture
      */
     private convertSceneDataToScene(sceneData: SceneData): Scene {
+        
         const scene: Scene = {
             id: sceneData.id,
             title: sceneData.title,
@@ -180,6 +181,7 @@ export class SceneDataLoader implements ISceneDataLoader {
             tags: sceneData.tags
             // NO METHODS - pure data only, behavior handled by SceneService
         };
+        
 
         // Handle optional properties with exactOptionalPropertyTypes compliance
         if (sceneData.firstVisitDescription !== undefined) {

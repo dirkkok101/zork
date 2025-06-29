@@ -6,7 +6,12 @@
     "south": "tomb",
     "leave": "tomb"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "tomb",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

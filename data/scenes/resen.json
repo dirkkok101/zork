@@ -20,7 +20,12 @@
       "failureMessage": "You are not equipped for swimming."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "pump",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

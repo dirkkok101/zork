@@ -11,18 +11,26 @@
   "visible": true,
   "weight": 30,
   "size": "LARGE",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false,
+    "contents": [
+      "dstmp"
+    ]
+  },
   "tags": [
-    "container",
-    "readable",
-    "flammable",
     "openable",
     "visible",
-    "portable"
+    "readable",
+    "flammable",
+    "portable",
+    "container"
   ],
   "properties": {
     "size": 30,
-    "capacity": 1
+    "capacity": 1,
+    "container": true,
+    "openable": true,
+    "readable": true
   },
   "interactions": [
     {

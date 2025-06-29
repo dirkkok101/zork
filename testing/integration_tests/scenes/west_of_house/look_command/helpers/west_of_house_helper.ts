@@ -40,10 +40,37 @@ export class WestOfHouseHelper {
     // Clear visited flag to test first visit behavior
     this.gameState.updateSceneRuntimeState('west_of_house', { visited: false });
     
-    // Remove any items that might have been added during testing
+    // Clear any existing runtime scene items first
+    const currentSceneItems = this.sceneService.getSceneItems('west_of_house');
+    currentSceneItems.forEach(itemId => {
+      this.sceneService.removeItemFromScene('west_of_house', itemId);
+    });
+    
+    // Restore authentic Zork items to the scene using SceneService
+    const authenticItems = ['fdoor', 'mailb', 'mat'];
+    authenticItems.forEach(itemId => {
+      this.sceneService.addItemToScene('west_of_house', itemId);
+    });
+    
+    // Also set the scene.items for backwards compatibility
     const scene = this.getScene();
     if (scene) {
-      scene.items = [];
+      scene.items = [
+        { itemId: 'fdoor', visible: true },
+        { itemId: 'mailb', visible: true },
+        { itemId: 'mat', visible: true }
+      ];
+    }
+    
+    // Reset item states to their initial values
+    const mailbox = this.gameState.getItem('mailb');
+    if (mailbox) {
+      // Set container state
+      mailbox.state = { 
+        isOpen: false
+      };
+      // Set container contents (ItemService expects this directly on the item)
+      (mailbox as any).contents = ['adver'];
     }
   }
 

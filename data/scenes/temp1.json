@@ -6,7 +6,16 @@
     "west": "mgrai",
     "east": "temp2"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "praye",
+      "visible": true
+    },
+    {
+      "itemId": "bell",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

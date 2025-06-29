@@ -13,7 +13,16 @@
     "east": "cmach",
     "out": "alice"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "rbtlb",
+      "visible": true
+    },
+    {
+      "itemId": "robot",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

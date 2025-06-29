@@ -7,7 +7,12 @@
     "out": "lld1",
     "west": "lld1"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "bodie",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

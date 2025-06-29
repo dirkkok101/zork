@@ -13,13 +13,17 @@
   "visible": true,
   "weight": 5,
   "size": "TINY",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false
+  },
   "tags": [
-    "container",
     "visible",
-    "door"
+    "door",
+    "container"
   ],
-  "properties": {},
+  "properties": {
+    "container": true
+  },
   "interactions": [
     {
       "command": "examine",

@@ -23,8 +23,34 @@
     }
   },
   "items": [
-    "tcase",
-    "lamp"
+    {
+      "itemId": "wdoor",
+      "visible": true
+    },
+    {
+      "itemId": "door",
+      "visible": true
+    },
+    {
+      "itemId": "tcase",
+      "visible": true
+    },
+    {
+      "itemId": "lamp",
+      "visible": true
+    },
+    {
+      "itemId": "rug",
+      "visible": true
+    },
+    {
+      "itemId": "paper",
+      "visible": true
+    },
+    {
+      "itemId": "sword",
+      "visible": true
+    }
   ],
   "monsters": [],
   "state": {},

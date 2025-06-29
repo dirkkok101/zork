@@ -18,7 +18,9 @@
     "visible",
     "portable"
   ],
-  "properties": {},
+  "properties": {
+    "readable": true
+  },
   "interactions": [
     {
       "command": "examine",

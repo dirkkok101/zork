@@ -26,6 +26,118 @@ export class ItemService implements IItemService {
     return item.portable && item.visible;
   }
 
+  takeItem(itemId: string): ItemResult {
+    const item = this.gameState.getItem(itemId);
+    if (!item) {
+      return {
+        success: false,
+        message: "You don't see that here.",
+        stateChanged: false
+      };
+    }
+
+    if (!this.canTake(itemId)) {
+      if (!item.visible) {
+        return {
+          success: false,
+          message: "You don't see that here.",
+          stateChanged: false
+        };
+      }
+      
+      if (!item.portable) {
+        return {
+          success: false,
+          message: `You can't take the ${item.name}.`,
+          stateChanged: false
+        };
+      }
+      
+      return {
+        success: false,
+        message: `You can't take the ${item.name}.`,
+        stateChanged: false
+      };
+    }
+
+    return {
+      success: true,
+      message: `You take the ${item.name}.`,
+      stateChanged: true
+    };
+  }
+
+  putItem(itemId: string, targetId?: string, preposition?: string): ItemResult {
+    const item = this.gameState.getItem(itemId);
+    if (!item) {
+      return {
+        success: false,
+        message: "You don't have that item.",
+        stateChanged: false
+      };
+    }
+
+    // If no target specified, just putting down (same as drop)
+    if (!targetId) {
+      return {
+        success: true,
+        message: `You put down the ${item.name}.`,
+        stateChanged: true
+      };
+    }
+
+    const target = this.gameState.getItem(targetId);
+    if (!target) {
+      return {
+        success: false,
+        message: "You don't see that here.",
+        stateChanged: false
+      };
+    }
+
+    // Handle different prepositions
+    switch (preposition) {
+      case 'in':
+        if (!this.isContainer(targetId)) {
+          return {
+            success: false,
+            message: `You can't put anything in the ${target.name}.`,
+            stateChanged: false
+          };
+        }
+        return this.addToContainer(targetId, itemId);
+
+      case 'on':
+        // For now, treat 'on' similar to 'in' for containers
+        if (this.isContainer(targetId)) {
+          return this.addToContainer(targetId, itemId);
+        }
+        return {
+          success: true,
+          message: `You put the ${item.name} on the ${target.name}.`,
+          stateChanged: true
+        };
+
+      case 'under':
+        return {
+          success: true,
+          message: `You put the ${item.name} under the ${target.name}.`,
+          stateChanged: true
+        };
+
+      default:
+        // Default to 'in' behavior for containers
+        if (this.isContainer(targetId)) {
+          return this.addToContainer(targetId, itemId);
+        }
+        return {
+          success: true,
+          message: `You put the ${item.name} near the ${target.name}.`,
+          stateChanged: true
+        };
+    }
+  }
+
   examineItem(itemId: string): string {
     const item = this.gameState.getItem(itemId);
     if (!item) {
@@ -85,7 +197,7 @@ export class ItemService implements IItemService {
     return this.isContainer(itemId) || item.properties.openable === true;
   }
 
-  openItem(itemId: string, _keyId?: string): ItemResult {
+  openItem(itemId: string, keyId?: string): ItemResult {
     const item = this.gameState.getItem(itemId);
     if (!item) {
       return {
@@ -103,12 +215,33 @@ export class ItemService implements IItemService {
       };
     }
 
-    if (this.isLocked(itemId)) {
+    // Check if item is already open
+    const isAlreadyOpen = item.state?.isOpen || (item as any).isOpen;
+    if (isAlreadyOpen) {
       return {
         success: false,
-        message: `The ${item.name} is locked.`,
+        message: `The ${item.name} is already open.`,
         stateChanged: false
       };
+    }
+
+    // Handle locked items
+    if (this.isLocked(itemId)) {
+      if (!keyId) {
+        return {
+          success: false,
+          message: `The ${item.name} is locked.`,
+          stateChanged: false
+        };
+      }
+
+      // Try to unlock with the provided key
+      const unlockResult = this.unlockItem(itemId, keyId);
+      if (!unlockResult.success) {
+        return unlockResult;
+      }
+
+      // If unlock was successful, continue to open
     }
 
     // Update item state to open - store in state object
@@ -116,9 +249,10 @@ export class ItemService implements IItemService {
       state: { ...item.state, isOpen: true } 
     });
     
+    const keyMessage = keyId ? ` with the ${this.gameState.getItem(keyId)?.name}` : '';
     return {
       success: true,
-      message: `You open the ${item.name}.`,
+      message: `You open the ${item.name}${keyMessage}.`,
       stateChanged: true
     };
   }
@@ -137,6 +271,16 @@ export class ItemService implements IItemService {
       return {
         success: false,
         message: `You can't close the ${item.name}.`,
+        stateChanged: false
+      };
+    }
+
+    // Check if item is already closed
+    const isAlreadyClosed = !(item.state?.isOpen || (item as any).isOpen);
+    if (isAlreadyClosed) {
+      return {
+        success: false,
+        message: `The ${item.name} is already closed.`,
         stateChanged: false
       };
     }

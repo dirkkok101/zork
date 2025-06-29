@@ -11,14 +11,18 @@
   "visible": true,
   "weight": 5,
   "size": "TINY",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false
+  },
   "tags": [
-    "container",
+    "visible",
     "searchable",
-    "visible"
+    "container"
   ],
   "properties": {
-    "capacity": 6
+    "capacity": 6,
+    "container": true,
+    "searchable": true
   },
   "interactions": [
     {

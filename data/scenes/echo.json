@@ -7,7 +7,12 @@
     "west": "pass5",
     "up": "cave3"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "bar",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

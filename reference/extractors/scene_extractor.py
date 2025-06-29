@@ -20,6 +20,7 @@ class SceneExtractor:
         self.mdl_content = self.load_mdl_source() if self.mdl_source.exists() else None
         self.conditional_exits = self.parse_conditional_exits() if self.mdl_content else {}
         self.door_objects = self.parse_door_objects() if self.mdl_content else {}
+        self.room_contents = self.parse_room_contents() if self.mdl_content else {}
         
         # Room ID conversions for consistency with existing codebase
         self.room_id_conversions = {
@@ -263,19 +264,57 @@ class SceneExtractor:
         
         return 'dark'  # Default to dark for safety
     
-    def extract_initial_items(self, room_key: str) -> List[str]:
-        """Extract initial items for a room based on game knowledge"""
-        # Known initial item placements from original Zork - using correct item IDs
-        initial_items = {
-            'LROOM': ['tcase', 'lamp'],        # trophy case, brass lamp
-            'KITCH': ['sbag', 'bottl'],        # brown sack, glass bottle
-            'ATTIC': ['rope'],                 # rope
-            'MTROL': ['axe'],                  # bloody axe (after troll defeat)
-            'TREAS': ['bagco'],                # bag of coins
-            # Add more as needed based on actual game data
-        }
+    def parse_room_contents(self) -> Dict[str, List[str]]:
+        """Parse room contents from MDL source"""
+        room_contents = {}
         
-        return initial_items.get(room_key, [])
+        if not self.mdl_content:
+            return room_contents
+        
+        # Find room definitions: <ROOM "ROOMNAME" ... >
+        room_pattern = r'<ROOM\s+"([^"]+)".*?(?=<ROOM|<OBJECT|\Z)'
+        
+        for match in re.finditer(room_pattern, self.mdl_content, re.DOTALL):
+            room_name = match.group(1)
+            room_definition = match.group(0)
+            
+            # Look for object references in the room definition
+            # Pattern: (<GET-OBJ "OBJNAME">)
+            obj_pattern = r'<GET-OBJ\s+"([^"]+)"\s*>'
+            
+            objects = []
+            for obj_match in re.finditer(obj_pattern, room_definition):
+                obj_name = obj_match.group(1).lower()
+                objects.append(obj_name)
+            
+            if objects:
+                room_contents[room_name] = objects
+        
+        return room_contents
+    
+    def extract_initial_items(self, room_key: str) -> List[str]:
+        """Extract initial items for a room from parsed MDL data"""
+        # First try to get from parsed room contents
+        if self.room_contents and room_key in self.room_contents:
+            return self.room_contents[room_key]
+        
+        # Fallback for rooms not found in MDL (should be rare)
+        return []
+    
+    def build_scene_items(self, room_key: str) -> List[Dict[str, Any]]:
+        """Build SceneItem objects for TypeScript Scene interface"""
+        item_ids = self.extract_initial_items(room_key)
+        scene_items = []
+        
+        for item_id in item_ids:
+            scene_item = {
+                "itemId": item_id,
+                "visible": True,  # All initial items are visible by default
+                # Add conditions here if needed based on game data
+            }
+            scene_items.append(scene_item)
+        
+        return scene_items
     
     def extract_initial_monsters(self, room_key: str) -> List[str]:
         """Extract initial monster placements"""
@@ -418,7 +457,7 @@ class SceneExtractor:
             "title": room['name'],
             "description": room['desc'] if room['desc'] else f"You are in the {room['name'].lower()}.",
             "exits": exits_by_room.get(key, {}),
-            "items": self.extract_initial_items(key),
+            "items": self.build_scene_items(key),
             "monsters": self.extract_initial_monsters(key),
             "state": {},
             "lighting": self.determine_lighting(region, key),

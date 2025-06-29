@@ -6,7 +6,12 @@
     "east": "bwell",
     "west": "riddl"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "pearl",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

@@ -9,7 +9,12 @@
       "failureMessage": "You would be burned to a crisp in no time."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "cage",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

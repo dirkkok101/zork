@@ -8,7 +8,12 @@
     "north": "cell",
     "south": "bdoor"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "odoor",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

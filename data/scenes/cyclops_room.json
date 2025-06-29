@@ -15,7 +15,12 @@
       "failureMessage": "The cyclops doesn't look like he'll let you past."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "cyclo",
+      "visible": true
+    }
+  ],
   "monsters": [
     "cyclops"
   ],

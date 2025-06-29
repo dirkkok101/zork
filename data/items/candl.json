@@ -11,17 +11,22 @@
   "visible": true,
   "weight": 10,
   "size": "SMALL",
-  "initialState": {},
+  "initialState": {
+    "isLit": false,
+    "isOn": false
+  },
   "tags": [
-    "flame_source",
     "switchable",
     "visible",
-    "light_source",
-    "portable"
+    "flame_source",
+    "portable",
+    "light_source"
   ],
   "properties": {
     "size": 10,
-    "lightTimer": 50
+    "lightTimer": 50,
+    "lightSource": true,
+    "switchable": true
   },
   "interactions": [
     {

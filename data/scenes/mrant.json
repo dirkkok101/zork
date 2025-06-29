@@ -7,7 +7,12 @@
     "up": "tstrs",
     "north": "mreye"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "rswit",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

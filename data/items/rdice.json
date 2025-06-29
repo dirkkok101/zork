@@ -16,12 +16,13 @@
   "initialState": {},
   "tags": [
     "food",
-    "readable",
     "visible",
-    "portable"
+    "portable",
+    "readable"
   ],
   "properties": {
-    "size": 4
+    "size": 4,
+    "readable": true
   },
   "interactions": [
     {

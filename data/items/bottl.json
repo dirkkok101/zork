@@ -13,14 +13,20 @@
   "visible": true,
   "weight": 5,
   "size": "TINY",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false,
+    "contents": [
+      "water"
+    ]
+  },
   "tags": [
-    "container",
     "visible",
-    "portable"
+    "portable",
+    "container"
   ],
   "properties": {
-    "capacity": 4
+    "capacity": 4,
+    "container": true
   },
   "interactions": [
     {

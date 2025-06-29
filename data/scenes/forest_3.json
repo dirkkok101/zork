@@ -9,7 +9,12 @@
     "south": "clearing",
     "west": "north_of_house"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "ftree",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "daylight",

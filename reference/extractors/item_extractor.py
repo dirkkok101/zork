@@ -75,6 +75,11 @@ class ItemExtractor:
                     obj_data['description'] = desc_line[1:-1]
                     current_line += 1
             
+            # Look for initial container contents (<GET-OBJ ...>)
+            contents_match = re.search(r'\(<GET-OBJ\s+"([^"]+)"\s*>\)', definition)
+            if contents_match:
+                obj_data['initial_contents'] = [contents_match.group(1).lower()]
+            
             # Look for ODESC1 and other properties
             for line in lines:
                 line = line.strip()
@@ -260,14 +265,60 @@ class ItemExtractor:
             "visible": 'VISIBLE' in obj['flags'],
             "weight": obj['properties'].get('size', 5),
             "size": self.convert_size(obj['properties'].get('size', 5)),
-            "initialState": {},
+            "initialState": self.build_initial_state(obj),
             "tags": list(set([tag.lower() for tag in obj['flags']])),  # Remove duplicates
-            "properties": obj['properties'],
+            "properties": self.build_properties(obj),
             "interactions": self.generate_interactions(obj),
             "initialLocation": "unknown"  # Would need additional parsing to determine
         }
         
         return item_data
+
+    def build_initial_state(self, obj: Dict[str, Any]) -> Dict[str, Any]:
+        """Build initial state for an item based on its properties and contents"""
+        initial_state = {}
+        
+        # For containers, set initial state
+        if 'CONTAINER' in obj['flags'] or 'OPENABLE' in obj['flags']:
+            initial_state['isOpen'] = False  # Containers start closed
+            
+            # Add initial contents if any
+            if 'initial_contents' in obj:
+                initial_state['contents'] = obj['initial_contents']
+        
+        # For light sources, set initial lit state
+        if 'LIGHT_SOURCE' in obj['flags']:
+            initial_state['isLit'] = False  # Light sources start off
+        
+        # For switchable items
+        if 'SWITCHABLE' in obj['flags']:
+            initial_state['isOn'] = False
+            
+        return initial_state
+
+    def build_properties(self, obj: Dict[str, Any]) -> Dict[str, Any]:
+        """Build properties object including flags and extracted properties"""
+        properties = obj['properties'].copy()
+        
+        # Add boolean properties based on flags
+        if 'CONTAINER' in obj['flags']:
+            properties['container'] = True
+        if 'OPENABLE' in obj['flags']:
+            properties['openable'] = True
+        if 'LIGHT_SOURCE' in obj['flags']:
+            properties['lightSource'] = True
+        if 'READABLE' in obj['flags']:
+            properties['readable'] = True
+        if 'WEAPON' in obj['flags']:
+            properties['weapon'] = True
+        if 'SWITCHABLE' in obj['flags']:
+            properties['switchable'] = True
+        if 'TURNABLE' in obj['flags']:
+            properties['turnable'] = True
+        if 'SEARCHABLE' in obj['flags']:
+            properties['searchable'] = True
+            
+        return properties
 
     def determine_item_type(self, obj: Dict[str, Any]) -> str:
         """Determine the primary item type - aligned with categorization logic"""

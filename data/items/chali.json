@@ -14,17 +14,20 @@
   "visible": true,
   "weight": 10,
   "size": "SMALL",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false
+  },
   "tags": [
-    "container",
     "visible",
-    "portable"
+    "portable",
+    "container"
   ],
   "properties": {
     "capacity": 5,
     "size": 10,
     "value": 10,
-    "treasurePoints": 10
+    "treasurePoints": 10,
+    "container": true
   },
   "interactions": [
     {

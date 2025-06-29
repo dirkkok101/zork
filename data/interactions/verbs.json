@@ -146,17 +146,36 @@
       "id": "drop",
       "primary": "drop",
       "synonyms": [
-        "put",
         "place",
         "leave"
       ],
       "syntax": [
         "drop <object>",
+        "drop <object> down"
+      ],
+      "requiresObject": true,
+      "requiresPreposition": false,
+      "validPrepositions": [
+        "down",
+        "in"
+      ]
+    },
+    {
+      "id": "put",
+      "primary": "put",
+      "synonyms": [],
+      "syntax": [
+        "put <object> in <object>",
+        "put <object> on <object>",
+        "put <object> under <object>",
         "put down <object>"
       ],
       "requiresObject": true,
       "requiresPreposition": false,
       "validPrepositions": [
+        "in",
+        "on",
+        "under",
         "down"
       ]
     },

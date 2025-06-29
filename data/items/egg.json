@@ -12,16 +12,22 @@
   "visible": true,
   "weight": 5,
   "size": "TINY",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false,
+    "contents": [
+      "gcana"
+    ]
+  },
   "tags": [
-    "container",
     "visible",
-    "portable"
+    "portable",
+    "container"
   ],
   "properties": {
     "value": 5,
     "treasurePoints": 5,
-    "capacity": 6
+    "capacity": 6,
+    "container": true
   },
   "interactions": [
     {

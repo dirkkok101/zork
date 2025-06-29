@@ -19,7 +19,12 @@
       "failureMessage": "It is too narrow for most insects."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "door",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

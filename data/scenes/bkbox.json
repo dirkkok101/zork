@@ -12,7 +12,16 @@
     "east": "bkte",
     "south": "bkexe"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "vault",
+      "visible": true
+    },
+    {
+      "itemId": "scol",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

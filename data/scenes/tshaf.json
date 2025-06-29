@@ -11,7 +11,12 @@
     "west": "entra",
     "north": "tunne"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "tbask",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

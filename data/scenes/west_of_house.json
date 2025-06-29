@@ -12,7 +12,20 @@
       "failureMessage": "Only a mouse could get in there."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "fdoor",
+      "visible": true
+    },
+    {
+      "itemId": "mailb",
+      "visible": true
+    },
+    {
+      "itemId": "mat",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "daylight",

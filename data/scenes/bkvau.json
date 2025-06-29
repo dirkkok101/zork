@@ -3,7 +3,12 @@
   "title": "Vault",
   "description": "This is the Vault of the Bank of Zork, in which there are no doors.",
   "exits": {},
-  "items": [],
+  "items": [
+    {
+      "itemId": "bills",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

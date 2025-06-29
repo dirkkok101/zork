@@ -10,7 +10,18 @@
     }
   },
   "items": [
-    "rope"
+    {
+      "itemId": "brick",
+      "visible": true
+    },
+    {
+      "itemId": "rope",
+      "visible": true
+    },
+    {
+      "itemId": "knife",
+      "visible": true
+    }
   ],
   "monsters": [],
   "state": {},

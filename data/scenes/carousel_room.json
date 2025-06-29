@@ -13,7 +13,12 @@
     "sw": "maze_1",
     "out": "pass3"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "irbox",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

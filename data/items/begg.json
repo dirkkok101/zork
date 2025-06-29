@@ -14,15 +14,22 @@
   "visible": true,
   "weight": 5,
   "size": "TINY",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false,
+    "contents": [
+      "bcana"
+    ]
+  },
   "tags": [
-    "container",
     "openable",
     "visible",
-    "portable"
+    "portable",
+    "container"
   ],
   "properties": {
-    "capacity": 6
+    "capacity": 6,
+    "container": true,
+    "openable": true
   },
   "interactions": [
     {

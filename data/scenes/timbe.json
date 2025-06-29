@@ -6,7 +6,12 @@
     "north": "bladd",
     "sw": "bshaf"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "otimb",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

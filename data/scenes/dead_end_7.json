@@ -5,7 +5,12 @@
   "exits": {
     "south": "bladd"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "coal",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

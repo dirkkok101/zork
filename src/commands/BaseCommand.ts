@@ -392,6 +392,71 @@ export abstract class BaseCommand implements ICommand {
       }
     }
     
+    // Check inside open containers in the scene
+    for (const itemId of sceneItems) {
+      const container = this.gameState.getItem(itemId);
+      if (container && this.items.isContainer(itemId)) {
+        // Check if container is open
+        const isOpen = container.state?.isOpen || (container as any).isOpen || false;
+        if (isOpen) {
+          const contents = this.items.getContainerContents(itemId);
+          for (const contentItemId of contents) {
+            const contentItem = this.gameState.getItem(contentItemId);
+            if (contentItem && this.itemMatches(contentItem, lowerName)) {
+              return contentItem;
+            }
+          }
+        }
+      }
+    }
+    
+    return null;
+  }
+
+  /**
+   * Find an item ID by name in current scene or inventory
+   * @param name Item name or alias to find
+   * @returns The item ID if found, null otherwise
+   */
+  protected findItemId(name: string): string | null {
+    const lowerName = name.toLowerCase();
+    const currentSceneId = this.gameState.getCurrentScene();
+    
+    // Check scene items first (items in current location take precedence)
+    const sceneItems = this.scene.getSceneItems(currentSceneId);
+    for (const itemId of sceneItems) {
+      const item = this.gameState.getItem(itemId);
+      if (item && this.itemMatches(item, lowerName)) {
+        return itemId;
+      }
+    }
+    
+    // Check inside open containers in the scene
+    for (const itemId of sceneItems) {
+      const container = this.gameState.getItem(itemId);
+      if (container && this.items.isContainer(itemId)) {
+        // Check if container is open
+        const isOpen = container.state?.isOpen || (container as any).isOpen || false;
+        if (isOpen) {
+          const contents = this.items.getContainerContents(itemId);
+          for (const contentItemId of contents) {
+            const contentItem = this.gameState.getItem(contentItemId);
+            if (contentItem && this.itemMatches(contentItem, lowerName)) {
+              return contentItemId;
+            }
+          }
+        }
+      }
+    }
+    
+    // Check inventory
+    for (const itemId of this.inventory.getItems()) {
+      const item = this.gameState.getItem(itemId);
+      if (item && this.itemMatches(item, lowerName)) {
+        return itemId;
+      }
+    }
+    
     return null;
   }
 
@@ -453,5 +518,24 @@ export abstract class BaseCommand implements ICommand {
   protected getArticle(word: string): string {
     const vowels = ['a', 'e', 'i', 'o', 'u'];
     return vowels.includes(word[0]?.toLowerCase() || '') ? 'an' : 'a';
+  }
+
+  /**
+   * Find an item by name in player's inventory
+   * @param name Item name or alias to find
+   * @returns The item ID if found, null otherwise
+   */
+  protected findItemInInventory(name: string): string | null {
+    const lowerName = name.toLowerCase();
+    const inventoryItems = this.inventory.getItems();
+    
+    for (const itemId of inventoryItems) {
+      const item = this.gameState.getItem(itemId);
+      if (item && this.itemMatches(item, lowerName)) {
+        return itemId;
+      }
+    }
+    
+    return null;
   }
 }

@@ -7,7 +7,16 @@
     "north": "maint",
     "east": "maint"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "match",
+      "visible": true
+    },
+    {
+      "itemId": "guide",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

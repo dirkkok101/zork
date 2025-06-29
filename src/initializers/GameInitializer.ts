@@ -45,7 +45,24 @@ export class GameInitializer {
       const startTime = Date.now();
       
       // Use environment-appropriate paths
-      const dataPathPrefix = typeof window !== 'undefined' ? '/' : 'data/';
+      // Force data/ path for tests and Node.js environment
+      const isTest = process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID !== undefined;
+      const isBrowser = typeof window !== 'undefined';
+      
+      // Ensure tests ALWAYS use data/ regardless of environment detection
+      let dataPathPrefix: string;
+      if (isTest) {
+        dataPathPrefix = 'data/';
+        logger.info('🧪 Test environment detected - forcing data/ path');
+      } else if (isBrowser) {
+        dataPathPrefix = '/';
+        logger.info('🌐 Browser environment detected - using / path');  
+      } else {
+        dataPathPrefix = 'data/';
+        logger.info('🖥️ Node.js environment detected - using data/ path');
+      }
+      
+      logger.info(`🔧 Final dataPath: ${dataPathPrefix}`);
       
       const itemLoader = new ItemDataLoader(`${dataPathPrefix}items/`, loggingService.getLogger('ItemDataLoader'));
       const sceneLoader = new SceneDataLoader(`${dataPathPrefix}scenes/`, loggingService.getLogger('SceneDataLoader'));

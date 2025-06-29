@@ -6,7 +6,12 @@
     "up": "clmid",
     "north": "pog"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "cclif",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

@@ -21,7 +21,8 @@
   "properties": {
     "size": 1,
     "value": 4,
-    "treasurePoints": 10
+    "treasurePoints": 10,
+    "readable": true
   },
   "interactions": [
     {

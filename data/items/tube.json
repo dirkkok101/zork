@@ -11,16 +11,23 @@
   "visible": true,
   "weight": 10,
   "size": "SMALL",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false,
+    "contents": [
+      "putty"
+    ]
+  },
   "tags": [
-    "container",
     "readable",
     "visible",
-    "portable"
+    "portable",
+    "container"
   ],
   "properties": {
     "capacity": 7,
-    "size": 10
+    "size": 10,
+    "container": true,
+    "readable": true
   },
   "interactions": [
     {

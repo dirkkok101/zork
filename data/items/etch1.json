@@ -16,10 +16,12 @@
   "initialState": {},
   "tags": [
     "readable",
-    "no_description",
-    "visible"
+    "visible",
+    "no_description"
   ],
-  "properties": {},
+  "properties": {
+    "readable": true
+  },
   "interactions": [
     {
       "command": "examine",

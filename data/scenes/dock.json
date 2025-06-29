@@ -7,7 +7,16 @@
     "up": "dam",
     "launc": "rivr1"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "iboat",
+      "visible": true
+    },
+    {
+      "itemId": "stick",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

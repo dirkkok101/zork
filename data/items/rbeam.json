@@ -13,14 +13,17 @@
   "visible": true,
   "weight": 5,
   "size": "TINY",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false
+  },
   "tags": [
-    "no_description",
+    "visible",
     "openable",
-    "visible"
+    "no_description"
   ],
   "properties": {
-    "capacity": 1000
+    "capacity": 1000,
+    "openable": true
   },
   "interactions": [
     {

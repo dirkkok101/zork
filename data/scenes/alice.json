@@ -11,7 +11,28 @@
     "west": "treasure_well",
     "nw": "magne"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "atabl",
+      "visible": true
+    },
+    {
+      "itemId": "ecake",
+      "visible": true
+    },
+    {
+      "itemId": "orice",
+      "visible": true
+    },
+    {
+      "itemId": "rdice",
+      "visible": true
+    },
+    {
+      "itemId": "blice",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

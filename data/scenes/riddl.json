@@ -10,7 +10,12 @@
       "failureMessage": "Your way is blocked by an invisible force."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "sdoor",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

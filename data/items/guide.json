@@ -19,7 +19,9 @@
     "portable",
     "flammable"
   ],
-  "properties": {},
+  "properties": {
+    "readable": true
+  },
   "interactions": [
     {
       "command": "examine",

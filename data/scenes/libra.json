@@ -6,7 +6,24 @@
     "north": "ledg2",
     "out": "ledg2"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "blbk",
+      "visible": true
+    },
+    {
+      "itemId": "grbk",
+      "visible": true
+    },
+    {
+      "itemId": "pubk",
+      "visible": true
+    },
+    {
+      "itemId": "whbk",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

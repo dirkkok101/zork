@@ -11,7 +11,24 @@
     "north": "crypt",
     "in": "crypt"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "tomb",
+      "visible": true
+    },
+    {
+      "itemId": "heads",
+      "visible": true
+    },
+    {
+      "itemId": "cokes",
+      "visible": true
+    },
+    {
+      "itemId": "lists",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

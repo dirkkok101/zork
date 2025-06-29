@@ -10,7 +10,12 @@
       "failureMessage": "You cannot go down without fracturing many bones."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "raili",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

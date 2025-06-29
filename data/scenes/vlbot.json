@@ -5,7 +5,12 @@
   "exits": {
     "north": "lava"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "ballo",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

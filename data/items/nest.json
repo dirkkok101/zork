@@ -12,15 +12,21 @@
   "visible": true,
   "weight": 5,
   "size": "TINY",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false,
+    "contents": [
+      "egg"
+    ]
+  },
   "tags": [
-    "flammable",
     "openable",
     "visible",
-    "portable"
+    "portable",
+    "flammable"
   ],
   "properties": {
-    "capacity": 20
+    "capacity": 20,
+    "openable": true
   },
   "interactions": [
     {

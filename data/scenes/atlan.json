@@ -6,7 +6,12 @@
     "se": "resen",
     "up": "cave1"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "tride",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

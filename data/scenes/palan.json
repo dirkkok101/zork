@@ -28,7 +28,36 @@
       "failureMessage": "The pdoor is closed."
     }
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "pdoor",
+      "visible": true
+    },
+    {
+      "itemId": "pwind",
+      "visible": true
+    },
+    {
+      "itemId": "plid2",
+      "visible": true
+    },
+    {
+      "itemId": "pkh2",
+      "visible": true
+    },
+    {
+      "itemId": "palan",
+      "visible": true
+    },
+    {
+      "itemId": "ptabl",
+      "visible": true
+    },
+    {
+      "itemId": "pcrak",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

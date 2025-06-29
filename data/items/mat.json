@@ -4,6 +4,7 @@
   "description": "You see welcome mat.",
   "examineText": "It's welcome mat.",
   "aliases": [
+    "MAT",
     "WELCO",
     "RUBBE"
   ],
@@ -18,7 +19,9 @@
     "visible",
     "portable"
   ],
-  "properties": {},
+  "properties": {
+    "readable": true
+  },
   "interactions": [
     {
       "command": "examine",

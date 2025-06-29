@@ -13,7 +13,52 @@
     "sw": "mra",
     "out": "mra"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "ylwal",
+      "visible": true
+    },
+    {
+      "itemId": "whwal",
+      "visible": true
+    },
+    {
+      "itemId": "rdwal",
+      "visible": true
+    },
+    {
+      "itemId": "blwal",
+      "visible": true
+    },
+    {
+      "itemId": "oaknd",
+      "visible": true
+    },
+    {
+      "itemId": "pinnd",
+      "visible": true
+    },
+    {
+      "itemId": "wdbar",
+      "visible": true
+    },
+    {
+      "itemId": "lpole",
+      "visible": true
+    },
+    {
+      "itemId": "spole",
+      "visible": true
+    },
+    {
+      "itemId": "tbar",
+      "visible": true
+    },
+    {
+      "itemId": "arrow",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

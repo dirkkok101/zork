@@ -3,7 +3,32 @@
   "title": "Treasury of Zork",
   "description": "     This is a room of large size, richly appointed and decorated\nin a style that bespeaks exquisite taste.  To judge from its\ncontents, it is the ultimate storehouse of the treasures of Zork.\n     There are chests here containing precious jewels, mountains of\nzorkmids, rare paintings, ancient statuary, and beguiling curios.\n     In one corner of the room is a bookcase boasting such volumes as\n'The History of the Great Underground Empire,' 'The Lives of the\nTwelve Flatheads,' 'The Wisdom of the Implementors,' and other\ninformative and inspiring works.\n     On one wall is a completely annotated map of the Great Underground\nEmpire, showing points of interest, various troves of treasure, and\nindicating the locations of several superior scenic views.\n     On a desk at the far end of the room may be found stock\ncertificates representing a controlling interest in FrobozzCo\nInternational, the multinational conglomerate and parent company of\nthe Frobozz Magic Boat Co., etc.",
   "exits": {},
-  "items": [],
+  "items": [
+    {
+      "itemId": "odoor",
+      "visible": true
+    },
+    {
+      "itemId": "cdoor",
+      "visible": true
+    },
+    {
+      "itemId": "odoor",
+      "visible": true
+    },
+    {
+      "itemId": "mdoor",
+      "visible": true
+    },
+    {
+      "itemId": "odoor",
+      "visible": true
+    },
+    {
+      "itemId": "ldoor",
+      "visible": true
+    }
+  ],
   "monsters": [
     "guardian_of_zork"
   ],

@@ -12,18 +12,21 @@
   "visible": true,
   "weight": 55,
   "size": "HUGE",
-  "initialState": {},
+  "initialState": {
+    "isOpen": false
+  },
   "tags": [
-    "container",
     "visible",
+    "treasure",
     "portable",
-    "treasure"
+    "container"
   ],
   "properties": {
     "capacity": 35,
     "size": 55,
     "value": 3,
-    "treasurePoints": 7
+    "treasurePoints": 7,
+    "container": true
   },
   "interactions": [
     {

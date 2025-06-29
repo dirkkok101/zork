@@ -7,7 +7,12 @@
     "east": "craw3",
     "up": "temp1"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "grail",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",

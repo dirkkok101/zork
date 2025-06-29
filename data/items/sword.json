@@ -14,16 +14,20 @@
   "visible": true,
   "weight": 30,
   "size": "LARGE",
-  "initialState": {},
+  "initialState": {
+    "isOn": false
+  },
   "tags": [
+    "visible",
     "switchable",
     "weapon",
-    "visible",
     "portable"
   ],
   "properties": {
     "size": 30,
-    "treasurePoints": 0
+    "treasurePoints": 0,
+    "weapon": true,
+    "switchable": true
   },
   "interactions": [
     {

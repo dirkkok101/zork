@@ -7,7 +7,12 @@
     "south": "ledg3",
     "east": "craw1"
   },
-  "items": [],
+  "items": [
+    {
+      "itemId": "coffi",
+      "visible": true
+    }
+  ],
   "monsters": [],
   "state": {},
   "lighting": "dark",
