@@ -15,13 +15,14 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "flammable",
     "portable",
+    "flammable",
     "readable",
     "visible"
   ],
   "properties": {
     "size": 1,
+    "readText": "\nWarning:\n    This room was constructed over very weak rock strata.  Detonation\nof explosives in this room is strictly prohibited!\n\t\t\tFrobozz Magic Cave Company\n\t\t\tper M. Agrippa, foreman\n",
     "readable": true
   },
   "interactions": [

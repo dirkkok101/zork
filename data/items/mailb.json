@@ -20,8 +20,8 @@
     ]
   },
   "tags": [
-    "visible",
-    "container"
+    "container",
+    "visible"
   ],
   "properties": {
     "capacity": 10,

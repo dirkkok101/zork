@@ -22,10 +22,10 @@
     ]
   },
   "tags": [
-    "portable",
     "openable",
-    "visible",
-    "container"
+    "portable",
+    "container",
+    "visible"
   ],
   "properties": {
     "capacity": 6,

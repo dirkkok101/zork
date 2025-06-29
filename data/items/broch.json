@@ -19,12 +19,12 @@
     ]
   },
   "tags": [
-    "flammable",
-    "visible",
-    "container",
-    "readable",
     "openable",
-    "portable"
+    "readable",
+    "container",
+    "flammable",
+    "portable",
+    "visible"
   ],
   "properties": {
     "size": 30,

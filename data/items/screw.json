@@ -13,8 +13,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
     "tool",
+    "portable",
     "visible"
   ],
   "properties": {},

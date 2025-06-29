@@ -21,8 +21,8 @@
   },
   "tags": [
     "portable",
-    "visible",
-    "container"
+    "container",
+    "visible"
   ],
   "properties": {
     "value": 5,

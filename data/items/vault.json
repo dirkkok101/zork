@@ -21,6 +21,7 @@
     "visible"
   ],
   "properties": {
+    "readText": "\t        Bank of Zork\n\t\t   VAULT\n         \t *722 GUE*\n          Frobozz Magic Vault Company\n",
     "readable": true
   },
   "interactions": [

@@ -18,8 +18,8 @@
   },
   "tags": [
     "no_description",
-    "visible",
-    "container"
+    "container",
+    "visible"
   ],
   "properties": {
     "container": true

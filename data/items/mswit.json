@@ -14,8 +14,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "turnable",
     "no_description",
+    "turnable",
     "visible"
   ],
   "properties": {

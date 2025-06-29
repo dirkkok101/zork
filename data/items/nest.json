@@ -20,9 +20,9 @@
     ]
   },
   "tags": [
-    "flammable",
-    "portable",
     "openable",
+    "portable",
+    "flammable",
     "visible"
   ],
   "properties": {

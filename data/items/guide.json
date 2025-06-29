@@ -15,12 +15,13 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "flammable",
     "portable",
+    "flammable",
     "readable",
     "visible"
   ],
   "properties": {
+    "readText": "\\",
     "readable": true
   },
   "interactions": [

@@ -3,10 +3,10 @@
  * Tests flag-based exit mechanics for kitchen access via window
  */
 
-import '../look_command/setup';
-import { BehindHouseIntegrationTestFactory, BehindHouseTestEnvironment } from '../look_command/helpers/integration_test_factory';
-import { MoveCommandHelper } from '../move_command/helpers/move_command_helper';
-import { OpenCommandHelper } from '../open_command/helpers/open_command_helper';
+import '@testing/scenes/behind_house/integration_tests/look_command/setup';
+import { BehindHouseIntegrationTestFactory, BehindHouseTestEnvironment } from '@testing/scenes/behind_house/integration_tests/look_command/helpers/integration_test_factory';
+import { MoveCommandHelper } from '@testing/scenes/behind_house/integration_tests/move_command/helpers/move_command_helper';
+import { OpenCommandHelper } from '@testing/scenes/behind_house/integration_tests/open_command/helpers/open_command_helper';
 import { CloseCommandHelper } from '../close_command/helpers/close_command_helper';
 import { ExamineCommandHelper } from '../examine_command/helpers/examine_command_helper';
 

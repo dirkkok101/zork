@@ -18,13 +18,14 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "flammable",
     "portable",
+    "flammable",
     "readable",
     "visible"
   ],
   "properties": {
     "size": 2,
+    "readText": "\t\tUS NEWS & DUNGEON REPORT\n7/22/81  \t\t\t\t       Last G.U.E. Edition\n\nThis version of ZORK is no longer being supported on this or any other\nmachine.  In particular, bugs and feature requests will, most likely, be\nread and ignored.  There are updated versions of ZORK, including some\naltogether new problems, available for PDP-11s and various\nmicrocomputers (TRS-80, APPLE, maybe more later).  For information, send\na SASE to:\n\n                Infocom, Inc.\n                P.O. Box 120, Kendall Station\n                Cambridge, Ma. 02142\n",
     "readable": true
   },
   "interactions": [

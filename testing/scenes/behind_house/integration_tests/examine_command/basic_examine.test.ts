@@ -3,8 +3,8 @@
  * Tests examine functionality for window and scene elements
  */
 
-import '../look_command/setup';
-import { BehindHouseIntegrationTestFactory, BehindHouseTestEnvironment } from '../look_command/helpers/integration_test_factory';
+import '@testing/scenes/behind_house/integration_tests/look_command/setup';
+import { BehindHouseIntegrationTestFactory, BehindHouseTestEnvironment } from '@testing/scenes/behind_house/integration_tests/look_command/helpers/integration_test_factory';
 import { ExamineCommandHelper } from './helpers/examine_command_helper';
 
 describe('Basic Examine Command - Behind House Scene', () => {

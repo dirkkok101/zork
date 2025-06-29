@@ -18,8 +18,8 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "flammable",
     "portable",
+    "flammable",
     "readable",
     "visible"
   ],
@@ -27,6 +27,7 @@
     "size": 10,
     "treasurePoints": 15,
     "value": 10,
+    "readText": "\n______________________________________________________________\n| 1  0   0          GREAT UNDERGROUND EMPIRE         1  0   0 |\n| 1 0 0 0 0\t\t\t\t\t     1 0 0 0 0|\n| 1 0 0 0 0\t\t\t\t\t     1 0 0 0 0|\n| 1  0   0\t\t    DIMWIT\t\t     1  0   0 |\n|\t               ||||||||||||||||\t  \t\t      |\n|\t\t       ||   __  __   ||\t\t   B30332744D |\n|\t\t       ||  -OO  OO-  ||\t  \t\t      |\n|\tIN  FROBS      \\\\||    >>    ||/\t    WE  TRUST         |\n|\t\t        ||  ______  ||\t       \t\t      |\n| B30332744D\t         |  ------  |\t       \t\t      |\n|                        \\\\\\\\________//\t       \t\t      |\n| 1  0   0    Series\t   FLATHEAD\tLD Flathead  1  0   0 |\n| 1 0 0 0 0   719GUE\t   \t\t Treasurer   1 0 0 0 0|\n| 1 0 0 0 0 \t\t\t\t\t     1 0 0 0 0|\n| 1  0   0\t  One Hundred Royal Zorkmids\t     1  0   0 |\n|_____________________________________________________________|\n\n",
     "readable": true
   },
   "interactions": [

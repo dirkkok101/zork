@@ -18,8 +18,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "door",
     "no_description",
+    "door",
     "visible"
   ],
   "properties": {},

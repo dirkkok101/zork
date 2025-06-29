@@ -16,8 +16,8 @@
   "size": "LARGE",
   "initialState": {},
   "tags": [
-    "flammable",
     "portable",
+    "flammable",
     "readable",
     "visible"
   ],
@@ -25,6 +25,7 @@
     "size": 25,
     "treasurePoints": 5,
     "value": 10,
+    "readText": " \t\t    \n\t             ||||||||||||||\n\t\t    ||   __  __   ||\n\t\t    ||\t $$  $$   ||\n\t\t    \\\\||\t   >>    ||/\n\t\t     ||  ______  ||\t       \n\t\t      |  -//--   |\t       \n\t\t      \\\\\\\\_//_____//\t       \n\t \t     ___//|  |\t\n\t\t    /__// |  |\n\t\t\t  |  |\n\t       __________//  \\\\\\\\__________\n\t      / $ /\t  ****\t     \\\\ $ \\\\\n\t     /   /\t   **\t      \\\\   \\\\\n\t    /\t/|\t   **\t      |\\\\   \\\\\n\t   /   / |\t   **\t      | \\\\   \\\\\n\t  /   /  |         **         |  \\\\   \\\\\n\t  ^   ^__|______$Z$**$Z$______|___^   ^\n\t  \\\\   \t    *\t$Z$**$Z$   *\t     /\n\t   \\\\________*___$Z$**$Z$___*________/\n\t\t |\t$Z$**$Z$      |\n\n \t \t J.  PIERPONT  FLATHEAD\n\t\t\tCHAIRMAN\n",
     "readable": true
   },
   "interactions": [

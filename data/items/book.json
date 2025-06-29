@@ -20,14 +20,15 @@
     "open": false
   },
   "tags": [
-    "flammable",
+    "readable",
     "visible",
     "container",
-    "readable",
-    "portable"
+    "portable",
+    "flammable"
   ],
   "properties": {
     "size": 10,
+    "readText": "\t\tCOMMANDMENT #12592\nOh ye who go about saying unto each:   \\",
     "container": true,
     "readable": true
   },

@@ -14,8 +14,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "flammable",
     "portable",
+    "flammable",
     "readable",
     "visible"
   ],
@@ -23,6 +23,7 @@
     "size": 1,
     "value": 4,
     "treasurePoints": 10,
+    "readText": "\n---v----v----v----v----v----v----v----v---\n|\t\t\t\t\t |\n|\t   ||||||||||\t     LORD\t |\n>         !||||\t     |\t    DIMWIT\t <\n|\t  ||||    ---|\t   FLATHEAD\t |\n|\t  |||C\t   CC \\\\  \t\t |\n>\t   ||||\t      _\\\\\t\t <\n|\t    ||| (____|\t\t\t |\n|\t     ||      |\t\t\t |\n>\t      |______|\t     Our\t <\n|\t\t/   \\\\\t  Excessive\t |\n|\t       /     \\\\\t    Leader\t |\n>\t      |\t      |\t\t\t <\n|\t      |       |\t\t\t |\n|\t\t\t\t\t |\n>    G.U.E. POSTAGE\t   3 Zorkmids    <\n|\t\t\t\t\t |\n---^----^----^----^----^----^----^----^---\n",
     "readable": true
   },
   "interactions": [

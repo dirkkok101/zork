@@ -25,6 +25,7 @@
     "size": 10,
     "value": 10,
     "treasurePoints": 12,
+    "readText": "\n\t       --------------------------\n\t      /      Gold Zorkmid\t \\\\\n\t     /  T e n   T h o u s a n d   \\\\\n\t    /        Z O R K M I D S\t   \\\\\n\t   /\t\t\t\t    \\\\\n\t  /        ||||||||||||||||||\t     \\\\\n\t /        !||||\t\t ||||!\t      \\\\\n\t|\t   |||   ^^  ^^   |||\t       |\n\t|\t   |||\t OO  OO   |||\t       |\n\t| In Frobs  |||\t   <<    |||  We Trust |\n\t|\t     || (______) ||\t       |\n\t|\t      |          |\t       |\n\t|\t      |__________|\t       |\n\t \\\\\t\t\t\t      /\n\t  \\\\    -- Lord Dimwit Flathead --    /\n\t   \\\\    -- Beloved of Zorkers --    /\n\t    \\\\\t\t\t\t   /\n\t     \\\\\t     * 722 G.U.E. *       /\n\t      \\\\\t\t\t\t /\n\t       --------------------------\n",
     "readable": true
   },
   "interactions": [

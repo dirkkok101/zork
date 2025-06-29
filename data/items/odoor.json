@@ -15,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "door",
-    "no_description"
+    "no_description",
+    "door"
   ],
   "properties": {},
   "interactions": [

@@ -16,9 +16,9 @@
     "open": false
   },
   "tags": [
+    "container",
     "searchable",
-    "visible",
-    "container"
+    "visible"
   ],
   "properties": {
     "capacity": 6,

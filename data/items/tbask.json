@@ -19,8 +19,8 @@
   },
   "tags": [
     "openable",
-    "visible",
-    "container"
+    "container",
+    "visible"
   ],
   "properties": {
     "capacity": 50,

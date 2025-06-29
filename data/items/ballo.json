@@ -18,8 +18,8 @@
   },
   "tags": [
     "openable",
-    "visible",
-    "vehicle"
+    "vehicle",
+    "visible"
   ],
   "properties": {
     "capacity": 100,

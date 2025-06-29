@@ -17,8 +17,8 @@
     "open": false
   },
   "tags": [
-    "visible",
-    "container"
+    "container",
+    "visible"
   ],
   "properties": {
     "container": true

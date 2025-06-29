@@ -17,10 +17,10 @@
     "open": false
   },
   "tags": [
-    "openable",
     "no_description",
-    "visible",
-    "container"
+    "openable",
+    "container",
+    "visible"
   ],
   "properties": {
     "container": true,

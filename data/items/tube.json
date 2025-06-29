@@ -21,12 +21,13 @@
   "tags": [
     "portable",
     "readable",
-    "visible",
-    "container"
+    "container",
+    "visible"
   ],
   "properties": {
     "capacity": 7,
     "size": 10,
+    "readText": "---> Frobozz Magic Gunk Company <---\n\t  All-Purpose Gunk",
     "container": true,
     "readable": true
   },

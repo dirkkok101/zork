@@ -3,11 +3,11 @@
  * Tests close command functionality for window mechanics
  */
 
-import '../look_command/setup';
-import { BehindHouseIntegrationTestFactory, BehindHouseTestEnvironment } from '../look_command/helpers/integration_test_factory';
+import '@testing/scenes/behind_house/integration_tests/look_command/setup';
+import { BehindHouseIntegrationTestFactory, BehindHouseTestEnvironment } from '@testing/scenes/behind_house/integration_tests/look_command/helpers/integration_test_factory';
 import { CloseCommandHelper } from './helpers/close_command_helper';
-import { MoveCommandHelper } from '../move_command/helpers/move_command_helper';
-import { OpenCommandHelper } from '../open_command/helpers/open_command_helper';
+import { MoveCommandHelper } from '@testing/scenes/behind_house/integration_tests/move_command/helpers/move_command_helper';
+import { OpenCommandHelper } from '@testing/scenes/behind_house/integration_tests/open_command/helpers/open_command_helper';
 
 describe('Basic Close Command - Behind House Scene', () => {
   let testEnv: BehindHouseTestEnvironment;

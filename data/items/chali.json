@@ -20,8 +20,8 @@
   },
   "tags": [
     "portable",
-    "visible",
-    "container"
+    "container",
+    "visible"
   ],
   "properties": {
     "capacity": 5,

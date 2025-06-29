@@ -3,7 +3,7 @@
  * Tests dropping various objects in the west_of_house scene
  */
 
-import { IntegrationTestEnvironment, IntegrationTestFactory } from '../look_command/helpers/integration_test_factory';
+import { IntegrationTestEnvironment, IntegrationTestFactory } from '@testing/scenes/west_of_house/integration_tests/look_command/helpers/integration_test_factory';
 import { DropCommandHelper } from './helpers/drop_command_helper';
 
 describe('Drop Command - West of House Scene', () => {

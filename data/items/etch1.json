@@ -21,6 +21,7 @@
     "visible"
   ],
   "properties": {
+    "readText": "\t\t        o  b  o\n\n\t\t        A  G  I\n\t\t         E   L\n\n\t\t        m  p  a\n",
     "readable": true
   },
   "interactions": [

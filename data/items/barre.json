@@ -17,10 +17,10 @@
     "open": false
   },
   "tags": [
-    "flammable",
     "openable",
-    "visible",
-    "vehicle"
+    "flammable",
+    "vehicle",
+    "visible"
   ],
   "properties": {
     "capacity": 100,

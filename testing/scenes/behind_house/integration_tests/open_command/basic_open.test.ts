@@ -3,7 +3,7 @@
  * Tests open command functionality for window mechanics
  */
 
-import '../look_command/setup';
+import '@testing/scenes/behind_house/integration_tests/look_command/setup';
 import { BehindHouseIntegrationTestFactory, BehindHouseTestEnvironment } from '../look_command/helpers/integration_test_factory';
 import { OpenCommandHelper } from './helpers/open_command_helper';
 import { MoveCommandHelper } from '../move_command/helpers/move_command_helper';

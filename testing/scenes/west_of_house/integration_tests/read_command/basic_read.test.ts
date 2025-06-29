@@ -74,27 +74,28 @@ describe('Read Command - West of House Scene', () => {
         readHelper.verifyItemNotFound(result, 'leaflet');
       });
 
-      it('should fail to read leaflet after taking it (no readable text)', () => {
+      it('should successfully read leaflet after taking it (shows WELCOME TO ZORK)', () => {
         // Add leaflet to inventory
         readHelper.addItemToInventory('adver'); // leaflet item ID
         
         const result = readHelper.executeReadItem('leaflet');
         
-        // Leaflet is marked as readable but has no actual text content
-        readHelper.verifyFailure(result);
+        // Leaflet should now contain the authentic Zork welcome message
+        readHelper.verifySuccess(result);
         readHelper.verifyNoMove(result);
-        expect(result.message).toBe('There is nothing written on it.');
+        expect(result.message).toContain('WELCOME TO ZORK');
+        expect(result.message).toContain('game of adventure, danger, and low cunning');
       });
 
-      it('should fail to read leaflet using various aliases (no readable text)', () => {
+      it('should successfully read leaflet using various aliases (shows WELCOME TO ZORK)', () => {
         // Add leaflet to inventory
         readHelper.addItemToInventory('adver');
         
         const aliases = ['leaflet', 'adver', 'pamph', 'bookl'];
         aliases.forEach(alias => {
           const result = readHelper.executeReadItem(alias);
-          readHelper.verifyFailure(result);
-          expect(result.message).toBe('There is nothing written on it.');
+          readHelper.verifySuccess(result);
+          expect(result.message).toContain('WELCOME TO ZORK');
         });
       });
     });
@@ -158,29 +159,29 @@ describe('Read Command - West of House Scene', () => {
       // (examine would show physical description, read shows text content or failure)
     });
 
-    it('should show read failure vs examine success for leaflet', () => {
+    it('should show read success vs examine difference for leaflet', () => {
       // Add leaflet to inventory
       readHelper.addItemToInventory('adver');
       
       const readResult = readHelper.executeReadItem('leaflet');
       
-      // Read should fail (no text content)
-      readHelper.verifyFailure(readResult);
-      expect(readResult.message).toBe('There is nothing written on it.');
+      // Read should succeed (contains WELCOME TO ZORK text)
+      readHelper.verifySuccess(readResult);
+      expect(readResult.message).toContain('WELCOME TO ZORK');
       
-      // This verifies READ shows textual content or failure, not physical description
+      // This verifies READ shows textual content, different from physical description
     });
   });
 
   describe('Inventory vs Scene Reading', () => {
-    it('should try to read items in inventory (but fail if no text)', () => {
+    it('should successfully read items in inventory (leaflet has text)', () => {
       // Add leaflet to inventory
       readHelper.addItemToInventory('adver');
       
       const result = readHelper.executeReadItem('leaflet');
       
-      readHelper.verifyFailure(result);
-      expect(result.message).toBe('There is nothing written on it.');
+      readHelper.verifySuccess(result);
+      expect(result.message).toContain('WELCOME TO ZORK');
     });
 
     it('should try to read items in current scene (but fail if no text)', () => {
@@ -237,14 +238,14 @@ describe('Read Command - West of House Scene', () => {
       const matResult = readHelper.executeReadItem('mat');
       readHelper.verifyFailure(matResult);
       
-      // Add leaflet and read it (should also fail)
+      // Add leaflet and read it (should succeed)
       readHelper.addItemToInventory('adver');
       const leafletResult = readHelper.executeReadItem('leaflet');
-      readHelper.verifyFailure(leafletResult);
+      readHelper.verifySuccess(leafletResult);
       
-      // Both should fail with consistent messages
+      // Mat fails, leaflet succeeds with different messages
       expect(matResult.message).toBe('There is nothing written on it.');
-      expect(leafletResult.message).toBe('There is nothing written on it.');
+      expect(leafletResult.message).toContain('WELCOME TO ZORK');
     });
 
     it('should maintain consistent behavior across multiple reads', () => {

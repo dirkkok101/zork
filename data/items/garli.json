@@ -14,9 +14,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "food",
     "portable",
-    "visible",
-    "food"
+    "visible"
   ],
   "properties": {},
   "interactions": [

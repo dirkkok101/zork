@@ -21,13 +21,14 @@
   "size": "HUGE",
   "initialState": {},
   "tags": [
-    "flammable",
     "portable",
+    "flammable",
     "readable",
     "visible"
   ],
   "properties": {
     "size": 70,
+    "readText": "<DEFINE FEEL-FREE (LOSER)\n\t\t   <TELL \\",
     "readable": true
   },
   "interactions": [

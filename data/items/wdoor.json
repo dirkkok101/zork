@@ -23,6 +23,7 @@
     "visible"
   ],
   "properties": {
+    "readText": "The engravings translate to 'This space intentionally left blank'",
     "readable": true
   },
   "interactions": [

@@ -20,11 +20,11 @@
     ]
   },
   "tags": [
-    "flammable",
+    "readable",
     "visible",
     "container",
-    "readable",
-    "portable"
+    "portable",
+    "flammable"
   ],
   "properties": {
     "capacity": 2,

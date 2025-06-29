@@ -5,12 +5,12 @@
  * This test would have caught the original state persistence bug.
  */
 
-import { IntegrationTestEnvironment, IntegrationTestFactory } from '../look_command/helpers/integration_test_factory';
-import { OpenCommandHelper } from '../open_command/helpers/open_command_helper';
-import { ExamineCommandHelper } from '../examine_command/helpers/examine_command_helper';
-import { CloseCommandHelper } from '../close_command/helpers/close_command_helper';
-import { TakeCommandHelper } from '../take_command/helpers/take_command_helper';
-import { LookCommandHelper } from '../look_command/helpers/look_command_helper';
+import { IntegrationTestEnvironment, IntegrationTestFactory } from '@testing/scenes/west_of_house/integration_tests/look_command/helpers/integration_test_factory';
+import { OpenCommandHelper } from '@testing/scenes/west_of_house/integration_tests/open_command/helpers/open_command_helper';
+import { ExamineCommandHelper } from '@testing/scenes/west_of_house/integration_tests/examine_command/helpers/examine_command_helper';
+import { CloseCommandHelper } from '@testing/scenes/west_of_house/integration_tests/close_command/helpers/close_command_helper';
+import { TakeCommandHelper } from '@testing/scenes/west_of_house/integration_tests/take_command/helpers/take_command_helper';
+import { LookCommandHelper } from '@testing/scenes/west_of_house/integration_tests/look_command/helpers/look_command_helper';
 
 describe('Mailbox Complete Interaction - User Journey', () => {
   let testEnv: IntegrationTestEnvironment;

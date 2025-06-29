@@ -18,9 +18,9 @@
     "open": false
   },
   "tags": [
+    "container",
     "door",
-    "visible",
-    "container"
+    "visible"
   ],
   "properties": {
     "container": true

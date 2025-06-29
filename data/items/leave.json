@@ -15,8 +15,8 @@
   "size": "LARGE",
   "initialState": {},
   "tags": [
-    "flammable",
     "portable",
+    "flammable",
     "visible"
   ],
   "properties": {

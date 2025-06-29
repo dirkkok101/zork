@@ -142,7 +142,35 @@ export class ItemService implements IItemService {
       return "You don't see that here.";
     }
 
+    // Handle door-type items with state-dependent descriptions
+    if (item.tags && item.tags.includes('door')) {
+      return this.getDoorExamineText(itemId, item);
+    }
+
     return item.examineText || item.description || `It's ${item.name}.`;
+  }
+
+  /**
+   * Get state-dependent examine text for door-type items
+   */
+  private getDoorExamineText(itemId: string, item: any): string {
+    // Handle window specifically
+    if (itemId === 'windo') {
+      const isOpen = this.gameState.getFlag('door_windo_open');
+      if (isOpen) {
+        return "The window is open, providing access to the kitchen.";
+      } else {
+        return "The window is a closed door that could be opened.";
+      }
+    }
+
+    // Handle other door items - use base examine text or generic door description
+    if (item.examineText && item.examineText !== `It's ${item.name}.`) {
+      return item.examineText;
+    }
+
+    // Generic door description
+    return `The ${item.name} is a door.`;
   }
 
   readItem(itemId: string): string {
@@ -153,7 +181,7 @@ export class ItemService implements IItemService {
 
     // Check if item has readable content
     if (item.type === ItemType.READABLE || item.properties.readable) {
-      return item.properties.readableText || "There's nothing written on it.";
+      return item.properties.readText || item.properties.readableText || "There's nothing written on it.";
     }
 
     return "You can't read that.";

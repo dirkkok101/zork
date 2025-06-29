@@ -3,7 +3,7 @@
  * Tests examining various objects in the west_of_house scene
  */
 
-import { IntegrationTestEnvironment, IntegrationTestFactory } from '../look_command/helpers/integration_test_factory';
+import { IntegrationTestEnvironment, IntegrationTestFactory } from '@testing/scenes/west_of_house/integration_tests/look_command/helpers/integration_test_factory';
 import { ExamineCommandHelper } from './helpers/examine_command_helper';
 
 describe('Examine Command - West of House Scene', () => {

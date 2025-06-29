@@ -3,7 +3,7 @@
  * Tests closing various containers and doors in the west_of_house scene
  */
 
-import { IntegrationTestEnvironment, IntegrationTestFactory } from '../look_command/helpers/integration_test_factory';
+import { IntegrationTestEnvironment, IntegrationTestFactory } from '@testing/scenes/west_of_house/integration_tests/look_command/helpers/integration_test_factory';
 import { CloseCommandHelper } from './helpers/close_command_helper';
 
 describe('Close Command - West of House Scene', () => {

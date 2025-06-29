@@ -16,11 +16,11 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "tool",
-    "turnable",
     "no_description",
-    "portable"
+    "tool",
+    "visible",
+    "portable",
+    "turnable"
   ],
   "properties": {
     "turnable": true

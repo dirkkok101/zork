@@ -18,13 +18,14 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "flammable",
     "portable",
+    "flammable",
     "readable",
     "visible"
   ],
   "properties": {
     "size": 2,
+    "readText": "\t\t\tWELCOME TO ZORK\n\n    ZORK is a game of adventure, danger, and low cunning.  In it you\nwill explore some of the most amazing territory ever seen by mortal\nman.  Hardened adventurers have run screaming from the terrors\ncontained within!\n\n    In ZORK the intrepid explorer delves into the forgotten secrets\nof a lost labyrinth deep in the bowels of the earth, searching for\nvast treasures long hidden from prying eyes, treasures guarded by\nfearsome monsters and diabolical traps!\n\n    No PDP-10 should be without one!\n\n    ZORK was created at the MIT Laboratory for Computer Science, by\nTim Anderson, Marc Blank, Bruce Daniels, and Dave Lebling.  It was\ninspired by the ADVENTURE game of Crowther and Woods, and the long\ntradition of fantasy and science fiction adventure.  ZORK is written\nin MDL (alias MUDDLE).\n\n    On-line information may be available using the HELP and INFO\ncommands (most systems).\n\n    Direct inquiries, comments, etc. by Net mail to ZORK@MIT-DMS.\n\n    (c) Copyright 1978,1979 Massachusetts Institute of Technology.  \n\t\t       All rights reserved.\n",
     "readable": true
   },
   "interactions": [

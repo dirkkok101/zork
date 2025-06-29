@@ -120,10 +120,15 @@ class ItemExtractor:
                     if match:
                         obj_data['properties']['capacity'] = int(match.group(1))
                 elif 'OREAD' in line:
-                    # Extract readable text
-                    match = re.search(r'OREAD\s+"([^"]*)"', line)
-                    if match:
-                        obj_data['properties']['readText'] = match.group(1)
+                    # Extract readable text - handle both single line and multi-line blocks
+                    single_line_match = re.search(r'OREAD\s+"([^"]*)"', line)
+                    if single_line_match:
+                        obj_data['properties']['readText'] = single_line_match.group(1)
+                    else:
+                        # Look for multi-line OREAD block in the entire definition
+                        oread_match = re.search(r'OREAD\s*\n"(.*?)"', definition, re.DOTALL)
+                        if oread_match:
+                            obj_data['properties']['readText'] = oread_match.group(1)
                 elif 'OLINT' in line:
                     # Extract light timer info (simplified)
                     if 'CLOCK-INT' in line:

@@ -17,14 +17,15 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "flammable",
     "portable",
+    "flammable",
     "readable",
     "visible"
   ],
   "properties": {
     "size": 1,
     "treasurePoints": 1,
+    "readText": "\n---v----v----v----v----v---\n|\t  _______\t  |\n>  One\t /  \t \\\\     G  <\n| Lousy /   \t  \\\\    U  |\n> Point\t|   ___   |    E  <\n|\t|  (___)  |\t  |\n>\t<--)___(-->    P  <\n|\t/ /\t\\\\ \\\\    o  |\n>      / /\t \\\\ \\\\   s  <\n|     |-|---------|-|  t  |\n>     | |  \\\\ _ /  | |  a  <\n|     | | --(_)-- | |  g  |\n>     | |  /| |\\\\  | |  e  <\n|     |-|---|_|---|-|\t  |\n>      \\\\ \\\\__/_\\\\__/ /\t  <\n|\t_/_______\\\\_\t  |\n>      |  f.m.l.c. |\t  <\n|      -------------\t  |\n>\t\t\t  <\n|   Donald Woods, Editor  |\n>     Spelunker Today\t  <\n|\t\t\t  |\n---^----^----^----^----^---",
     "readable": true
   },
   "interactions": [

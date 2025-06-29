@@ -15,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "climbable",
     "no_description",
+    "climbable",
     "visible"
   ],
   "properties": {},
