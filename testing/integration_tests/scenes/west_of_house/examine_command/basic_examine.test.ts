@@ -126,13 +126,15 @@ describe('Examine Command - West of House Scene', () => {
         examineHelper.verifyNoMove(result);
       });
 
-      it('should show readable content if mat has text', () => {
+      it('should show only physical description, not readable text', () => {
         const result = examineHelper.executeExamineTarget('welcome mat');
         
         examineHelper.verifySuccess(result);
-        // The mat is marked as readable in the data
+        // EXAMINE shows physical description only, not readable text
         examineHelper.verifyContainsText(result, 'welcome mat');
         examineHelper.verifyNoMove(result);
+        // Verify this is physical description, not text content
+        expect(result.message).not.toContain('written');
       });
     });
 
@@ -198,6 +200,33 @@ describe('Examine Command - West of House Scene', () => {
         examineHelper.verifyContainsText(result, 'adventurer');
         examineHelper.verifyNoMove(result);
       });
+    });
+  });
+
+  describe('READ vs EXAMINE Distinction', () => {
+    it('should show physical description only, not readable text content', () => {
+      const result = examineHelper.executeExamineTarget('welcome mat');
+      
+      examineHelper.verifySuccess(result);
+      // EXAMINE shows physical description
+      examineHelper.verifyContainsText(result, 'welcome mat');
+      // EXAMINE should NOT show readable text content (use READ for that)
+      expect(result.message).not.toContain('written');
+      examineHelper.verifyNoMove(result);
+    });
+
+    it('should examine leaflet without showing its readable text', () => {
+      // Add leaflet to inventory first
+      examineHelper.addItemToInventory('adver');
+      
+      const result = examineHelper.executeExamineTarget('leaflet');
+      
+      examineHelper.verifySuccess(result);
+      // EXAMINE shows physical description
+      examineHelper.verifyContainsText(result, 'leaflet');
+      // Should NOT show the readable text content from read interaction
+      expect(result.message).not.toContain('ADVER');
+      examineHelper.verifyNoMove(result);
     });
   });
 

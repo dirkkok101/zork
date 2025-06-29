@@ -15,12 +15,12 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {
-    "isOpen": false
+    "open": false
   },
   "tags": [
+    "openable",
     "no_description",
-    "visible",
-    "openable"
+    "visible"
   ],
   "properties": {
     "capacity": 4,

@@ -3,5 +3,5 @@
  * Exports command-related interfaces
  */
 
-export { ICommand } from './ICommand';
-export { CommandResult } from '../../services/interfaces';
+export type { ICommand } from './ICommand';
+export type { CommandResult } from '../../services/interfaces';

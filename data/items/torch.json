@@ -14,15 +14,15 @@
   "weight": 20,
   "size": "MEDIUM",
   "initialState": {
-    "isLit": false,
-    "isOn": false
+    "lit": false,
+    "on": false
   },
   "tags": [
-    "switchable",
     "visible",
     "tool",
-    "light_source",
     "flame_source",
+    "light_source",
+    "switchable",
     "portable"
   ],
   "properties": {

@@ -124,7 +124,7 @@ export class CloseCommandHelper {
   verifyItemClosed(itemId: string): void {
     const item = this.gameState.getItem(itemId);
     expect(item).toBeDefined();
-    const isOpen = item?.state?.isOpen || (item as any)?.isOpen || false;
+    const isOpen = item?.state?.open || false;
     expect(isOpen).toBe(false);
   }
 

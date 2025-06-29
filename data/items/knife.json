@@ -16,13 +16,13 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {
-    "isOn": false
+    "on": false
   },
   "tags": [
+    "portable",
     "switchable",
     "weapon",
-    "visible",
-    "portable"
+    "visible"
   ],
   "properties": {
     "weapon": true,

@@ -154,7 +154,7 @@ export class PutCommandHelper {
   isContainerOpen(containerId: string): boolean {
     const container = this.gameState.getItem(containerId);
     if (!container) return false;
-    return container.state?.isOpen || (container as any).isOpen || false;
+    return container.state?.open || false;
   }
 
   /**

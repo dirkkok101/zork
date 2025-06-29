@@ -91,7 +91,7 @@ export class OpenCommandHelper {
   verifyItemOpened(itemId: string): void {
     const item = this.gameState.getItem(itemId);
     expect(item).toBeDefined();
-    const isOpen = item?.state?.isOpen ?? (item as any)?.isOpen ?? false;
+    const isOpen = item?.state?.open || false;
     expect(isOpen).toBe(true);
   }
 
@@ -101,7 +101,7 @@ export class OpenCommandHelper {
   verifyItemClosed(itemId: string): void {
     const item = this.gameState.getItem(itemId);
     expect(item).toBeDefined();
-    const isOpen = item?.state?.isOpen ?? (item as any)?.isOpen ?? false;
+    const isOpen = item?.state?.open || false;
     expect(isOpen).toBe(false);
   }
 

@@ -213,7 +213,7 @@ export class ItemService implements IItemService {
     }
 
     // Check if item is already open
-    const isAlreadyOpen = item.state?.isOpen || (item as any).isOpen;
+    const isAlreadyOpen = item.state?.open || false;
     if (isAlreadyOpen) {
       return {
         success: false,
@@ -243,7 +243,7 @@ export class ItemService implements IItemService {
 
     // Update item state to open - store in state object
     this.gameState.updateItemState(itemId, { 
-      state: { ...item.state, isOpen: true } 
+      state: { ...item.state, open: true } 
     });
     
     const keyMessage = keyId ? ` with the ${this.gameState.getItem(keyId)?.name}` : '';
@@ -273,7 +273,7 @@ export class ItemService implements IItemService {
     }
 
     // Check if item is already closed
-    const isAlreadyClosed = !(item.state?.isOpen || (item as any).isOpen);
+    const isAlreadyClosed = !(item.state?.open || false);
     if (isAlreadyClosed) {
       return {
         success: false,
@@ -284,7 +284,7 @@ export class ItemService implements IItemService {
 
     // Update item state to closed
     this.gameState.updateItemState(itemId, { 
-      state: { ...item.state, isOpen: false } 
+      state: { ...item.state, open: false } 
     });
     
     return {
@@ -307,7 +307,9 @@ export class ItemService implements IItemService {
     const container = this.gameState.getItem(containerId) as ContainerItem;
     const item = this.gameState.getItem(itemId);
     
+    
     if (!container || !item) {
+      this.logger.debug(`Missing objects - container: ${!!container}, item: ${!!item}`);
       return {
         success: false,
         message: "Something went wrong.",
@@ -316,6 +318,7 @@ export class ItemService implements IItemService {
     }
 
     if (!this.isContainer(containerId)) {
+      this.logger.debug(`${containerId} is not a container`);
       return {
         success: false,
         message: `The ${container.name} is not a container.`,
@@ -324,6 +327,7 @@ export class ItemService implements IItemService {
     }
 
     if (this.isLocked(containerId)) {
+      this.logger.debug(`${containerId} is locked`);
       return {
         success: false,
         message: `The ${container.name} is locked.`,
@@ -331,8 +335,10 @@ export class ItemService implements IItemService {
       };
     }
 
-    const isOpen = container.state?.isOpen || container.isOpen;
-    if (!isOpen && this.canOpen(containerId)) {
+    // Critical: Check if container is closed FIRST
+    const isOpen = container.state?.open || false;
+    if (!isOpen) {
+      // Container is closed - this should fail regardless of other checks
       return {
         success: false,
         message: `The ${container.name} is closed.`,
@@ -655,5 +661,63 @@ export class ItemService implements IItemService {
     }
     
     return totalSize;
+  }
+
+  // Container Search and State Methods
+
+  /**
+   * Check if a container is currently open
+   * @param containerId ID of the container to check
+   * @returns Whether the container is open
+   */
+  isContainerOpen(containerId: string): boolean {
+    const container = this.gameState.getItem(containerId);
+    if (!container || !this.isContainer(containerId)) {
+      return false;
+    }
+    return container.state?.open || false;
+  }
+
+  /**
+   * Find an item by name in open containers
+   * @param itemName Name or alias of the item to find
+   * @param containerIds Array of container IDs to search in
+   * @returns Item ID if found, null otherwise
+   */
+  findItemInOpenContainers(itemName: string, containerIds: string[]): string | null {
+    const lowerName = itemName.toLowerCase();
+    
+    for (const containerId of containerIds) {
+      if (this.isContainer(containerId) && this.isContainerOpen(containerId)) {
+        const contents = this.getContainerContents(containerId);
+        for (const contentId of contents) {
+          const item = this.gameState.getItem(contentId);
+          if (item && this.itemMatches(item, lowerName)) {
+            return contentId;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Check if an item matches a name or alias
+   * @param item Item to check
+   * @param name Name to match against (should be lowercase)
+   * @returns Whether the item matches
+   */
+  itemMatches(item: any, name: string): boolean {
+    const itemName = item.name.toLowerCase();
+    if (itemName === name) {
+      return true;
+    }
+    
+    // Check aliases if they exist
+    if (item.aliases && Array.isArray(item.aliases)) {
+      return item.aliases.some((alias: string) => alias.toLowerCase() === name);
+    }
+    
+    return false;
   }
 }

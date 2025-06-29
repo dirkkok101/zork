@@ -16,16 +16,16 @@
   "weight": 20,
   "size": "MEDIUM",
   "initialState": {
-    "isOpen": false,
+    "open": false,
     "contents": [
       "label"
     ]
   },
   "tags": [
     "flammable",
+    "vehicle",
     "visible",
     "openable",
-    "vehicle",
     "portable"
   ],
   "properties": {

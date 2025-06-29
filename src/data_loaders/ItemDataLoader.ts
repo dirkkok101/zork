@@ -149,7 +149,7 @@ export class ItemDataLoader implements IItemDataLoader {
      * Convert ItemData (raw JSON) to Item (typed interface)
      */
     private convertItemDataToItem(itemData: ItemData): Item {
-        return {
+        const item = {
             id: itemData.id,
             name: itemData.name,
             aliases: itemData.aliases,
@@ -167,6 +167,13 @@ export class ItemDataLoader implements IItemDataLoader {
             state: { ...itemData.initialState },
             flags: {}
         };
+
+        // For container items, initialize contents from initialState
+        if (itemData.type === 'CONTAINER' && itemData.initialState?.contents) {
+            (item as any).contents = [...itemData.initialState.contents];
+        }
+
+        return item;
     }
 
     /**

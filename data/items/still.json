@@ -13,7 +13,7 @@
   "weight": 10,
   "size": "SMALL",
   "initialState": {
-    "isOn": false
+    "on": false
   },
   "tags": [
     "switchable",

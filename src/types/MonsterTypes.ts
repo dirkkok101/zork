@@ -25,7 +25,7 @@ export type MovementPattern = 'stationary' | 'random' | 'patrol' | 'follow' | 'f
  * Re-export Monster interface from Monster.ts
  * This maintains the pure data structure without embedded methods
  */
-export { Monster } from './Monster';
+export type { Monster } from './Monster';
 
 /**
  * Monster type enumeration

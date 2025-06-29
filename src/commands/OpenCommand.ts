@@ -8,7 +8,7 @@ import {
   ICombatService,
   IPersistenceService,
   IOutputService
-} from '@/services/interfaces';
+} from '../services/interfaces';
 import log from 'loglevel';
 
 /**
@@ -147,7 +147,7 @@ export class OpenCommand extends BaseCommand {
     const inventoryItems = this.inventory.getItems();
     for (const itemId of inventoryItems) {
       const item = this.gameState.getItem(itemId);
-      if (item && this.itemMatches(item, keyName.toLowerCase())) {
+      if (item && this.items.itemMatches(item, keyName.toLowerCase())) {
         return itemId;
       }
     }

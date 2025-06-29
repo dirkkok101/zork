@@ -8,7 +8,7 @@ import {
   ICombatService,
   IPersistenceService,
   IOutputService
-} from '@/services/interfaces';
+} from '../services/interfaces';
 import log from 'loglevel';
 
 /**
@@ -36,13 +36,13 @@ export class MoveCommand extends BaseCommand {
     logger?: log.Logger
   ) {
     super(
-      'go',
+      'move',
       [
-        'move', 'walk', 'travel', 'head',
+        'go', 'walk', 'travel', 'head',
         'north', 'n', 'south', 's', 'east', 'e', 'west', 'w',
         'up', 'u', 'down', 'd', 'enter', 'exit', 'in', 'out'
       ],
-      'go <direction>',
+      'move <direction>',
       'Move in the specified direction or to another location.',
       gameState,
       scene,

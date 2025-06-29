@@ -15,14 +15,14 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {
-    "isOpen": false,
+    "open": false,
     "contents": [
       "water"
     ]
   },
   "tags": [
-    "visible",
     "portable",
+    "visible",
     "container"
   ],
   "properties": {

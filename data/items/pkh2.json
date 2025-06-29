@@ -14,15 +14,15 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {
-    "isOpen": false,
+    "open": false,
     "contents": [
       "pkey"
     ]
   },
   "tags": [
+    "openable",
     "no_description",
-    "visible",
-    "openable"
+    "visible"
   ],
   "properties": {
     "capacity": 12,

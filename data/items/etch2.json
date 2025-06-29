@@ -17,8 +17,8 @@
   "initialState": {},
   "tags": [
     "no_description",
-    "visible",
-    "readable"
+    "readable",
+    "visible"
   ],
   "properties": {
     "readable": true

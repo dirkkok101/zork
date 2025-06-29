@@ -286,7 +286,7 @@ class ItemExtractor:
         
         # For containers, set initial state
         if 'CONTAINER' in obj['flags'] or 'OPENABLE' in obj['flags']:
-            initial_state['isOpen'] = False  # Containers start closed
+            initial_state['open'] = False  # Containers start closed
             
             # Add initial contents if any
             if 'initial_contents' in obj:
@@ -294,11 +294,11 @@ class ItemExtractor:
         
         # For light sources, set initial lit state
         if 'LIGHT_SOURCE' in obj['flags']:
-            initial_state['isLit'] = False  # Light sources start off
+            initial_state['lit'] = False  # Light sources start off
         
         # For switchable items
         if 'SWITCHABLE' in obj['flags']:
-            initial_state['isOn'] = False
+            initial_state['on'] = False
             
         return initial_state
 

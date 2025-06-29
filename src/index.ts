@@ -56,7 +56,7 @@ async function initializeGame(loggingService: LoggingService) {
     CommandInitializer.validateCommands(commandService, loggingService);
     
     // Phase 4: Initialize UI (web or console)
-    const uiResult = UIInitializer.initialize(gameData, commandService, loggingService);
+    const uiResult = UIInitializer.initialize(gameData, commandService, services, loggingService);
     UIInitializer.validateUI(uiResult, loggingService);
     
     logger.info('✅ Game initialization complete!');

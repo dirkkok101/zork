@@ -17,10 +17,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "door",
     "no_description",
-    "visible",
-    "readable"
+    "door",
+    "readable",
+    "visible"
   ],
   "properties": {
     "readable": true

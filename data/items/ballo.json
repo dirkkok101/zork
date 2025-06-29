@@ -14,11 +14,11 @@
   "weight": 70,
   "size": "HUGE",
   "initialState": {
-    "isOpen": false
+    "open": false
   },
   "tags": [
-    "visible",
     "openable",
+    "visible",
     "vehicle"
   ],
   "properties": {

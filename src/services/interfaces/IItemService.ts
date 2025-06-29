@@ -92,4 +92,14 @@ export interface IItemService {
   
   /** Unlock an item with a key */
   unlockItem(itemId: string, keyId: string): ItemResult;
+
+  // Container search and state methods
+  /** Check if a container is currently open */
+  isContainerOpen(containerId: string): boolean;
+
+  /** Find an item by name in open containers */
+  findItemInOpenContainers(itemName: string, containerIds: string[]): string | null;
+
+  /** Check if an item matches a name or alias */
+  itemMatches(item: any, name: string): boolean;
 }

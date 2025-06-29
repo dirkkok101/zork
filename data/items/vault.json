@@ -17,8 +17,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "readable"
+    "readable",
+    "visible"
   ],
   "properties": {
     "readable": true

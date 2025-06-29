@@ -115,7 +115,7 @@ export class TakeCommandHelper {
     for (const sceneItemId of sceneItems) {
       const container = this.gameState.getItem(sceneItemId);
       if (container && this.items.isContainer(sceneItemId)) {
-        const isOpen = container.state?.isOpen || (container as any).isOpen || false;
+        const isOpen = container.state?.open || false;
         if (isOpen && this.isInContainer(itemId, sceneItemId)) {
           return true;
         }

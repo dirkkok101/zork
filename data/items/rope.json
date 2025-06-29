@@ -16,10 +16,10 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
+    "portable",
     "tieable",
-    "visible",
     "treasure",
-    "portable"
+    "visible"
   ],
   "properties": {
     "size": 10

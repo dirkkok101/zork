@@ -46,7 +46,8 @@ export class GameInitializer {
       
       // Use environment-appropriate paths
       // Force data/ path for tests and Node.js environment
-      const isTest = process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID !== undefined;
+      const isTest = (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') || 
+                     (typeof process !== 'undefined' && process.env?.JEST_WORKER_ID !== undefined);
       const isBrowser = typeof window !== 'undefined';
       
       // Ensure tests ALWAYS use data/ regardless of environment detection

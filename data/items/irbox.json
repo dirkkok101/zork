@@ -15,7 +15,7 @@
   "weight": 40,
   "size": "LARGE",
   "initialState": {
-    "isOpen": false,
+    "open": false,
     "contents": [
       "strad"
     ]

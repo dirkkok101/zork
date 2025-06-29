@@ -14,7 +14,7 @@
   "weight": 10,
   "size": "SMALL",
   "initialState": {
-    "isOpen": false
+    "open": false
   },
   "tags": [
     "flammable",

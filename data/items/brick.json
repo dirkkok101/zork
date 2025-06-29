@@ -15,12 +15,12 @@
   "weight": 9,
   "size": "SMALL",
   "initialState": {
-    "isOpen": false
+    "open": false
   },
   "tags": [
     "flammable",
-    "visible",
     "searchable",
+    "visible",
     "openable",
     "portable"
   ],

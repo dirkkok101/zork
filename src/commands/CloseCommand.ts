@@ -8,7 +8,7 @@ import {
   ICombatService,
   IPersistenceService,
   IOutputService
-} from '@/services/interfaces';
+} from '../services/interfaces';
 import log from 'loglevel';
 
 /**

@@ -5,14 +5,14 @@
  */
 
 // Core lean service interfaces
-export { IGameStateService } from './IGameStateService';
-export { ISceneService } from './ISceneService';
-export { IInventoryService } from './IInventoryService';
-export { IItemService, ItemResult } from './IItemService';
-export { ICombatService, CombatResult, InteractionResult } from './ICombatService';
-export { IPersistenceService } from './IPersistenceService';
-export { IOutputService } from './IOutputService';
-export { ICommandService } from './ICommandService';
+export type { IGameStateService } from './IGameStateService';
+export type { ISceneService } from './ISceneService';
+export type { IInventoryService } from './IInventoryService';
+export type { IItemService, ItemResult } from './IItemService';
+export type { ICombatService, CombatResult, InteractionResult } from './ICombatService';
+export type { IPersistenceService } from './IPersistenceService';
+export type { IOutputService } from './IOutputService';
+export type { ICommandService } from './ICommandService';
 
 // Re-export core types needed by commands
 export type {

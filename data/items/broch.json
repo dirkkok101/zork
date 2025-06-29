@@ -13,7 +13,7 @@
   "weight": 30,
   "size": "LARGE",
   "initialState": {
-    "isOpen": false,
+    "open": false,
     "contents": [
       "dstmp"
     ]
@@ -21,9 +21,9 @@
   "tags": [
     "flammable",
     "visible",
-    "openable",
     "container",
     "readable",
+    "openable",
     "portable"
   ],
   "properties": {

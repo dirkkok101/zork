@@ -203,10 +203,10 @@ describe('Read Command - West of House Scene', () => {
   });
 
   describe('Command Properties', () => {
-    it('should not count as a move', () => {
+    it('should not count as a move even when failing', () => {
       const result = readHelper.executeReadItem('mat');
       
-      readHelper.verifySuccess(result);
+      readHelper.verifyFailure(result);
       readHelper.verifyNoMove(result);
     });
 

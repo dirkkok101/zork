@@ -8,7 +8,7 @@ import {
   ICombatService,
   IPersistenceService,
   IOutputService
-} from '@/services/interfaces';
+} from '../services/interfaces';
 import log from 'loglevel';
 
 /**
@@ -114,10 +114,9 @@ export class PutCommand extends BaseCommand {
   /**
    * Handle placement with target object
    * 
-   * Architecture: This method follows the service separation pattern:
-   * - ItemService: Validates placement rules and generates messages
-   * - InventoryService: Manages inventory operations with rollback safety
-   * - SceneService: Handles spatial item placement in current scene
+   * Architecture: This method delegates to ItemService for all placement logic
+   * - ItemService: Handles all placement rules, validation, and execution
+   * - InventoryService: Manages inventory operations with automatic transaction safety
    */
   private handlePutWithTarget(itemName: string, preposition: string, targetName: string): CommandResult {
     // 1. Find and validate item in inventory
@@ -137,60 +136,33 @@ export class PutCommand extends BaseCommand {
       return this.failure(`You don't see ${this.getArticle(targetName)} ${targetName} here.`);
     }
 
-    // 3. Validate placement rules using ItemService (without actual placement)
+    // 3. Let ItemService handle the entire placement operation
     const putResult = this.items.putItem(itemId, targetId, preposition);
     if (!putResult.success) {
       return this.failure(putResult.message);
     }
 
-    // 4. Execute placement transaction with rollback safety
-    return this.executeItemPlacement(itemId, targetId, preposition, putResult.message);
+    // 4. If ItemService succeeded, handle inventory/scene management
+    return this.executeItemMovement(itemId, targetId, preposition, putResult.message);
   }
 
   /**
-   * Execute the actual item placement with transaction safety
+   * Execute the inventory and scene management after ItemService validates placement
    */
-  private executeItemPlacement(itemId: string, targetId: string, preposition: string, successMessage: string): CommandResult {
-    // Remove from inventory first (with rollback capability)
+  private executeItemMovement(itemId: string, targetId: string, preposition: string, successMessage: string): CommandResult {
+    // Remove from inventory - ItemService already validated the operation
     const removeSuccess = this.inventory.removeItem(itemId);
     if (!removeSuccess) {
       return this.failure(`You can't move that item right now.`);
     }
 
-    // Attempt placement using appropriate service
-    const placementSuccess = this.placeItemAtTarget(itemId, targetId, preposition);
-    if (!placementSuccess) {
-      // Rollback: restore item to inventory
-      this.inventory.addItem(itemId);
-      return this.failure(`You can't put that there right now.`);
+    // For container placement, the item is already in the container (ItemService handled it)
+    // For spatial placement (on/under), add to scene
+    if (preposition !== 'in' || !this.items.isContainer(targetId)) {
+      const currentSceneId = this.gameState.getCurrentScene();
+      this.scene.addItemToScene(currentSceneId, itemId);
     }
     
     return this.success(successMessage, true, 0);
-  }
-
-
-  /**
-   * Place item at target location using appropriate service
-   * 
-   * Service Responsibilities:
-   * - ItemService.addToContainer(): Handle container placement (in containers only)
-   * - SceneService.addItemToScene(): Handle spatial placement (on/under objects in scene)
-   */
-  private placeItemAtTarget(itemId: string, targetId: string, preposition: string): boolean {
-    try {
-      // Container placement: Only "in" goes into containers
-      if (preposition === 'in' && this.items.isContainer(targetId)) {
-        return this.items.addToContainer(targetId, itemId).success;
-      }
-      
-      // Spatial placement: All other operations (on, under) are spatial
-      // This covers "on mailbox", "under mat", "on table", etc.
-      const currentSceneId = this.gameState.getCurrentScene();
-      this.scene.addItemToScene(currentSceneId, itemId);
-      return true;
-    } catch (error) {
-      this.logger.error('Failed to place item at target:', error);
-      return false;
-    }
   }
 }

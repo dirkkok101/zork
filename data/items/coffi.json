@@ -14,12 +14,12 @@
   "weight": 55,
   "size": "HUGE",
   "initialState": {
-    "isOpen": false
+    "open": false
   },
   "tags": [
-    "visible",
-    "treasure",
     "portable",
+    "treasure",
+    "visible",
     "container"
   ],
   "properties": {

@@ -17,8 +17,8 @@
   "initialState": {},
   "tags": [
     "diggable",
-    "visible",
-    "portable"
+    "portable",
+    "visible"
   ],
   "properties": {
     "size": 20

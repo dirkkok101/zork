@@ -8,7 +8,7 @@ import {
   ICombatService,
   IPersistenceService,
   IOutputService
-} from '@/services/interfaces';
+} from '../services/interfaces';
 import log from 'loglevel';
 
 /**
@@ -153,7 +153,7 @@ export class TakeCommand extends BaseCommand {
     for (const sceneItemId of sceneItems) {
       if (this.items.isContainer(sceneItemId)) {
         const container = this.gameState.getItem(sceneItemId);
-        const isOpen = container?.state?.isOpen || (container as any)?.isOpen || false;
+        const isOpen = container?.state?.open || false;
         
         if (isOpen && this.items.getContainerContents(sceneItemId).includes(itemId)) {
           return { containerId: sceneItemId };

@@ -16,8 +16,8 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "visible",
-    "portable"
+    "portable",
+    "visible"
   ],
   "properties": {
     "size": 10,

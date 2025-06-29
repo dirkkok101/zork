@@ -13,14 +13,14 @@
   "weight": 10,
   "size": "SMALL",
   "initialState": {
-    "isOpen": false,
+    "open": false,
     "contents": [
       "emera"
     ]
   },
   "tags": [
-    "visible",
     "portable",
+    "visible",
     "container"
   ],
   "properties": {

@@ -15,12 +15,12 @@
   "weight": 15,
   "size": "MEDIUM",
   "initialState": {
-    "isLit": false
+    "lit": false
   },
   "tags": [
-    "visible",
+    "light_source",
     "portable",
-    "light_source"
+    "visible"
   ],
   "properties": {
     "size": 15,

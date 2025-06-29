@@ -8,6 +8,7 @@
 import { LoggingService, CommandService } from '../services';
 import { GameInterface } from '../ui/GameInterface';
 import { GameData } from '../initializers/GameInitializer';
+import { Services } from '../initializers/ServiceInitializer';
 
 /**
  * UI initialization result
@@ -27,12 +28,14 @@ export class UIInitializer {
    * Initialize the appropriate UI for the detected environment
    * @param gameData Loaded game data
    * @param commandService Configured command service
+   * @param services All game services
    * @param loggingService Logging service for creating loggers
    * @returns UI initialization result
    */
   static initialize(
     gameData: GameData,
     commandService: CommandService,
+    services: Services,
     loggingService: LoggingService
   ): UIResult {
     const logger = loggingService.getLogger('UIInitializer');
@@ -44,7 +47,7 @@ export class UIInitializer {
       logger.debug(`Environment detected: ${environment}`);
       
       if (environment === 'web') {
-        return this.initializeWebInterface(gameData, commandService, loggingService);
+        return this.initializeWebInterface(gameData, commandService, services, loggingService);
       } else {
         return this.initializeConsoleInterface(gameData, commandService, loggingService);
       }
@@ -67,24 +70,28 @@ export class UIInitializer {
    * Initialize web browser interface
    * @param gameData Game data
    * @param commandService Command service
+   * @param services All game services
    * @param loggingService Logging service
    * @returns Web UI result
    */
   private static initializeWebInterface(
     _gameData: GameData,
     commandService: CommandService,
+    services: Services,
     loggingService: LoggingService
   ): UIResult {
     const logger = loggingService.getLogger('UIInitializer');
     
     logger.info('🌐 Initializing web interface...');
     
-    // Create and initialize GameInterface
+    // Create and initialize GameInterface with all services
     const gameInterface = new GameInterface(loggingService.getLogger('GameInterface'));
-    gameInterface.initialize(commandService);
-    
-    // Display welcome messages
-    this.displayWebWelcomeMessages(gameInterface);
+    gameInterface.initialize(
+      commandService,
+      services.gameState,
+      services.scene,
+      services.inventory
+    );
     
     logger.info('✅ Web interface initialized successfully');
     
@@ -123,24 +130,6 @@ export class UIInitializer {
     };
   }
   
-  /**
-   * Display welcome messages in web interface
-   * @param gameInterface Web game interface
-   */
-  private static displayWebWelcomeMessages(gameInterface: GameInterface): void {
-    // Display authentic Zork welcome
-    gameInterface.displayMessage('ZORK I: The Great Underground Empire', 'title');
-    gameInterface.displayMessage('Copyright (c) 1981, 1982, 1983 Infocom, Inc. All rights reserved.', 'subtitle');
-    gameInterface.displayMessage('ZORK is a registered trademark of Infocom, Inc.');
-    gameInterface.displayMessage('Revision 88 / Serial number 840726');
-    gameInterface.displayMessage('');
-    
-    // Display starting location
-    gameInterface.displayMessage('West of House');
-    gameInterface.displayMessage('You are standing in an open field west of a white house, with a boarded front door.');
-    gameInterface.displayMessage('There is a small mailbox here.');
-    gameInterface.displayMessage('');
-  }
   
   /**
    * Display summary information in console

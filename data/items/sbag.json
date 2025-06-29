@@ -16,12 +16,12 @@
   "weight": 3,
   "size": "TINY",
   "initialState": {
-    "isOpen": false
+    "open": false
   },
   "tags": [
     "flammable",
-    "visible",
     "portable",
+    "visible",
     "container"
   ],
   "properties": {

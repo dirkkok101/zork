@@ -17,10 +17,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "food",
-    "visible",
+    "portable",
     "readable",
-    "portable"
+    "visible",
+    "food"
   ],
   "properties": {
     "size": 4,

@@ -13,13 +13,13 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {
-    "isOn": false
+    "on": false
   },
   "tags": [
-    "switchable",
     "no_description",
-    "visible",
-    "flame_source"
+    "switchable",
+    "flame_source",
+    "visible"
   ],
   "properties": {
     "switchable": true

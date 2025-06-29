@@ -14,14 +14,14 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {
-    "isOpen": false,
+    "open": false,
     "contents": [
       "gcana"
     ]
   },
   "tags": [
-    "visible",
     "portable",
+    "visible",
     "container"
   ],
   "properties": {

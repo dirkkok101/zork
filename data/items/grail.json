@@ -13,11 +13,11 @@
   "weight": 10,
   "size": "SMALL",
   "initialState": {
-    "isOpen": false
+    "open": false
   },
   "tags": [
-    "visible",
     "portable",
+    "visible",
     "container"
   ],
   "properties": {

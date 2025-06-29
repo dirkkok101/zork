@@ -13,11 +13,11 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {
-    "isOpen": false
+    "open": false
   },
   "tags": [
-    "visible",
     "searchable",
+    "visible",
     "container"
   ],
   "properties": {

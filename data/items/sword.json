@@ -16,13 +16,13 @@
   "weight": 30,
   "size": "LARGE",
   "initialState": {
-    "isOn": false
+    "on": false
   },
   "tags": [
+    "portable",
     "switchable",
     "weapon",
-    "visible",
-    "portable"
+    "visible"
   ],
   "properties": {
     "size": 30,

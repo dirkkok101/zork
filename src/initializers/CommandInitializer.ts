@@ -6,7 +6,18 @@
  */
 
 import { LoggingService, CommandService } from '../services';
-import { LookCommand, ExamineCommand } from '../commands';
+import { 
+  LookCommand, 
+  ExamineCommand, 
+  MoveCommand, 
+  TakeCommand, 
+  DropCommand, 
+  InventoryCommand, 
+  OpenCommand, 
+  CloseCommand, 
+  PutCommand, 
+  ReadCommand 
+} from '../commands';
 import { Services } from './ServiceInitializer';
 
 /**
@@ -61,31 +72,109 @@ export class CommandInitializer {
     
     logger.debug('Creating command instances...');
     
-    // Create LookCommand
-    const lookCommand = new LookCommand(
-      services.gameState,
-      services.scene,
-      services.inventory,
-      services.items,
-      services.combat,
-      services.persistence,
-      services.output,
-      loggingService.getLogger('LookCommand')
-    );
-    
-    // Create ExamineCommand  
-    const examineCommand = new ExamineCommand(
-      services.gameState,
-      services.scene,
-      services.inventory,
-      services.items,
-      services.combat,
-      services.persistence,
-      services.output,
-      loggingService.getLogger('ExamineCommand')
-    );
-    
-    const commands = [lookCommand, examineCommand];
+    // Create all available commands with service injection
+    const commands = [
+      new LookCommand(
+        services.gameState,
+        services.scene,
+        services.inventory,
+        services.items,
+        services.combat,
+        services.persistence,
+        services.output,
+        loggingService.getLogger('LookCommand')
+      ),
+      new ExamineCommand(
+        services.gameState,
+        services.scene,
+        services.inventory,
+        services.items,
+        services.combat,
+        services.persistence,
+        services.output,
+        loggingService.getLogger('ExamineCommand')
+      ),
+      new MoveCommand(
+        services.gameState,
+        services.scene,
+        services.inventory,
+        services.items,
+        services.combat,
+        services.persistence,
+        services.output,
+        loggingService.getLogger('MoveCommand')
+      ),
+      new TakeCommand(
+        services.gameState,
+        services.scene,
+        services.inventory,
+        services.items,
+        services.combat,
+        services.persistence,
+        services.output,
+        loggingService.getLogger('TakeCommand')
+      ),
+      new DropCommand(
+        services.gameState,
+        services.scene,
+        services.inventory,
+        services.items,
+        services.combat,
+        services.persistence,
+        services.output,
+        loggingService.getLogger('DropCommand')
+      ),
+      new InventoryCommand(
+        services.gameState,
+        services.scene,
+        services.inventory,
+        services.items,
+        services.combat,
+        services.persistence,
+        services.output,
+        loggingService.getLogger('InventoryCommand')
+      ),
+      new OpenCommand(
+        services.gameState,
+        services.scene,
+        services.inventory,
+        services.items,
+        services.combat,
+        services.persistence,
+        services.output,
+        loggingService.getLogger('OpenCommand')
+      ),
+      new CloseCommand(
+        services.gameState,
+        services.scene,
+        services.inventory,
+        services.items,
+        services.combat,
+        services.persistence,
+        services.output,
+        loggingService.getLogger('CloseCommand')
+      ),
+      new PutCommand(
+        services.gameState,
+        services.scene,
+        services.inventory,
+        services.items,
+        services.combat,
+        services.persistence,
+        services.output,
+        loggingService.getLogger('PutCommand')
+      ),
+      new ReadCommand(
+        services.gameState,
+        services.scene,
+        services.inventory,
+        services.items,
+        services.combat,
+        services.persistence,
+        services.output,
+        loggingService.getLogger('ReadCommand')
+      )
+    ];
     
     logger.debug(`Created ${commands.length} command instances`);
     return commands;
@@ -120,7 +209,7 @@ export class CommandInitializer {
   static validateCommands(commandService: CommandService, loggingService?: LoggingService): void {
     const logger = loggingService?.getLogger('CommandInitializer');
     
-    const essentialCommands = ['look', 'examine'];
+    const essentialCommands = ['look', 'examine', 'move', 'take', 'inventory'];
     const registeredCommands = commandService.getAllCommands();
     const registeredNames = registeredCommands.map(cmd => cmd.name);
     

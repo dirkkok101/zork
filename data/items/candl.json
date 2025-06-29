@@ -13,14 +13,14 @@
   "weight": 10,
   "size": "SMALL",
   "initialState": {
-    "isLit": false,
-    "isOn": false
+    "lit": false,
+    "on": false
   },
   "tags": [
-    "switchable",
     "visible",
     "flame_source",
     "light_source",
+    "switchable",
     "portable"
   ],
   "properties": {

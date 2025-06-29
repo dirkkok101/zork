@@ -195,4 +195,28 @@ export class ExamineCommandHelper {
       this.verifyContainsText(result, expectedReadableText);
     }
   }
+
+  /**
+   * Add an item to inventory for testing
+   */
+  addItemToInventory(itemId: string): boolean {
+    return this.inventory.addItem(itemId);
+  }
+
+  /**
+   * Remove an item from inventory for testing
+   */
+  removeItemFromInventory(itemId: string): boolean {
+    return this.inventory.removeItem(itemId);
+  }
+
+  /**
+   * Clear entire inventory for clean test state
+   */
+  clearInventory(): void {
+    const items = this.inventory.getItems();
+    items.forEach(itemId => {
+      this.inventory.removeItem(itemId);
+    });
+  }
 }

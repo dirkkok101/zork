@@ -8,7 +8,7 @@ import {
   ICombatService,
   IPersistenceService,
   IOutputService
-} from '@/services/interfaces';
+} from '../services/interfaces';
 import log from 'loglevel';
 
 /**
@@ -378,7 +378,7 @@ export abstract class BaseCommand implements ICommand {
     // Check inventory first
     for (const itemId of this.inventory.getItems()) {
       const item = this.gameState.getItem(itemId);
-      if (item && this.itemMatches(item, lowerName)) {
+      if (item && this.items.itemMatches(item, lowerName)) {
         return item;
       }
     }
@@ -387,7 +387,7 @@ export abstract class BaseCommand implements ICommand {
     const sceneItems = this.scene.getSceneItems(currentSceneId);
     for (const itemId of sceneItems) {
       const item = this.gameState.getItem(itemId);
-      if (item && this.itemMatches(item, lowerName)) {
+      if (item && this.items.itemMatches(item, lowerName)) {
         return item;
       }
     }
@@ -397,12 +397,12 @@ export abstract class BaseCommand implements ICommand {
       const container = this.gameState.getItem(itemId);
       if (container && this.items.isContainer(itemId)) {
         // Check if container is open
-        const isOpen = container.state?.isOpen || (container as any).isOpen || false;
+        const isOpen = container.state?.open || false;
         if (isOpen) {
           const contents = this.items.getContainerContents(itemId);
           for (const contentItemId of contents) {
             const contentItem = this.gameState.getItem(contentItemId);
-            if (contentItem && this.itemMatches(contentItem, lowerName)) {
+            if (contentItem && this.items.itemMatches(contentItem, lowerName)) {
               return contentItem;
             }
           }
@@ -426,33 +426,21 @@ export abstract class BaseCommand implements ICommand {
     const sceneItems = this.scene.getSceneItems(currentSceneId);
     for (const itemId of sceneItems) {
       const item = this.gameState.getItem(itemId);
-      if (item && this.itemMatches(item, lowerName)) {
+      if (item && this.items.itemMatches(item, lowerName)) {
         return itemId;
       }
     }
     
-    // Check inside open containers in the scene
-    for (const itemId of sceneItems) {
-      const container = this.gameState.getItem(itemId);
-      if (container && this.items.isContainer(itemId)) {
-        // Check if container is open
-        const isOpen = container.state?.isOpen || (container as any).isOpen || false;
-        if (isOpen) {
-          const contents = this.items.getContainerContents(itemId);
-          for (const contentItemId of contents) {
-            const contentItem = this.gameState.getItem(contentItemId);
-            if (contentItem && this.itemMatches(contentItem, lowerName)) {
-              return contentItemId;
-            }
-          }
-        }
-      }
+    // Check inside open containers in the scene using ItemService
+    const containerSearchResult = this.items.findItemInOpenContainers(name, sceneItems);
+    if (containerSearchResult) {
+      return containerSearchResult;
     }
     
     // Check inventory
     for (const itemId of this.inventory.getItems()) {
       const item = this.gameState.getItem(itemId);
-      if (item && this.itemMatches(item, lowerName)) {
+      if (item && this.items.itemMatches(item, lowerName)) {
         return itemId;
       }
     }
@@ -460,16 +448,6 @@ export abstract class BaseCommand implements ICommand {
     return null;
   }
 
-  /**
-   * Check if an item matches a name or alias
-   * @param item Item to check
-   * @param name Name to match against
-   * @returns Whether the item matches
-   */
-  protected itemMatches(item: any, name: string): boolean {
-    return item.name.toLowerCase() === name || 
-           (item.aliases && item.aliases.some((alias: string) => alias.toLowerCase() === name));
-  }
 
   /**
    * Find a monster by name in the current scene
@@ -531,7 +509,7 @@ export abstract class BaseCommand implements ICommand {
     
     for (const itemId of inventoryItems) {
       const item = this.gameState.getItem(itemId);
-      if (item && this.itemMatches(item, lowerName)) {
+      if (item && this.items.itemMatches(item, lowerName)) {
         return itemId;
       }
     }

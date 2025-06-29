@@ -15,8 +15,8 @@
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "visible",
-    "portable"
+    "portable",
+    "visible"
   ],
   "properties": {
     "size": 20,

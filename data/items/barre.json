@@ -14,12 +14,12 @@
   "weight": 70,
   "size": "HUGE",
   "initialState": {
-    "isOpen": false
+    "open": false
   },
   "tags": [
     "flammable",
-    "visible",
     "openable",
+    "visible",
     "vehicle"
   ],
   "properties": {

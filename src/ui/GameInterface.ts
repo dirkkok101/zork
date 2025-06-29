@@ -6,10 +6,16 @@
  */
 
 import { CommandService } from '../services/CommandService';
+import { GameStateService } from '../services/GameStateService';
+import { SceneService } from '../services/SceneService';
+import { InventoryService } from '../services/InventoryService';
 import * as log from 'loglevel';
 
 export class GameInterface {
     private commandService!: CommandService;
+    private gameStateService!: GameStateService;
+    private sceneService!: SceneService;
+    private inventoryService!: InventoryService;
     private gameInitialized = false;
     private commandHistory: string[] = [];
     private historyIndex = -1;
@@ -61,12 +67,20 @@ export class GameInterface {
     }
 
     /**
-     * Initialize the game interface with a command service
+     * Initialize the game interface with services
      */
-    initialize(commandService: CommandService): void {
+    initialize(
+        commandService: CommandService, 
+        gameStateService: GameStateService, 
+        sceneService: SceneService, 
+        inventoryService: InventoryService
+    ): void {
         this.logger.info('Initializing game interface...');
         
         this.commandService = commandService;
+        this.gameStateService = gameStateService;
+        this.sceneService = sceneService;
+        this.inventoryService = inventoryService;
         this.gameInitialized = true;
         this.setStatus('Ready');
         this.commandInput.disabled = false;
@@ -77,14 +91,49 @@ export class GameInterface {
     }
 
     /**
-     * Display welcome message
+     * Display welcome message and current scene
      */
     private displayWelcomeMessage(): void {
-        this.displayMessage('\n✨ Welcome to Zork!', 'success');
-        this.displayMessage('\nYou are standing in an open field west of a white house, with a boarded front door.');
-        this.displayMessage('There is a small mailbox here.');
-        this.displayMessage('\nAvailable commands: look, examine (x)');
-        this.displayMessage('Type "look" to start exploring!\n');
+        // Display Zork welcome
+        this.displayMessage('ZORK I: The Great Underground Empire', 'success');
+        this.displayMessage('Copyright (c) 1981, 1982, 1983 Infocom, Inc. All rights reserved.');
+        this.displayMessage('ZORK is a registered trademark of Infocom, Inc.');
+        this.displayMessage('Revision 88 / Serial number 840726\n');
+        
+        // Execute initial look command to show starting location
+        this.executeCommand('look');
+        
+        // Show available commands
+        this.displayMessage('\nAvailable commands: look, examine, move (north/south/east/west), take, drop, inventory');
+        this.displayMessage('Type "look" for a detailed description of your surroundings.\n');
+    }
+
+    /**
+     * Display the current scene description and contents
+     */
+    private displayCurrentScene(): void {
+        try {
+            const currentSceneId = this.gameStateService.getCurrentSceneId();
+            const sceneDescription = this.sceneService.getSceneDescription(currentSceneId);
+            
+            this.displayMessage(sceneDescription.description);
+            
+            // Display visible items in the scene
+            if (sceneDescription.visibleItems && sceneDescription.visibleItems.length > 0) {
+                for (const item of sceneDescription.visibleItems) {
+                    this.displayMessage(item);
+                }
+            }
+            
+            // Display exits
+            if (sceneDescription.exits && sceneDescription.exits.length > 0) {
+                this.displayMessage('\nExits: ' + sceneDescription.exits.join(', '));
+            }
+            
+        } catch (error) {
+            this.logger.error('Failed to display current scene:', error);
+            this.displayMessage('You find yourself in a mysterious location.');
+        }
     }
 
     /**
@@ -147,6 +196,9 @@ export class GameInterface {
                     this.logger.debug(`Score change: ${result.scoreChange}`);
                     this.updateScore(result.scoreChange);
                 }
+                
+                // Update UI state after successful commands
+                this.updateGameStateDisplay();
             } else {
                 this.displayMessage(result.message, 'error');
             }
@@ -159,6 +211,20 @@ export class GameInterface {
         } catch (error) {
             this.logger.error('Command execution error:', error);
             this.displayMessage('Something went wrong with that command.', 'error');
+        }
+    }
+
+    /**
+     * Update UI to reflect current game state
+     */
+    private updateGameStateDisplay(): void {
+        try {
+            // Update score and moves from game state
+            const gameState = this.gameStateService.getGameState();
+            this.scoreElement.textContent = `Score: ${gameState.score}`;
+            this.movesElement.textContent = `Moves: ${gameState.moves}`;
+        } catch (error) {
+            this.logger.error('Failed to update game state display:', error);
         }
     }
 
