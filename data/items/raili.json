@@ -4,6 +4,7 @@
   "description": "You see wooden railing.",
   "examineText": "It's wooden railing.",
   "aliases": [
+    "RAILI",
     "RAIL",
     "WOODE"
   ],
@@ -14,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

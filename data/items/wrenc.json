@@ -3,7 +3,9 @@
   "name": "wrench",
   "description": "You see wrench.",
   "examineText": "There is a wrench here.",
-  "aliases": [],
+  "aliases": [
+    "WRENC"
+  ],
   "type": "TOOL",
   "portable": true,
   "visible": true,

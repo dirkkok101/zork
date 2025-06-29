@@ -4,6 +4,7 @@
   "description": "You see braided wire.",
   "examineText": "It's braided wire.",
   "aliases": [
+    "BROPE",
     "WIRE",
     "BRAID"
   ],
@@ -14,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "tieable"
+    "tieable",
+    "visible"
   ],
   "properties": {},
   "interactions": [

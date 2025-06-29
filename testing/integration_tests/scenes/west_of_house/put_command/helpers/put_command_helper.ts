@@ -108,6 +108,23 @@ export class PutCommandHelper {
   }
 
   /**
+   * Execute a close command (for test setup)
+   */
+  executeClose(input: string): CommandResult {
+    const { CloseCommand } = require('@/commands/CloseCommand');
+    const closeCommand = new CloseCommand(
+      this.gameState,
+      this.scene,
+      this.inventory,
+      this.items,
+      this.combat,
+      this.persistence,
+      this.output
+    );
+    return closeCommand.execute(input);
+  }
+
+  /**
    * Check if an item is in the player's inventory
    */
   isInInventory(itemId: string): boolean {

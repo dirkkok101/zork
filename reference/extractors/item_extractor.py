@@ -81,7 +81,7 @@ class ItemExtractor:
                 obj_data['initial_contents'] = [contents_match.group(1).lower()]
             
             # Look for ODESC1 and other properties
-            for line in lines:
+            for i, line in enumerate(lines):
                 line = line.strip()
                 if 'ODESC1' in line:
                     # Extract ODESC1 description
@@ -94,10 +94,16 @@ class ItemExtractor:
                     if match:
                         obj_data['examine_text'] = match.group(1)
                 elif 'OSIZE' in line:
-                    # Extract size
+                    # Extract size - handle both single line and multi-line cases
                     match = re.search(r'OSIZE\s+(\d+)', line)
                     if match:
                         obj_data['properties']['size'] = int(match.group(1))
+                    else:
+                        # Check if OSIZE is on its own line, look for next line with number
+                        if i + 1 < len(lines):
+                            next_line = lines[i + 1].strip()
+                            if next_line.isdigit():
+                                obj_data['properties']['size'] = int(next_line)
                 elif 'OFVAL' in line:
                     # Extract treasure value
                     match = re.search(r'OFVAL\s+(\d+)', line)
@@ -259,7 +265,7 @@ class ItemExtractor:
             "name": obj['description'] if obj['description'] else obj['names'][0],
             "description": f"You see {obj['description'].lower() if obj['description'] else obj['names'][0]}.",
             "examineText": obj.get('examine_text', f"It's {obj['description'].lower() if obj['description'] else obj['names'][0]}."),
-            "aliases": obj['names'][1:] + obj['adjectives'],  # Additional names as aliases
+            "aliases": obj['names'] + obj['adjectives'],  # All names and adjectives as aliases
             "type": self.determine_item_type(obj),
             "portable": 'PORTABLE' in obj['flags'],
             "visible": 'VISIBLE' in obj['flags'],

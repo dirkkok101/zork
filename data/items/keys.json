@@ -4,6 +4,7 @@
   "description": "You see set of skeleton keys.",
   "examineText": "There is a set of skeleton keys here.",
   "aliases": [
+    "KEYS",
     "SET",
     "KEY"
   ],

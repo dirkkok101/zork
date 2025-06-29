@@ -4,6 +4,7 @@
   "description": "You see number one.",
   "examineText": "It's number one.",
   "aliases": [
+    "ONE",
     "1"
   ],
   "type": "TOOL",
@@ -13,8 +14,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

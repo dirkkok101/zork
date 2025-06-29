@@ -4,6 +4,7 @@
   "description": "You see pile of leaves.",
   "examineText": "There is a pile of leaves on the ground.",
   "aliases": [
+    "LEAVE",
     "LEAF",
     "PILE"
   ],
@@ -14,9 +15,9 @@
   "size": "LARGE",
   "initialState": {},
   "tags": [
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "portable"
   ],
   "properties": {
     "size": 25

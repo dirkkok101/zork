@@ -18,8 +18,11 @@ export interface SceneData {
 
     /** Available exits from the scene - map of direction to destination */
     exits: Record<string, string | {
-        /** ID of the destination scene */
-        to: string;
+        /** ID of the destination scene (null for blocked exits) */
+        to: string | null;
+
+        /** Whether the exit is permanently blocked */
+        blocked?: boolean;
 
         /** Optional description of the exit */
         description?: string;

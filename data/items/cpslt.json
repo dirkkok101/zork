@@ -4,6 +4,7 @@
   "description": "You see small slit.",
   "examineText": "It's small slit.",
   "aliases": [
+    "CPSLT",
     "SLIT",
     "SLOT",
     "SMALL"
@@ -17,9 +18,9 @@
     "isOpen": false
   },
   "tags": [
-    "openable",
+    "no_description",
     "visible",
-    "no_description"
+    "openable"
   ],
   "properties": {
     "capacity": 4,

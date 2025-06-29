@@ -3,7 +3,9 @@
   "name": "window",
   "description": "You see window.",
   "examineText": "It's window.",
-  "aliases": [],
+  "aliases": [
+    "WINDO"
+  ],
   "type": "TOOL",
   "portable": false,
   "visible": true,
@@ -11,9 +13,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
     "door",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

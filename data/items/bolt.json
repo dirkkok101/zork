@@ -5,6 +5,7 @@
   "examineText": "It's bolt.",
   "aliases": [
     "BOLT",
+    "BOLT",
     "NUT",
     "METAL"
   ],
@@ -15,10 +16,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
     "door",
     "no_description",
-    "turnable"
+    "turnable",
+    "visible"
   ],
   "properties": {
     "turnable": true

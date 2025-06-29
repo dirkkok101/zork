@@ -4,6 +4,7 @@
   "description": "You see don woods stamp.",
   "examineText": "There is a Don Woods Commemorative stamp here.",
   "aliases": [
+    "DSTMP",
     "STAMP",
     "DON",
     "WOODS",
@@ -16,10 +17,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 1,

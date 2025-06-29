@@ -4,6 +4,7 @@
   "description": "You see large stone cube.",
   "examineText": "It's large stone cube.",
   "aliases": [
+    "VAULT",
     "CUBE",
     "LETTE",
     "STONE",
@@ -16,8 +17,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
-    "visible"
+    "visible",
+    "readable"
   ],
   "properties": {
     "readable": true

@@ -4,6 +4,7 @@
   "description": "You see basket.",
   "examineText": "It's basket.",
   "aliases": [
+    "BALLO",
     "BASKE",
     "WICKE"
   ],
@@ -17,8 +18,8 @@
   },
   "tags": [
     "visible",
-    "vehicle",
-    "openable"
+    "openable",
+    "vehicle"
   ],
   "properties": {
     "capacity": 100,

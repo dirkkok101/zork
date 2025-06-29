@@ -4,6 +4,7 @@
   "description": "You see gold card.",
   "examineText": "It's gold card.",
   "aliases": [
+    "GCARD",
     "CARD",
     "GOLD"
   ],
@@ -14,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
     "visible",
+    "readable",
     "portable"
   ],
   "properties": {

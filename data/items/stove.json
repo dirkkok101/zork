@@ -4,6 +4,7 @@
   "description": "You see old coal stove.",
   "examineText": "It's old coal stove.",
   "aliases": [
+    "STOVE",
     "OLD"
   ],
   "type": "TOOL",
@@ -15,10 +16,10 @@
     "isOn": false
   },
   "tags": [
-    "visible",
-    "flame_source",
     "switchable",
-    "no_description"
+    "no_description",
+    "visible",
+    "flame_source"
   ],
   "properties": {
     "switchable": true

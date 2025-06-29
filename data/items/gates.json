@@ -4,6 +4,7 @@
   "description": "You see gates.",
   "examineText": "It's gates.",
   "aliases": [
+    "GATES",
     "GATE"
   ],
   "type": "TOOL",

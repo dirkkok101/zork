@@ -4,6 +4,7 @@
   "description": "You see beautiful brass bauble.",
   "examineText": "There is a beautiful brass bauble here.",
   "aliases": [
+    "BAUBL",
     "BRASS",
     "BEAUT"
   ],

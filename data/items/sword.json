@@ -4,6 +4,7 @@
   "description": "You see sword.",
   "examineText": "There is an elvish sword here.",
   "aliases": [
+    "SWORD",
     "ORCRI",
     "GLAMD",
     "BLADE",
@@ -18,9 +19,9 @@
     "isOn": false
   },
   "tags": [
-    "visible",
     "switchable",
     "weapon",
+    "visible",
     "portable"
   ],
   "properties": {

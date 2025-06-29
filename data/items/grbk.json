@@ -4,6 +4,7 @@
   "description": "You see green book.",
   "examineText": "There is a green book here.",
   "aliases": [
+    "GRBK",
     "BOOK",
     "GREEN"
   ],
@@ -16,11 +17,11 @@
     "isOpen": false
   },
   "tags": [
-    "readable",
-    "visible",
     "flammable",
-    "portable",
-    "container"
+    "visible",
+    "container",
+    "readable",
+    "portable"
   ],
   "properties": {
     "capacity": 2,

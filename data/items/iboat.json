@@ -4,6 +4,7 @@
   "description": "You see pile of plastic.",
   "examineText": "It's pile of plastic.",
   "aliases": [
+    "IBOAT",
     "BOAT",
     "PILE",
     "PLAST",
@@ -16,9 +17,9 @@
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "portable"
   ],
   "properties": {
     "size": 20

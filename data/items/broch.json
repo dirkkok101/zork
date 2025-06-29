@@ -4,6 +4,7 @@
   "description": "You see free brochure.",
   "examineText": "There is a large brochure here.",
   "aliases": [
+    "BROCH",
     "FREE"
   ],
   "type": "CONTAINER",
@@ -18,12 +19,12 @@
     ]
   },
   "tags": [
-    "openable",
-    "visible",
-    "readable",
     "flammable",
-    "portable",
-    "container"
+    "visible",
+    "openable",
+    "container",
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 30,

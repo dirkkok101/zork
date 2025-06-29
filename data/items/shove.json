@@ -4,6 +4,7 @@
   "description": "You see shovel.",
   "examineText": "There is a large shovel here.",
   "aliases": [
+    "SHOVE",
     "LARGE"
   ],
   "type": "TOOL",

@@ -4,6 +4,7 @@
   "description": "You see grail.",
   "examineText": "There is an extremely valuable (perhaps original) grail here.",
   "aliases": [
+    "GRAIL",
     "HOLY"
   ],
   "type": "TREASURE",

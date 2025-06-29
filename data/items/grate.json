@@ -4,6 +4,7 @@
   "description": "You see grating.",
   "examineText": "It's grating.",
   "aliases": [
+    "GRATE",
     "GRATI"
   ],
   "type": "TOOL",
@@ -13,9 +14,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
     "door",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

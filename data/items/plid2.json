@@ -4,6 +4,7 @@
   "description": "You see metal lid.",
   "examineText": "It's metal lid.",
   "aliases": [
+    "PLID2",
     "LID",
     "METAL"
   ],
@@ -16,10 +17,10 @@
     "isOpen": false
   },
   "tags": [
+    "no_description",
     "visible",
     "openable",
-    "container",
-    "no_description"
+    "container"
   ],
   "properties": {
     "container": true,

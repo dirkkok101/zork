@@ -4,6 +4,7 @@
   "description": "You see tube.",
   "examineText": "There is an object which looks like a tube of toothpaste here.",
   "aliases": [
+    "TUBE",
     "TOOTH"
   ],
   "type": "CONTAINER",
@@ -18,8 +19,8 @@
     ]
   },
   "tags": [
-    "readable",
     "visible",
+    "readable",
     "portable",
     "container"
   ],

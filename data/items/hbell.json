@@ -4,6 +4,7 @@
   "description": "You see red hot brass bell.",
   "examineText": "On the ground is a red hot bell.",
   "aliases": [
+    "HBELL",
     "BELL",
     "BRASS",
     "HOT",
@@ -17,8 +18,8 @@
   "initialState": {},
   "tags": [
     "visible",
-    "dangerous",
-    "portable"
+    "portable",
+    "dangerous"
   ],
   "properties": {},
   "interactions": [

@@ -4,6 +4,7 @@
   "description": "You see trap door.",
   "examineText": "It's trap door.",
   "aliases": [
+    "DOOR",
     "TRAPD",
     "TRAP-",
     "TRAP"

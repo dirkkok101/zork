@@ -4,6 +4,7 @@
   "description": "You see receptacle.",
   "examineText": "It's receptacle.",
   "aliases": [
+    "RECEP",
     "METAL"
   ],
   "type": "CONTAINER",

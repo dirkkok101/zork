@@ -4,6 +4,7 @@
   "description": "You see cell door.",
   "examineText": "It's cell door.",
   "aliases": [
+    "CDOOR",
     "DOOR",
     "WOOD",
     "WOODE",
@@ -16,9 +17,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
     "door",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

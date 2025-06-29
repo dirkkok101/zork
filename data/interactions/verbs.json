@@ -163,7 +163,11 @@
     {
       "id": "put",
       "primary": "put",
-      "synonyms": [],
+      "synonyms": [
+        "place",
+        "position",
+        "set"
+      ],
       "syntax": [
         "put <object> in <object>",
         "put <object> on <object>",

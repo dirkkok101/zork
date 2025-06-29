@@ -4,6 +4,7 @@
   "description": "You see burned-out lantern.",
   "examineText": "There is a burned-out lantern here.",
   "aliases": [
+    "BLANT",
     "LANTE",
     "LAMP",
     "USED",

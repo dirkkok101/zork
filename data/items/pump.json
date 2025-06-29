@@ -4,6 +4,7 @@
   "description": "You see hand-held air pump.",
   "examineText": "There is a small pump here.",
   "aliases": [
+    "PUMP",
     "AIR-P",
     "AIRPU",
     "SMALL",

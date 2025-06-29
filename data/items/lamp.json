@@ -4,6 +4,7 @@
   "description": "You see lamp.",
   "examineText": "There is a brass lantern (battery-powered) here.",
   "aliases": [
+    "LAMP",
     "LANTE",
     "LIGHT",
     "BRASS"

@@ -4,6 +4,7 @@
   "description": "You see stiletto.",
   "examineText": "There is a vicious-looking stiletto here.",
   "aliases": [
+    "STILL",
     "VICIO"
   ],
   "type": "WEAPON",
@@ -15,9 +16,9 @@
     "isOn": false
   },
   "tags": [
-    "visible",
     "switchable",
-    "weapon"
+    "weapon",
+    "visible"
   ],
   "properties": {
     "size": 10,

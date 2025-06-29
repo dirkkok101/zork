@@ -4,6 +4,7 @@
   "description": "You see carpet.",
   "examineText": "It's carpet.",
   "aliases": [
+    "RUG",
     "CARPE",
     "ORIEN"
   ],
@@ -14,10 +15,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "no_description",
     "visible",
-    "dangerous",
     "portable",
-    "no_description"
+    "dangerous"
   ],
   "properties": {},
   "interactions": [

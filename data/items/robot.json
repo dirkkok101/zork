@@ -4,6 +4,7 @@
   "description": "You see robot.",
   "examineText": "There is a robot here.",
   "aliases": [
+    "ROBOT",
     "R2D2",
     "C3PO",
     "ROBBY"

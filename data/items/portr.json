@@ -4,6 +4,7 @@
   "description": "You see portrait of j. pierpont flathead.",
   "examineText": "It's portrait of j. pierpont flathead.",
   "aliases": [
+    "PORTR",
     "PAINT",
     "ART",
     "FLATH"
@@ -15,10 +16,10 @@
   "size": "LARGE",
   "initialState": {},
   "tags": [
-    "readable",
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 25,

@@ -4,6 +4,7 @@
   "description": "You see locked door.",
   "examineText": "It's locked door.",
   "aliases": [
+    "MDOOR",
     "DOOR",
     "LOCKE",
     "WOOD",
@@ -17,9 +18,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
     "door",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

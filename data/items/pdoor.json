@@ -4,6 +4,7 @@
   "description": "You see door made of oak.",
   "examineText": "It's door made of oak.",
   "aliases": [
+    "PDOOR",
     "DOOR",
     "WOODE",
     "OAK"
@@ -17,8 +18,8 @@
     "isOpen": false
   },
   "tags": [
-    "visible",
     "door",
+    "visible",
     "container"
   ],
   "properties": {

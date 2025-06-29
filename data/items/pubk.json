@@ -4,6 +4,7 @@
   "description": "You see purple book.",
   "examineText": "There is a purple book here.",
   "aliases": [
+    "PUBK",
     "BOOK",
     "PURPL"
   ],
@@ -19,11 +20,11 @@
     ]
   },
   "tags": [
-    "readable",
-    "visible",
     "flammable",
-    "portable",
-    "container"
+    "visible",
+    "container",
+    "readable",
+    "portable"
   ],
   "properties": {
     "capacity": 2,

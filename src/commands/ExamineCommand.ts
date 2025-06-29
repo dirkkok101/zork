@@ -18,9 +18,11 @@ import log from 'loglevel';
  * - "examine <object>" / "x <object>" - Detailed examination
  * - "inspect <object>" / "study <object>" - Same as examine
  * - Shows more detail than "look at"
- * - Reveals hidden properties, readable text, container states
+ * - Reveals hidden properties, container states, physical details
+ * - Does NOT show readable text content (use READ command for that)
  * 
  * For basic environment awareness, use the look command.
+ * For reading text content, use the read command.
  */
 export class ExamineCommand extends BaseCommand {
   constructor(
@@ -145,12 +147,6 @@ export class ExamineCommand extends BaseCommand {
       if (lockInfo) {
         description += '\n' + lockInfo;
       }
-    }
-    
-    // Add readable content
-    const readableContent = this.items.readItem(item.id);
-    if (readableContent && readableContent !== description) {
-      description += '\n' + readableContent;
     }
     
     return this.success(description, false);

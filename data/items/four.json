@@ -4,6 +4,7 @@
   "description": "You see number four.",
   "examineText": "It's number four.",
   "aliases": [
+    "FOUR",
     "4"
   ],
   "type": "TOOL",
@@ -13,8 +14,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

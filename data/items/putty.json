@@ -4,6 +4,7 @@
   "description": "You see viscous material.",
   "examineText": "There is some gunk here",
   "aliases": [
+    "PUTTY",
     "MATER",
     "GUNK",
     "GLUE",

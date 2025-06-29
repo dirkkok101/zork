@@ -4,6 +4,7 @@
   "description": "You see note of warning.",
   "examineText": "It's note of warning.",
   "aliases": [
+    "WARNI",
     "NOTE",
     "PAPER",
     "PIECE"
@@ -15,10 +16,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "readable": true

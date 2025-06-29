@@ -3,7 +3,9 @@
   "name": "screwdriver",
   "description": "You see screwdriver.",
   "examineText": "There is a screwdriver here.",
-  "aliases": [],
+  "aliases": [
+    "SCREW"
+  ],
   "type": "TOOL",
   "portable": true,
   "visible": true,

@@ -4,6 +4,7 @@
   "description": "You see wire coil.",
   "examineText": "There is a coil of thin shiny wire here.",
   "aliases": [
+    "FUSE",
     "COIL",
     "WIRE",
     "SHINY",
@@ -16,9 +17,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "portable"
   ],
   "properties": {
     "size": 1,

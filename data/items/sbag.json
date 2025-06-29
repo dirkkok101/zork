@@ -4,6 +4,7 @@
   "description": "You see brown sack.",
   "examineText": "A brown sack is here.",
   "aliases": [
+    "SBAG",
     "BAG",
     "SACK",
     "BROWN",
@@ -18,10 +19,10 @@
     "isOpen": false
   },
   "tags": [
+    "flammable",
     "visible",
     "portable",
-    "container",
-    "flammable"
+    "container"
   ],
   "properties": {
     "capacity": 15,

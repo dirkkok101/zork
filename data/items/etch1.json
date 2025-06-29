@@ -4,6 +4,7 @@
   "description": "You see wall with etchings.",
   "examineText": "It's wall with etchings.",
   "aliases": [
+    "ETCH1",
     "ETCHI",
     "WALLS",
     "WALL"
@@ -15,9 +16,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
+    "no_description",
     "visible",
-    "no_description"
+    "readable"
   ],
   "properties": {
     "readable": true

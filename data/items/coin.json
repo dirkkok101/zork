@@ -4,6 +4,7 @@
   "description": "You see priceless zorkmid.",
   "examineText": "There is an engraved zorkmid coin here.",
   "aliases": [
+    "COIN",
     "ZORKM",
     "GOLD",
     "GOLD",
@@ -16,8 +17,8 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "readable",
     "visible",
+    "readable",
     "portable"
   ],
   "properties": {

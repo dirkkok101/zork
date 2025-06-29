@@ -4,6 +4,7 @@
   "description": "You see piece of cake with blue icing.",
   "examineText": "There is a piece of cake with blue (ecch) icing here.",
   "aliases": [
+    "BLICE",
     "CAKE",
     "ICING",
     "BLUE",
@@ -18,8 +19,8 @@
   "tags": [
     "food",
     "visible",
-    "portable",
-    "readable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 4,

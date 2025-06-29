@@ -4,6 +4,7 @@
   "description": "You see piece of vitreous slag.",
   "examineText": "There is a small piece of vitreous slag here.",
   "aliases": [
+    "GUNK",
     "PIECE",
     "SLAG",
     "VITRE"
@@ -16,8 +17,8 @@
   "initialState": {},
   "tags": [
     "visible",
-    "dangerous",
-    "portable"
+    "portable",
+    "dangerous"
   ],
   "properties": {
     "size": 10

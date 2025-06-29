@@ -4,6 +4,7 @@
   "description": "You see painting.",
   "examineText": "A masterpiece by a neglected genius is here.",
   "aliases": [
+    "PAINT",
     "ART",
     "CANVA",
     "MASTE",
@@ -17,9 +18,9 @@
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "portable"
   ],
   "properties": {
     "size": 15,

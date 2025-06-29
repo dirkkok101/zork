@@ -4,6 +4,7 @@
   "description": "You see magic boat.",
   "examineText": "There is an inflated boat here.",
   "aliases": [
+    "RBOAT",
     "BOAT",
     "MAGIC",
     "PLAST",
@@ -21,9 +22,9 @@
     ]
   },
   "tags": [
-    "openable",
-    "visible",
     "flammable",
+    "visible",
+    "openable",
     "vehicle",
     "portable"
   ],

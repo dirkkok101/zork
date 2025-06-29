@@ -4,6 +4,7 @@
   "description": "You see jewel-encrusted egg.",
   "examineText": "There is a jewel-encrusted egg here.",
   "aliases": [
+    "EGG",
     "BIRDS",
     "ENCRU"
   ],

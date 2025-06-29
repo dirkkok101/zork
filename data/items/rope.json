@@ -4,6 +4,7 @@
   "description": "You see rope.",
   "examineText": "There is a large coil of rope here.",
   "aliases": [
+    "ROPE",
     "HEMP",
     "COIL",
     "LARGE"
@@ -15,10 +16,10 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
+    "tieable",
     "visible",
     "treasure",
-    "portable",
-    "tieable"
+    "portable"
   ],
   "properties": {
     "size": 10

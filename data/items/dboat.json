@@ -4,6 +4,7 @@
   "description": "You see plastic boat (with hole).",
   "examineText": "There is a pile of plastic here with a large hole in it.",
   "aliases": [
+    "DBOAT",
     "BOAT",
     "PILE",
     "PLAST",
@@ -16,9 +17,9 @@
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "portable"
   ],
   "properties": {
     "size": 20

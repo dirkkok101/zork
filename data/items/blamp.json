@@ -4,6 +4,7 @@
   "description": "You see broken lamp.",
   "examineText": "There is a broken brass lantern here.",
   "aliases": [
+    "BLAMP",
     "LAMP",
     "LANTE",
     "BROKE",

@@ -4,6 +4,7 @@
   "description": "You see blue label.",
   "examineText": "There is a blue label here.",
   "aliases": [
+    "BLABE",
     "LABEL",
     "BLUE"
   ],
@@ -14,10 +15,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 1,

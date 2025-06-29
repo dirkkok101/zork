@@ -197,6 +197,7 @@ export class SceneDataLoader implements ISceneDataLoader {
 
     /**
      * Convert exits from Record<string, string | object> to Exit[]
+     * Filters out blocked exits (where blocked=true or to=null)
      */
     private convertExits(exitsData: SceneData['exits']): Exit[] {
         const exits: Exit[] = [];
@@ -209,33 +210,43 @@ export class SceneDataLoader implements ISceneDataLoader {
                     to: exitInfo
                 });
             } else if (exitInfo && typeof exitInfo === 'object') {
-                // Complex exit with conditions, locks, etc.
-                const exit: Exit = {
-                    direction,
-                    to: exitInfo.to
-                };
-
-                // Handle optional properties with exactOptionalPropertyTypes compliance
-                if (exitInfo.description !== undefined) {
-                    exit.description = exitInfo.description;
-                }
-                if (exitInfo.condition !== undefined) {
-                    exit.condition = exitInfo.condition;
-                }
-                if (exitInfo.locked !== undefined) {
-                    exit.locked = exitInfo.locked;
-                }
-                if (exitInfo.keyId !== undefined) {
-                    exit.keyId = exitInfo.keyId;
-                }
-                if (exitInfo.hidden !== undefined) {
-                    exit.hidden = exitInfo.hidden;
-                }
-                if (exitInfo.oneWay !== undefined) {
-                    exit.oneWay = exitInfo.oneWay;
+                // Skip blocked exits - they should not be in the Scene.exits array
+                if (exitInfo.blocked === true || exitInfo.to === null) {
+                    this.logger.debug(`Skipping blocked exit ${direction} (blocked: ${exitInfo.blocked}, to: ${exitInfo.to})`);
+                    continue;
                 }
 
-                exits.push(exit);
+                // Only process exits with valid string destinations
+                if (exitInfo.to && typeof exitInfo.to === 'string') {
+                    const exit: Exit = {
+                        direction,
+                        to: exitInfo.to
+                    };
+
+                    // Handle optional properties with exactOptionalPropertyTypes compliance
+                    if (exitInfo.description !== undefined) {
+                        exit.description = exitInfo.description;
+                    }
+                    if (exitInfo.condition !== undefined) {
+                        exit.condition = exitInfo.condition;
+                    }
+                    if (exitInfo.locked !== undefined) {
+                        exit.locked = exitInfo.locked;
+                    }
+                    if (exitInfo.keyId !== undefined) {
+                        exit.keyId = exitInfo.keyId;
+                    }
+                    if (exitInfo.hidden !== undefined) {
+                        exit.hidden = exitInfo.hidden;
+                    }
+                    if (exitInfo.oneWay !== undefined) {
+                        exit.oneWay = exitInfo.oneWay;
+                    }
+
+                    exits.push(exit);
+                } else {
+                    this.logger.warn(`Skipping exit ${direction} with invalid destination: ${exitInfo.to}`);
+                }
             }
         }
         

@@ -4,6 +4,7 @@
   "description": "You see flathead stamp.",
   "examineText": "There is a Flathead stamp here.",
   "aliases": [
+    "STAMP",
     "FLATH"
   ],
   "type": "TREASURE",
@@ -13,10 +14,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 1,

@@ -4,6 +4,7 @@
   "description": "You see group of tool chests.",
   "examineText": "It's group of tool chests.",
   "aliases": [
+    "TCHST",
     "CHEST",
     "TOOL"
   ],
@@ -14,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

@@ -4,6 +4,7 @@
   "description": "You see statue.",
   "examineText": "There is a beautiful statue here.",
   "aliases": [
+    "STATU",
     "SCULP",
     "ROCK",
     "BEAUT"

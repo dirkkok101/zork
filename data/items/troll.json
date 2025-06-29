@@ -4,6 +4,7 @@
   "description": "You see troll.",
   "examineText": "It's troll.",
   "aliases": [
+    "TROLL",
     "NASTY"
   ],
   "type": "TOOL",

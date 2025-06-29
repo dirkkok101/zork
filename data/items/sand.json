@@ -4,6 +4,7 @@
   "description": "You see sandy beach.",
   "examineText": "It's sandy beach.",
   "aliases": [
+    "SAND",
     "BEACH",
     "SANDY"
   ],
@@ -14,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "diggable"
+    "diggable",
+    "visible"
   ],
   "properties": {},
   "interactions": [

@@ -4,6 +4,7 @@
   "description": "You see red beam of light.",
   "examineText": "It's red beam of light.",
   "aliases": [
+    "RBEAM",
     "BEAM",
     "LIGHT",
     "RED"
@@ -17,9 +18,9 @@
     "isOpen": false
   },
   "tags": [
+    "no_description",
     "visible",
-    "openable",
-    "no_description"
+    "openable"
   ],
   "properties": {
     "capacity": 1000,

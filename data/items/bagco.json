@@ -4,6 +4,7 @@
   "description": "You see bag of coins.",
   "examineText": "An old leather bag, bulging with coins, is here.",
   "aliases": [
+    "BAGCO",
     "BAG",
     "COINS",
     "OLD",

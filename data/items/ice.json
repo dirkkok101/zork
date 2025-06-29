@@ -4,6 +4,7 @@
   "description": "You see glacier.",
   "examineText": "A mass of ice fills the western half of the room.",
   "aliases": [
+    "ICE",
     "MASS",
     "GLACI"
   ],

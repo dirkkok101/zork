@@ -4,6 +4,7 @@
   "description": "You see skeleton.",
   "examineText": "It's skeleton.",
   "aliases": [
+    "BONES",
     "SKELE",
     "BODY"
   ],
@@ -15,8 +16,8 @@
   "initialState": {},
   "tags": [
     "visible",
-    "dangerous",
-    "portable"
+    "portable",
+    "dangerous"
   ],
   "properties": {},
   "interactions": [

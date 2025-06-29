@@ -4,6 +4,7 @@
   "description": "You see hole.",
   "examineText": "It's hole.",
   "aliases": [
+    "SSLOT",
     "SLOT",
     "HOLE"
   ],

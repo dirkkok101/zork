@@ -4,6 +4,7 @@
   "description": "You see ruby.",
   "examineText": "There is a moby ruby lying here.",
   "aliases": [
+    "RUBY",
     "MOBY"
   ],
   "type": "TREASURE",

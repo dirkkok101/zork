@@ -4,6 +4,7 @@
   "description": "You see table.",
   "examineText": "It's table.",
   "aliases": [
+    "PTABL",
     "TABLE",
     "DUSTY",
     "WOODE"
@@ -15,8 +16,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

@@ -186,11 +186,11 @@ export abstract class BaseCommand implements ICommand {
   protected getArgs(input: string): string[] {
     // Find the command part
     let commandPart = '';
-    if (input.startsWith(this.name)) {
+    if (input === this.name || input.startsWith(`${this.name} `)) {
       commandPart = this.name;
     } else {
       for (const alias of this.aliases) {
-        if (input.startsWith(alias)) {
+        if (input === alias || input.startsWith(`${alias} `)) {
           commandPart = alias;
           break;
         }

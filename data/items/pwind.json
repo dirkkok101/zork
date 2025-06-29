@@ -4,6 +4,7 @@
   "description": "You see barred window.",
   "examineText": "It's barred window.",
   "aliases": [
+    "PWIND",
     "WINDO",
     "BARRE"
   ],
@@ -14,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "door"
+    "door",
+    "visible"
   ],
   "properties": {},
   "interactions": [

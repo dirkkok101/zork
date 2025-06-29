@@ -11,15 +11,16 @@
   "type": "TOOL",
   "portable": true,
   "visible": true,
-  "weight": 5,
-  "size": "TINY",
+  "weight": 12,
+  "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "readable",
     "visible",
+    "readable",
     "portable"
   ],
   "properties": {
+    "size": 12,
     "readable": true
   },
   "interactions": [

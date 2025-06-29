@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">15.38% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>2/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">15.38% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>2/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -176,7 +176,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,26 +193,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -243,7 +243,7 @@ import log from 'loglevel';
  * - Items in inventory or current scene
  */
 export class CloseCommand extends BaseCommand {
-  constructor(
+<span class="fstat-no" title="function not covered" >  constructor(</span>
     gameState: IGameStateService,
     scene: ISceneService,
     inventory: IInventoryService,
@@ -253,7 +253,7 @@ export class CloseCommand extends BaseCommand {
     output: IOutputService,
     logger?: log.Logger
   ) {
-    super(
+<span class="cstat-no" title="statement not covered" >    super(</span>
       'close',
       ['shut'],
       'close &lt;object&gt;',
@@ -269,27 +269,27 @@ export class CloseCommand extends BaseCommand {
     );
   }
 &nbsp;
-  execute(input: string): CommandResult {
-    this.logger.debug(`Executing close command: "${input}"`);
+<span class="fstat-no" title="function not covered" >  execute(</span>input: string): CommandResult {
+<span class="cstat-no" title="statement not covered" >    this.logger.debug(`Executing close command: "${input}"`);</span>
 &nbsp;
-    const args = this.getArgs(input);
-    if (args.length === 0) {
-      return this.failure('What do you want to close?');
+    const args = <span class="cstat-no" title="statement not covered" >this.getArgs(input);</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (args.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >      return this.failure('What do you want to close?');</span>
     }
 &nbsp;
     // Parse "close &lt;object&gt;"
-    const targetName = args.join(' ');
+    const targetName = <span class="cstat-no" title="statement not covered" >args.join(' ');</span>
 &nbsp;
     // Find the target item
-    const targetId = this.findItemId(targetName);
-    if (!targetId) {
-      return this.failure(`You don't see ${this.getArticle(targetName)} ${targetName} here.`);
+    const targetId = <span class="cstat-no" title="statement not covered" >this.findItemId(targetName);</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!targetId) {</span>
+<span class="cstat-no" title="statement not covered" >      return this.failure(`You don't see ${this.getArticle(targetName)} ${targetName} here.`);</span>
     }
 &nbsp;
     // Attempt to close the item
-    const closeResult = this.items.closeItem(targetId);
+    const closeResult = <span class="cstat-no" title="statement not covered" >this.items.closeItem(targetId);</span>
     
-    return closeResult.success 
+<span class="cstat-no" title="statement not covered" >    return closeResult.success </span>
       ? this.success(closeResult.message, true, 0)
       : this.failure(closeResult.message);
   }
@@ -301,7 +301,7 @@ export class CloseCommand extends BaseCommand {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-29T06:41:05.467Z
+                at 2025-06-29T11:03:17.370Z
             </div>
         <script src="../prettify.js"></script>
         <script>

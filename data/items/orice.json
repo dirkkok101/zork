@@ -4,6 +4,7 @@
   "description": "You see piece of cake with orange icing.",
   "examineText": "There is a piece of cake with orange icing here.",
   "aliases": [
+    "ORICE",
     "CAKE",
     "ICING",
     "ORANG"
@@ -17,8 +18,8 @@
   "tags": [
     "food",
     "visible",
-    "portable",
-    "readable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 4,

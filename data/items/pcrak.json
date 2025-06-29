@@ -4,6 +4,7 @@
   "description": "You see narrow crack.",
   "examineText": "It's narrow crack.",
   "aliases": [
+    "PCRAK",
     "CRACK",
     "NARRO"
   ],
@@ -14,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

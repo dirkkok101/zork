@@ -4,6 +4,7 @@
   "description": "You see book.",
   "examineText": "There is a large black book here.",
   "aliases": [
+    "BOOK",
     "PRAYE",
     "BIBLE",
     "GOODB",
@@ -19,11 +20,11 @@
     "isOpen": false
   },
   "tags": [
-    "readable",
-    "visible",
     "flammable",
-    "portable",
-    "container"
+    "visible",
+    "container",
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 10,

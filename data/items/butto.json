@@ -3,7 +3,9 @@
   "name": "BUTTO",
   "description": "You see BUTTO.",
   "examineText": "It's BUTTO.",
-  "aliases": [],
+  "aliases": [
+    "BUTTO"
+  ],
   "type": "TOOL",
   "portable": false,
   "visible": false,

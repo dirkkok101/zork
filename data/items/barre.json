@@ -4,6 +4,7 @@
   "description": "You see wooden barrel.",
   "examineText": "It's wooden barrel.",
   "aliases": [
+    "BARRE",
     "WOODE",
     "MAN-S"
   ],
@@ -16,10 +17,10 @@
     "isOpen": false
   },
   "tags": [
+    "flammable",
     "visible",
-    "vehicle",
     "openable",
-    "flammable"
+    "vehicle"
   ],
   "properties": {
     "capacity": 100,

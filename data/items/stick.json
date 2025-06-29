@@ -4,6 +4,7 @@
   "description": "You see broken sharp stick.",
   "examineText": "There is a broken sharp stick here.",
   "aliases": [
+    "STICK",
     "SHARP",
     "BROKE"
   ],

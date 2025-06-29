@@ -4,6 +4,7 @@
   "description": "You see tin of spices.",
   "examineText": "There is a tin of rare spices here.",
   "aliases": [
+    "SAFFR",
     "TIN",
     "SPICE",
     "RARE"

@@ -4,6 +4,7 @@
   "description": "You see dam.",
   "examineText": "It's dam.",
   "aliases": [
+    "DAM",
     "GATE",
     "GATES",
     "FCD"
@@ -15,8 +16,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

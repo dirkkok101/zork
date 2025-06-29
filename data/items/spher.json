@@ -4,6 +4,7 @@
   "description": "You see white crystal sphere.",
   "examineText": "There is a beautiful white crystal sphere here.",
   "aliases": [
+    "SPHER",
     "BALL",
     "PALAN",
     "STONE",
@@ -20,9 +21,9 @@
   "initialState": {},
   "tags": [
     "visible",
-    "dangerous",
     "treasure",
-    "portable"
+    "portable",
+    "dangerous"
   ],
   "properties": {
     "size": 10,

@@ -4,6 +4,7 @@
   "description": "You see steel box.",
   "examineText": "There is a dented steel box here.",
   "aliases": [
+    "IRBOX",
     "BOX",
     "STEEL",
     "DENTE"

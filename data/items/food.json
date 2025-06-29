@@ -4,6 +4,7 @@
   "description": "You see lunch.",
   "examineText": "A hot pepper sandwich is here.",
   "aliases": [
+    "FOOD",
     "SANDW",
     "LUNCH",
     "DINNE",

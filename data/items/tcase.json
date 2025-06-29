@@ -4,6 +4,7 @@
   "description": "You see trophy case.",
   "examineText": "There is a trophy case here.",
   "aliases": [
+    "TCASE",
     "CASE",
     "TROPH"
   ],

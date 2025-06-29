@@ -4,6 +4,7 @@
   "description": "You see bronze door.",
   "examineText": "It's bronze door.",
   "aliases": [
+    "ODOOR",
     "DOOR",
     "BRONZ"
   ],

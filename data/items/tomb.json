@@ -4,6 +4,7 @@
   "description": "You see crypt door.",
   "examineText": "It's crypt door.",
   "aliases": [
+    "TOMB",
     "CRYPT",
     "GRAVE",
     "TOMB",
@@ -17,9 +18,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
     "door",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

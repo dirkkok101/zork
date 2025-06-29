@@ -4,6 +4,7 @@
   "description": "You see leak.",
   "examineText": "It's leak.",
   "aliases": [
+    "PLEAK",
     "LEAK",
     "LARGE"
   ],
@@ -14,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

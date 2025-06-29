@@ -4,6 +4,7 @@
   "description": "You see yellow button.",
   "examineText": "It's yellow button.",
   "aliases": [
+    "YBUTT",
     "BUTTO",
     "SWITC",
     "YELLO"
@@ -15,8 +16,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

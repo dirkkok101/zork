@@ -108,10 +108,7 @@ export class ItemService implements IItemService {
         return this.addToContainer(targetId, itemId);
 
       case 'on':
-        // For now, treat 'on' similar to 'in' for containers
-        if (this.isContainer(targetId)) {
-          return this.addToContainer(targetId, itemId);
-        }
+        // Spatial placement - always allow putting things "on" objects
         return {
           success: true,
           message: `You put the ${item.name} on the ${target.name}.`,
@@ -343,8 +340,32 @@ export class ItemService implements IItemService {
       };
     }
 
-    // Add item to container
+    // Check size constraints (authentic Zork validation)
+    const itemSize = item.properties?.size || item.weight || 5; // Fallback to weight or default
+    const containerCapacity = container.properties?.capacity || container.capacity || 10; // Fallback to capacity or default
+    
+    // Check if item is too big for container
+    if (itemSize > containerCapacity) {
+      return {
+        success: false,
+        message: `The ${item.name} won't fit in the ${container.name}.`,
+        stateChanged: false
+      };
+    }
+    
+    // Check total capacity with current contents
     const currentContents = container.contents || [];
+    const currentTotalSize = this.calculateContainerCurrentSize(currentContents);
+    
+    if (currentTotalSize + itemSize > containerCapacity) {
+      return {
+        success: false,
+        message: `There's no room for the ${item.name} in the ${container.name}.`,
+        stateChanged: false
+      };
+    }
+
+    // Add item to container
     const newContents = [...currentContents, itemId];
     
     // Update the container's contents in its properties
@@ -617,5 +638,22 @@ export class ItemService implements IItemService {
       message: `You unlock the ${item.name} with the ${key.name}.`,
       stateChanged: true
     };
+  }
+
+  /**
+   * Calculate the total size of items currently in a container
+   */
+  private calculateContainerCurrentSize(contents: string[]): number {
+    let totalSize = 0;
+    
+    for (const itemId of contents) {
+      const item = this.gameState.getItem(itemId);
+      if (item) {
+        const itemSize = item.properties?.size || item.weight || 5; // Fallback to weight or default
+        totalSize += itemSize;
+      }
+    }
+    
+    return totalSize;
   }
 }

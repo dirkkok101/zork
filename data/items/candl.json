@@ -4,6 +4,7 @@
   "description": "You see pair of candles.",
   "examineText": "There are two candles here.",
   "aliases": [
+    "CANDL",
     "PAIR"
   ],
   "type": "LIGHT_SOURCE",
@@ -19,8 +20,8 @@
     "switchable",
     "visible",
     "flame_source",
-    "portable",
-    "light_source"
+    "light_source",
+    "portable"
   ],
   "properties": {
     "size": 10,

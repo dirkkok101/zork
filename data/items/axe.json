@@ -4,6 +4,7 @@
   "description": "You see bloody axe.",
   "examineText": "There is a bloody axe here.",
   "aliases": [
+    "AXE",
     "BLOOD"
   ],
   "type": "WEAPON",
@@ -15,9 +16,9 @@
     "isOn": false
   },
   "tags": [
-    "visible",
     "switchable",
-    "weapon"
+    "weapon",
+    "visible"
   ],
   "properties": {
     "size": 25,

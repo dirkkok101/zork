@@ -4,6 +4,7 @@
   "description": "You see broken jewel-encrusted egg.",
   "examineText": "There is a somewhat ruined egg here.",
   "aliases": [
+    "BEGG",
     "EGG",
     "BROKE",
     "BIRDS",
@@ -21,8 +22,8 @@
     ]
   },
   "tags": [
-    "openable",
     "visible",
+    "openable",
     "portable",
     "container"
   ],

@@ -3,7 +3,9 @@
   "name": "*BUN*",
   "description": "You see *BUN*.",
   "examineText": "It's *BUN*.",
-  "aliases": [],
+  "aliases": [
+    "*BUN*"
+  ],
   "type": "TOOL",
   "portable": false,
   "visible": true,
@@ -11,8 +13,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "collective"
+    "collective",
+    "visible"
   ],
   "properties": {},
   "interactions": [

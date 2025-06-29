@@ -4,6 +4,7 @@
   "description": "You see trunk of jewels.",
   "examineText": "There is an old trunk here, bulging with assorted jewels.",
   "aliases": [
+    "TRUNK",
     "CHEST",
     "JEWEL",
     "OLD"

@@ -4,6 +4,7 @@
   "description": "You see card.",
   "examineText": "There is a card with writing on it here.",
   "aliases": [
+    "CARD",
     "NOTE",
     "PLAIN"
   ],
@@ -14,10 +15,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 1,

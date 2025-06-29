@@ -4,6 +4,7 @@
   "description": "You see white cliffs.",
   "examineText": "It's white cliffs.",
   "aliases": [
+    "WCLIF",
     "CLIFF",
     "WHITE"
   ],
@@ -14,9 +15,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "climbable",
+    "no_description",
     "visible",
-    "no_description"
+    "climbable"
   ],
   "properties": {},
   "interactions": [

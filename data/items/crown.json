@@ -4,6 +4,7 @@
   "description": "You see crown.",
   "examineText": "Lord Dimwit's crown is here.",
   "aliases": [
+    "CROWN",
     "GAUDY"
   ],
   "type": "TREASURE",

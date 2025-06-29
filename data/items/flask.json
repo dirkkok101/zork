@@ -4,6 +4,7 @@
   "description": "You see glass flask filled with liquid.",
   "examineText": "It's glass flask filled with liquid.",
   "aliases": [
+    "FLASK",
     "GLASS"
   ],
   "type": "TOOL",

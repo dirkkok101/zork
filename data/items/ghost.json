@@ -4,6 +4,7 @@
   "description": "You see number of ghosts.",
   "examineText": "It's number of ghosts.",
   "aliases": [
+    "GHOST",
     "SPIRI",
     "FIEND"
   ],

@@ -4,6 +4,7 @@
   "description": "You see pine wall.",
   "examineText": "It's pine wall.",
   "aliases": [
+    "PINND",
     "WALL",
     "PANEL",
     "DOOR",
@@ -16,9 +17,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
     "door",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

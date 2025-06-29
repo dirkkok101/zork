@@ -4,6 +4,7 @@
   "description": "You see cloth bag.",
   "examineText": "It's cloth bag.",
   "aliases": [
+    "CBAG",
     "BAG",
     "CLOTH"
   ],

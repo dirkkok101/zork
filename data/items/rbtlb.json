@@ -4,6 +4,7 @@
   "description": "You see green piece of paper.",
   "examineText": "There is a green piece of paper here.",
   "aliases": [
+    "RBTLB",
     "PAPER",
     "PIECE",
     "GREEN"
@@ -15,10 +16,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 3,

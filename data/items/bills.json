@@ -4,6 +4,7 @@
   "description": "You see stack of zorkmid bills.",
   "examineText": "It's stack of zorkmid bills.",
   "aliases": [
+    "BILLS",
     "STACK",
     "PILE",
     "NEAT",
@@ -17,10 +18,10 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "readable",
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 10,

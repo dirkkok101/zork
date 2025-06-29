@@ -4,6 +4,7 @@
   "description": "You see wooden bar.",
   "examineText": "It's wooden bar.",
   "aliases": [
+    "WDBAR",
     "BAR",
     "WOOD",
     "WOODE",
@@ -16,8 +17,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

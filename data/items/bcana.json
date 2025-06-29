@@ -4,6 +4,7 @@
   "description": "You see broken clockwork canary.",
   "examineText": "There is a non-functional canary here.",
   "aliases": [
+    "BCANA",
     "CANAR",
     "BROKE",
     "CLOCK",

@@ -4,6 +4,7 @@
   "description": "You see large case.",
   "examineText": "It's large case.",
   "aliases": [
+    "LCASE",
     "CASE",
     "LARGE"
   ],

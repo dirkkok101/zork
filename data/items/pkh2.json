@@ -4,6 +4,7 @@
   "description": "You see keyhole.",
   "examineText": "It's keyhole.",
   "aliases": [
+    "PKH2",
     "KEYHO",
     "HOLE"
   ],
@@ -19,9 +20,9 @@
     ]
   },
   "tags": [
+    "no_description",
     "visible",
-    "openable",
-    "no_description"
+    "openable"
   ],
   "properties": {
     "capacity": 12,

@@ -4,6 +4,7 @@
   "description": "You see switch.",
   "examineText": "It's switch.",
   "aliases": [
+    "MSWIT",
     "SWITC"
   ],
   "type": "TOOL",
@@ -13,9 +14,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
+    "no_description",
     "turnable",
-    "no_description"
+    "visible"
   ],
   "properties": {
     "turnable": true

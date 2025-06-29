@@ -4,6 +4,7 @@
   "description": "You see rusty knife.",
   "examineText": "There is a rusty knife here.",
   "aliases": [
+    "RKNIF",
     "KNIFE",
     "RUSTY"
   ],
@@ -16,9 +17,9 @@
     "isOn": false
   },
   "tags": [
-    "visible",
     "switchable",
     "weapon",
+    "visible",
     "portable"
   ],
   "properties": {

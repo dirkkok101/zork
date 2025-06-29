@@ -4,6 +4,7 @@
   "description": "You see triangular button.",
   "examineText": "It's triangular button.",
   "aliases": [
+    "TRBUT",
     "BUTTO",
     "TRIAN"
   ],
@@ -14,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

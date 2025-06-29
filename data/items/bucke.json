@@ -4,6 +4,7 @@
   "description": "You see wooden bucket.",
   "examineText": "It's wooden bucket.",
   "aliases": [
+    "BUCKE",
     "WOODE"
   ],
   "type": "CONTAINER",
@@ -16,8 +17,8 @@
   },
   "tags": [
     "visible",
-    "vehicle",
-    "openable"
+    "openable",
+    "vehicle"
   ],
   "properties": {
     "capacity": 100,

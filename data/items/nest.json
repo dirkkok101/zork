@@ -4,6 +4,7 @@
   "description": "You see birds nest.",
   "examineText": "On the branch is a small birds nest.",
   "aliases": [
+    "NEST",
     "BIRDS",
     "SMALL"
   ],
@@ -19,10 +20,10 @@
     ]
   },
   "tags": [
-    "openable",
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "openable",
+    "portable"
   ],
   "properties": {
     "capacity": 20,

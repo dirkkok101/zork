@@ -4,6 +4,7 @@
   "description": "You see small pile of coal.",
   "examineText": "There is a small heap of coal here.",
   "aliases": [
+    "COAL",
     "PILE",
     "HEAP",
     "SMALL"
@@ -15,9 +16,9 @@
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "portable"
   ],
   "properties": {
     "size": 20

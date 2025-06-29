@@ -4,6 +4,7 @@
   "description": "You see clove of garlic.",
   "examineText": "There is a clove of garlic here.",
   "aliases": [
+    "GARLI",
     "CLOVE"
   ],
   "type": "FOOD",

@@ -4,6 +4,7 @@
   "description": "You see glass bottle.",
   "examineText": "A clear glass bottle is here.",
   "aliases": [
+    "BOTTL",
     "CONTA",
     "CLEAR",
     "GLASS"

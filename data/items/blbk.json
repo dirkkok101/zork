@@ -4,6 +4,7 @@
   "description": "You see blue book.",
   "examineText": "There is a blue book here.",
   "aliases": [
+    "BLBK",
     "BOOK",
     "BLUE"
   ],
@@ -16,11 +17,11 @@
     "isOpen": false
   },
   "tags": [
-    "readable",
-    "visible",
     "flammable",
-    "portable",
-    "container"
+    "visible",
+    "container",
+    "readable",
+    "portable"
   ],
   "properties": {
     "capacity": 2,

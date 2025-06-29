@@ -4,6 +4,7 @@
   "description": "You see pool of sewage.",
   "examineText": "The leak has submerged the depressed area in a pool of sewage.",
   "aliases": [
+    "POOL",
     "SEWAG",
     "GOOP",
     "LARGE",

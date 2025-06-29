@@ -4,6 +4,7 @@
   "description": "You see wall with engravings.",
   "examineText": "There are old engravings on the walls here.",
   "aliases": [
+    "ENGRA",
     "INSCR",
     "OLD",
     "ANCIE"

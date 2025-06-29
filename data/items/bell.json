@@ -4,6 +4,7 @@
   "description": "You see bell.",
   "examineText": "There is a small brass bell here.",
   "aliases": [
+    "BELL",
     "SMALL",
     "BRASS"
   ],

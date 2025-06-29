@@ -4,6 +4,7 @@
   "description": "You see quantity of water.",
   "examineText": "There is some water here",
   "aliases": [
+    "WATER",
     "QUANT",
     "LIQUI",
     "H2O"
@@ -16,8 +17,8 @@
   "initialState": {},
   "tags": [
     "visible",
-    "drink",
-    "portable"
+    "portable",
+    "drink"
   ],
   "properties": {
     "size": 4

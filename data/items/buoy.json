@@ -4,6 +4,7 @@
   "description": "You see red buoy.",
   "examineText": "There is a red buoy here (probably a warning).",
   "aliases": [
+    "BUOY",
     "RED"
   ],
   "type": "CONTAINER",

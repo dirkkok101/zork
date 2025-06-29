@@ -4,6 +4,7 @@
   "description": "You see white book.",
   "examineText": "There is a white book here.",
   "aliases": [
+    "WHBK",
     "BOOK",
     "WHITE"
   ],
@@ -16,11 +17,11 @@
     "isOpen": false
   },
   "tags": [
-    "readable",
-    "visible",
     "flammable",
-    "portable",
-    "container"
+    "visible",
+    "container",
+    "readable",
+    "portable"
   ],
   "properties": {
     "capacity": 2,

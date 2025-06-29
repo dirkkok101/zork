@@ -4,6 +4,7 @@
   "description": "You see broken balloon.",
   "examineText": "There is a balloon here, broken into pieces.",
   "aliases": [
+    "DBALL",
     "BALLO",
     "BASKE",
     "BROKE"

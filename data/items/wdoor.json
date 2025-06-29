@@ -4,6 +4,7 @@
   "description": "You see wooden door.",
   "examineText": "It's wooden door.",
   "aliases": [
+    "WDOOR",
     "DOOR",
     "WOODE",
     "WEST",
@@ -16,10 +17,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
-    "visible",
     "door",
-    "no_description"
+    "no_description",
+    "visible",
+    "readable"
   ],
   "properties": {
     "readable": true

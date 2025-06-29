@@ -4,6 +4,7 @@
   "description": "You see mahogany wall.",
   "examineText": "It's mahogany wall.",
   "aliases": [
+    "OAKND",
     "WALL",
     "PANEL",
     "MAHOG"
@@ -15,8 +16,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

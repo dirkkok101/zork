@@ -4,6 +4,7 @@
   "description": "You see steel cage.",
   "examineText": "There is a mangled steel cage here.",
   "aliases": [
+    "CAGE",
     "MANGL",
     "STEEL"
   ],
@@ -14,8 +15,8 @@
   "size": "HUGE",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {
     "size": 60

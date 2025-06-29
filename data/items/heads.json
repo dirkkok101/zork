@@ -4,6 +4,7 @@
   "description": "You see set of poled heads.",
   "examineText": "There are four heads here, mounted securely on poles.",
   "aliases": [
+    "HEADS",
     "HEAD",
     "POLE",
     "POLES",
@@ -22,9 +23,9 @@
   "initialState": {},
   "tags": [
     "visible",
-    "dangerous",
     "treasure",
-    "portable"
+    "portable",
+    "dangerous"
   ],
   "properties": {},
   "interactions": [

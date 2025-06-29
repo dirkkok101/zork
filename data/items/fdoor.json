@@ -4,6 +4,7 @@
   "description": "You see door.",
   "examineText": "It's door.",
   "aliases": [
+    "FDOOR",
     "DOOR",
     "FRONT"
   ],
@@ -14,9 +15,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
     "door",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

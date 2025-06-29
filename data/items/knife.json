@@ -4,6 +4,7 @@
   "description": "You see knife.",
   "examineText": "There is a nasty-looking knife lying here.",
   "aliases": [
+    "KNIFE",
     "BLADE",
     "NASTY",
     "UNRUS",
@@ -18,9 +19,9 @@
     "isOn": false
   },
   "tags": [
-    "visible",
     "switchable",
     "weapon",
+    "visible",
     "portable"
   ],
   "properties": {

@@ -4,6 +4,7 @@
   "description": "You see t-bar.",
   "examineText": "It's t-bar.",
   "aliases": [
+    "TBAR",
     "T-BAR",
     "BAR",
     "T"
@@ -15,8 +16,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

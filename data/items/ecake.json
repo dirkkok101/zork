@@ -4,6 +4,7 @@
   "description": "You see piece of 'eat-me' cake.",
   "examineText": "There is a piece of cake here with the words 'Eat-Me' on it.",
   "aliases": [
+    "ECAKE",
     "CAKE",
     "EATME",
     "EAT-M"

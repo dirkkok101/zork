@@ -4,6 +4,7 @@
   "description": "You see tan label.",
   "examineText": "There is a tan label here.",
   "aliases": [
+    "LABEL",
     "FINEP",
     "PRINT",
     "TAN",
@@ -16,10 +17,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 2,

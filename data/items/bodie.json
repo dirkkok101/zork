@@ -4,6 +4,7 @@
   "description": "You see pile of bodies.",
   "examineText": "It's pile of bodies.",
   "aliases": [
+    "BODIE",
     "BODY",
     "CORPS",
     "PILE"
@@ -15,10 +16,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "no_description",
     "visible",
-    "dangerous",
     "portable",
-    "no_description"
+    "dangerous"
   ],
   "properties": {},
   "interactions": [

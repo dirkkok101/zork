@@ -4,6 +4,7 @@
   "description": "You see rusty iron key.",
   "examineText": "There is a rusty iron key here.",
   "aliases": [
+    "PKEY",
     "KEY",
     "IRON",
     "RUSTY"
@@ -15,10 +16,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "no_description",
-    "tool",
-    "visible",
     "turnable",
+    "visible",
+    "tool",
+    "no_description",
     "portable"
   ],
   "properties": {

@@ -3,7 +3,9 @@
   "name": "rainbow",
   "description": "You see rainbow.",
   "examineText": "It's rainbow.",
-  "aliases": [],
+  "aliases": [
+    "RAINB"
+  ],
   "type": "TOOL",
   "portable": false,
   "visible": true,
@@ -11,8 +13,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

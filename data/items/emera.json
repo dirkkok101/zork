@@ -4,6 +4,7 @@
   "description": "You see large emerald.",
   "examineText": "There is an emerald here.",
   "aliases": [
+    "EMERA",
     "LARGE"
   ],
   "type": "TREASURE",

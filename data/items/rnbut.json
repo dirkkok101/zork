@@ -4,6 +4,7 @@
   "description": "You see round button.",
   "examineText": "It's round button.",
   "aliases": [
+    "RNBUT",
     "BUTTO",
     "ROUND"
   ],
@@ -14,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

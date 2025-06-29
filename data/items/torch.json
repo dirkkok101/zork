@@ -4,6 +4,7 @@
   "description": "You see torch.",
   "examineText": "There is an ivory torch here.",
   "aliases": [
+    "TORCH",
     "IVORY",
     "IVORY"
   ],
@@ -18,11 +19,11 @@
   },
   "tags": [
     "switchable",
-    "tool",
     "visible",
+    "tool",
+    "light_source",
     "flame_source",
-    "portable",
-    "light_source"
+    "portable"
   ],
   "properties": {
     "size": 20,

@@ -4,6 +4,7 @@
   "description": "You see red panel.",
   "examineText": "It's red panel.",
   "aliases": [
+    "RDWAL",
     "WALL",
     "PANEL",
     "RED"
@@ -15,8 +16,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

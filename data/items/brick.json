@@ -5,6 +5,7 @@
   "examineText": "There is a square brick here which feels like clay.",
   "aliases": [
     "BRICK",
+    "BRICK",
     "SQUAR",
     "CLAY"
   ],
@@ -17,11 +18,11 @@
     "isOpen": false
   },
   "tags": [
-    "openable",
-    "visible",
     "flammable",
-    "portable",
-    "searchable"
+    "visible",
+    "searchable",
+    "openable",
+    "portable"
   ],
   "properties": {
     "capacity": 2,

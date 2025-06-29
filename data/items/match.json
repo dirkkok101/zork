@@ -4,6 +4,7 @@
   "description": "You see matchbook.",
   "examineText": "It's matchbook.",
   "aliases": [
+    "MATCH",
     "FLINT"
   ],
   "type": "TOOL",
@@ -13,8 +14,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
     "visible",
+    "readable",
     "portable"
   ],
   "properties": {

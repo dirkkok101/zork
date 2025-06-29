@@ -151,7 +151,8 @@ export class SceneService implements ISceneService {
     const availableExits = this.getAvailableExits(fromScene);
     const exit = availableExits.find(e => 
       e.direction.toLowerCase() === direction.toLowerCase() ||
-      e.direction.toLowerCase().startsWith(direction.toLowerCase())
+      (direction.toLowerCase().length <= e.direction.toLowerCase().length && 
+       e.direction.toLowerCase().startsWith(direction.toLowerCase()))
     );
 
     if (!exit) {
@@ -175,7 +176,8 @@ export class SceneService implements ISceneService {
     
     const exit = availableExits.find(e => 
       e.direction.toLowerCase() === direction.toLowerCase() ||
-      e.direction.toLowerCase().startsWith(direction.toLowerCase())
+      (direction.toLowerCase().length <= e.direction.toLowerCase().length && 
+       e.direction.toLowerCase().startsWith(direction.toLowerCase()))
     );
 
     if (!exit) {

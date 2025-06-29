@@ -113,9 +113,14 @@ export class PutCommand extends BaseCommand {
 
   /**
    * Handle placement with target object
+   * 
+   * Architecture: This method follows the service separation pattern:
+   * - ItemService: Validates placement rules and generates messages
+   * - InventoryService: Manages inventory operations with rollback safety
+   * - SceneService: Handles spatial item placement in current scene
    */
   private handlePutWithTarget(itemName: string, preposition: string, targetName: string): CommandResult {
-    // Find item in inventory
+    // 1. Find and validate item in inventory
     const itemId = this.findItemInInventory(itemName);
     if (!itemId) {
       return this.failure(`You don't have ${this.getArticle(itemName)} ${itemName}.`);
@@ -126,32 +131,66 @@ export class PutCommand extends BaseCommand {
       return this.failure(`You don't have ${this.getArticle(itemName)} ${itemName}.`);
     }
 
-    // Find target object (in scene or inventory)
+    // 2. Find and validate target object (in scene or inventory)
     const targetId = this.findItemId(targetName);
     if (!targetId) {
       return this.failure(`You don't see ${this.getArticle(targetName)} ${targetName} here.`);
     }
 
-    // Use ItemService to attempt the placement
+    // 3. Validate placement rules using ItemService (without actual placement)
     const putResult = this.items.putItem(itemId, targetId, preposition);
-    
     if (!putResult.success) {
       return this.failure(putResult.message);
     }
 
-    // If successful, properly remove from inventory
+    // 4. Execute placement transaction with rollback safety
+    return this.executeItemPlacement(itemId, targetId, preposition, putResult.message);
+  }
+
+  /**
+   * Execute the actual item placement with transaction safety
+   */
+  private executeItemPlacement(itemId: string, targetId: string, preposition: string, successMessage: string): CommandResult {
+    // Remove from inventory first (with rollback capability)
     const removeSuccess = this.inventory.removeItem(itemId);
     if (!removeSuccess) {
-      return this.failure(`You can't put the ${item.name} there right now.`);
+      return this.failure(`You can't move that item right now.`);
     }
 
-    // For container operations, ItemService handles the placement
-    // For spatial operations (on, under), add to scene
-    if (preposition !== 'in' || !this.items.isContainer(targetId)) {
-      const currentSceneId = this.gameState.getCurrentScene();
-      this.scene.addItemToScene(currentSceneId, itemId);
+    // Attempt placement using appropriate service
+    const placementSuccess = this.placeItemAtTarget(itemId, targetId, preposition);
+    if (!placementSuccess) {
+      // Rollback: restore item to inventory
+      this.inventory.addItem(itemId);
+      return this.failure(`You can't put that there right now.`);
     }
     
-    return this.success(putResult.message, true, 0);
+    return this.success(successMessage, true, 0);
+  }
+
+
+  /**
+   * Place item at target location using appropriate service
+   * 
+   * Service Responsibilities:
+   * - ItemService.addToContainer(): Handle container placement (in containers only)
+   * - SceneService.addItemToScene(): Handle spatial placement (on/under objects in scene)
+   */
+  private placeItemAtTarget(itemId: string, targetId: string, preposition: string): boolean {
+    try {
+      // Container placement: Only "in" goes into containers
+      if (preposition === 'in' && this.items.isContainer(targetId)) {
+        return this.items.addToContainer(targetId, itemId).success;
+      }
+      
+      // Spatial placement: All other operations (on, under) are spatial
+      // This covers "on mailbox", "under mat", "on table", etc.
+      const currentSceneId = this.gameState.getCurrentScene();
+      this.scene.addItemToScene(currentSceneId, itemId);
+      return true;
+    } catch (error) {
+      this.logger.error('Failed to place item at target:', error);
+      return false;
+    }
   }
 }

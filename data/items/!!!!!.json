@@ -3,7 +3,9 @@
   "name": "!!!!!",
   "description": "You see !!!!!.",
   "examineText": "It's !!!!!.",
-  "aliases": [],
+  "aliases": [
+    "!!!!!"
+  ],
   "type": "TOOL",
   "portable": false,
   "visible": false,

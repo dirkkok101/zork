@@ -4,6 +4,7 @@
   "description": "You see large tree.",
   "examineText": "It's large tree.",
   "aliases": [
+    "TTREE",
     "TREE",
     "LARGE"
   ],
@@ -14,9 +15,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "climbable",
+    "no_description",
     "visible",
-    "no_description"
+    "climbable"
   ],
   "properties": {},
   "interactions": [

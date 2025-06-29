@@ -4,6 +4,7 @@
   "description": "You see stack of listings.",
   "examineText": "It's stack of listings.",
   "aliases": [
+    "LISTS",
     "PAPER",
     "LIST",
     "PRINT",
@@ -20,10 +21,10 @@
   "size": "HUGE",
   "initialState": {},
   "tags": [
-    "readable",
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "size": 70,

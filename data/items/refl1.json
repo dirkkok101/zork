@@ -4,6 +4,7 @@
   "description": "You see mirror.",
   "examineText": "It's mirror.",
   "aliases": [
+    "REFL1",
     "MIRRO"
   ],
   "type": "TOOL",
@@ -15,8 +16,8 @@
   "tags": [
     "character",
     "visible",
-    "dangerous",
-    "portable"
+    "portable",
+    "dangerous"
   ],
   "properties": {},
   "interactions": [

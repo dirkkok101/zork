@@ -4,6 +4,7 @@
   "description": "You see control panel.",
   "examineText": "It's control panel.",
   "aliases": [
+    "CPANL",
     "PANEL",
     "CONTR"
   ],
@@ -14,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

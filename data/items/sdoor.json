@@ -4,6 +4,7 @@
   "description": "You see stone door.",
   "examineText": "It's stone door.",
   "aliases": [
+    "SDOOR",
     "DOOR",
     "STONE"
   ],
@@ -14,9 +15,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
     "door",
-    "no_description"
+    "no_description",
+    "visible"
   ],
   "properties": {},
   "interactions": [

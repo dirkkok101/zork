@@ -4,6 +4,7 @@
   "description": "You see steel cage.",
   "examineText": "There is a steel cage in the middle of the room.",
   "aliases": [
+    "RCAGE",
     "CAGE",
     "STEEL"
   ],

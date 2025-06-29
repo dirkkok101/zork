@@ -4,6 +4,7 @@
   "description": "You see tour guidebook.",
   "examineText": "There are tour guidebooks here.",
   "aliases": [
+    "GUIDE",
     "BOOK",
     "TOUR"
   ],
@@ -14,10 +15,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "readable",
+    "flammable",
     "visible",
-    "portable",
-    "flammable"
+    "readable",
+    "portable"
   ],
   "properties": {
     "readable": true

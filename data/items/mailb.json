@@ -4,6 +4,7 @@
   "description": "You see mailbox.",
   "examineText": "There is a small mailbox here.",
   "aliases": [
+    "MAILB",
     "BOX",
     "SMALL"
   ],
