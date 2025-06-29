@@ -19,6 +19,7 @@ export class GameInterface {
 
     // DOM elements
     private outputArea!: HTMLElement;
+    private scrollContainer!: HTMLElement;
     private commandInput!: HTMLInputElement;
     private statusElement!: HTMLElement;
     private scoreElement!: HTMLElement;
@@ -37,12 +38,13 @@ export class GameInterface {
         
         // Get DOM elements
         this.outputArea = document.getElementById('game-text')!;
+        this.scrollContainer = document.getElementById('output-area')!;
         this.commandInput = document.getElementById('command-input')! as HTMLInputElement;
         this.statusElement = document.getElementById('status')!;
         this.scoreElement = document.getElementById('score')!;
         this.movesElement = document.getElementById('moves')!;
 
-        if (!this.outputArea || !this.commandInput || !this.statusElement) {
+        if (!this.outputArea || !this.scrollContainer || !this.commandInput || !this.statusElement) {
             this.logger.error('Required DOM elements not found');
             throw new Error('Required DOM elements not found');
         }
@@ -214,8 +216,11 @@ export class GameInterface {
         
         this.outputArea.appendChild(messageElement);
         
-        // Scroll to bottom
-        this.outputArea.scrollTop = this.outputArea.scrollHeight;
+        // Scroll to bottom with delay to ensure DOM update completes
+        // Use the correct scroll container and ensure we scroll to the very bottom
+        setTimeout(() => {
+            this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight;
+        }, 50);
     }
 
     /**
