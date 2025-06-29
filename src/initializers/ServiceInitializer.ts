@@ -93,6 +93,9 @@ export class ServiceInitializer {
     const itemService = new ItemService(gameStateService, logger);
     const outputService = new OutputService(logger);
     
+    // Inject inventory service into scene service to handle dynamic conditions
+    sceneService.setInventoryService(inventoryService);
+    
     const services: Services = {
       gameState: gameStateService,
       scene: sceneService,

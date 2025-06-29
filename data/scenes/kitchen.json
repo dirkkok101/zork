@@ -24,7 +24,7 @@
     "down": {
       "to": null,
       "blocked": true,
-      "failureMessage": "It's a long way down!"
+      "failureMessage": "Only Santa Claus climbs down chimneys."
     }
   },
   "items": [

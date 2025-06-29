@@ -171,20 +171,23 @@ class SceneExtractor:
                 'condition': flag
             }
         
-        # Parse NEXIT patterns: "DIRECTION" #NEXIT "MESSAGE"
-        nexit_pattern = r'"([^"]+)"\s+#NEXIT\s+"([^"]+)"'
+        # Parse room-specific NEXIT patterns within ROOM definitions
+        # Match pattern: <ROOM "ROOMKEY" ... <EXIT ... "DIRECTION" #NEXIT "MESSAGE" ...>
+        room_pattern = r'<ROOM\s+"([^"]+)"[^>]*?<EXIT[^>]*?"([^"]+)"\s+#NEXIT\s+"([^"]+)"[^>]*?>'
         
-        matches = re.finditer(nexit_pattern, self.mdl_content)
+        matches = re.finditer(room_pattern, self.mdl_content, re.DOTALL)
         for match in matches:
-            direction = match.group(1)
-            message = match.group(2)
+            room_key = match.group(1)
+            direction = match.group(2)
+            message = match.group(3)
             
-            # Store as blocked exits
-            exit_key = f"NEXIT_{direction}"
+            # Store as room-specific blocked exits
+            exit_key = f"{room_key}_NEXIT_{direction}"
             conditional_exits[exit_key] = {
                 'destination': None,
                 'failureMessage': message,
                 'blocked': True,
+                'room': room_key,
                 'direction': direction
             }
         
@@ -420,12 +423,17 @@ class SceneExtractor:
     
     def get_blocked_exit_message(self, source: str, direction: str) -> str:
         """Get appropriate blocked exit message"""
-        # Check for specific NEXIT messages
+        # Check for room-specific NEXIT messages first
+        room_nexit_key = f"{source}_NEXIT_{direction.upper()}"
+        if room_nexit_key in self.conditional_exits:
+            return self.conditional_exits[room_nexit_key]['failureMessage']
+        
+        # Check for generic NEXIT messages (legacy)
         nexit_key = f"NEXIT_{direction.upper()}"
         if nexit_key in self.conditional_exits:
             return self.conditional_exits[nexit_key]['failureMessage']
         
-        # Default messages based on room and direction
+        # Default messages based on room and direction (fallback for missing data)
         blocked_messages = {
             'WHOUS': {
                 'east': "The front door is boarded and you can't remove the boards."

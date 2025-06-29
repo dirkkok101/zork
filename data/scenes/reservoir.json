@@ -13,12 +13,12 @@
     "down": {
       "to": null,
       "blocked": true,
-      "failureMessage": "It's a long way down!"
+      "failureMessage": "The dam blocks your way."
     },
     "land": {
       "to": null,
       "blocked": true,
-      "failureMessage": "Specify the direction to land."
+      "failureMessage": "You can't go land from here."
     }
   },
   "items": [

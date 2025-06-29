@@ -6,12 +6,12 @@
     "down": {
       "to": null,
       "blocked": true,
-      "failureMessage": "It's a long way down!"
+      "failureMessage": "I wouldn't try that."
     },
     "cross": {
       "to": null,
       "blocked": true,
-      "failureMessage": "It is impossible to cross this distance."
+      "failureMessage": "You can't go cross from here."
     },
     "east": "egyptian_room"
   },

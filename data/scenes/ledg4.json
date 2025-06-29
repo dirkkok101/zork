@@ -6,7 +6,7 @@
     "down": {
       "to": null,
       "blocked": true,
-      "failureMessage": "It's a long way down!"
+      "failureMessage": "It's a long way down."
     },
     "launc": "vair4",
     "west": "vlbot",

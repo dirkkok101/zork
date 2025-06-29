@@ -34,4 +34,13 @@ export interface IInventoryService {
   
   /** Get formatted description of player's inventory */
   getInventoryDescription(): string;
+  
+  /** Get current total weight of carried items */
+  getCurrentWeight(): number;
+  
+  /** Check if player has a light load (for narrow passages) */
+  hasLightLoad(): boolean;
+  
+  /** Check if player is empty-handed (for very narrow passages) */
+  isEmptyHanded(): boolean;
 }

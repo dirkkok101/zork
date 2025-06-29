@@ -7,7 +7,7 @@
     "north": {
       "to": null,
       "blocked": true,
-      "failureMessage": "You would be burned to a crisp in no time."
+      "failureMessage": "You hear the whir from the round room but can find no entrance."
     }
   },
   "items": [],

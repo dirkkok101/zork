@@ -6,7 +6,7 @@
     "up": {
       "to": null,
       "blocked": true,
-      "failureMessage": "The walls cannot be climbed."
+      "failureMessage": "You can't go up from here."
     },
     "west": "dock",
     "land": "dock",
@@ -14,7 +14,7 @@
     "east": {
       "to": null,
       "blocked": true,
-      "failureMessage": "Only a mouse could get in there."
+      "failureMessage": "You can't go east from here."
     }
   },
   "items": [],

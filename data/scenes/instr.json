@@ -6,7 +6,7 @@
     "up": {
       "to": null,
       "blocked": true,
-      "failureMessage": "The walls cannot be climbed."
+      "failureMessage": "The way is too narrow."
     },
     "land": "strea",
     "down": {

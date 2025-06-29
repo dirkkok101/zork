@@ -8,7 +8,7 @@
     "down": {
       "to": null,
       "blocked": true,
-      "failureMessage": "It's a long way down!"
+      "failureMessage": "Are you out of your mind?"
     }
   },
   "items": [],

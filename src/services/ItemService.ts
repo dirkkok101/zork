@@ -737,13 +737,24 @@ export class ItemService implements IItemService {
    */
   itemMatches(item: any, name: string): boolean {
     const itemName = item.name.toLowerCase();
-    if (itemName === name) {
+    const searchName = name.toLowerCase();
+    
+    // Exact name match
+    if (itemName === searchName) {
       return true;
     }
     
     // Check aliases if they exist
     if (item.aliases && Array.isArray(item.aliases)) {
-      return item.aliases.some((alias: string) => alias.toLowerCase() === name);
+      if (item.aliases.some((alias: string) => alias.toLowerCase() === searchName)) {
+        return true;
+      }
+    }
+    
+    // Check for partial word matches in item name (for cases like "bottle" matching "glass bottle")
+    const nameWords = itemName.split(' ');
+    if (nameWords.some((word: string) => word === searchName)) {
+      return true;
     }
     
     return false;

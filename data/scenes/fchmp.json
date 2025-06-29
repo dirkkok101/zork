@@ -6,7 +6,7 @@
     "north": {
       "to": null,
       "blocked": true,
-      "failureMessage": "You would be burned to a crisp in no time."
+      "failureMessage": "You can't go north from here."
     }
   },
   "items": [],

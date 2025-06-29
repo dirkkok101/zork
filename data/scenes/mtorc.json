@@ -6,7 +6,7 @@
     "up": {
       "to": null,
       "blocked": true,
-      "failureMessage": "The walls cannot be climbed."
+      "failureMessage": "You cannot reach the rope."
     },
     "west": "prm",
     "down": "craw4"

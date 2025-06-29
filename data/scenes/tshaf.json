@@ -6,7 +6,7 @@
     "down": {
       "to": null,
       "blocked": true,
-      "failureMessage": "It's a long way down!"
+      "failureMessage": "You wouldn't fit and would die if you could."
     },
     "west": "entra",
     "north": "tunne"

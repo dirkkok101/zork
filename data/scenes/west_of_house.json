@@ -9,7 +9,7 @@
     "east": {
       "to": null,
       "blocked": true,
-      "failureMessage": "Only a mouse could get in there."
+      "failureMessage": "The door is locked, and there is evidently no key."
     }
   },
   "items": [

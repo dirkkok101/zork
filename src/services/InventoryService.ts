@@ -151,11 +151,31 @@ export class InventoryService implements IInventoryService {
   /**
    * Get current total weight of carried items
    */
-  private getCurrentWeight(): number {
+  getCurrentWeight(): number {
     return this.getItems()
       .map(itemId => this.gameState.getItem(itemId))
       .filter(item => item !== undefined)
       .reduce((total, item) => total + (item!.weight || 0), 0);
+  }
+
+  /**
+   * Check if player has a light load (for narrow passages like attic chimney)
+   * Based on original Zork LIGHT-LOAD condition
+   */
+  hasLightLoad(): boolean {
+    const currentWeight = this.getCurrentWeight();
+    // Based on analysis: player with 32 weight units was blocked,
+    // so threshold should be much lower for "light" load
+    const LIGHT_LOAD_THRESHOLD = 10;
+    return currentWeight <= LIGHT_LOAD_THRESHOLD;
+  }
+
+  /**
+   * Check if player is empty-handed (for very narrow passages)
+   * Based on original Zork EMPTY-HANDED condition
+   */
+  isEmptyHanded(): boolean {
+    return this.getItems().length === 0;
   }
 
   /**

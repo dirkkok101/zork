@@ -6,7 +6,7 @@
     "south": {
       "to": null,
       "blocked": true,
-      "failureMessage": "The wall is solid rock."
+      "failureMessage": "You can't go south from here."
     },
     "out": {
       "to": "treasury_of_zork",

@@ -9,7 +9,7 @@
     "south": {
       "to": null,
       "blocked": true,
-      "failureMessage": "The wall is solid rock."
+      "failureMessage": "The windows are all barred."
     }
   },
   "items": [],

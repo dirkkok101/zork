@@ -9,7 +9,7 @@
     "north": {
       "to": null,
       "blocked": true,
-      "failureMessage": "You would be burned to a crisp in no time."
+      "failureMessage": "The windows are all barred."
     }
   },
   "items": [],

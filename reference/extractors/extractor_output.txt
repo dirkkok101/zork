@@ -1,0 +1,8 @@
+Extracting scenes...
+Cleaning existing scenes directory: /Users/dirkkok/Development/zork/data/scenes
+DEBUG: Looking for blocked message for ALISM nw
+DEBUG: Using default message for ALISM nw
+DEBUG: Looking for blocked message for PCELL out
+DEBUG: Using default message for PCELL out
+Created 195 scene files in flat structure
+Scene extraction complete!

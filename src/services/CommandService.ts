@@ -174,7 +174,7 @@ export class CommandService implements ICommandService {
       }
     }
     
-    // Add basic command name suggestions
+    // Add basic command name suggestions (exact match and starts with)
     const commandNames = new Set<string>();
     this.commands.forEach((command, name) => {
       if (name.startsWith(lowerInput)) {
@@ -183,11 +183,70 @@ export class CommandService implements ICommandService {
     });
     suggestions.push(...Array.from(commandNames));
     
+    // Add fuzzy matching for typos (if no exact matches found)
+    if (suggestions.length === 0 && lowerInput.length > 2) {
+      const fuzzyMatches = this.getFuzzyMatches(lowerInput);
+      suggestions.push(...fuzzyMatches);
+    }
+    
     // Remove duplicates and sort
     return Array.from(new Set(suggestions))
-      .filter(suggestion => suggestion.toLowerCase().includes(lowerInput))
+      .filter(suggestion => suggestion.toLowerCase().includes(lowerInput) || this.isCloseMatch(lowerInput, suggestion))
       .sort()
       .slice(0, 10); // Limit to 10 suggestions
+  }
+
+  /**
+   * Get fuzzy matches for typos
+   */
+  private getFuzzyMatches(input: string): string[] {
+    const matches: string[] = [];
+    const allCommands = Array.from(new Set(Array.from(this.commands.values()).map(cmd => cmd.name)));
+    
+    for (const commandName of allCommands) {
+      if (this.isCloseMatch(input, commandName)) {
+        matches.push(commandName);
+      }
+    }
+    
+    return matches;
+  }
+
+  /**
+   * Check if two strings are close matches (for typo detection)
+   */
+  private isCloseMatch(input: string, target: string): boolean {
+    const inputLower = input.toLowerCase();
+    const targetLower = target.toLowerCase();
+    
+    // Check for common typos like "movw" -> "move"
+    const distance = this.levenshteinDistance(inputLower, targetLower);
+    const maxDistance = Math.min(2, Math.floor(target.length / 3)); // Allow 1-2 character differences
+    
+    return distance <= maxDistance && distance > 0;
+  }
+
+  /**
+   * Calculate Levenshtein distance for typo detection
+   */
+  private levenshteinDistance(str1: string, str2: string): number {
+    const matrix = Array(str2.length + 1).fill(null).map(() => Array(str1.length + 1).fill(null));
+    
+    for (let i = 0; i <= str1.length; i++) matrix[0]![i] = i;
+    for (let j = 0; j <= str2.length; j++) matrix[j]![0] = j;
+    
+    for (let j = 1; j <= str2.length; j++) {
+      for (let i = 1; i <= str1.length; i++) {
+        const substitutionCost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+        matrix[j]![i] = Math.min(
+          matrix[j]![i - 1]! + 1, // insertion
+          matrix[j - 1]![i]! + 1, // deletion
+          matrix[j - 1]![i - 1]! + substitutionCost // substitution
+        );
+      }
+    }
+    
+    return matrix[str2.length]![str1.length]!;
   }
 
   /**
@@ -221,9 +280,18 @@ export class CommandService implements ICommandService {
       );
     }
     
-    const firstWord = input.split(/\s+/)[0];
+    const firstWord = input.split(/\s+/)[0] || input;
+    
+    // Special handling for common requests
+    if (firstWord.toLowerCase() === 'help') {
+      return this.createFailureResult(
+        "Try commands like: look, examine, take, drop, move, inventory, open, close",
+        false
+      );
+    }
+    
     return this.createFailureResult(
-      `I don't know how to "${firstWord}". Type "help" for available commands.`,
+      `I don't know how to "${firstWord}". Try: look, examine, take, move, inventory`,
       false
     );
   }

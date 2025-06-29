@@ -16,7 +16,7 @@
     "west": {
       "to": null,
       "blocked": true,
-      "failureMessage": "It is too narrow for most insects."
+      "failureMessage": "You can't go west from here."
     }
   },
   "items": [

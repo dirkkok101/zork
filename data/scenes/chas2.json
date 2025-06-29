@@ -9,7 +9,7 @@
     "down": {
       "to": null,
       "blocked": true,
-      "failureMessage": "It's a long way down!"
+      "failureMessage": "The chasm probably leads straight to the infernal regions."
     }
   },
   "items": [],

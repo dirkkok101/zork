@@ -9,7 +9,7 @@
     "up": {
       "to": null,
       "blocked": true,
-      "failureMessage": "The walls cannot be climbed."
+      "failureMessage": "Not even a human fly could get up it."
     }
   },
   "items": [],

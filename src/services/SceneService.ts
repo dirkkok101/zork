@@ -1,5 +1,6 @@
 import { ISceneService, DoorResult } from './interfaces/ISceneService';
 import { IGameStateService } from './interfaces/IGameStateService';
+import { IInventoryService } from './interfaces/IInventoryService';
 import { Exit, SceneItem } from '../types/SceneTypes';
 import log from 'loglevel';
 
@@ -9,12 +10,20 @@ import log from 'loglevel';
  */
 export class SceneService implements ISceneService {
   private logger: log.Logger;
+  private inventory?: IInventoryService;
 
   constructor(
     private gameState: IGameStateService,
     logger?: log.Logger
   ) {
     this.logger = logger || log.getLogger('SceneService');
+  }
+
+  /**
+   * Set the inventory service (called after initialization to avoid circular deps)
+   */
+  setInventoryService(inventory: IInventoryService): void {
+    this.inventory = inventory;
   }
 
   /**
@@ -257,12 +266,30 @@ export class SceneService implements ISceneService {
    */
   private checkCondition(condition: string | string[]): boolean {
     if (typeof condition === 'string') {
+      // Handle dynamic inventory-based conditions
+      if (condition === 'light_load') {
+        if (!this.inventory) {
+          this.logger.warn('Cannot check light_load condition: inventory service not available');
+          return false;
+        }
+        return this.inventory.hasLightLoad();
+      }
+      
+      if (condition === 'empty_handed') {
+        if (!this.inventory) {
+          this.logger.warn('Cannot check empty_handed condition: inventory service not available');
+          return false;
+        }
+        return this.inventory.isEmptyHanded();
+      }
+      
+      // Handle regular flag-based conditions
       return this.gameState.getFlag(condition);
     }
 
     if (Array.isArray(condition)) {
       // All conditions must be true
-      return condition.every(flag => this.gameState.getFlag(flag));
+      return condition.every(flag => this.checkCondition(flag));
     }
 
     return false;

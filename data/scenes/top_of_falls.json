@@ -7,7 +7,7 @@
     "down": {
       "to": null,
       "blocked": true,
-      "failureMessage": "It's a long way down!"
+      "failureMessage": "You can't go down from here."
     },
     "north": "fante",
     "up": "rainb"

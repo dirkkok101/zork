@@ -6,7 +6,7 @@
     "up": {
       "to": null,
       "blocked": true,
-      "failureMessage": "The walls cannot be climbed."
+      "failureMessage": "You can't go up from here."
     },
     "north": "fore5",
     "se": "cltop",
