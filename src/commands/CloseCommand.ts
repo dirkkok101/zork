@@ -67,7 +67,23 @@ export class CloseCommand extends BaseCommand {
       return this.failure(`You don't see ${this.getArticle(targetName)} ${targetName} here.`);
     }
 
-    // Attempt to close the item
+    // Check if this is a door or container
+    const item = this.gameState.getItem(targetId);
+    if (!item) {
+      return this.failure(`You don't see ${this.getArticle(targetName)} ${targetName} here.`);
+    }
+
+    // If item is tagged as a door, delegate to SceneService
+    if (item.tags && item.tags.includes('door')) {
+      const currentScene = this.gameState.getCurrentScene();
+      const doorResult = this.scene.closeDoor(currentScene, targetId);
+      
+      return doorResult.success 
+        ? this.success(doorResult.message, true, 0)
+        : this.failure(doorResult.message);
+    }
+
+    // Otherwise, delegate to ItemService for containers
     const closeResult = this.items.closeItem(targetId);
     
     return closeResult.success 

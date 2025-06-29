@@ -13,6 +13,7 @@ export type { ICombatService, CombatResult, InteractionResult } from './ICombatS
 export type { IPersistenceService } from './IPersistenceService';
 export type { IOutputService } from './IOutputService';
 export type { ICommandService } from './ICommandService';
+export type { ICommandProcessor } from './ICommandProcessor';
 
 // Re-export core types needed by commands
 export type {

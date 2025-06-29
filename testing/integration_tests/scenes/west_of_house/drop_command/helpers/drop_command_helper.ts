@@ -3,46 +3,24 @@
  * Provides utilities for testing the Drop command in integration tests
  */
 
-import { DropCommand } from '@/commands/DropCommand';
 import { CommandResult } from '@/types/CommandTypes';
-import {
-  IGameStateService,
-  ISceneService,
-  IInventoryService,
-  IItemService,
-  ICombatService,
-  IPersistenceService,
-  IOutputService
-} from '@/services/interfaces';
+import { CommandProcessor } from '@/services/CommandProcessor';
+import { IGameStateService, IInventoryService, IItemService, ISceneService } from '@/services/interfaces';
 
 export class DropCommandHelper {
-  private dropCommand: DropCommand;
-
   constructor(
+    private commandProcessor: CommandProcessor,
     private gameState: IGameStateService,
-    private scene: ISceneService,
     private inventory: IInventoryService,
     private items: IItemService,
-    private combat: ICombatService,
-    private persistence: IPersistenceService,
-    private output: IOutputService
-  ) {
-    this.dropCommand = new DropCommand(
-      gameState,
-      scene,
-      inventory,
-      items,
-      combat,
-      persistence,
-      output
-    );
-  }
+    private scene: ISceneService
+  ) {}
 
   /**
    * Execute a drop command and return the result
    */
   executeDrop(input: string): CommandResult {
-    return this.dropCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**
@@ -70,34 +48,14 @@ export class DropCommandHelper {
    * Execute a take command (for test setup)
    */
   executeTake(input: string): CommandResult {
-    const { TakeCommand } = require('@/commands/TakeCommand');
-    const takeCommand = new TakeCommand(
-      this.gameState,
-      this.scene,
-      this.inventory,
-      this.items,
-      this.combat,
-      this.persistence,
-      this.output
-    );
-    return takeCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**
    * Execute an open command (for test setup)
    */
   executeOpen(input: string): CommandResult {
-    const { OpenCommand } = require('@/commands/OpenCommand');
-    const openCommand = new OpenCommand(
-      this.gameState,
-      this.scene,
-      this.inventory,
-      this.items,
-      this.combat,
-      this.persistence,
-      this.output
-    );
-    return openCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**

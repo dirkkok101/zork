@@ -3,46 +3,21 @@
  * Provides utilities for testing the Close command in integration tests
  */
 
-import { CloseCommand } from '@/commands/CloseCommand';
 import { CommandResult } from '@/types/CommandTypes';
-import {
-  IGameStateService,
-  ISceneService,
-  IInventoryService,
-  IItemService,
-  ICombatService,
-  IPersistenceService,
-  IOutputService
-} from '@/services/interfaces';
+import { CommandProcessor } from '@/services/CommandProcessor';
+import { IGameStateService } from '@/services/interfaces';
 
 export class CloseCommandHelper {
-  private closeCommand: CloseCommand;
-
   constructor(
-    private gameState: IGameStateService,
-    private scene: ISceneService,
-    private inventory: IInventoryService,
-    private items: IItemService,
-    private combat: ICombatService,
-    private persistence: IPersistenceService,
-    private output: IOutputService
-  ) {
-    this.closeCommand = new CloseCommand(
-      gameState,
-      scene,
-      inventory,
-      items,
-      combat,
-      persistence,
-      output
-    );
-  }
+    private commandProcessor: CommandProcessor,
+    private gameState: IGameStateService
+  ) {}
 
   /**
    * Execute a close command and return the result
    */
   executeClose(input: string): CommandResult {
-    return this.closeCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**
@@ -56,18 +31,7 @@ export class CloseCommandHelper {
    * Execute an open command (for setup in tests)
    */
   executeOpen(input: string): CommandResult {
-    // Import and use OpenCommand for test setup
-    const { OpenCommand } = require('@/commands/OpenCommand');
-    const openCommand = new OpenCommand(
-      this.gameState,
-      this.scene,
-      this.inventory,
-      this.items,
-      this.combat,
-      this.persistence,
-      this.output
-    );
-    return openCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**

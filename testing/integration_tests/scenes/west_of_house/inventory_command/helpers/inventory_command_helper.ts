@@ -3,46 +3,21 @@
  * Provides utilities for testing the Inventory command in integration tests
  */
 
-import { InventoryCommand } from '@/commands/InventoryCommand';
 import { CommandResult } from '@/types/CommandTypes';
-import {
-  IGameStateService,
-  ISceneService,
-  IInventoryService,
-  IItemService,
-  ICombatService,
-  IPersistenceService,
-  IOutputService
-} from '@/services/interfaces';
+import { CommandProcessor } from '@/services/CommandProcessor';
+import { IInventoryService } from '@/services/interfaces';
 
 export class InventoryCommandHelper {
-  private inventoryCommand: InventoryCommand;
-
   constructor(
-    gameState: IGameStateService,
-    scene: ISceneService,
-    private inventory: IInventoryService,
-    items: IItemService,
-    combat: ICombatService,
-    persistence: IPersistenceService,
-    output: IOutputService
-  ) {
-    this.inventoryCommand = new InventoryCommand(
-      gameState,
-      scene,
-      inventory,
-      items,
-      combat,
-      persistence,
-      output
-    );
-  }
+    private commandProcessor: CommandProcessor,
+    private inventory: IInventoryService
+  ) {}
 
   /**
    * Execute an inventory command and return the result
    */
   executeInventory(input: string): CommandResult {
-    return this.inventoryCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**

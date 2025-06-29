@@ -36,7 +36,7 @@ export class DropCommand extends BaseCommand {
   ) {
     super(
       'drop',
-      ['place', 'leave'],
+      ['leave'],
       'drop <object>',
       'Drop an item from your inventory to the current location.',
       gameState,

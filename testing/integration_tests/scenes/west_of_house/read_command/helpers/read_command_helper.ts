@@ -3,46 +3,24 @@
  * Provides utilities for testing the Read command in integration tests
  */
 
-import { ReadCommand } from '@/commands/ReadCommand';
 import { CommandResult } from '@/types/CommandTypes';
-import {
-  IGameStateService,
-  ISceneService,
-  IInventoryService,
-  IItemService,
-  ICombatService,
-  IPersistenceService,
-  IOutputService
-} from '@/services/interfaces';
+import { CommandProcessor } from '@/services/CommandProcessor';
+import { IGameStateService, IInventoryService, IItemService, ISceneService } from '@/services/interfaces';
 
 export class ReadCommandHelper {
-  private readCommand: ReadCommand;
-
   constructor(
+    private commandProcessor: CommandProcessor,
     private gameState: IGameStateService,
-    private scene: ISceneService,
     private inventory: IInventoryService,
     private items: IItemService,
-    combat: ICombatService,
-    persistence: IPersistenceService,
-    output: IOutputService
-  ) {
-    this.readCommand = new ReadCommand(
-      gameState,
-      scene,
-      inventory,
-      items,
-      combat,
-      persistence,
-      output
-    );
-  }
+    private scene: ISceneService
+  ) {}
 
   /**
    * Execute a read command and return the result
    */
   executeRead(input: string): CommandResult {
-    return this.readCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**

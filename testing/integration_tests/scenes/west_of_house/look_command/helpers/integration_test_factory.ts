@@ -5,6 +5,8 @@
 
 import { GameInitializer } from '@/initializers/GameInitializer';
 import { ServiceInitializer, Services } from '@/initializers/ServiceInitializer';
+import { CommandInitializer } from '@/initializers/CommandInitializer';
+import { CommandProcessor } from '@/services/CommandProcessor';
 import LoggingService from '@/services/LoggingService';
 import { WestOfHouseHelper } from './west_of_house_helper';
 import { LookCommandHelper } from './look_command_helper';
@@ -12,6 +14,7 @@ import log from 'loglevel';
 
 export interface IntegrationTestEnvironment {
   services: Services;
+  commandProcessor: CommandProcessor;
   westOfHouseHelper: WestOfHouseHelper;
   lookCommandHelper: LookCommandHelper;
   cleanup: () => void;
@@ -40,6 +43,14 @@ export class IntegrationTestFactory {
       services.persistence = IntegrationTestFactory.createMockPersistenceService() as any;
     }
     
+    // Initialize command service and processor
+    const commandService = CommandInitializer.initialize(services, loggingService);
+    const commandProcessor = new CommandProcessor(
+      commandService,
+      services.gameState,
+      loggingService.getLogger('CommandProcessor')
+    );
+    
     // Ensure player starts in west_of_house
     services.gameState.setCurrentScene('west_of_house');
     
@@ -50,13 +61,8 @@ export class IntegrationTestFactory {
     );
     
     const lookCommandHelper = new LookCommandHelper(
-      services.gameState as any,
-      services.scene as any,
-      services.inventory as any,
-      services.items as any,
-      services.combat,
-      services.persistence,
-      services.output as any
+      commandProcessor,
+      services.gameState as any
     );
     
     // Reset to clean state
@@ -70,6 +76,7 @@ export class IntegrationTestFactory {
     
     return {
       services,
+      commandProcessor,
       westOfHouseHelper,
       lookCommandHelper,
       cleanup

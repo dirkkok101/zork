@@ -15,13 +15,11 @@ describe('Read Command - West of House Scene', () => {
     
     // Create Read command helper
     readHelper = new ReadCommandHelper(
+      testEnv.commandProcessor,
       testEnv.services.gameState as any,
-      testEnv.services.scene as any,
       testEnv.services.inventory as any,
       testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.services.scene as any
     );
   });
 

@@ -23,33 +23,19 @@ describe('Container Output Consistency - State Validation', () => {
     testEnv = await IntegrationTestFactory.createTestEnvironment();
     
     openHelper = new OpenCommandHelper(
+      testEnv.commandProcessor,
       testEnv.services.gameState as any,
-      testEnv.services.scene as any,
-      testEnv.services.inventory as any,
-      testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.services.items as any
     );
     
     examineHelper = new ExamineCommandHelper(
-      testEnv.services.gameState as any,
-      testEnv.services.scene as any,
-      testEnv.services.inventory as any,
-      testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.commandProcessor,
+      testEnv.services.gameState as any
     );
     
     closeHelper = new CloseCommandHelper(
-      testEnv.services.gameState as any,
-      testEnv.services.scene as any,
-      testEnv.services.inventory as any,
-      testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.commandProcessor,
+      testEnv.services.gameState as any
     );
     
     lookHelper = testEnv.lookCommandHelper;

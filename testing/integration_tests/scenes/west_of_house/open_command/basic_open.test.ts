@@ -15,13 +15,9 @@ describe('Open Command - West of House Scene', () => {
     
     // Create Open command helper
     openHelper = new OpenCommandHelper(
+      testEnv.commandProcessor,
       testEnv.services.gameState as any,
-      testEnv.services.scene as any,
-      testEnv.services.inventory as any,
-      testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.services.items as any
     );
   });
 

@@ -5,17 +5,13 @@
  * Handles DOM manipulation, command input, and display output.
  */
 
-import { CommandService } from '../services/CommandService';
-import { GameStateService } from '../services/GameStateService';
-import { SceneService } from '../services/SceneService';
-import { InventoryService } from '../services/InventoryService';
+import { CommandProcessor } from '../services/CommandProcessor';
+import { IGameStateService } from '../services/interfaces';
 import * as log from 'loglevel';
 
 export class GameInterface {
-    private commandService!: CommandService;
-    private gameStateService!: GameStateService;
-    private sceneService!: SceneService;
-    private inventoryService!: InventoryService;
+    private commandProcessor!: CommandProcessor;
+    private gameStateService!: IGameStateService;
     private gameInitialized = false;
     private commandHistory: string[] = [];
     private historyIndex = -1;
@@ -70,17 +66,13 @@ export class GameInterface {
      * Initialize the game interface with services
      */
     initialize(
-        commandService: CommandService, 
-        gameStateService: GameStateService, 
-        sceneService: SceneService, 
-        inventoryService: InventoryService
+        commandProcessor: CommandProcessor, 
+        gameStateService: IGameStateService
     ): void {
         this.logger.info('Initializing game interface...');
         
-        this.commandService = commandService;
+        this.commandProcessor = commandProcessor;
         this.gameStateService = gameStateService;
-        this.sceneService = sceneService;
-        this.inventoryService = inventoryService;
         this.gameInitialized = true;
         this.setStatus('Ready');
         this.commandInput.disabled = false;
@@ -101,40 +93,16 @@ export class GameInterface {
         this.displayMessage('Revision 88 / Serial number 840726\n');
         
         // Execute initial look command to show starting location
-        this.executeCommand('look');
+        const lookResult = this.commandProcessor.processCommand('look');
+        if (lookResult.success) {
+            this.displayMessage(lookResult.message);
+        }
         
         // Show available commands
         this.displayMessage('\nAvailable commands: look, examine, move (north/south/east/west), take, drop, inventory');
         this.displayMessage('Type "look" for a detailed description of your surroundings.\n');
     }
 
-    /**
-     * Display the current scene description and contents
-     */
-    private displayCurrentScene(): void {
-        try {
-            const currentSceneId = this.gameStateService.getCurrentSceneId();
-            const sceneDescription = this.sceneService.getSceneDescription(currentSceneId);
-            
-            this.displayMessage(sceneDescription.description);
-            
-            // Display visible items in the scene
-            if (sceneDescription.visibleItems && sceneDescription.visibleItems.length > 0) {
-                for (const item of sceneDescription.visibleItems) {
-                    this.displayMessage(item);
-                }
-            }
-            
-            // Display exits
-            if (sceneDescription.exits && sceneDescription.exits.length > 0) {
-                this.displayMessage('\nExits: ' + sceneDescription.exits.join(', '));
-            }
-            
-        } catch (error) {
-            this.logger.error('Failed to display current scene:', error);
-            this.displayMessage('You find yourself in a mysterious location.');
-        }
-    }
 
     /**
      * Handle keyboard input
@@ -186,27 +154,20 @@ export class GameInterface {
 
         // Execute command
         try {
-            const result = this.commandService.executeCommand(input);
+            const result = this.commandProcessor.processCommand(input);
             
             this.logger.debug(`Command result: success=${result.success}, countsAsMove=${result.countsAsMove}`);
             
             if (result.success) {
                 this.displayMessage(result.message);
-                if (result.scoreChange) {
-                    this.logger.debug(`Score change: ${result.scoreChange}`);
-                    this.updateScore(result.scoreChange);
-                }
-                
                 // Update UI state after successful commands
                 this.updateGameStateDisplay();
             } else {
                 this.displayMessage(result.message, 'error');
             }
             
-            if (result.countsAsMove) {
-                this.logger.debug('Command counts as a move, incrementing move counter');
-                this.incrementMoves();
-            }
+            // Note: CommandProcessor handles move counting and score changes automatically
+            this.updateGameStateDisplay();
             
         } catch (error) {
             this.logger.error('Command execution error:', error);
@@ -264,22 +225,6 @@ export class GameInterface {
         this.statusElement.textContent = status;
     }
 
-    /**
-     * Update score display
-     */
-    private updateScore(change: number): void {
-        const currentScore = parseInt(this.scoreElement.textContent?.replace('Score: ', '') || '0');
-        const newScore = currentScore + change;
-        this.scoreElement.textContent = `Score: ${newScore}`;
-    }
-
-    /**
-     * Increment moves counter
-     */
-    private incrementMoves(): void {
-        const currentMoves = parseInt(this.movesElement.textContent?.replace('Moves: ', '') || '0');
-        this.movesElement.textContent = `Moves: ${currentMoves + 1}`;
-    }
 
     /**
      * Clear the output area

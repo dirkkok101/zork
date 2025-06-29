@@ -3,46 +3,24 @@
  * Provides utilities for testing the Put command in integration tests
  */
 
-import { PutCommand } from '@/commands/PutCommand';
 import { CommandResult } from '@/types/CommandTypes';
-import {
-  IGameStateService,
-  ISceneService,
-  IInventoryService,
-  IItemService,
-  ICombatService,
-  IPersistenceService,
-  IOutputService
-} from '@/services/interfaces';
+import { CommandProcessor } from '@/services/CommandProcessor';
+import { IGameStateService, IInventoryService, IItemService, ISceneService } from '@/services/interfaces';
 
 export class PutCommandHelper {
-  private putCommand: PutCommand;
-
   constructor(
+    private commandProcessor: CommandProcessor,
     private gameState: IGameStateService,
-    private scene: ISceneService,
     private inventory: IInventoryService,
     private items: IItemService,
-    private combat: ICombatService,
-    private persistence: IPersistenceService,
-    private output: IOutputService
-  ) {
-    this.putCommand = new PutCommand(
-      gameState,
-      scene,
-      inventory,
-      items,
-      combat,
-      persistence,
-      output
-    );
-  }
+    private scene: ISceneService
+  ) {}
 
   /**
    * Execute a put command and return the result
    */
   executePut(input: string): CommandResult {
-    return this.putCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**
@@ -77,51 +55,21 @@ export class PutCommandHelper {
    * Execute a take command (for test setup)
    */
   executeTake(input: string): CommandResult {
-    const { TakeCommand } = require('@/commands/TakeCommand');
-    const takeCommand = new TakeCommand(
-      this.gameState,
-      this.scene,
-      this.inventory,
-      this.items,
-      this.combat,
-      this.persistence,
-      this.output
-    );
-    return takeCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**
    * Execute an open command (for test setup)
    */
   executeOpen(input: string): CommandResult {
-    const { OpenCommand } = require('@/commands/OpenCommand');
-    const openCommand = new OpenCommand(
-      this.gameState,
-      this.scene,
-      this.inventory,
-      this.items,
-      this.combat,
-      this.persistence,
-      this.output
-    );
-    return openCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**
    * Execute a close command (for test setup)
    */
   executeClose(input: string): CommandResult {
-    const { CloseCommand } = require('@/commands/CloseCommand');
-    const closeCommand = new CloseCommand(
-      this.gameState,
-      this.scene,
-      this.inventory,
-      this.items,
-      this.combat,
-      this.persistence,
-      this.output
-    );
-    return closeCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**

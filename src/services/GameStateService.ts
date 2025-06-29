@@ -60,6 +60,11 @@ export class GameStateService implements IGameStateService {
     this.logger.debug(`Score changed by ${points}, new score: ${this.gameState.score}`);
   }
 
+  incrementMoves(): void {
+    this.gameState.moves = (this.gameState.moves || 0) + 1;
+    this.logger.debug(`Move counter incremented to: ${this.gameState.moves}`);
+  }
+
   // Game Lifecycle
   isGameOver(): boolean {
     return this.getFlag('gameOver') || false;

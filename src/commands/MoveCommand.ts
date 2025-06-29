@@ -40,7 +40,8 @@ export class MoveCommand extends BaseCommand {
       [
         'go', 'walk', 'travel', 'head',
         'north', 'n', 'south', 's', 'east', 'e', 'west', 'w',
-        'up', 'u', 'down', 'd', 'enter', 'exit', 'in', 'out'
+        'up', 'u', 'down', 'd', 'enter', 'exit', 'in', 'out',
+        'northeast', 'ne', 'northwest', 'nw', 'southeast', 'se', 'southwest', 'sw'
       ],
       'move <direction>',
       'Move in the specified direction or to another location.',
@@ -144,7 +145,8 @@ export class MoveCommand extends BaseCommand {
    * Check if the base command is a direct direction
    */
   private isDirectionCommand(command: string): boolean {
-    const directions = ['north', 'n', 'south', 's', 'east', 'e', 'west', 'w', 'up', 'u', 'down', 'd', 'enter', 'exit', 'in', 'out'];
+    const directions = ['north', 'n', 'south', 's', 'east', 'e', 'west', 'w', 'up', 'u', 'down', 'd', 'enter', 'exit', 'in', 'out',
+                       'northeast', 'ne', 'northwest', 'nw', 'southeast', 'se', 'southwest', 'sw'];
     return directions.includes(command.toLowerCase());
   }
 
@@ -158,7 +160,11 @@ export class MoveCommand extends BaseCommand {
       'e': 'east',
       'w': 'west',
       'u': 'up',
-      'd': 'down'
+      'd': 'down',
+      'ne': 'northeast',
+      'nw': 'northwest',
+      'se': 'southeast',
+      'sw': 'southwest'
     };
 
     const lower = direction.toLowerCase();
@@ -169,16 +175,29 @@ export class MoveCommand extends BaseCommand {
    * Get specific failure message for movement attempt
    */
   private getMovementFailureMessage(sceneId: string, direction: string): string {
-    // First check if direction exists in available exits but is locked/conditional
-    const availableExits = this.scene.getAvailableExits(sceneId);
-    const availableExit = availableExits.find(e => 
+    // Get ALL exits (including blocked ones) to check for failure messages
+    const allExits = this.scene.getAllExits(sceneId);
+    const exit = allExits.find(e => 
       e.direction.toLowerCase() === direction.toLowerCase() ||
       (direction.toLowerCase().length <= e.direction.toLowerCase().length && 
        e.direction.toLowerCase().startsWith(direction.toLowerCase()))
     );
 
-    if (availableExit && availableExit.locked) {
-      return `The ${direction} exit is locked.`;
+    if (exit) {
+      // Check if exit is locked
+      if (exit.locked) {
+        return exit.failureMessage || `The ${direction} exit is locked.`;
+      }
+
+      // Check if exit has a condition that's not met
+      if (exit.condition && exit.failureMessage) {
+        // Check if the condition is not met
+        const availableExits = this.scene.getAvailableExits(sceneId);
+        const isAvailable = availableExits.some(e => e.direction === exit.direction);
+        if (!isAvailable) {
+          return exit.failureMessage;
+        }
+      }
     }
 
     // Check original scene data for blocked exits

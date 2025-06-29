@@ -25,43 +25,27 @@ describe('Mailbox Complete Interaction - User Journey', () => {
     
     // Create all command helpers
     openHelper = new OpenCommandHelper(
+      testEnv.commandProcessor,
       testEnv.services.gameState as any,
-      testEnv.services.scene as any,
-      testEnv.services.inventory as any,
-      testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.services.items as any
     );
     
     examineHelper = new ExamineCommandHelper(
-      testEnv.services.gameState as any,
-      testEnv.services.scene as any,
-      testEnv.services.inventory as any,
-      testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.commandProcessor,
+      testEnv.services.gameState as any
     );
     
     closeHelper = new CloseCommandHelper(
-      testEnv.services.gameState as any,
-      testEnv.services.scene as any,
-      testEnv.services.inventory as any,
-      testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.commandProcessor,
+      testEnv.services.gameState as any
     );
     
     takeHelper = new TakeCommandHelper(
+      testEnv.commandProcessor,
       testEnv.services.gameState as any,
-      testEnv.services.scene as any,
       testEnv.services.inventory as any,
       testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.services.scene as any
     );
     
     lookHelper = testEnv.lookCommandHelper;

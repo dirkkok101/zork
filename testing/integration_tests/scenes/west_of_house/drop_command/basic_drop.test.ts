@@ -15,13 +15,11 @@ describe('Drop Command - West of House Scene', () => {
     
     // Create Drop command helper
     dropHelper = new DropCommandHelper(
+      testEnv.commandProcessor,
       testEnv.services.gameState as any,
-      testEnv.services.scene as any,
       testEnv.services.inventory as any,
       testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.services.scene as any
     );
   });
 
@@ -220,17 +218,6 @@ describe('Drop Command - West of House Scene', () => {
       expect(dropHelper.isInInventory('mat')).toBe(true);
       
       const result = dropHelper.executeDrop('drop welcome mat');
-      
-      dropHelper.verifyDropSuccess(result, 'welcome mat');
-      dropHelper.verifyItemMovedToScene('mat');
-    });
-
-    it('should work with "place" alias', () => {
-      // Take mat first using real command flow
-      const takeResult = dropHelper.executeTake('take welcome mat');
-      expect(takeResult.success).toBe(true);
-      
-      const result = dropHelper.executeDrop('place welcome mat');
       
       dropHelper.verifyDropSuccess(result, 'welcome mat');
       dropHelper.verifyItemMovedToScene('mat');

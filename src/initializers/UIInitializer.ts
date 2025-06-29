@@ -5,7 +5,8 @@
  * Handles both web browser and console environments.
  */
 
-import { LoggingService, CommandService } from '../services';
+import { LoggingService } from '../services';
+import { CommandProcessor } from '../services/CommandProcessor';
 import { GameInterface } from '../ui/GameInterface';
 import { GameData } from '../initializers/GameInitializer';
 import { Services } from '../initializers/ServiceInitializer';
@@ -27,14 +28,14 @@ export class UIInitializer {
   /**
    * Initialize the appropriate UI for the detected environment
    * @param gameData Loaded game data
-   * @param commandService Configured command service
+   * @param commandProcessor Configured command processor
    * @param services All game services
    * @param loggingService Logging service for creating loggers
    * @returns UI initialization result
    */
   static initialize(
     gameData: GameData,
-    commandService: CommandService,
+    commandProcessor: CommandProcessor,
     services: Services,
     loggingService: LoggingService
   ): UIResult {
@@ -47,9 +48,9 @@ export class UIInitializer {
       logger.debug(`Environment detected: ${environment}`);
       
       if (environment === 'web') {
-        return this.initializeWebInterface(gameData, commandService, services, loggingService);
+        return this.initializeWebInterface(gameData, commandProcessor, services, loggingService);
       } else {
-        return this.initializeConsoleInterface(gameData, commandService, loggingService);
+        return this.initializeConsoleInterface(gameData, loggingService);
       }
       
     } catch (error) {
@@ -69,14 +70,14 @@ export class UIInitializer {
   /**
    * Initialize web browser interface
    * @param gameData Game data
-   * @param commandService Command service
+   * @param commandProcessor Command processor
    * @param services All game services
    * @param loggingService Logging service
    * @returns Web UI result
    */
   private static initializeWebInterface(
     _gameData: GameData,
-    commandService: CommandService,
+    commandProcessor: CommandProcessor,
     services: Services,
     loggingService: LoggingService
   ): UIResult {
@@ -84,13 +85,11 @@ export class UIInitializer {
     
     logger.info('🌐 Initializing web interface...');
     
-    // Create and initialize GameInterface with all services
+    // Create and initialize GameInterface with required services
     const gameInterface = new GameInterface(loggingService.getLogger('GameInterface'));
     gameInterface.initialize(
-      commandService,
-      services.gameState,
-      services.scene,
-      services.inventory
+      commandProcessor,
+      services.gameState
     );
     
     logger.info('✅ Web interface initialized successfully');
@@ -105,13 +104,11 @@ export class UIInitializer {
   /**
    * Initialize console interface (Node.js environment)
    * @param gameData Game data
-   * @param commandService Command service
    * @param loggingService Logging service
    * @returns Console UI result
    */
   private static initializeConsoleInterface(
     gameData: GameData,
-    commandService: CommandService,
     loggingService: LoggingService
   ): UIResult {
     const logger = loggingService.getLogger('UIInitializer');
@@ -119,7 +116,7 @@ export class UIInitializer {
     logger.info('🖥️ Console environment detected');
     
     // Display game data summary for console
-    this.displayConsoleSummary(gameData, commandService, logger);
+    this.displayConsoleSummary(gameData, logger);
     
     logger.info('✅ Console interface ready');
     
@@ -134,19 +131,17 @@ export class UIInitializer {
   /**
    * Display summary information in console
    * @param gameData Game data to summarize
-   * @param commandService Command service
    * @param logger Logger instance
    */
   private static displayConsoleSummary(
     gameData: GameData,
-    commandService: CommandService,
     logger: any
   ): void {
     logger.info('📊 Game Data Summary:');
     logger.info(`  Items: ${gameData.items.length}`);
     logger.info(`  Scenes: ${gameData.scenes.length}`);
     logger.info(`  Monsters: ${gameData.monsters.length}`);
-    logger.info(`  Commands: ${commandService.getAllCommands().length}`);
+    logger.info('🎮 Game ready for web interface');
     logger.info('🎯 Ready for web interface testing');
   }
   

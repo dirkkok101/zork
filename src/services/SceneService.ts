@@ -1,4 +1,4 @@
-import { ISceneService } from './interfaces/ISceneService';
+import { ISceneService, DoorResult } from './interfaces/ISceneService';
 import { IGameStateService } from './interfaces/IGameStateService';
 import { Exit, SceneItem } from '../types/SceneTypes';
 import log from 'loglevel';
@@ -90,6 +90,20 @@ export class SceneService implements ISceneService {
 
       return true;
     });
+  }
+
+  /**
+   * Get all exits from a scene (including blocked/conditional ones)
+   */
+  getAllExits(sceneId: string): Exit[] {
+    const scene = this.gameState.getScene(sceneId);
+    if (!scene) {
+      this.logger.warn(`Scene not found: ${sceneId}`);
+      return [];
+    }
+
+    // Return all exits without filtering
+    return scene.exits;
   }
 
   /**
@@ -252,5 +266,172 @@ export class SceneService implements ISceneService {
     }
 
     return false;
+  }
+
+  // Door operations
+  canOpenDoor(sceneId: string, doorItemId: string): boolean {
+    // Check if door item exists and is in this scene
+    const doorItem = this.gameState.getItem(doorItemId);
+    if (!doorItem) {
+      return false;
+    }
+
+    // Check if item is tagged as a door
+    if (!doorItem.tags || !doorItem.tags.includes('door')) {
+      return false;
+    }
+
+    // Check if door is in the current scene
+    const sceneItems = this.getSceneItems(sceneId);
+    if (!sceneItems.includes(doorItemId)) {
+      return false;
+    }
+
+    // Check if door is already open
+    const flagName = this.getDoorFlagName(doorItemId);
+    if (flagName && this.gameState.getFlag(flagName)) {
+      return false; // Already open
+    }
+
+    return true;
+  }
+
+  canCloseDoor(sceneId: string, doorItemId: string): boolean {
+    // Check if door item exists and is in this scene
+    const doorItem = this.gameState.getItem(doorItemId);
+    if (!doorItem) {
+      return false;
+    }
+
+    // Check if item is tagged as a door
+    if (!doorItem.tags || !doorItem.tags.includes('door')) {
+      return false;
+    }
+
+    // Check if door is in the current scene
+    const sceneItems = this.getSceneItems(sceneId);
+    if (!sceneItems.includes(doorItemId)) {
+      return false;
+    }
+
+    // Check if door is already closed
+    const flagName = this.getDoorFlagName(doorItemId);
+    if (flagName && !this.gameState.getFlag(flagName)) {
+      return false; // Already closed
+    }
+
+    return true;
+  }
+
+  openDoor(sceneId: string, doorItemId: string): DoorResult {
+    const doorItem = this.gameState.getItem(doorItemId);
+    if (!doorItem) {
+      return {
+        success: false,
+        message: "You don't see that here.",
+        stateChanged: false
+      };
+    }
+
+    if (!this.canOpenDoor(sceneId, doorItemId)) {
+      // Check specific reason for failure
+      const flagName = this.getDoorFlagName(doorItemId);
+      if (flagName && this.gameState.getFlag(flagName)) {
+        return {
+          success: false,
+          message: `The ${doorItem.name} is already open.`,
+          stateChanged: false
+        };
+      }
+      
+      return {
+        success: false,
+        message: `You can't open the ${doorItem.name}.`,
+        stateChanged: false
+      };
+    }
+
+    // Open the door by setting its flag
+    const flagName = this.getDoorFlagName(doorItemId);
+    if (flagName) {
+      this.gameState.setFlag(flagName, true);
+      this.logger.debug(`Opened door ${doorItemId}, set flag ${flagName} to true`);
+      
+      return {
+        success: true,
+        message: `You open the ${doorItem.name}.`,
+        stateChanged: true
+      };
+    }
+
+    return {
+      success: false,
+      message: `You can't open the ${doorItem.name}.`,
+      stateChanged: false
+    };
+  }
+
+  closeDoor(sceneId: string, doorItemId: string): DoorResult {
+    const doorItem = this.gameState.getItem(doorItemId);
+    if (!doorItem) {
+      return {
+        success: false,
+        message: "You don't see that here.",
+        stateChanged: false
+      };
+    }
+
+    if (!this.canCloseDoor(sceneId, doorItemId)) {
+      // Check specific reason for failure
+      const flagName = this.getDoorFlagName(doorItemId);
+      if (flagName && !this.gameState.getFlag(flagName)) {
+        return {
+          success: false,
+          message: `The ${doorItem.name} is already closed.`,
+          stateChanged: false
+        };
+      }
+      
+      return {
+        success: false,
+        message: `You can't close the ${doorItem.name}.`,
+        stateChanged: false
+      };
+    }
+
+    // Close the door by unsetting its flag
+    const flagName = this.getDoorFlagName(doorItemId);
+    if (flagName) {
+      this.gameState.setFlag(flagName, false);
+      this.logger.debug(`Closed door ${doorItemId}, set flag ${flagName} to false`);
+      
+      return {
+        success: true,
+        message: `You close the ${doorItem.name}.`,
+        stateChanged: true
+      };
+    }
+
+    return {
+      success: false,
+      message: `You can't close the ${doorItem.name}.`,
+      stateChanged: false
+    };
+  }
+
+  /**
+   * Get the flag name associated with a door item
+   * Maps door item IDs to their controlling flags
+   */
+  private getDoorFlagName(doorItemId: string): string | null {
+    // Map specific door items to their flags
+    const doorFlagMap: Record<string, string> = {
+      'windo': 'door_windo_open',
+      // Add other doors as needed
+      // 'grate': 'door_grate_open',
+      // 'fdoor': 'door_front_open',
+    };
+
+    return doorFlagMap[doorItemId] || null;
   }
 }

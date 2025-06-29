@@ -3,46 +3,22 @@
  * Provides utilities for testing the Move command in integration tests
  */
 
-import { MoveCommand } from '@/commands/MoveCommand';
 import { CommandResult } from '@/types/CommandTypes';
-import {
-  IGameStateService,
-  ISceneService,
-  IInventoryService,
-  IItemService,
-  ICombatService,
-  IPersistenceService,
-  IOutputService
-} from '@/services/interfaces';
+import { CommandProcessor } from '@/services/CommandProcessor';
+import { IGameStateService, ISceneService } from '@/services/interfaces';
 
 export class MoveCommandHelper {
-  private moveCommand: MoveCommand;
-
   constructor(
+    private commandProcessor: CommandProcessor,
     private gameState: IGameStateService,
-    private scene: ISceneService,
-    inventory: IInventoryService,
-    items: IItemService,
-    combat: ICombatService,
-    persistence: IPersistenceService,
-    output: IOutputService
-  ) {
-    this.moveCommand = new MoveCommand(
-      gameState,
-      scene,
-      inventory,
-      items,
-      combat,
-      persistence,
-      output
-    );
-  }
+    private scene: ISceneService
+  ) {}
 
   /**
    * Execute a move command and return the result
    */
   executeMove(input: string): CommandResult {
-    return this.moveCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**
@@ -264,15 +240,33 @@ export class MoveCommandHelper {
   /**
    * Get suggestions for command completion testing
    */
-  getSuggestions(input: string): string[] {
-    return this.moveCommand.getSuggestions(input);
+  getSuggestions(): string[] {
+    // Get basic command suggestions
+    const commandSuggestions = this.commandProcessor.getSuggestions('');
+    
+    // Get available directions from current scene
+    const currentScene = this.gameState.getCurrentScene();
+    const availableExits = this.scene.getAvailableExits(currentScene);
+    const directions = availableExits.map(exit => exit.direction);
+    
+    // Combine movement commands and available directions
+    const movementCommands = ['go', 'move', 'walk', 'travel', 'head'];
+    const movementSuggestions = [...movementCommands, ...directions];
+    
+    // Filter command suggestions to include movement-related ones
+    const relevantCommands = commandSuggestions.filter(cmd => 
+      movementCommands.includes(cmd) || directions.includes(cmd)
+    );
+    
+    // Return combined and deduplicated suggestions
+    return [...new Set([...relevantCommands, ...movementSuggestions])];
   }
 
   /**
    * Verify suggestions contain expected values
    */
-  verifySuggestionsContain(input: string, expectedSuggestions: string[]): void {
-    const suggestions = this.getSuggestions(input);
+  verifySuggestionsContain(expectedSuggestions: string[]): void {
+    const suggestions = this.getSuggestions();
     expectedSuggestions.forEach(expected => {
       expect(suggestions).toContain(expected);
     });

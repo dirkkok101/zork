@@ -15,13 +15,8 @@ describe('Inventory Command - West of House Scene', () => {
     
     // Create Inventory command helper
     inventoryHelper = new InventoryCommandHelper(
-      testEnv.services.gameState as any,
-      testEnv.services.scene as any,
-      testEnv.services.inventory as any,
-      testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.commandProcessor,
+      testEnv.services.inventory as any
     );
   });
 

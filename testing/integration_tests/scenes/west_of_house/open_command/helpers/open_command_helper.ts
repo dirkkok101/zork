@@ -3,47 +3,22 @@
  * Provides utilities for executing and validating open command behavior
  */
 
-import { OpenCommand } from '@/commands/OpenCommand';
 import { CommandResult } from '@/types/CommandTypes';
-import { GameStateService } from '@/services/GameStateService';
-import { SceneService } from '@/services/SceneService';
-import { InventoryService } from '@/services/InventoryService';
-import { ItemService } from '@/services/ItemService';
-import { OutputService } from '@/services/OutputService';
-import { ICombatService, IPersistenceService } from '@/services/interfaces';
+import { CommandProcessor } from '@/services/CommandProcessor';
+import { IGameStateService, IItemService } from '@/services/interfaces';
 
 export class OpenCommandHelper {
-  private openCommand: OpenCommand;
-  private gameState: GameStateService;
-  private items: ItemService;
-  
   constructor(
-    gameState: GameStateService,
-    sceneService: SceneService,
-    inventoryService: InventoryService,
-    itemService: ItemService,
-    combatService: ICombatService,
-    persistenceService: IPersistenceService,
-    outputService: OutputService
-  ) {
-    this.gameState = gameState;
-    this.items = itemService;
-    this.openCommand = new OpenCommand(
-      gameState,
-      sceneService,
-      inventoryService,
-      itemService,
-      combatService,
-      persistenceService,
-      outputService
-    );
-  }
+    private commandProcessor: CommandProcessor,
+    private gameState: IGameStateService,
+    private items: IItemService
+  ) {}
 
   /**
    * Execute an open command and return the result
    */
   executeOpen(input: string): CommandResult {
-    return this.openCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**

@@ -3,46 +3,24 @@
  * Provides utilities for testing the Take command in integration tests
  */
 
-import { TakeCommand } from '@/commands/TakeCommand';
 import { CommandResult } from '@/types/CommandTypes';
-import {
-  IGameStateService,
-  ISceneService,
-  IInventoryService,
-  IItemService,
-  ICombatService,
-  IPersistenceService,
-  IOutputService
-} from '@/services/interfaces';
+import { CommandProcessor } from '@/services/CommandProcessor';
+import { IGameStateService, IInventoryService, IItemService, ISceneService } from '@/services/interfaces';
 
 export class TakeCommandHelper {
-  private takeCommand: TakeCommand;
-
   constructor(
+    private commandProcessor: CommandProcessor,
     private gameState: IGameStateService,
-    private scene: ISceneService,
     private inventory: IInventoryService,
     private items: IItemService,
-    private combat: ICombatService,
-    private persistence: IPersistenceService,
-    private output: IOutputService
-  ) {
-    this.takeCommand = new TakeCommand(
-      gameState,
-      scene,
-      inventory,
-      items,
-      combat,
-      persistence,
-      output
-    );
-  }
+    private scene: ISceneService
+  ) {}
 
   /**
    * Execute a take command and return the result
    */
   executeTake(input: string): CommandResult {
-    return this.takeCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**
@@ -56,18 +34,7 @@ export class TakeCommandHelper {
    * Execute an open command (for setup in tests)
    */
   executeOpen(input: string): CommandResult {
-    // Import and use OpenCommand for test setup
-    const { OpenCommand } = require('@/commands/OpenCommand');
-    const openCommand = new OpenCommand(
-      this.gameState,
-      this.scene,
-      this.inventory,
-      this.items,
-      this.combat,
-      this.persistence,
-      this.output
-    );
-    return openCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**

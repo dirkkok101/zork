@@ -15,13 +15,11 @@ describe('Put Command - West of House Scene', () => {
     
     // Create Put command helper
     putHelper = new PutCommandHelper(
+      testEnv.commandProcessor,
       testEnv.services.gameState as any,
-      testEnv.services.scene as any,
       testEnv.services.inventory as any,
       testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.services.scene as any
     );
   });
 

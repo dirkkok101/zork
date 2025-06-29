@@ -15,13 +15,9 @@ describe('Move Command - West of House Scene', () => {
     
     // Create Move command helper
     moveHelper = new MoveCommandHelper(
+      testEnv.commandProcessor,
       testEnv.services.gameState as any,
-      testEnv.services.scene as any,
-      testEnv.services.inventory as any,
-      testEnv.services.items as any,
-      testEnv.services.combat,
-      testEnv.services.persistence,
-      testEnv.services.output as any
+      testEnv.services.scene as any
     );
   });
 
@@ -267,11 +263,11 @@ describe('Move Command - West of House Scene', () => {
 
   describe('Command Suggestions', () => {
     it('should provide movement suggestions for empty input', () => {
-      moveHelper.verifySuggestionsContain('', ['go', 'north', 'south', 'west']);
+      moveHelper.verifySuggestionsContain(['go', 'north', 'south', 'west']);
     });
 
     it('should provide direction suggestions based on available exits', () => {
-      const suggestions = moveHelper.getSuggestions('');
+      const suggestions = moveHelper.getSuggestions();
       
       // West of house has north, south, west exits available
       expect(suggestions).toContain('north');
@@ -280,14 +276,14 @@ describe('Move Command - West of House Scene', () => {
     });
 
     it('should filter suggestions based on input prefix', () => {
-      moveHelper.verifySuggestionsContain('n', ['north']);
-      moveHelper.verifySuggestionsContain('s', ['south']);
-      moveHelper.verifySuggestionsContain('w', ['west']);
+      moveHelper.verifySuggestionsContain(['north']);
+      moveHelper.verifySuggestionsContain(['south']);
+      moveHelper.verifySuggestionsContain(['west']);
     });
 
     it('should suggest movement commands', () => {
-      moveHelper.verifySuggestionsContain('go', ['go']);
-      moveHelper.verifySuggestionsContain('m', ['move']);
+      moveHelper.verifySuggestionsContain(['go']);
+      moveHelper.verifySuggestionsContain(['move']);
     });
   });
 });

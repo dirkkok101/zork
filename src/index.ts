@@ -6,6 +6,7 @@
  */
 
 import { LoggingService } from './services';
+import { CommandProcessor } from './services/CommandProcessor';
 import {
   GameInitializer,
   ServiceInitializer,
@@ -55,8 +56,15 @@ async function initializeGame(loggingService: LoggingService) {
     const commandService = CommandInitializer.initialize(services, loggingService);
     CommandInitializer.validateCommands(commandService, loggingService);
     
+    // Phase 3.5: Create CommandProcessor to handle command execution and state updates
+    const commandProcessor = new CommandProcessor(
+      commandService,
+      services.gameState,
+      loggingService.getLogger('CommandProcessor')
+    );
+    
     // Phase 4: Initialize UI (web or console)
-    const uiResult = UIInitializer.initialize(gameData, commandService, services, loggingService);
+    const uiResult = UIInitializer.initialize(gameData, commandProcessor, services, loggingService);
     UIInitializer.validateUI(uiResult, loggingService);
     
     logger.info('✅ Game initialization complete!');
@@ -65,6 +73,7 @@ async function initializeGame(loggingService: LoggingService) {
       gameData,
       services,
       commandService,
+      commandProcessor,
       uiResult,
       loggingService
     };

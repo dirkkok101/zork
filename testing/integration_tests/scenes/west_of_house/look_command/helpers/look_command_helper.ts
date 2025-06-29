@@ -3,45 +3,25 @@
  * Provides utilities for executing and validating look command behavior
  */
 
-import { LookCommand } from '@/commands/LookCommand';
 import { CommandResult } from '@/types/CommandTypes';
-import { GameStateService } from '@/services/GameStateService';
-import { SceneService } from '@/services/SceneService';
-import { InventoryService } from '@/services/InventoryService';
-import { ItemService } from '@/services/ItemService';
-import { OutputService } from '@/services/OutputService';
-import { ICombatService, IPersistenceService } from '@/services/interfaces';
+import { CommandProcessor } from '@/services/CommandProcessor';
+import { IGameStateService } from '@/services/interfaces';
 
 export class LookCommandHelper {
-  private lookCommand: LookCommand;
-  private gameState: GameStateService;
+  private gameState: IGameStateService;
   
   constructor(
-    gameState: GameStateService,
-    sceneService: SceneService,
-    inventoryService: InventoryService,
-    itemService: ItemService,
-    combatService: ICombatService,
-    persistenceService: IPersistenceService,
-    outputService: OutputService
+    private commandProcessor: CommandProcessor,
+    gameState: IGameStateService
   ) {
     this.gameState = gameState;
-    this.lookCommand = new LookCommand(
-      gameState,
-      sceneService,
-      inventoryService,
-      itemService,
-      combatService,
-      persistenceService,
-      outputService
-    );
   }
 
   /**
    * Execute a look command and return the result
    */
   executeLook(input: string): CommandResult {
-    return this.lookCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**

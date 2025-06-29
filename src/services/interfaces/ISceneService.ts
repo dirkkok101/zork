@@ -24,6 +24,9 @@ export interface ISceneService {
   /** Get available exits from a scene (filters based on conditions, locks, etc.) */
   getAvailableExits(sceneId: string): Exit[];
   
+  /** Get all exits from a scene (including blocked/conditional ones) */
+  getAllExits(sceneId: string): Exit[];
+  
   /** Get visible items in a scene (filters based on conditions and visibility) */
   getVisibleItems(sceneId: string): SceneItem[];
   
@@ -50,4 +53,26 @@ export interface ISceneService {
   
   /** Remove an item from a scene (when taken by player) */
   removeItemFromScene(sceneId: string, itemId: string): void;
+
+  // Door operations
+  /** Check if a door item can be opened in the current scene */
+  canOpenDoor(sceneId: string, doorItemId: string): boolean;
+  
+  /** Check if a door item can be closed in the current scene */
+  canCloseDoor(sceneId: string, doorItemId: string): boolean;
+  
+  /** Open a door item, updating scene flags and exit availability */
+  openDoor(sceneId: string, doorItemId: string): DoorResult;
+  
+  /** Close a door item, updating scene flags and exit availability */
+  closeDoor(sceneId: string, doorItemId: string): DoorResult;
+}
+
+/**
+ * Result of a door operation
+ */
+export interface DoorResult {
+  success: boolean;
+  message: string;
+  stateChanged: boolean;
 }

@@ -39,6 +39,9 @@ export interface IGameStateService {
   /** Add points to the player's score */
   addScore(points: number): void;
   
+  /** Increment the move counter */
+  incrementMoves(): void;
+  
   /** Check if the game has ended */
   isGameOver(): boolean;
   

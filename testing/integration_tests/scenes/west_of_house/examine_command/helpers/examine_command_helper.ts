@@ -3,46 +3,21 @@
  * Provides utilities for testing the Examine command in integration tests
  */
 
-import { ExamineCommand } from '@/commands/ExamineCommand';
 import { CommandResult } from '@/types/CommandTypes';
-import {
-  IGameStateService,
-  ISceneService,
-  IInventoryService,
-  IItemService,
-  ICombatService,
-  IPersistenceService,
-  IOutputService
-} from '@/services/interfaces';
+import { CommandProcessor } from '@/services/CommandProcessor';
+import { IInventoryService } from '@/services/interfaces';
 
 export class ExamineCommandHelper {
-  private examineCommand: ExamineCommand;
-
   constructor(
-    private gameState: IGameStateService,
-    private scene: ISceneService,
-    private inventory: IInventoryService,
-    private items: IItemService,
-    private combat: ICombatService,
-    private persistence: IPersistenceService,
-    private output: IOutputService
-  ) {
-    this.examineCommand = new ExamineCommand(
-      gameState,
-      scene,
-      inventory,
-      items,
-      combat,
-      persistence,
-      output
-    );
-  }
+    private commandProcessor: CommandProcessor,
+    private inventory: IInventoryService
+  ) {}
 
   /**
    * Execute an examine command and return the result
    */
   executeExamine(input: string): CommandResult {
-    return this.examineCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**
@@ -56,37 +31,14 @@ export class ExamineCommandHelper {
    * Execute an open command (for setup in tests)
    */
   executeOpen(input: string): CommandResult {
-    // Import and use OpenCommand for test setup
-    const { OpenCommand } = require('@/commands/OpenCommand');
-    const openCommand = new OpenCommand(
-      this.gameState,
-      this.scene,
-      this.inventory,
-      this.items,
-      this.combat,
-      this.persistence,
-      this.output
-    );
-    return openCommand.execute(input);
+    return this.commandProcessor.processCommand(input);
   }
 
   /**
    * Execute a take command (for setup in tests)
    */
   executeTake(input: string): CommandResult {
-    // Simple simulation for testing purposes
-    // In a real implementation, this would use a TakeCommand
-    const args = input.split(' ').slice(1); // Remove 'take'
-    const itemName = args.join(' ').toLowerCase();
-    
-    // Special case for leaflet in mailbox - we know it exists from the data
-    if (itemName === 'leaflet') {
-      // For testing purposes, we'll just return success
-      // The actual inventory management would be handled by TakeCommand
-      return { success: true, message: 'You take the leaflet.', countsAsMove: true };
-    }
-    
-    return { success: false, message: `You don't see a ${itemName} here.`, countsAsMove: false };
+    return this.commandProcessor.processCommand(input);
   }
 
   /**

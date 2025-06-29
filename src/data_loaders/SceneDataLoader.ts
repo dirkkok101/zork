@@ -242,6 +242,9 @@ export class SceneDataLoader implements ISceneDataLoader {
                     if (exitInfo.oneWay !== undefined) {
                         exit.oneWay = exitInfo.oneWay;
                     }
+                    if (exitInfo.failureMessage !== undefined) {
+                        exit.failureMessage = exitInfo.failureMessage;
+                    }
 
                     exits.push(exit);
                 } else {

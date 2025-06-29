@@ -54,6 +54,9 @@ export interface Exit {
 
     /** Whether the exit is one-way */
     oneWay?: boolean;
+
+    /** Message shown when attempting to use this exit fails */
+    failureMessage?: string;
 }
 
 /**
