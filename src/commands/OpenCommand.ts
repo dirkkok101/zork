@@ -94,15 +94,37 @@ export class OpenCommand extends BaseCommand {
       const doorResult = this.scene.openDoor(currentScene, targetId);
       
       return doorResult.success 
-        ? this.success(doorResult.message, true, 0)
+        ? this.success(doorResult.message, false, 0)
         : this.failure(doorResult.message);
     }
 
     // Otherwise, delegate to ItemService for containers
     const openResult = this.items.openItem(targetId, keyId);
     
+    if (openResult.success && this.items.isContainer(targetId)) {
+      // For containers, append contents information
+      const contents = this.items.getContainerContents(targetId);
+      let message = openResult.message;
+      
+      if (contents.length > 0) {
+        const contentItems = contents
+          .map(id => {
+            const item = this.gameState.getItem(id);
+            // Handle test items that might not have full data
+            return item?.name || id;
+          })
+          .filter(name => name !== undefined) as string[];
+        const formattedList = this.formatItemList(contentItems);
+        message += ` It contains ${formattedList}.`;
+      } else {
+        message += " It is empty.";
+      }
+      
+      return this.success(message, false, 0);
+    }
+    
     return openResult.success 
-      ? this.success(openResult.message, true, 0)
+      ? this.success(openResult.message, false, 0)
       : this.failure(openResult.message);
   }
 

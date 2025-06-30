@@ -238,11 +238,12 @@ export class LookCommand extends BaseCommand {
     }
     
     // Format contents list
-    const contentItems = contents
-      .map(itemId => this.gameState.getItem(itemId))
-      .filter(item => item !== undefined);
-    
-    const itemNames = contentItems.map(item => item!.name);
+    const itemNames = contents
+      .map(itemId => {
+        const item = this.gameState.getItem(itemId);
+        return item?.name || itemId;
+      })
+      .filter(name => name !== undefined);
     const formattedList = this.formatItemList(itemNames);
     
     return this.success(`The ${item.name} contains ${formattedList}.`, false);
