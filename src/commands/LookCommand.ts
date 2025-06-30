@@ -116,7 +116,32 @@ export class LookCommand extends BaseCommand {
       const itemNames = visibleItems
         .map(sceneItem => {
           const item = this.gameState.getItem(sceneItem.itemId);
-          return item ? item.name : null;
+          if (!item) return null;
+          
+          // Check if it's an open container with contents
+          if (this.items.isContainer(item.id)) {
+            const isOpen = item.state?.isOpen === true;
+            const canOpen = this.items.canOpen(item.id);
+            const isLocked = this.items.isLocked(item.id);
+            
+            // Show contents if container is open (or doesn't need opening) and not locked
+            if ((isOpen || !canOpen) && !isLocked) {
+              const contents = this.items.getContainerContents(item.id);
+              if (contents.length > 0) {
+                const contentItems = contents
+                  .map(itemId => this.gameState.getItem(itemId))
+                  .filter(contentItem => contentItem !== undefined)
+                  .map(contentItem => contentItem!.name);
+                
+                if (contentItems.length > 0) {
+                  const formattedContents = this.formatItemList(contentItems, false);
+                  return `${item.name} (which contains ${formattedContents})`;
+                }
+              }
+            }
+          }
+          
+          return item.name;
         })
         .filter(name => name !== null);
       
@@ -148,6 +173,15 @@ export class LookCommand extends BaseCommand {
     // Try to find as an item first
     const item = this.findItem(target);
     if (item) {
+      // Special handling for window with state-based description
+      if (item.id === 'windo') {
+        const isOpen = item.state?.isOpen === true;
+        const description = isOpen ? 
+          "The window is open, providing a way to the outside." : 
+          "The window is closed.";
+        return this.success(description, false);
+      }
+      
       // For "look at", we give a brief description
       return this.success(item.description || `It's ${item.name}.`, false);
     }
@@ -192,7 +226,7 @@ export class LookCommand extends BaseCommand {
     }
     
     // Check if it needs to be opened first
-    if (this.items.canOpen(item.id) && !item.isOpen) {
+    if (this.items.canOpen(item.id) && !item.state?.isOpen) {
       return this.failure(`The ${item.name} is closed.`);
     }
     
