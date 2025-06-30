@@ -19,10 +19,10 @@
     "on": false
   },
   "tags": [
-    "portable",
-    "weapon",
     "switchable",
-    "visible"
+    "visible",
+    "weapon",
+    "portable"
   ],
   "properties": {
     "weapon": true,
@@ -41,13 +41,13 @@
       "command": "turn on",
       "condition": "!state.on",
       "effect": "state.on = true",
-      "message": "You turn on the KNIFE."
+      "message": "You turn on the knife."
     },
     {
       "command": "turn off",
       "condition": "state.on",
       "effect": "state.on = false",
-      "message": "You turn off the KNIFE."
+      "message": "You turn off the knife."
     }
   ],
   "initialLocation": "unknown"

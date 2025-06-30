@@ -17,8 +17,8 @@
   },
   "tags": [
     "switchable",
-    "weapon",
-    "visible"
+    "visible",
+    "weapon"
   ],
   "properties": {
     "size": 25,
@@ -34,13 +34,13 @@
       "command": "turn on",
       "condition": "!state.on",
       "effect": "state.on = true",
-      "message": "You turn on the AXE."
+      "message": "You turn on the bloody axe."
     },
     {
       "command": "turn off",
       "condition": "state.on",
       "effect": "state.on = false",
-      "message": "You turn off the AXE."
+      "message": "You turn off the bloody axe."
     }
   ],
   "initialLocation": "unknown"

@@ -17,11 +17,11 @@
     "on": false
   },
   "tags": [
-    "light_source",
-    "flame_source",
+    "visible",
     "switchable",
     "portable",
-    "visible"
+    "flame_source",
+    "light_source"
   ],
   "properties": {
     "size": 10,
@@ -42,25 +42,25 @@
       "command": "turn on",
       "condition": "!state.lit",
       "effect": "state.lit = true",
-      "message": "The CANDL is now on."
+      "message": "The pair of candles is now on."
     },
     {
       "command": "turn off",
       "condition": "state.lit",
       "effect": "state.lit = false",
-      "message": "The CANDL is now off."
+      "message": "The pair of candles is now off."
     },
     {
       "command": "turn on",
       "condition": "!state.on",
       "effect": "state.on = true",
-      "message": "You turn on the CANDL."
+      "message": "You turn on the pair of candles."
     },
     {
       "command": "turn off",
       "condition": "state.on",
       "effect": "state.on = false",
-      "message": "You turn off the CANDL."
+      "message": "You turn off the pair of candles."
     }
   ],
   "initialLocation": "unknown"

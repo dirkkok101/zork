@@ -20,11 +20,11 @@
     "open": false
   },
   "tags": [
-    "readable",
     "visible",
-    "container",
+    "readable",
+    "flammable",
     "portable",
-    "flammable"
+    "container"
   ],
   "properties": {
     "size": 10,
@@ -45,17 +45,17 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the BOOK."
+      "message": "You open the book."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the BOOK."
+      "message": "You close the book."
     },
     {
       "command": "read",
-      "message": "You read the BOOK."
+      "message": "You read the book."
     }
   ],
   "initialLocation": "unknown"

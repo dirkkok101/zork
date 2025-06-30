@@ -61,6 +61,13 @@ export class OpenCommandHelper {
   }
 
   /**
+   * Verify the command counts as a move
+   */
+  verifyCountsAsMove(result: CommandResult): void {
+    expect(result.countsAsMove).toBe(true);
+  }
+
+  /**
    * Verify no score change occurred
    */
   verifyNoScoreChange(result: CommandResult): void {

@@ -19,8 +19,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
-    "visible"
+    "visible",
+    "portable"
   ],
   "properties": {
     "treasurePoints": 5,

@@ -15,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "diggable",
-    "visible"
+    "visible",
+    "diggable"
   ],
   "properties": {},
   "interactions": [

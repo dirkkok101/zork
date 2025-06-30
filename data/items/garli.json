@@ -15,8 +15,8 @@
   "initialState": {},
   "tags": [
     "food",
-    "portable",
-    "visible"
+    "visible",
+    "portable"
   ],
   "properties": {},
   "interactions": [

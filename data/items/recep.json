@@ -17,8 +17,8 @@
   },
   "tags": [
     "container",
-    "searchable",
-    "visible"
+    "visible",
+    "searchable"
   ],
   "properties": {
     "capacity": 6,
@@ -34,17 +34,17 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the RECEP."
+      "message": "You open the receptacle."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the RECEP."
+      "message": "You close the receptacle."
     },
     {
       "command": "search",
-      "message": "You search the RECEP."
+      "message": "You search the receptacle."
     }
   ],
   "initialLocation": "unknown"

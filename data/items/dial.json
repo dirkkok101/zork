@@ -15,9 +15,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
+    "visible",
     "no_description",
-    "turnable",
-    "visible"
+    "turnable"
   ],
   "properties": {
     "turnable": true
@@ -29,7 +29,7 @@
     },
     {
       "command": "turn",
-      "message": "You turn the DIAL."
+      "message": "You turn the sundial."
     }
   ],
   "initialLocation": "unknown"

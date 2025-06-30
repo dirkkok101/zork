@@ -19,8 +19,8 @@
   "initialState": {},
   "tags": [
     "no_description",
-    "door",
-    "visible"
+    "visible",
+    "door"
   ],
   "properties": {
     "readText": "Here lie the implementers, whose heads were placed on poles by the\nKeeper of the Dungeon for amazing untastefulness."

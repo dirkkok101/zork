@@ -16,10 +16,10 @@
     "on": false
   },
   "tags": [
-    "no_description",
     "switchable",
-    "flame_source",
-    "visible"
+    "visible",
+    "no_description",
+    "flame_source"
   ],
   "properties": {
     "switchable": true
@@ -33,13 +33,13 @@
       "command": "turn on",
       "condition": "!state.on",
       "effect": "state.on = true",
-      "message": "You turn on the STOVE."
+      "message": "You turn on the old coal stove."
     },
     {
       "command": "turn off",
       "condition": "state.on",
       "effect": "state.on = false",
-      "message": "You turn off the STOVE."
+      "message": "You turn off the old coal stove."
     }
   ],
   "initialLocation": "unknown"

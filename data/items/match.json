@@ -14,9 +14,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "readable",
-    "visible"
+    "portable"
   ],
   "properties": {
     "size": 2,
@@ -35,7 +35,7 @@
     },
     {
       "command": "read",
-      "message": "You read the MATCH."
+      "message": "You read the matchbook."
     }
   ],
   "initialLocation": "unknown"

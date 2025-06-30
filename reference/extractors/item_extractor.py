@@ -382,7 +382,7 @@ class ItemExtractor:
         if 'PORTABLE' in obj['flags']:
             interactions.append({
                 "command": "take",
-                "message": f"You take the {obj['description'] if obj['description'] else obj['names'][0]}."
+                "message": f"You take the {obj['description'].lower() if obj['description'] else obj['names'][0].lower()}."
             })
         
         # Light interactions for light sources
@@ -392,13 +392,13 @@ class ItemExtractor:
                     "command": "turn on",
                     "condition": "!state.lit",
                     "effect": "state.lit = true",
-                    "message": f"The {obj['names'][0]} is now on."
+                    "message": f"The {obj['description'].lower() if obj['description'] else obj['names'][0].lower()} is now on."
                 },
                 {
                     "command": "turn off", 
                     "condition": "state.lit",
                     "effect": "state.lit = false",
-                    "message": f"The {obj['names'][0]} is now off."
+                    "message": f"The {obj['description'].lower() if obj['description'] else obj['names'][0].lower()} is now off."
                 }
             ])
         
@@ -409,13 +409,13 @@ class ItemExtractor:
                     "command": "open",
                     "condition": "!state.open",
                     "effect": "state.open = true",
-                    "message": f"You open the {obj['names'][0]}."
+                    "message": f"You open the {obj['description'].lower() if obj['description'] else obj['names'][0].lower()}."
                 },
                 {
                     "command": "close",
                     "condition": "state.open", 
                     "effect": "state.open = false",
-                    "message": f"You close the {obj['names'][0]}."
+                    "message": f"You close the {obj['description'].lower() if obj['description'] else obj['names'][0].lower()}."
                 }
             ])
         
@@ -423,21 +423,21 @@ class ItemExtractor:
         if 'READABLE' in obj['flags']:
             interactions.append({
                 "command": "read",
-                "message": f"You read the {obj['names'][0]}."
+                "message": f"You read the {obj['description'].lower() if obj['description'] else obj['names'][0].lower()}."
             })
         
         # Turn interaction for turnable items
         if 'TURNABLE' in obj['flags']:
             interactions.append({
                 "command": "turn",
-                "message": f"You turn the {obj['names'][0]}."
+                "message": f"You turn the {obj['description'].lower() if obj['description'] else obj['names'][0].lower()}."
             })
         
         # Search interaction for searchable items
         if 'SEARCHABLE' in obj['flags']:
             interactions.append({
                 "command": "search",
-                "message": f"You search the {obj['names'][0]}."
+                "message": f"You search the {obj['description'].lower() if obj['description'] else obj['names'][0].lower()}."
             })
         
         # Switch interactions for switchable items
@@ -447,13 +447,13 @@ class ItemExtractor:
                     "command": "turn on",
                     "condition": "!state.on",
                     "effect": "state.on = true",
-                    "message": f"You turn on the {obj['names'][0]}."
+                    "message": f"You turn on the {obj['description'].lower() if obj['description'] else obj['names'][0].lower()}."
                 },
                 {
                     "command": "turn off",
                     "condition": "state.on",
                     "effect": "state.on = false",
-                    "message": f"You turn off the {obj['names'][0]}."
+                    "message": f"You turn off the {obj['description'].lower() if obj['description'] else obj['names'][0].lower()}."
                 }
             ])
         

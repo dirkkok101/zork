@@ -17,8 +17,8 @@
   "initialState": {},
   "tags": [
     "no_description",
-    "door",
-    "visible"
+    "visible",
+    "door"
   ],
   "properties": {},
   "interactions": [

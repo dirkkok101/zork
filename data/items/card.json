@@ -15,10 +15,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
     "flammable",
+    "visible",
     "readable",
-    "visible"
+    "portable"
   ],
   "properties": {
     "size": 1,
@@ -36,7 +36,7 @@
     },
     {
       "command": "read",
-      "message": "You read the CARD."
+      "message": "You read the card."
     }
   ],
   "initialLocation": "unknown"

@@ -19,8 +19,8 @@
   },
   "tags": [
     "no_description",
-    "openable",
-    "visible"
+    "visible",
+    "openable"
   ],
   "properties": {
     "capacity": 1000,
@@ -35,13 +35,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the RBEAM."
+      "message": "You open the red beam of light."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the RBEAM."
+      "message": "You close the red beam of light."
     }
   ],
   "initialLocation": "unknown"

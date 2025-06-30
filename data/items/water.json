@@ -17,8 +17,8 @@
   "initialState": {},
   "tags": [
     "drink",
-    "portable",
-    "visible"
+    "visible",
+    "portable"
   ],
   "properties": {
     "size": 4

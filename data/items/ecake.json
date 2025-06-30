@@ -17,8 +17,8 @@
   "initialState": {},
   "tags": [
     "food",
-    "portable",
-    "visible"
+    "visible",
+    "portable"
   ],
   "properties": {
     "size": 10
@@ -30,7 +30,7 @@
     },
     {
       "command": "take",
-      "message": "You take the piece of 'Eat-Me' cake."
+      "message": "You take the piece of 'eat-me' cake."
     }
   ],
   "initialLocation": "unknown"

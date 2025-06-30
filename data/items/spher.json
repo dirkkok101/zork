@@ -20,10 +20,10 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
-    "treasure",
     "dangerous",
-    "visible"
+    "visible",
+    "treasure",
+    "portable"
   ],
   "properties": {
     "size": 10,

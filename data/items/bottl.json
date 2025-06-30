@@ -21,9 +21,9 @@
     ]
   },
   "tags": [
-    "portable",
     "container",
-    "visible"
+    "visible",
+    "portable"
   ],
   "properties": {
     "capacity": 4,
@@ -42,13 +42,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the BOTTL."
+      "message": "You open the glass bottle."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the BOTTL."
+      "message": "You close the glass bottle."
     }
   ],
   "initialLocation": "unknown"

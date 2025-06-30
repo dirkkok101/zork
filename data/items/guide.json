@@ -15,10 +15,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
     "flammable",
+    "visible",
     "readable",
-    "visible"
+    "portable"
   ],
   "properties": {
     "readText": "\\",
@@ -35,7 +35,7 @@
     },
     {
       "command": "read",
-      "message": "You read the GUIDE."
+      "message": "You read the tour guidebook."
     }
   ],
   "initialLocation": "unknown"

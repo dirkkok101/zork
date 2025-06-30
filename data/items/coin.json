@@ -17,9 +17,9 @@
   "size": "SMALL",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "readable",
-    "visible"
+    "portable"
   ],
   "properties": {
     "size": 10,
@@ -39,7 +39,7 @@
     },
     {
       "command": "read",
-      "message": "You read the COIN."
+      "message": "You read the priceless zorkmid."
     }
   ],
   "initialLocation": "unknown"

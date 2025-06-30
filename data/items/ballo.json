@@ -17,9 +17,9 @@
     "open": false
   },
   "tags": [
-    "openable",
     "vehicle",
-    "visible"
+    "visible",
+    "openable"
   ],
   "properties": {
     "capacity": 100,
@@ -35,13 +35,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the BALLO."
+      "message": "You open the basket."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the BALLO."
+      "message": "You close the basket."
     }
   ],
   "initialLocation": "unknown"

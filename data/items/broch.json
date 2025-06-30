@@ -19,12 +19,12 @@
     ]
   },
   "tags": [
-    "openable",
+    "visible",
     "readable",
-    "container",
     "flammable",
     "portable",
-    "visible"
+    "container",
+    "openable"
   ],
   "properties": {
     "size": 30,
@@ -46,17 +46,17 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the BROCH."
+      "message": "You open the free brochure."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the BROCH."
+      "message": "You close the free brochure."
     },
     {
       "command": "read",
-      "message": "You read the BROCH."
+      "message": "You read the free brochure."
     }
   ],
   "initialLocation": "unknown"

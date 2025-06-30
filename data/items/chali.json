@@ -19,9 +19,9 @@
     "open": false
   },
   "tags": [
-    "portable",
     "container",
-    "visible"
+    "visible",
+    "portable"
   ],
   "properties": {
     "capacity": 5,
@@ -43,13 +43,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the CHALI."
+      "message": "You open the chalice."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the CHALI."
+      "message": "You close the chalice."
     }
   ],
   "initialLocation": "unknown"

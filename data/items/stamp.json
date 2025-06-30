@@ -14,10 +14,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
     "flammable",
+    "visible",
     "readable",
-    "visible"
+    "portable"
   ],
   "properties": {
     "size": 1,
@@ -33,11 +33,11 @@
     },
     {
       "command": "take",
-      "message": "You take the Flathead stamp."
+      "message": "You take the flathead stamp."
     },
     {
       "command": "read",
-      "message": "You read the STAMP."
+      "message": "You read the flathead stamp."
     }
   ],
   "initialLocation": "unknown"

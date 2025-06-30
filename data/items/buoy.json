@@ -19,9 +19,9 @@
     ]
   },
   "tags": [
-    "portable",
     "container",
-    "visible"
+    "visible",
+    "portable"
   ],
   "properties": {
     "capacity": 20,
@@ -41,13 +41,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the BUOY."
+      "message": "You open the red buoy."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the BUOY."
+      "message": "You close the red buoy."
     }
   ],
   "initialLocation": "unknown"

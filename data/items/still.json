@@ -17,8 +17,8 @@
   },
   "tags": [
     "switchable",
-    "weapon",
-    "visible"
+    "visible",
+    "weapon"
   ],
   "properties": {
     "size": 10,
@@ -34,13 +34,13 @@
       "command": "turn on",
       "condition": "!state.on",
       "effect": "state.on = true",
-      "message": "You turn on the STILL."
+      "message": "You turn on the stiletto."
     },
     {
       "command": "turn off",
       "condition": "state.on",
       "effect": "state.on = false",
-      "message": "You turn off the STILL."
+      "message": "You turn off the stiletto."
     }
   ],
   "initialLocation": "unknown"

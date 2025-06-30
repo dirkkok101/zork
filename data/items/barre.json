@@ -17,10 +17,10 @@
     "open": false
   },
   "tags": [
-    "openable",
-    "flammable",
     "vehicle",
-    "visible"
+    "visible",
+    "openable",
+    "flammable"
   ],
   "properties": {
     "capacity": 100,
@@ -36,13 +36,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the BARRE."
+      "message": "You open the wooden barrel."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the BARRE."
+      "message": "You close the wooden barrel."
     }
   ],
   "initialLocation": "unknown"

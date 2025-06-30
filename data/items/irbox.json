@@ -21,8 +21,8 @@
     ]
   },
   "tags": [
-    "portable",
-    "container"
+    "container",
+    "portable"
   ],
   "properties": {
     "capacity": 20,
@@ -42,13 +42,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the IRBOX."
+      "message": "You open the steel box."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the IRBOX."
+      "message": "You close the steel box."
     }
   ],
   "initialLocation": "unknown"

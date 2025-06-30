@@ -19,11 +19,11 @@
   },
   "tags": [
     "tool",
-    "light_source",
-    "flame_source",
+    "visible",
     "switchable",
     "portable",
-    "visible"
+    "flame_source",
+    "light_source"
   ],
   "properties": {
     "size": 20,
@@ -45,25 +45,25 @@
       "command": "turn on",
       "condition": "!state.lit",
       "effect": "state.lit = true",
-      "message": "The TORCH is now on."
+      "message": "The torch is now on."
     },
     {
       "command": "turn off",
       "condition": "state.lit",
       "effect": "state.lit = false",
-      "message": "The TORCH is now off."
+      "message": "The torch is now off."
     },
     {
       "command": "turn on",
       "condition": "!state.on",
       "effect": "state.on = true",
-      "message": "You turn on the TORCH."
+      "message": "You turn on the torch."
     },
     {
       "command": "turn off",
       "condition": "state.on",
       "effect": "state.on = false",
-      "message": "You turn off the TORCH."
+      "message": "You turn off the torch."
     }
   ],
   "initialLocation": "unknown"

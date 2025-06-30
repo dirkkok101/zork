@@ -96,7 +96,7 @@ describe('Basic Open Command - Behind House Scene', () => {
       const result = openHelper.testWindowOpenWhenAlreadyOpen();
       
       openHelper.verifyAlreadyOpen(result);
-      openHelper.verifyNoMove(result);
+      openHelper.verifyCountsAsMove(result);
       openHelper.verifyWindowOpened(); // Should remain open
     });
 
@@ -111,13 +111,13 @@ describe('Basic Open Command - Behind House Scene', () => {
       testEnv.behindHouseHelper.verifyKitchenAccessAvailable();
     });
 
-    it('should not count as a move when already open', async () => {
+    it('should count as a move even when already open', async () => {
       const initialMoves = openHelper.getCurrentMoves();
       
       openHelper.executeOpenWindow();
       
       const currentMoves = openHelper.getCurrentMoves();
-      expect(currentMoves).toBe(initialMoves);
+      expect(currentMoves).toBe(initialMoves + 1);
     });
   });
 

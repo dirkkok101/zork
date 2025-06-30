@@ -34,13 +34,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the MACHI."
+      "message": "You open the machine."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the MACHI."
+      "message": "You close the machine."
     }
   ],
   "initialLocation": "unknown"

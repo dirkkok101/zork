@@ -384,7 +384,7 @@ describe('Kitchen Scene - Open Command Integration', () => {
       
       // Now look in sack succeeds
       lookInResult = testEnv.lookCommandHelper.executeLookIn('sack');
-      testEnv.lookCommandHelper.verifyContainerContents(lookInResult, 'sack', ['sandwich', 'garlic']);
+      testEnv.lookCommandHelper.verifyContainerContents(lookInResult, 'sack', ['lunch', 'garlic']);
     });
   });
 

@@ -16,10 +16,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
     "flammable",
+    "visible",
     "readable",
-    "visible"
+    "portable"
   ],
   "properties": {
     "readable": true
@@ -35,7 +35,7 @@
     },
     {
       "command": "read",
-      "message": "You read the WARNI."
+      "message": "You read the note of warning."
     }
   ],
   "initialLocation": "unknown"

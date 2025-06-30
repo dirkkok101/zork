@@ -19,10 +19,10 @@
     ]
   },
   "tags": [
-    "portable",
-    "readable",
     "container",
-    "visible"
+    "visible",
+    "readable",
+    "portable"
   ],
   "properties": {
     "capacity": 7,
@@ -44,17 +44,17 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the TUBE."
+      "message": "You open the tube."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the TUBE."
+      "message": "You close the tube."
     },
     {
       "command": "read",
-      "message": "You read the TUBE."
+      "message": "You read the tube."
     }
   ],
   "initialLocation": "unknown"

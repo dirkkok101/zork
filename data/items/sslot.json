@@ -17,8 +17,8 @@
     "open": false
   },
   "tags": [
-    "openable",
-    "visible"
+    "visible",
+    "openable"
   ],
   "properties": {
     "capacity": 10,
@@ -33,13 +33,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the SSLOT."
+      "message": "You open the hole."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the SSLOT."
+      "message": "You close the hole."
     }
   ],
   "initialLocation": "unknown"

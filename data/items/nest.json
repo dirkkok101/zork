@@ -20,10 +20,10 @@
     ]
   },
   "tags": [
-    "openable",
-    "portable",
     "flammable",
-    "visible"
+    "visible",
+    "openable",
+    "portable"
   ],
   "properties": {
     "capacity": 20,
@@ -42,13 +42,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the NEST."
+      "message": "You open the birds nest."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the NEST."
+      "message": "You close the birds nest."
     }
   ],
   "initialLocation": "unknown"

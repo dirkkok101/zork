@@ -33,13 +33,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the SAFE."
+      "message": "You open the box."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the SAFE."
+      "message": "You close the box."
     }
   ],
   "initialLocation": "unknown"

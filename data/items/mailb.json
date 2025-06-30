@@ -36,13 +36,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the MAILB."
+      "message": "You open the mailbox."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the MAILB."
+      "message": "You close the mailbox."
     }
   ],
   "initialLocation": "unknown"

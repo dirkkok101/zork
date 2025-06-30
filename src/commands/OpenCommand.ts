@@ -56,13 +56,13 @@ export class OpenCommand extends BaseCommand {
 
     const args = this.getArgs(input);
     if (args.length === 0) {
-      return this.failure('What do you want to open?');
+      return this.failure('What do you want to open?', true);
     }
 
     // Parse "open <object> [with <key>]"
     const result = this.parseOpenCommand(args);
     if (!result.success) {
-      return this.failure(result.message);
+      return this.failure(result.message, true);
     }
 
     const { targetName, keyName } = result;
@@ -70,7 +70,7 @@ export class OpenCommand extends BaseCommand {
     // Find the target item
     const targetId = this.findItemId(targetName!);
     if (!targetId) {
-      return this.failure(`You don't see ${this.getArticle(targetName!)} ${targetName!} here.`);
+      return this.failure(`You don't see ${this.getArticle(targetName!)} ${targetName!} here.`, true);
     }
 
     // Validate key if specified
@@ -78,14 +78,14 @@ export class OpenCommand extends BaseCommand {
     if (keyName) {
       keyId = this.findKeyItem(keyName);
       if (!keyId) {
-        return this.failure(`You don't have ${this.getArticle(keyName)} ${keyName}.`);
+        return this.failure(`You don't have ${this.getArticle(keyName)} ${keyName}.`, true);
       }
     }
 
     // Check if this is a door or container
     const item = this.gameState.getItem(targetId);
     if (!item) {
-      return this.failure(`You don't see ${this.getArticle(targetName!)} ${targetName!} here.`);
+      return this.failure(`You don't see ${this.getArticle(targetName!)} ${targetName!} here.`, true);
     }
 
     // If item is tagged as a door, delegate to SceneService
@@ -94,8 +94,8 @@ export class OpenCommand extends BaseCommand {
       const doorResult = this.scene.openDoor(currentScene, targetId);
       
       return doorResult.success 
-        ? this.success(doorResult.message, false, 0)
-        : this.failure(doorResult.message);
+        ? this.success(doorResult.message, true, 0)
+        : this.failure(doorResult.message, true);
     }
 
     // Otherwise, delegate to ItemService for containers
@@ -120,12 +120,12 @@ export class OpenCommand extends BaseCommand {
         message += " It is empty.";
       }
       
-      return this.success(message, false, 0);
+      return this.success(message, true, 0);
     }
     
     return openResult.success 
-      ? this.success(openResult.message, false, 0)
-      : this.failure(openResult.message);
+      ? this.success(openResult.message, true, 0)
+      : this.failure(openResult.message, true);
   }
 
   /**

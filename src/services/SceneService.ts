@@ -384,6 +384,14 @@ export class SceneService implements ISceneService {
       this.gameState.setFlag(flagName, true);
       this.logger.debug(`Opened door ${doorItemId}, set flag ${flagName} to true`);
       
+      // Also update the door item's state
+      if (doorItem.state) {
+        doorItem.state.isOpen = true;
+        doorItem.state.open = true; // Keep both for compatibility
+      } else {
+        doorItem.state = { isOpen: true, open: true };
+      }
+      
       return {
         success: true,
         message: `You open the ${doorItem.name}.`,
@@ -431,6 +439,14 @@ export class SceneService implements ISceneService {
     if (flagName) {
       this.gameState.setFlag(flagName, false);
       this.logger.debug(`Closed door ${doorItemId}, set flag ${flagName} to false`);
+      
+      // Also update the door item's state
+      if (doorItem.state) {
+        doorItem.state.isOpen = false;
+        doorItem.state.open = false; // Keep both for compatibility
+      } else {
+        doorItem.state = { isOpen: false, open: false };
+      }
       
       return {
         success: true,

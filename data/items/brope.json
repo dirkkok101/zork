@@ -15,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "tieable",
-    "visible"
+    "visible",
+    "tieable"
   ],
   "properties": {},
   "interactions": [

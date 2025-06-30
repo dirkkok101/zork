@@ -22,10 +22,10 @@
     ]
   },
   "tags": [
-    "openable",
-    "portable",
     "container",
-    "visible"
+    "visible",
+    "openable",
+    "portable"
   ],
   "properties": {
     "capacity": 6,
@@ -45,13 +45,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the BEGG."
+      "message": "You open the broken jewel-encrusted egg."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the BEGG."
+      "message": "You close the broken jewel-encrusted egg."
     }
   ],
   "initialLocation": "unknown"

@@ -18,9 +18,9 @@
     "lit": false
   },
   "tags": [
-    "portable",
     "light_source",
-    "visible"
+    "visible",
+    "portable"
   ],
   "properties": {
     "size": 15,
@@ -40,13 +40,13 @@
       "command": "turn on",
       "condition": "!state.lit",
       "effect": "state.lit = true",
-      "message": "The LAMP is now on."
+      "message": "The lamp is now on."
     },
     {
       "command": "turn off",
       "condition": "state.lit",
       "effect": "state.lit = false",
-      "message": "The LAMP is now off."
+      "message": "The lamp is now off."
     }
   ],
   "initialLocation": "unknown"

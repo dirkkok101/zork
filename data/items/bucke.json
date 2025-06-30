@@ -16,9 +16,9 @@
     "open": false
   },
   "tags": [
-    "openable",
     "vehicle",
-    "visible"
+    "visible",
+    "openable"
   ],
   "properties": {
     "capacity": 100,
@@ -34,13 +34,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the BUCKE."
+      "message": "You open the wooden bucket."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the BUCKE."
+      "message": "You close the wooden bucket."
     }
   ],
   "initialLocation": "unknown"

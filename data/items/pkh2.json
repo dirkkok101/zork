@@ -21,8 +21,8 @@
   },
   "tags": [
     "no_description",
-    "openable",
-    "visible"
+    "visible",
+    "openable"
   ],
   "properties": {
     "capacity": 12,
@@ -37,13 +37,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the PKH2."
+      "message": "You open the keyhole."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the PKH2."
+      "message": "You close the keyhole."
     }
   ],
   "initialLocation": "unknown"

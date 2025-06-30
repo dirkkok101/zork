@@ -21,10 +21,10 @@
   "size": "HUGE",
   "initialState": {},
   "tags": [
-    "portable",
     "flammable",
+    "visible",
     "readable",
-    "visible"
+    "portable"
   ],
   "properties": {
     "size": 70,
@@ -42,7 +42,7 @@
     },
     {
       "command": "read",
-      "message": "You read the LISTS."
+      "message": "You read the stack of listings."
     }
   ],
   "initialLocation": "unknown"

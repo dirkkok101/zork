@@ -17,10 +17,10 @@
     "on": false
   },
   "tags": [
-    "portable",
-    "weapon",
     "switchable",
-    "visible"
+    "visible",
+    "weapon",
+    "portable"
   ],
   "properties": {
     "size": 20,
@@ -40,13 +40,13 @@
       "command": "turn on",
       "condition": "!state.on",
       "effect": "state.on = true",
-      "message": "You turn on the RKNIF."
+      "message": "You turn on the rusty knife."
     },
     {
       "command": "turn off",
       "condition": "state.on",
       "effect": "state.on = false",
-      "message": "You turn off the RKNIF."
+      "message": "You turn off the rusty knife."
     }
   ],
   "initialLocation": "unknown"

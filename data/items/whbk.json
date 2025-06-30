@@ -17,11 +17,11 @@
     "open": false
   },
   "tags": [
-    "readable",
     "visible",
-    "container",
+    "readable",
+    "flammable",
     "portable",
-    "flammable"
+    "container"
   ],
   "properties": {
     "capacity": 2,
@@ -42,17 +42,17 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the WHBK."
+      "message": "You open the white book."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the WHBK."
+      "message": "You close the white book."
     },
     {
       "command": "read",
-      "message": "You read the WHBK."
+      "message": "You read the white book."
     }
   ],
   "initialLocation": "unknown"

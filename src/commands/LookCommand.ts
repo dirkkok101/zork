@@ -120,7 +120,7 @@ export class LookCommand extends BaseCommand {
           
           // Check if it's an open container with contents
           if (this.items.isContainer(item.id)) {
-            const isOpen = item.state?.open === true;
+            const isOpen = this.items.isContainerOpen(item.id);
             const canOpen = this.items.canOpen(item.id);
             const isLocked = this.items.isLocked(item.id);
             
@@ -175,7 +175,7 @@ export class LookCommand extends BaseCommand {
     if (item) {
       // Special handling for window with state-based description
       if (item.id === 'windo') {
-        const isOpen = item.state?.open === true;
+        const isOpen = item.state?.open === true || item.state?.isOpen === true;
         const description = isOpen ? 
           "The window is open, providing a way to the outside." : 
           "The window is closed.";

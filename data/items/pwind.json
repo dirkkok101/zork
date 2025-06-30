@@ -15,8 +15,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "door",
-    "visible"
+    "visible",
+    "door"
   ],
   "properties": {},
   "interactions": [

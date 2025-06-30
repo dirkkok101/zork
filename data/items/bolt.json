@@ -17,9 +17,9 @@
   "initialState": {},
   "tags": [
     "no_description",
+    "visible",
     "door",
-    "turnable",
-    "visible"
+    "turnable"
   ],
   "properties": {
     "turnable": true
@@ -31,7 +31,7 @@
     },
     {
       "command": "turn",
-      "message": "You turn the BOLT."
+      "message": "You turn the bolt."
     }
   ],
   "initialLocation": "unknown"

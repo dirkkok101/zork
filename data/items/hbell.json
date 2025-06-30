@@ -17,9 +17,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "portable",
     "dangerous",
-    "visible"
+    "visible",
+    "portable"
   ],
   "properties": {},
   "interactions": [

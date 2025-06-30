@@ -15,9 +15,9 @@
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "portable",
+    "visible",
     "readable",
-    "visible"
+    "portable"
   ],
   "properties": {
     "size": 12,
@@ -34,7 +34,7 @@
     },
     {
       "command": "read",
-      "message": "You read the MAT."
+      "message": "You read the welcome mat."
     }
   ],
   "initialLocation": "unknown"

@@ -75,7 +75,7 @@ export class KitchenHelper {
     const sack = this.gameState.getItem('sbag');
     if (sack) {
       sack.state = { 
-        isOpen: false
+        open: false
       };
       // Set container contents (hot pepper sandwich/lunch and garlic)
       (sack as any).contents = ['food', 'garli'];
@@ -85,7 +85,7 @@ export class KitchenHelper {
     const bottle = this.gameState.getItem('bottl');
     if (bottle) {
       bottle.state = { 
-        isOpen: false
+        open: false
       };
       // Set container contents
       (bottle as any).contents = ['water'];
@@ -217,7 +217,7 @@ export class KitchenHelper {
     if (sack) {
       sack.state = { 
         ...sack.state,
-        isOpen
+        open: isOpen
       };
     }
   }
@@ -230,7 +230,7 @@ export class KitchenHelper {
     if (bottle) {
       bottle.state = { 
         ...bottle.state,
-        isOpen
+        open: isOpen
       };
     }
   }
@@ -251,7 +251,7 @@ export class KitchenHelper {
    */
   verifySackState(expectedOpen: boolean): void {
     const sack = this.gameState.getItem('sbag');
-    expect(sack?.state?.isOpen).toBe(expectedOpen);
+    expect(sack?.state?.open).toBe(expectedOpen);
   }
 
   /**
@@ -259,7 +259,7 @@ export class KitchenHelper {
    */
   verifyBottleState(expectedOpen: boolean): void {
     const bottle = this.gameState.getItem('bottl');
-    expect(bottle?.state?.isOpen).toBe(expectedOpen);
+    expect(bottle?.state?.open).toBe(expectedOpen);
   }
 
   /**
@@ -334,7 +334,7 @@ export class KitchenHelper {
       type: ItemType.CONTAINER,
       portable: false,
       state: {
-        isOpen: options.isOpen ?? false,
+        open: options.isOpen ?? false,
         isLocked: options.isLocked ?? false
       }
     };

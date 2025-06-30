@@ -32,13 +32,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the TCASE."
+      "message": "You open the trophy case."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the TCASE."
+      "message": "You close the trophy case."
     }
   ],
   "initialLocation": "unknown"

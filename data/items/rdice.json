@@ -17,9 +17,9 @@
   "initialState": {},
   "tags": [
     "food",
-    "portable",
+    "visible",
     "readable",
-    "visible"
+    "portable"
   ],
   "properties": {
     "size": 4,
@@ -36,7 +36,7 @@
     },
     {
       "command": "read",
-      "message": "You read the RDICE."
+      "message": "You read the piece of cake with red icing."
     }
   ],
   "initialLocation": "unknown"

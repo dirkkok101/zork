@@ -18,11 +18,11 @@
     "open": false
   },
   "tags": [
-    "openable",
+    "searchable",
     "visible",
     "portable",
-    "searchable",
-    "flammable"
+    "flammable",
+    "openable"
   ],
   "properties": {
     "capacity": 2,
@@ -43,17 +43,17 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the BRICK."
+      "message": "You open the brick."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the BRICK."
+      "message": "You close the brick."
     },
     {
       "command": "search",
-      "message": "You search the BRICK."
+      "message": "You search the brick."
     }
   ],
   "initialLocation": "unknown"

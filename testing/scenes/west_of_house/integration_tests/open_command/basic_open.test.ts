@@ -68,7 +68,7 @@ describe('Open Command - West of House Scene', () => {
         const result = openHelper.executeOpenTarget('mailbox');
         
         openHelper.verifyAlreadyOpen(result, 'mailbox');
-        openHelper.verifyNoMove(result);
+        openHelper.verifyCountsAsMove(result);
       });
     });
 
@@ -77,28 +77,28 @@ describe('Open Command - West of House Scene', () => {
         const result = openHelper.executeOpenTarget('door');
         
         openHelper.verifyCannotOpenItem(result, 'door');
-        openHelper.verifyNoMove(result);
+        openHelper.verifyCountsAsMove(result);
       });
 
       it('should fail to open front door using "front" alias', () => {
         const result = openHelper.executeOpenTarget('front');
         
         openHelper.verifyCannotOpenItem(result, 'door'); // Should resolve to "door"
-        openHelper.verifyNoMove(result);
+        openHelper.verifyCountsAsMove(result);
       });
 
       it('should fail to open the welcome mat (authentic Zork behavior)', () => {
         const result = openHelper.executeOpenTarget('welcome mat');
         
         openHelper.verifyCannotOpenItem(result, 'welcome mat'); // Should resolve to "welcome mat"
-        openHelper.verifyNoMove(result);
+        openHelper.verifyCountsAsMove(result);
       });
 
       it('should fail to open welcome mat using "welco" alias', () => {
         const result = openHelper.executeOpenTarget('welco');
         
         openHelper.verifyCannotOpenItem(result, 'welcome mat'); // Should resolve to "welcome mat"
-        openHelper.verifyNoMove(result);
+        openHelper.verifyCountsAsMove(result);
       });
     });
   });
@@ -108,21 +108,21 @@ describe('Open Command - West of House Scene', () => {
       const result = openHelper.executeOpen('open');
       
       openHelper.verifyFailure(result, 'What do you want to open');
-      openHelper.verifyNoMove(result);
+      openHelper.verifyCountsAsMove(result);
     });
 
     it('should handle missing target in open command', () => {
       const result = openHelper.executeOpen('open with');
       
       openHelper.verifyFailure(result, "With what?");
-      openHelper.verifyNoMove(result);
+      openHelper.verifyCountsAsMove(result);
     });
 
     it('should handle non-existent items gracefully', () => {
       const result = openHelper.executeOpenTarget('phantom');
       
       openHelper.verifyItemNotFound(result, 'phantom');
-      openHelper.verifyNoMove(result);
+      openHelper.verifyCountsAsMove(result);
     });
   });
 

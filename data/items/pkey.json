@@ -16,9 +16,9 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "no_description",
     "tool",
     "visible",
+    "no_description",
     "portable",
     "turnable"
   ],
@@ -36,7 +36,7 @@
     },
     {
       "command": "turn",
-      "message": "You turn the PKEY."
+      "message": "You turn the rusty iron key."
     }
   ],
   "initialLocation": "unknown"

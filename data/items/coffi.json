@@ -17,10 +17,10 @@
     "open": false
   },
   "tags": [
-    "portable",
-    "treasure",
     "container",
-    "visible"
+    "visible",
+    "treasure",
+    "portable"
   ],
   "properties": {
     "capacity": 35,
@@ -42,13 +42,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the COFFI."
+      "message": "You open the gold coffin."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the COFFI."
+      "message": "You close the gold coffin."
     }
   ],
   "initialLocation": "unknown"

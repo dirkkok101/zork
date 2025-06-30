@@ -16,9 +16,9 @@
     "open": false
   },
   "tags": [
-    "portable",
     "container",
-    "visible"
+    "visible",
+    "portable"
   ],
   "properties": {
     "capacity": 5,
@@ -40,13 +40,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the GRAIL."
+      "message": "You open the grail."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the GRAIL."
+      "message": "You close the grail."
     }
   ],
   "initialLocation": "unknown"

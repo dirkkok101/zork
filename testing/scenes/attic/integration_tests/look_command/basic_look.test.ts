@@ -275,7 +275,7 @@ describe('Attic Scene - Look Command Integration', () => {
     it('brick state affects look at brick description', () => {
       // Closed brick
       testEnv.atticHelper.setBrickClosed();
-      let result = testEnv.lookCommandHelper.executeLookAt('brick');
+      testEnv.lookCommandHelper.executeLookAt('brick');
       // Note: Static descriptions might not show state, depends on implementation
       
       // Open brick

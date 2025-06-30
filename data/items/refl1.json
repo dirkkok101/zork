@@ -14,10 +14,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "character",
-    "portable",
     "dangerous",
-    "visible"
+    "visible",
+    "character",
+    "portable"
   ],
   "properties": {},
   "interactions": [

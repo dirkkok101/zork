@@ -16,8 +16,8 @@
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "portable",
-    "visible"
+    "visible",
+    "portable"
   ],
   "properties": {
     "size": 15
@@ -29,7 +29,7 @@
     },
     {
       "command": "take",
-      "message": "You take the bunch of Coke bottles."
+      "message": "You take the bunch of coke bottles."
     }
   ],
   "initialLocation": "unknown"

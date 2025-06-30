@@ -19,8 +19,8 @@
   },
   "tags": [
     "container",
-    "door",
-    "visible"
+    "visible",
+    "door"
   ],
   "properties": {
     "container": true
@@ -34,13 +34,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the PDOOR."
+      "message": "You open the door made of oak."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the PDOOR."
+      "message": "You close the door made of oak."
     }
   ],
   "initialLocation": "unknown"

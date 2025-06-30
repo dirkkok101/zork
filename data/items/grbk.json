@@ -17,11 +17,11 @@
     "open": false
   },
   "tags": [
-    "readable",
     "visible",
-    "container",
+    "readable",
+    "flammable",
     "portable",
-    "flammable"
+    "container"
   ],
   "properties": {
     "capacity": 2,
@@ -42,17 +42,17 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the GRBK."
+      "message": "You open the green book."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the GRBK."
+      "message": "You close the green book."
     },
     {
       "command": "read",
-      "message": "You read the GRBK."
+      "message": "You read the green book."
     }
   ],
   "initialLocation": "unknown"

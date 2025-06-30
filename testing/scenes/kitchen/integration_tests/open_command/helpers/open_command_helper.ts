@@ -153,7 +153,7 @@ export class OpenCommandHelper {
    */
   verifyAlreadyOpen(result: CommandResult, itemName: string): void {
     this.verifyFailure(result);
-    expect(result.message).toMatch(new RegExp(`${itemName}.*already open`, 'i'));
+    expect(result.message).toMatch(new RegExp(`${itemName}.*already.*open|already.*open.*${itemName}`, 'i'));
   }
 
   /**
@@ -178,7 +178,7 @@ export class OpenCommandHelper {
   verifyWindowOpenSuccess(result: CommandResult): void {
     this.verifySuccess(result);
     this.verifyWindowOpened();
-    expect(result.message).toMatch(/window.*open/i);
+    expect(result.message).toMatch(/open.*window/i);
   }
 
   /**
@@ -187,7 +187,7 @@ export class OpenCommandHelper {
   verifySackOpenSuccess(result: CommandResult): void {
     this.verifySuccess(result);
     this.verifySackOpened();
-    expect(result.message).toMatch(/sack.*open/i);
+    expect(result.message).toMatch(/open.*sack/i);
   }
 
   /**
@@ -196,7 +196,7 @@ export class OpenCommandHelper {
   verifyBottleOpenSuccess(result: CommandResult): void {
     this.verifySuccess(result);
     this.verifyBottleOpened();
-    expect(result.message).toMatch(/bottle.*open/i);
+    expect(result.message).toMatch(/open.*bottle/i);
   }
 
   /**

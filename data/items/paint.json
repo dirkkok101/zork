@@ -18,9 +18,9 @@
   "size": "MEDIUM",
   "initialState": {},
   "tags": [
-    "portable",
     "flammable",
-    "visible"
+    "visible",
+    "portable"
   ],
   "properties": {
     "size": 15,

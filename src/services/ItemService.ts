@@ -703,7 +703,8 @@ export class ItemService implements IItemService {
     if (!container || !this.isContainer(containerId)) {
       return false;
     }
-    return container.state?.open || false;
+    // Check both 'open' and 'isOpen' properties for compatibility
+    return container.state?.open || container.state?.isOpen || false;
   }
 
   /**
@@ -737,7 +738,8 @@ export class ItemService implements IItemService {
    */
   itemMatches(item: any, name: string): boolean {
     const itemName = item.name.toLowerCase();
-    const searchName = name.toLowerCase();
+    // Strip common English articles from the search term
+    const searchName = name.toLowerCase().replace(/^(the|a|an)\s+/i, '').trim();
     
     // Exact name match
     if (itemName === searchName) {

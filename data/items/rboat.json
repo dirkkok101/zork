@@ -22,11 +22,11 @@
     ]
   },
   "tags": [
-    "openable",
-    "visible",
     "vehicle",
+    "visible",
     "portable",
-    "flammable"
+    "flammable",
+    "openable"
   ],
   "properties": {
     "capacity": 100,
@@ -46,13 +46,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the RBOAT."
+      "message": "You open the magic boat."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the RBOAT."
+      "message": "You close the magic boat."
     }
   ],
   "initialLocation": "unknown"

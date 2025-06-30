@@ -27,7 +27,7 @@ describe('Attic Scene - Open Command Integration', () => {
       
       testEnv.openCommandHelper.verifySuccess(result);
       testEnv.openCommandHelper.verifyContainerOpened(result, 'brick');
-      testEnv.openCommandHelper.verifyNoMove(result);
+      testEnv.openCommandHelper.verifyCountsAsMove(result);
       testEnv.openCommandHelper.verifyNoScoreChange(result);
       
       // Verify state changed
@@ -41,7 +41,7 @@ describe('Attic Scene - Open Command Integration', () => {
       
       testEnv.openCommandHelper.verifyFailure(result);
       testEnv.openCommandHelper.verifyAlreadyOpen(result, 'brick');
-      testEnv.openCommandHelper.verifyNoMove(result);
+      testEnv.openCommandHelper.verifyCountsAsMove(result);
       testEnv.openCommandHelper.verifyNoScoreChange(result);
       
       // State should remain open
@@ -93,7 +93,7 @@ describe('Attic Scene - Open Command Integration', () => {
       
       testEnv.openCommandHelper.verifyFailure(result);
       testEnv.openCommandHelper.verifyNotContainer(result, 'rope');
-      testEnv.openCommandHelper.verifyNoMove(result);
+      testEnv.openCommandHelper.verifyCountsAsMove(result);
       testEnv.openCommandHelper.verifyNoScoreChange(result);
     });
 
@@ -102,7 +102,7 @@ describe('Attic Scene - Open Command Integration', () => {
       
       testEnv.openCommandHelper.verifyFailure(result);
       testEnv.openCommandHelper.verifyNotContainer(result, 'knife');
-      testEnv.openCommandHelper.verifyNoMove(result);
+      testEnv.openCommandHelper.verifyCountsAsMove(result);
       testEnv.openCommandHelper.verifyNoScoreChange(result);
     });
 
@@ -257,12 +257,12 @@ describe('Attic Scene - Open Command Integration', () => {
   });
 
   describe('Game State Tracking', () => {
-    it('open command does not count as move', () => {
+    it('open command counts as move', () => {
       const initialMoves = testEnv.openCommandHelper.getCurrentMoves();
       
       testEnv.openCommandHelper.executeOpen('brick');
       
-      expect(testEnv.openCommandHelper.getCurrentMoves()).toBe(initialMoves);
+      expect(testEnv.openCommandHelper.getCurrentMoves()).toBe(initialMoves + 1);
     });
 
     it('open command does not change score', () => {

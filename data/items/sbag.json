@@ -19,10 +19,10 @@
     "open": false
   },
   "tags": [
-    "portable",
-    "flammable",
     "container",
-    "visible"
+    "visible",
+    "flammable",
+    "portable"
   ],
   "properties": {
     "capacity": 15,
@@ -42,13 +42,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the SBAG."
+      "message": "You open the brown sack."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the SBAG."
+      "message": "You close the brown sack."
     }
   ],
   "initialLocation": "unknown"

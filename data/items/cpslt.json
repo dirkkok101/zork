@@ -18,9 +18,9 @@
     "open": false
   },
   "tags": [
-    "no_description",
     "openable",
-    "visible"
+    "visible",
+    "no_description"
   ],
   "properties": {
     "capacity": 4,
@@ -35,13 +35,13 @@
       "command": "open",
       "condition": "!state.open",
       "effect": "state.open = true",
-      "message": "You open the CPSLT."
+      "message": "You open the small slit."
     },
     {
       "command": "close",
       "condition": "state.open",
       "effect": "state.open = false",
-      "message": "You close the CPSLT."
+      "message": "You close the small slit."
     }
   ],
   "initialLocation": "unknown"
