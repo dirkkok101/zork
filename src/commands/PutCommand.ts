@@ -7,7 +7,8 @@ import {
   IItemService,
   ICombatService,
   IPersistenceService,
-  IOutputService
+  IOutputService,
+  IScoringService
 } from '../services/interfaces';
 import log from 'loglevel';
 
@@ -32,6 +33,7 @@ export class PutCommand extends BaseCommand {
     combat: ICombatService,
     persistence: IPersistenceService,
     output: IOutputService,
+    scoring: IScoringService,
     logger?: log.Logger
   ) {
     super(
@@ -46,6 +48,7 @@ export class PutCommand extends BaseCommand {
       combat,
       persistence,
       output,
+      scoring,
       logger
     );
   }
@@ -163,6 +166,25 @@ export class PutCommand extends BaseCommand {
       this.scene.addItemToScene(currentSceneId, itemId);
     }
     
-    return this.success(successMessage, true, 0);
+    // Handle scoring for treasury/trophy case deposits
+    let scoreChange = 0;
+    if (preposition === 'in' && this.scoring.isTreasure(itemId)) {
+      const targetItem = this.gameState.getItem(targetId);
+      // Check if target is trophy case (case ID in original Zork)
+      if (targetItem && (targetId === 'case' || targetItem.name?.toLowerCase().includes('trophy'))) {
+        const depositScore = this.scoring.calculateDepositScore(itemId);
+        if (depositScore > 0) {
+          scoreChange = depositScore;
+          this.gameState.addScore(depositScore);
+          
+          // Mark treasure as deposited for tracking
+          this.scoring.markTreasureDeposited(itemId);
+          
+          this.logger.info(`Treasure deposited! ${itemId} awarded ${depositScore} additional points`);
+        }
+      }
+    }
+    
+    return this.success(successMessage, true, scoreChange);
   }
 }

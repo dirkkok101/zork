@@ -14,13 +14,15 @@ import {
   IItemService,
   ICombatService,
   IPersistenceService,
-  IOutputService
+  IOutputService,
+  IScoringService
 } from '../services/interfaces';
 import { GameStateService } from '../services/GameStateService';
 import { SceneService } from '../services/SceneService';
 import { InventoryService } from '../services/InventoryService';
 import { ItemService } from '../services/ItemService';
 import { OutputService } from '../services/OutputService';
+import { ScoringService } from '../services/ScoringService';
 
 /**
  * Collection of all game services
@@ -33,6 +35,7 @@ export interface Services {
   combat: ICombatService;
   persistence: IPersistenceService;
   output: IOutputService;
+  scoring: IScoringService;
 }
 
 /**
@@ -92,6 +95,7 @@ export class ServiceInitializer {
     const inventoryService = new InventoryService(gameStateService, logger);
     const itemService = new ItemService(gameStateService, logger);
     const outputService = new OutputService(logger);
+    const scoringService = new ScoringService(gameStateService, logger);
     
     // Inject inventory service into scene service to handle dynamic conditions
     sceneService.setInventoryService(inventoryService);
@@ -103,7 +107,8 @@ export class ServiceInitializer {
       items: itemService,
       combat: null as any, // Still mock - not needed for Look command
       persistence: null as any, // Still mock - not needed for Look command
-      output: outputService
+      output: outputService,
+      scoring: scoringService
     };
     
     logger.debug('✅ Services created (mix of real and mock implementations)');

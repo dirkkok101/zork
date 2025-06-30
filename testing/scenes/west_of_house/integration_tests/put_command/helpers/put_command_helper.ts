@@ -5,16 +5,24 @@
 
 import { CommandResult } from '@/types/CommandTypes';
 import { CommandProcessor } from '@/services/CommandProcessor';
-import { IGameStateService, IInventoryService, IItemService, ISceneService } from '@/services/interfaces';
+import { IGameStateService, IInventoryService, IItemService, ISceneService, IScoringService } from '@/services/interfaces';
+import { ScoringValidationHelper } from '@testing/utils/scoring_validation_helper';
 
 export class PutCommandHelper {
+  private scoringHelper?: ScoringValidationHelper;
+
   constructor(
     private commandProcessor: CommandProcessor,
     private gameState: IGameStateService,
     private inventory: IInventoryService,
     private items: IItemService,
-    private scene: ISceneService
-  ) {}
+    private scene: ISceneService,
+    private scoring?: IScoringService
+  ) {
+    if (this.scoring) {
+      this.scoringHelper = new ScoringValidationHelper(this.gameState, this.scoring);
+    }
+  }
 
   /**
    * Execute a put command and return the result
@@ -234,6 +242,111 @@ export class PutCommandHelper {
   removeFromScene(itemId: string): void {
     const currentSceneId = this.gameState.getCurrentScene();
     this.scene.removeItemFromScene(currentSceneId, itemId);
+  }
+
+  // === Scoring Validation Methods ===
+
+  /**
+   * Get current player score
+   */
+  getCurrentScore(): number {
+    return this.scoringHelper?.getCurrentScore() || 0;
+  }
+
+  /**
+   * Check if target is trophy case or treasury
+   */
+  isTrophyCase(targetId: string): boolean {
+    return targetId === 'case' || targetId === 'trophy_case';
+  }
+
+  /**
+   * Verify treasure deposit scoring for trophy case
+   */
+  verifyTreasureDepositScoring(result: CommandResult, itemId: string, targetId: string): void {
+    if (this.scoringHelper) {
+      const isTrophyCase = this.isTrophyCase(targetId);
+      this.scoringHelper.verifyTreasureDeposit(result, itemId, isTrophyCase);
+    }
+  }
+
+  /**
+   * Verify no scoring impact for non-treasures or non-trophy case
+   */
+  verifyNonScoringPut(result: CommandResult, itemId: string, targetId: string): void {
+    if (this.scoringHelper) {
+      const isTreasure = this.scoringHelper.isTreasure(itemId);
+      const isTrophyCase = this.isTrophyCase(targetId);
+      
+      if (!isTreasure || !isTrophyCase) {
+        this.scoringHelper.verifyNoScoreChange(result);
+      }
+    }
+  }
+
+  /**
+   * Verify score change in result
+   */
+  verifyScoreChange(result: CommandResult, expectedPoints: number): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.verifyScoreChange(result, expectedPoints);
+    }
+  }
+
+  /**
+   * Verify no score change in result
+   */
+  verifyNoScoreChange(result: CommandResult): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.verifyNoScoreChange(result);
+    }
+  }
+
+  /**
+   * Check if an item is a treasure
+   */
+  isTreasure(itemId: string): boolean {
+    return this.scoringHelper?.isTreasure(itemId) || false;
+  }
+
+  /**
+   * Get treasure deposit bonus value
+   */
+  getTreasureDepositScore(treasureId: string): number {
+    return this.scoringHelper?.getTreasureDepositScore(treasureId) || 0;
+  }
+
+  /**
+   * Reset scoring state for clean tests
+   */
+  resetScoringState(): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.resetScoringState();
+    }
+  }
+
+  /**
+   * Verify successful put in trophy case with scoring validation
+   */
+  verifyPutInTrophyCaseWithScoring(result: CommandResult, itemName: string, itemId: string, targetName: string, targetId: string): void {
+    this.verifyPutSuccess(result, itemName, targetName);
+    
+    if (this.scoringHelper && this.isTreasure(itemId) && this.isTrophyCase(targetId)) {
+      const expectedScore = this.getTreasureDepositScore(itemId);
+      if (expectedScore > 0) {
+        this.verifyScoreChange(result, expectedScore);
+      }
+    } else {
+      this.verifyNoScoreChange(result);
+    }
+  }
+
+  /**
+   * Verify successful put with comprehensive scoring validation
+   */
+  verifyPutSuccessWithScoring(result: CommandResult, itemName: string, itemId: string, targetName: string, targetId: string): void {
+    this.verifyPutSuccess(result, itemName, targetName);
+    this.verifyTreasureDepositScoring(result, itemId, targetId);
   }
 
 }

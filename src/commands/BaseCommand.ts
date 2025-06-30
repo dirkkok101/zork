@@ -7,7 +7,8 @@ import {
   IItemService,
   ICombatService,
   IPersistenceService,
-  IOutputService
+  IOutputService,
+  IScoringService
 } from '../services/interfaces';
 import log from 'loglevel';
 
@@ -44,6 +45,7 @@ export abstract class BaseCommand implements ICommand {
    * @param combat Combat service
    * @param persistence Persistence service
    * @param output Output service
+   * @param scoring Scoring service
    * @param logger Logger instance (optional, will create one if not provided)
    */
   constructor(
@@ -58,6 +60,7 @@ export abstract class BaseCommand implements ICommand {
     protected combat: ICombatService,
     protected persistence: IPersistenceService,
     protected output: IOutputService,
+    protected scoring: IScoringService,
     logger?: log.Logger
   ) {
     this.name = name;

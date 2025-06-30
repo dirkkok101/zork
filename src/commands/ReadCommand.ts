@@ -7,7 +7,8 @@ import {
   IItemService,
   ICombatService,
   IPersistenceService,
-  IOutputService
+  IOutputService,
+  IScoringService
 } from '../services/interfaces';
 import log from 'loglevel';
 
@@ -31,6 +32,7 @@ export class ReadCommand extends BaseCommand {
     combat: ICombatService,
     persistence: IPersistenceService,
     output: IOutputService,
+    scoring: IScoringService,
     logger?: log.Logger
   ) {
     super(
@@ -45,6 +47,7 @@ export class ReadCommand extends BaseCommand {
       combat,
       persistence,
       output,
+      scoring,
       logger
     );
   }

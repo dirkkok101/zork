@@ -5,16 +5,24 @@
 
 import { CommandResult } from '@/types/CommandTypes';
 import { CommandProcessor } from '@/services/CommandProcessor';
-import { IGameStateService, IInventoryService, IItemService, ISceneService } from '@/services/interfaces';
+import { IGameStateService, IInventoryService, IItemService, ISceneService, IScoringService } from '@/services/interfaces';
+import { ScoringValidationHelper } from '@testing/utils/scoring_validation_helper';
 
 export class TakeCommandHelper {
+  private scoringHelper?: ScoringValidationHelper;
+
   constructor(
     private commandProcessor: CommandProcessor,
     private gameState: IGameStateService,
     private inventory: IInventoryService,
     private items: IItemService,
-    private scene: ISceneService
-  ) {}
+    private scene: ISceneService,
+    private scoring?: IScoringService
+  ) {
+    if (this.scoring) {
+      this.scoringHelper = new ScoringValidationHelper(this.gameState, this.scoring);
+    }
+  }
 
   /**
    * Execute a take command and return the result
@@ -198,5 +206,105 @@ export class TakeCommandHelper {
   verifyInventoryCountChange(initialCount: number, expectedChange: number): void {
     const currentCount = this.getInventoryCount();
     expect(currentCount).toBe(initialCount + expectedChange);
+  }
+
+  // === Scoring Validation Methods ===
+
+  /**
+   * Get current player score
+   */
+  getCurrentScore(): number {
+    return this.scoringHelper?.getCurrentScore() || 0;
+  }
+
+  /**
+   * Verify treasure scoring on take
+   */
+  verifyTreasureTakeScoring(result: CommandResult, itemId: string): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.verifyTreasureDiscovery(result, itemId);
+    }
+  }
+
+  /**
+   * Verify no scoring impact for non-treasures
+   */
+  verifyNonTreasureTakeScoring(result: CommandResult, itemId: string): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.verifyNonTreasureNoScoring(result, itemId);
+    }
+  }
+
+  /**
+   * Verify score change in result
+   */
+  verifyScoreChange(result: CommandResult, expectedPoints: number): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.verifyScoreChange(result, expectedPoints);
+    }
+  }
+
+  /**
+   * Verify no score change in result
+   */
+  verifyNoScoreChange(result: CommandResult): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.verifyNoScoreChange(result);
+    }
+  }
+
+  /**
+   * Verify score increased by expected amount
+   */
+  verifyScoreIncrease(initialScore: number, expectedIncrease: number): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.verifyScoreIncrease(initialScore, expectedIncrease);
+    }
+  }
+
+  /**
+   * Check if an item is a treasure
+   */
+  isTreasure(itemId: string): boolean {
+    return this.scoringHelper?.isTreasure(itemId) || false;
+  }
+
+  /**
+   * Get treasure base score value
+   */
+  getTreasureScore(treasureId: string): number {
+    return this.scoringHelper?.getTreasureScore(treasureId) || 0;
+  }
+
+  /**
+   * Reset scoring state for clean tests
+   */
+  resetScoringState(): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.resetScoringState();
+    }
+  }
+
+  /**
+   * Get scoring helper for advanced scoring tests
+   */
+  getScoringHelper(): ScoringValidationHelper | undefined {
+    return this.scoringHelper;
+  }
+
+  /**
+   * Verify successful take with scoring validation
+   */
+  verifyTakeSuccessWithScoring(result: CommandResult, itemName: string, itemId: string): void {
+    this.verifyTakeSuccess(result, itemName);
+    
+    if (this.scoringHelper && this.isTreasure(itemId)) {
+      const expectedScore = this.getTreasureScore(itemId);
+      if (expectedScore > 0) {
+        this.verifyScoreChange(result, expectedScore);
+      }
+    } else {
+      this.verifyNoScoreChange(result);
+    }
   }
 }

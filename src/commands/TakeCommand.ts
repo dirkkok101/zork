@@ -7,7 +7,8 @@ import {
   IItemService,
   ICombatService,
   IPersistenceService,
-  IOutputService
+  IOutputService,
+  IScoringService
 } from '../services/interfaces';
 import log from 'loglevel';
 
@@ -31,6 +32,7 @@ export class TakeCommand extends BaseCommand {
     combat: ICombatService,
     persistence: IPersistenceService,
     output: IOutputService,
+    scoring: IScoringService,
     logger?: log.Logger
   ) {
     super(
@@ -45,6 +47,7 @@ export class TakeCommand extends BaseCommand {
       combat,
       persistence,
       output,
+      scoring,
       logger
     );
   }
@@ -93,7 +96,22 @@ export class TakeCommand extends BaseCommand {
       return this.failure("You can't carry any more items.");
     }
 
-    return this.success(takeResult.message, true, 0);
+    // 8. Handle scoring for treasures
+    let scoreChange = 0;
+    if (this.scoring.isTreasure(targetId)) {
+      const treasureScore = this.scoring.calculateTreasureScore(targetId);
+      if (treasureScore > 0) {
+        scoreChange = treasureScore;
+        this.gameState.addScore(treasureScore);
+        
+        // Mark treasure as found for tracking
+        this.scoring.markTreasureFound(targetId);
+        
+        this.logger.info(`Treasure found! ${targetId} awarded ${treasureScore} points`);
+      }
+    }
+
+    return this.success(takeResult.message, true, scoreChange);
   }
 
   /**

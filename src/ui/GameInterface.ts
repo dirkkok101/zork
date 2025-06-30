@@ -162,6 +162,12 @@ export class GameInterface {
             
             if (result.success) {
                 this.displayMessage(result.message);
+                
+                // Display score change if any
+                if (result.scoreChange && result.scoreChange > 0) {
+                    this.displayScoreChange(result.scoreChange);
+                }
+                
                 // Update UI state after successful commands
                 this.updateGameStateDisplay();
             } else {
@@ -189,6 +195,20 @@ export class GameInterface {
         } catch (error) {
             this.logger.error('Failed to update game state display:', error);
         }
+    }
+
+    /**
+     * Display score change notification
+     */
+    private displayScoreChange(points: number): void {
+        const scoreMessage = `[+${points} points]`;
+        this.displayMessage(scoreMessage, 'score-change');
+        
+        // Add visual emphasis to score element
+        this.scoreElement.classList.add('score-updated');
+        setTimeout(() => {
+            this.scoreElement.classList.remove('score-updated');
+        }, 1000);
     }
 
     /**

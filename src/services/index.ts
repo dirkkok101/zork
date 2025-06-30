@@ -14,3 +14,4 @@ export { SceneService } from './SceneService';
 export { InventoryService } from './InventoryService';
 export { ItemService } from './ItemService';
 export { OutputService } from './OutputService';
+export { ScoringService } from './ScoringService';

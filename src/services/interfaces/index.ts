@@ -14,6 +14,7 @@ export type { IPersistenceService } from './IPersistenceService';
 export type { IOutputService } from './IOutputService';
 export type { ICommandService } from './ICommandService';
 export type { ICommandProcessor } from './ICommandProcessor';
+export type { IScoringService } from './IScoringService';
 
 // Re-export core types needed by commands
 export type {

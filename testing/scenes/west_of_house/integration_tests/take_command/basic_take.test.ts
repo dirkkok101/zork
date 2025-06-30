@@ -13,13 +13,14 @@ describe('Take Command - West of House Scene', () => {
   beforeAll(async () => {
     testEnv = await IntegrationTestFactory.createTestEnvironment();
     
-    // Create Take command helper
+    // Create Take command helper with scoring service
     takeHelper = new TakeCommandHelper(
       testEnv.commandProcessor,
       testEnv.services.gameState as any,
       testEnv.services.inventory as any,
       testEnv.services.items as any,
-      testEnv.services.scene as any
+      testEnv.services.scene as any,
+      testEnv.services.scoring as any
     );
   });
 
@@ -34,6 +35,10 @@ describe('Take Command - West of House Scene', () => {
     items.forEach((itemId: string) => {
       inventory.removeItem(itemId);
     });
+
+    // Reset scoring state for clean tests
+    testEnv.resetScoring();
+    takeHelper.resetScoringState();
   });
 
   afterAll(() => {
@@ -47,21 +52,32 @@ describe('Take Command - West of House Scene', () => {
     });
 
     describe('Taking the Welcome Mat', () => {
-      it('should successfully take the welcome mat', () => {
+      it('should successfully take the welcome mat with proper scoring', () => {
         const initialCount = takeHelper.getInventoryCount();
+        const initialScore = takeHelper.getCurrentScore();
         
         const result = takeHelper.executeTakeTarget('welcome mat');
         
-        takeHelper.verifyTakeSuccess(result, 'welcome mat');
+        takeHelper.verifyTakeSuccessWithScoring(result, 'welcome mat', 'mat');
         takeHelper.verifyItemMoved('mat', true);
         takeHelper.verifyInventoryCountChange(initialCount, 1);
+        
+        // Welcome mat is not a treasure, so no scoring should occur
+        takeHelper.verifyNonTreasureTakeScoring(result, 'mat');
+        expect(takeHelper.getCurrentScore()).toBe(initialScore);
       });
 
-      it('should take mat using "welco" alias', () => {
+      it('should take mat using "welco" alias with scoring validation', () => {
+        const initialScore = takeHelper.getCurrentScore();
+        
         const result = takeHelper.executeTakeTarget('welco');
         
-        takeHelper.verifyTakeSuccess(result, 'welcome mat');
+        takeHelper.verifyTakeSuccessWithScoring(result, 'welcome mat', 'mat');
         takeHelper.verifyItemMoved('mat', true);
+        
+        // Verify no scoring for non-treasure
+        takeHelper.verifyNonTreasureTakeScoring(result, 'mat');
+        expect(takeHelper.getCurrentScore()).toBe(initialScore);
       });
 
       it('should take mat using "rubbe" alias', () => {
@@ -174,6 +190,88 @@ describe('Take Command - West of House Scene', () => {
         
         takeHelper.verifyCannotTake(result, 'door');
         takeHelper.verifyItemMoved('fdoor', false);
+      });
+    });
+  });
+
+  describe('Scoring Integration Tests', () => {
+    beforeEach(() => {
+      // Ensure clean scoring state
+      testEnv.resetScoring();
+      takeHelper.resetScoringState();
+    });
+
+    describe('Non-Treasure Item Scoring', () => {
+      it('should not award points for taking non-treasure items', () => {
+        const initialScore = takeHelper.getCurrentScore();
+        
+        // Take welcome mat (non-treasure)
+        const matResult = takeHelper.executeTakeTarget('welcome mat');
+        takeHelper.verifyTakeSuccessWithScoring(matResult, 'welcome mat', 'mat');
+        takeHelper.verifyNonTreasureTakeScoring(matResult, 'mat');
+        
+        // Score should remain unchanged
+        expect(takeHelper.getCurrentScore()).toBe(initialScore);
+        expect(takeHelper.isTreasure('mat')).toBe(false);
+      });
+
+      it('should not award points for taking leaflet (non-treasure)', () => {
+        const initialScore = takeHelper.getCurrentScore();
+        
+        // Open mailbox first
+        const openResult = takeHelper.executeOpen('open mailbox');
+        if (openResult.success) {
+          // Take leaflet (non-treasure)
+          const leafletResult = takeHelper.executeTakeTarget('leaflet');
+          if (leafletResult.success) {
+            takeHelper.verifyTakeSuccessWithScoring(leafletResult, 'leaflet', 'adver');
+            takeHelper.verifyNonTreasureTakeScoring(leafletResult, 'adver');
+            
+            // Score should remain unchanged
+            expect(takeHelper.getCurrentScore()).toBe(initialScore);
+            expect(takeHelper.isTreasure('adver')).toBe(false);
+          }
+        }
+      });
+    });
+
+    describe('Score State Consistency', () => {
+      it('should maintain score state across multiple take operations', () => {
+        const initialScore = takeHelper.getCurrentScore();
+        
+        // Take multiple non-treasure items
+        const matResult = takeHelper.executeTakeTarget('welcome mat');
+        takeHelper.verifyNoScoreChange(matResult);
+        expect(takeHelper.getCurrentScore()).toBe(initialScore);
+        
+        // Open mailbox and take leaflet
+        const openResult = takeHelper.executeOpen('open mailbox');
+        if (openResult.success) {
+          const leafletResult = takeHelper.executeTakeTarget('leaflet');
+          if (leafletResult.success) {
+            takeHelper.verifyNoScoreChange(leafletResult);
+            expect(takeHelper.getCurrentScore()).toBe(initialScore);
+          }
+        }
+        
+        // Score should still be unchanged after all operations
+        expect(takeHelper.getCurrentScore()).toBe(initialScore);
+      });
+
+      it('should properly reset scoring state between tests', () => {
+        // Modify score
+        testEnv.services.gameState.addScore(50);
+        expect(takeHelper.getCurrentScore()).toBe(50);
+        
+        // Reset and verify clean state
+        testEnv.resetScoring();
+        takeHelper.resetScoringState();
+        expect(takeHelper.getCurrentScore()).toBe(0);
+        
+        // Verify treasure flags are cleared
+        const scoringHelper = takeHelper.getScoringHelper();
+        expect(scoringHelper?.isTreasureFound('coin')).toBe(false);
+        expect(scoringHelper?.isTreasureDeposited('coin')).toBe(false);
       });
     });
   });

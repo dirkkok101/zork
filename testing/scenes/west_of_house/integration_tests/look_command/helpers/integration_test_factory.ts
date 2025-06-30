@@ -18,6 +18,7 @@ export interface IntegrationTestEnvironment {
   westOfHouseHelper: WestOfHouseHelper;
   lookCommandHelper: LookCommandHelper;
   cleanup: () => void;
+  resetScoring: () => void;
 }
 
 export class IntegrationTestFactory {
@@ -73,13 +74,32 @@ export class IntegrationTestFactory {
       westOfHouseHelper.clearTestItems();
       westOfHouseHelper.resetScene();
     };
+
+    const resetScoring = () => {
+      // Reset score to 0
+      services.gameState.addScore(-services.gameState.getScore());
+      
+      // Clear all scoring flags
+      const treasureIds = ['coin', 'lamp', 'egg', 'bar', 'emera', 'ruby', 'diamo', 'saffr', 'chali', 'tride', 'bauble', 'coffi'];
+      treasureIds.forEach(treasureId => {
+        services.gameState.setFlag(`treasure_found_${treasureId}`, false);
+        services.gameState.setFlag(`treasure_deposited_${treasureId}`, false);
+      });
+      
+      // Clear scoring event flags
+      const eventIds = ['first_treasure', 'defeat_troll', 'defeat_thief', 'open_trophy_case', 'solve_maze', 'reach_endgame'];
+      eventIds.forEach(eventId => {
+        services.gameState.setFlag(`scoring_event_${eventId}`, false);
+      });
+    };
     
     return {
       services,
       commandProcessor,
       westOfHouseHelper,
       lookCommandHelper,
-      cleanup
+      cleanup,
+      resetScoring
     };
   }
 

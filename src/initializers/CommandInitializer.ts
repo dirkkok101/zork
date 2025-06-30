@@ -82,6 +82,7 @@ export class CommandInitializer {
         services.combat,
         services.persistence,
         services.output,
+        services.scoring,
         loggingService.getLogger('LookCommand')
       ),
       new ExamineCommand(
@@ -92,6 +93,7 @@ export class CommandInitializer {
         services.combat,
         services.persistence,
         services.output,
+        services.scoring,
         loggingService.getLogger('ExamineCommand')
       ),
       new MoveCommand(
@@ -102,6 +104,7 @@ export class CommandInitializer {
         services.combat,
         services.persistence,
         services.output,
+        services.scoring,
         loggingService.getLogger('MoveCommand')
       ),
       new TakeCommand(
@@ -112,6 +115,7 @@ export class CommandInitializer {
         services.combat,
         services.persistence,
         services.output,
+        services.scoring,
         loggingService.getLogger('TakeCommand')
       ),
       new DropCommand(
@@ -122,6 +126,7 @@ export class CommandInitializer {
         services.combat,
         services.persistence,
         services.output,
+        services.scoring,
         loggingService.getLogger('DropCommand')
       ),
       new InventoryCommand(
@@ -132,6 +137,7 @@ export class CommandInitializer {
         services.combat,
         services.persistence,
         services.output,
+        services.scoring,
         loggingService.getLogger('InventoryCommand')
       ),
       new OpenCommand(
@@ -142,6 +148,7 @@ export class CommandInitializer {
         services.combat,
         services.persistence,
         services.output,
+        services.scoring,
         loggingService.getLogger('OpenCommand')
       ),
       new CloseCommand(
@@ -152,6 +159,7 @@ export class CommandInitializer {
         services.combat,
         services.persistence,
         services.output,
+        services.scoring,
         loggingService.getLogger('CloseCommand')
       ),
       new PutCommand(
@@ -162,6 +170,7 @@ export class CommandInitializer {
         services.combat,
         services.persistence,
         services.output,
+        services.scoring,
         loggingService.getLogger('PutCommand')
       ),
       new ReadCommand(
@@ -172,6 +181,7 @@ export class CommandInitializer {
         services.combat,
         services.persistence,
         services.output,
+        services.scoring,
         loggingService.getLogger('ReadCommand')
       )
     ];
