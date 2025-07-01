@@ -3,6 +3,7 @@ import { IItemService } from '@/services/interfaces/IItemService';
 import { ISceneService } from '@/services/interfaces/ISceneService';
 import { IScoringService } from '@/services/interfaces/IScoringService';
 import { Item } from '@/types/ItemTypes';
+import { CommandResult } from '@/types/CommandTypes';
 
 /**
  * Living Room Helper
@@ -358,5 +359,84 @@ export class LivingRoomHelper {
       trophyCase.properties?.depositValues !== undefined &&
       typeof trophyCase.properties.depositValues === 'object'
     );
+  }
+
+  /**
+   * Verify a command result shows expected score change
+   */
+  verifyScoreChange(result: any, expectedPoints: number): void {
+    expect(result.scoreChange).toBe(expectedPoints);
+    expect(result.scoreChange).toBeGreaterThan(0);
+  }
+
+  /**
+   * Verify a command result shows no score change
+   */
+  verifyNoScoreChange(result: any): void {
+    expect(result.scoreChange).toBe(0);
+  }
+
+  /**
+   * Verify first visit scoring (1 point for living room)
+   */
+  verifyFirstVisitScoring(result: any): void {
+    this.verifyScoreChange(result, 1);
+  }
+
+  /**
+   * Verify score increased by expected amount
+   */
+  verifyScoreIncrease(initialScore: number, expectedIncrease: number): void {
+    const currentScore = this.getCurrentScore();
+    expect(currentScore).toBe(initialScore + expectedIncrease);
+    expect(currentScore).toBeGreaterThan(initialScore);
+  }
+
+  /**
+   * Verify scene has the expected first visit points
+   */
+  verifyFirstVisitPoints(): void {
+    const scene = this.gameStateService.getScene('living_room');
+    expect(scene?.firstVisitPoints).toBe(1);
+  }
+
+  /**
+   * Verify scoring configuration matches expected values
+   */
+  verifyScoringConfiguration(): void {
+    const scene = this.gameStateService.getScene('living_room');
+    expect(scene).toBeDefined();
+    expect(scene?.firstVisitPoints).toBe(1);
+    expect(typeof scene?.firstVisitPoints).toBe('number');
+  }
+
+  /**
+   * Test helper to simulate fresh game start for scoring tests
+   */
+  simulateGameStart(): void {
+    // Reset to clean state
+    this.resetScoringState();
+    this.setupLivingRoom();
+    
+    // Ensure score starts at 0
+    const currentScore = this.getCurrentScore();
+    if (currentScore !== 0) {
+      // Reset game state score if needed
+      this.gameStateService.addScore(-currentScore);
+    }
+    
+    // Clear visited flag
+    this.gameStateService.setFlag('scene_visited_living_room', false);
+    
+    // Verify clean state
+    expect(this.isFirstVisit()).toBe(true);
+    expect(this.getCurrentScore()).toBe(0);
+  }
+
+  /**
+   * Check if this is the first visit to the living room
+   */
+  isFirstVisit(): boolean {
+    return !this.gameStateService.hasVisitedScene('living_room');
   }
 }

@@ -98,7 +98,15 @@ export class GameInterface {
         const lookResult = this.commandProcessor.processCommand('look');
         if (lookResult.success) {
             this.displayMessage(lookResult.message);
+            
+            // Display score change if any points were awarded
+            if (lookResult.scoreChange && lookResult.scoreChange > 0) {
+                this.displayScoreChange(lookResult.scoreChange);
+            }
         }
+        
+        // Ensure UI is updated with current game state after initial look
+        this.updateGameStateDisplay();
         
         // Show available commands
         this.displayMessage('\nAvailable commands: look, examine, move (north/south/east/west), take, drop, inventory');
@@ -190,6 +198,7 @@ export class GameInterface {
         try {
             // Update score and moves from game state
             const gameState = this.gameStateService.getGameState();
+            this.logger.debug(`Updating UI display - Score: ${gameState.score}, Moves: ${gameState.moves}`);
             this.scoreElement.textContent = `Score: ${gameState.score}`;
             this.movesElement.textContent = `Moves: ${gameState.moves}`;
         } catch (error) {

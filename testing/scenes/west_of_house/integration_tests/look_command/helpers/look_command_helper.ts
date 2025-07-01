@@ -146,6 +146,36 @@ export class LookCommandHelper {
   }
 
   /**
+   * Verify specific score change occurred
+   */
+  verifyScoreChange(result: CommandResult, expectedPoints: number): void {
+    expect(result.scoreChange).toBe(expectedPoints);
+    expect(result.scoreChange).toBeGreaterThan(0);
+  }
+
+  /**
+   * Verify first visit scoring for west_of_house (should award 1 point)
+   */
+  verifyFirstVisitScoring(result: CommandResult): void {
+    this.verifyScoreChange(result, 1);
+  }
+
+  /**
+   * Get current score from game state
+   */
+  getCurrentScore(): number {
+    return this.gameState.getScore();
+  }
+
+  /**
+   * Verify score before and after operation
+   */
+  verifyScoreIncrease(initialScore: number, expectedIncrease: number): void {
+    const currentScore = this.getCurrentScore();
+    expect(currentScore).toBe(initialScore + expectedIncrease);
+  }
+
+  /**
    * Verify game state was marked as visited after look
    */
   verifySceneMarkedVisited(): void {

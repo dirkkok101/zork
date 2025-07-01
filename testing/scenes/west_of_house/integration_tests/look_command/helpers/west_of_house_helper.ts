@@ -171,6 +171,50 @@ export class WestOfHouseHelper {
   }
 
   /**
+   * Get current score from game state
+   */
+  getCurrentScore(): number {
+    return this.gameState.getScore();
+  }
+
+  /**
+   * Verify scene has the expected first visit points
+   */
+  verifyFirstVisitPoints(): void {
+    const scene = this.getScene();
+    expect(scene?.firstVisitPoints).toBe(1);
+  }
+
+  /**
+   * Verify scoring configuration matches expected values
+   */
+  verifyScoringConfiguration(): void {
+    const scene = this.getScene();
+    expect(scene).toBeDefined();
+    expect(scene?.firstVisitPoints).toBe(1);
+    expect(typeof scene?.firstVisitPoints).toBe('number');
+  }
+
+  /**
+   * Test helper to simulate fresh game start for scoring tests
+   */
+  simulateGameStart(): void {
+    // Reset to clean state
+    this.resetScene();
+    
+    // Ensure score starts at 0
+    const currentScore = this.getCurrentScore();
+    if (currentScore !== 0) {
+      // Reset game state score if needed
+      this.gameState.addScore(-currentScore);
+    }
+    
+    // Verify clean state
+    expect(this.isFirstVisit()).toBe(true);
+    expect(this.getCurrentScore()).toBe(0);
+  }
+
+  /**
    * Get items currently in the scene
    */
   getSceneItems(): string[] {

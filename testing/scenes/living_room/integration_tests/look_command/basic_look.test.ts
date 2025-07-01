@@ -12,10 +12,12 @@ describe('Living Room - Look Command Integration Tests', () => {
   });
 
   describe('Basic Look Functionality', () => {
-    test('should display living room description on first visit', async () => {
-      // Setup: Fresh environment with unvisited living room
-      // Mark as not visited for first visit test
+    test('should display living room description on first visit and award 1 point', async () => {
+      // Setup: Fresh environment with unvisited living room and score at 0
+      testEnv.livingRoomHelper.resetScoringState();
       testEnv.services.gameState.setFlag('scene_visited_living_room', false);
+      const initialScore = testEnv.livingRoomHelper.getCurrentScore();
+      expect(initialScore).toBe(0);
 
       // Execute: Look command
       const result = await testEnv.commandProcessor.processCommand('look');
@@ -30,12 +32,13 @@ describe('Living Room - Look Command Integration Tests', () => {
       expect(result.message).toContain('doorway to the east');
       expect(result.message).toContain('wooden door');
       
-      // Verify first visit scoring
-      expect(testEnv.livingRoomHelper.getCurrentScore()).toBeGreaterThan(0);
+      // Verify first visit scoring (1 point for living room)
+      testEnv.livingRoomHelper.verifyFirstVisitScoring(result);
+      testEnv.livingRoomHelper.verifyScoreIncrease(initialScore, 1);
       expect(testEnv.services.gameState.getFlag('scene_visited_living_room')).toBe(true);
     });
 
-    test('should display standard description on subsequent visits', async () => {
+    test('should display standard description on subsequent visits with no score change', async () => {
       // Setup: Mark scene as already visited
       testEnv.services.gameState.setFlag('scene_visited_living_room', true);
       const initialScore = testEnv.livingRoomHelper.getCurrentScore();
@@ -49,6 +52,7 @@ describe('Living Room - Look Command Integration Tests', () => {
       expect(result.message).toContain('trophy case');
       
       // Should not award additional score for subsequent visits
+      testEnv.livingRoomHelper.verifyNoScoreChange(result);
       expect(testEnv.livingRoomHelper.getCurrentScore()).toBe(initialScore);
     });
 
@@ -242,7 +246,8 @@ describe('Living Room - Look Command Integration Tests', () => {
 
   describe('Performance and State', () => {
     test('should not modify game state unexpectedly', async () => {
-      // Setup: Record initial state
+      // Setup: Record initial state with scene already visited to avoid scoring
+      testEnv.services.gameState.setFlag('scene_visited_living_room', true);
       const initialState = {
         currentScene: testEnv.services.gameState.getCurrentScene(),
         inventoryCount: testEnv.services.gameState.getGameState().inventory.length,
@@ -270,8 +275,9 @@ describe('Living Room - Look Command Integration Tests', () => {
       expect(finalState.inventoryCount).toBe(initialState.inventoryCount);
       expect(finalState.trophyCaseOpen).toBe(initialState.trophyCaseOpen);
       
-      // Score may increase due to first visit scoring
-      expect(finalState.score).toBeGreaterThanOrEqual(initialState.score);
+      // Score should not change for already visited scene
+      testEnv.livingRoomHelper.verifyNoScoreChange(result);
+      expect(finalState.score).toBe(initialState.score);
     });
 
     test('should handle repeated look commands efficiently', async () => {

@@ -9,91 +9,23 @@ import log from 'loglevel';
  */
 export class ScoringService implements IScoringService {
   private logger: log.Logger;
-  private itemScoringData: Map<string, number> = new Map();
-  private sceneScoringData: Map<string, number> = new Map();
-  private depositValues: Map<string, number> = new Map();
 
   constructor(
     private gameState: IGameStateService,
     logger?: log.Logger
   ) {
     this.logger = logger || log.getLogger('ScoringService');
-    this.loadAllScoringData();
+    this.initializeScoringService();
   }
 
   /**
-   * Load all scoring data from extracted scene and item files
+   * No separate data loading needed - scoring data is accessed directly from 
+   * GameStateService which already has loaded item and scene data
    */
-  private async loadAllScoringData(): Promise<void> {
-    try {
-      await Promise.all([
-        this.loadItemScoringData(),
-        this.loadSceneScoringData(),
-        this.loadTrophyCaseData()
-      ]);
-      
-      this.logger.debug('All scoring data loaded successfully');
-    } catch (error) {
-      this.logger.error('Failed to load scoring data:', error);
-    }
+  private initializeScoringService(): void {
+    this.logger.debug('ScoringService initialized - using data from GameStateService');
   }
 
-  /**
-   * Load item scoring data from individual item JSON files
-   */
-  private async loadItemScoringData(): Promise<void> {
-    try {
-      // In a real implementation, this would use a file system module or data loader
-      // For now, we'll simulate loading item data
-      // This would typically involve reading all item files and extracting treasurePoints
-      
-      // Placeholder for actual implementation that would:
-      // 1. Load data/items/index.json to get list of items
-      // 2. Load each item file
-      // 3. Filter for treasures (type === 'TREASURE')
-      // 4. Extract properties.treasurePoints for each treasure
-      // 5. Store in itemScoringData Map
-      
-      this.logger.debug('Item scoring data loaded from item files');
-    } catch (error) {
-      this.logger.error('Failed to load item scoring data:', error);
-    }
-  }
-
-  /**
-   * Load scene scoring data from scene JSON files
-   */
-  private async loadSceneScoringData(): Promise<void> {
-    try {
-      // In a real implementation, this would load scene files and extract firstVisitPoints
-      // Placeholder for actual implementation that would:
-      // 1. Load data/scenes/index.json to get list of scenes
-      // 2. Load each scene file
-      // 3. Extract firstVisitPoints where present
-      // 4. Store in sceneScoringData Map
-      
-      this.logger.debug('Scene scoring data loaded from scene files');
-    } catch (error) {
-      this.logger.error('Failed to load scene scoring data:', error);
-    }
-  }
-
-  /**
-   * Load trophy case deposit values from trophy case item file
-   */
-  private async loadTrophyCaseData(): Promise<void> {
-    try {
-      // In a real implementation, this would load the trophy case item file
-      // Placeholder for actual implementation that would:
-      // 1. Load data/items/tcase.json (or similar)
-      // 2. Extract properties.depositValues
-      // 3. Store in depositValues Map
-      
-      this.logger.debug('Trophy case data loaded from item file');
-    } catch (error) {
-      this.logger.error('Failed to load trophy case data:', error);
-    }
-  }
 
   /**
    * Calculate base treasure points for finding a treasure
@@ -134,16 +66,9 @@ export class ScoringService implements IScoringService {
       return 0; // Already earned, no bonus
     }
 
-    // Try to get deposit value from trophy case properties (data-driven approach)
-    let depositValue = this.depositValues.get(treasureId) || 0;
-    
-    // If not found in pre-loaded data, check trophy case properties directly
-    if (depositValue === 0) {
-      const trophyCase = this.gameState.getItem('tcase');
-      if (trophyCase?.properties?.depositValues) {
-        depositValue = trophyCase.properties.depositValues[treasureId] || 0;
-      }
-    }
+    // Read deposit value directly from loaded trophy case data
+    const trophyCase = this.gameState.getItem('tcase');
+    const depositValue = trophyCase?.properties?.depositValues?.[treasureId] || 0;
     
     const baseValue = this.calculateTreasureScore(treasureId);
     const depositBonus = depositValue - baseValue; // Additional points beyond base take score
@@ -184,7 +109,10 @@ export class ScoringService implements IScoringService {
    * Calculate scene scoring points for first visit
    */
   calculateSceneScore(sceneId: string): number {
-    const points = this.sceneScoringData.get(sceneId) || 0;
+    // Read firstVisitPoints directly from loaded scene data (same pattern as treasure scoring)
+    const scene = this.gameState.getScene(sceneId);
+    this.logger.debug(`Scene ${sceneId} data:`, scene ? {id: scene.id, title: scene.title, firstVisitPoints: scene.firstVisitPoints} : 'null');
+    const points = scene?.firstVisitPoints || 0;
     this.logger.debug(`Scene ${sceneId} first visit score: ${points}`);
     return points;
   }
@@ -200,6 +128,8 @@ export class ScoringService implements IScoringService {
     }
 
     const points = this.calculateSceneScore(sceneId);
+    this.logger.debug(`Scene ${sceneId} first visit points: ${points}`);
+    
     if (points > 0) {
       // Mark scene as visited
       this.gameState.setFlag(flagName, true);
@@ -211,6 +141,7 @@ export class ScoringService implements IScoringService {
 
     // Still mark as visited even if no points
     this.gameState.setFlag(flagName, true);
+    this.logger.debug(`No points for scene ${sceneId}, but marked as visited`);
     return false;
   }
 
@@ -262,71 +193,58 @@ export class ScoringService implements IScoringService {
    * Get the theoretical maximum score possible in the game
    */
   getMaxScore(): number {
-    // Calculate max score from loaded data
-    let maxScore = 0;
-    
-    // Add all treasure take scores
-    for (const score of this.itemScoringData.values()) {
-      maxScore += score;
-    }
-    
-    // Add all treasure deposit bonuses
-    for (const [treasureId, depositValue] of this.depositValues.entries()) {
-      const takeScore = this.itemScoringData.get(treasureId) || 0;
-      maxScore += Math.max(0, depositValue - takeScore);
-    }
-    
-    // Add all scene scores
-    for (const score of this.sceneScoringData.values()) {
-      maxScore += score;
-    }
-    
-    // Add event scores
-    maxScore += 5 + 25 + 10 + 15 + 20 + 50; // hardcoded event totals
-    
-    return maxScore || 350; // fallback to 350 if calculation fails
+    // For simplicity, return the canonical Zork maximum score
+    // In a full implementation, this could calculate from all loaded treasures and scenes
+    return 350; // Authentic Zork maximum score
   }
 
   /**
    * Count total number of treasures discovered by the player
    */
   getTotalTreasuresFound(): number {
-    const treasureIds = Array.from(this.itemScoringData.keys());
-    const foundTreasures = treasureIds.filter(treasureId => {
-      // Check if player has found this treasure (flag or in inventory)
-      const foundFlag = `treasure_found_${treasureId}`;
-      return this.gameState.getFlag(foundFlag);
-    });
-
-    return foundTreasures.length;
+    // Get all loaded items and count found treasures
+    const gameState = this.gameState.getGameState();
+    let foundCount = 0;
+    
+    for (const [itemId, item] of Object.entries(gameState.items)) {
+      if (this.isTreasure(itemId)) {
+        const foundFlag = `treasure_found_${itemId}`;
+        if (this.gameState.getFlag(foundFlag)) {
+          foundCount++;
+        }
+      }
+    }
+    
+    return foundCount;
   }
 
   /**
    * Count total number of treasures deposited in the trophy case
    */
   getTotalTreasuresDeposited(): number {
-    const treasureIds = Array.from(this.itemScoringData.keys());
-    const depositedTreasures = treasureIds.filter(treasureId => {
-      // Check if treasure is deposited in trophy case
-      const depositedFlag = `treasure_deposited_${treasureId}`;
-      return this.gameState.getFlag(depositedFlag);
-    });
-
-    return depositedTreasures.length;
+    // Get all loaded items and count deposited treasures
+    const gameState = this.gameState.getGameState();
+    let depositedCount = 0;
+    
+    for (const [itemId, item] of Object.entries(gameState.items)) {
+      if (this.isTreasure(itemId)) {
+        const depositedFlag = `treasure_deposited_${itemId}`;
+        if (this.gameState.getFlag(depositedFlag)) {
+          depositedCount++;
+        }
+      }
+    }
+    
+    return depositedCount;
   }
 
   /**
    * Check if an item is a treasure that can be scored
    */
   isTreasure(itemId: string): boolean {
-    // Check if it's in our loaded treasure scoring data
-    if (this.itemScoringData.has(itemId)) {
-      return true;
-    }
-
-    // Also check item type from ItemService
+    // Check item type and properties from loaded data
     const item = this.gameState.getItem(itemId);
-    if (item && item.type === 'TREASURE') {
+    if (item && (item.type === 'TREASURE' || item.properties?.treasurePoints)) {
       return true;
     }
 
@@ -353,7 +271,9 @@ export class ScoringService implements IScoringService {
    * Calculate completion bonus if all treasures are deposited
    */
   calculateCompletionBonus(): number {
-    const totalTreasures = this.itemScoringData.size;
+    // Count total treasures from loaded data
+    const gameState = this.gameState.getGameState();
+    const totalTreasures = Object.keys(gameState.items).filter(itemId => this.isTreasure(itemId)).length;
     const depositedTreasures = this.getTotalTreasuresDeposited();
 
     if (depositedTreasures >= totalTreasures) {

@@ -18,9 +18,12 @@ describe('Basic Look Command - West of House Scene', () => {
   });
 
   describe('First Visit Look', () => {
-    it('should show first visit description on initial look', async () => {
+    it('should show first visit description on initial look and award 1 point', async () => {
       // Verify this is actually the first visit
       expect(testEnv.westOfHouseHelper.isFirstVisit()).toBe(true);
+      
+      // Get initial score
+      const initialScore = testEnv.lookCommandHelper.getCurrentScore();
       
       // Execute look command
       const result = testEnv.lookCommandHelper.executeBasicLook();
@@ -29,15 +32,21 @@ describe('Basic Look Command - West of House Scene', () => {
       testEnv.lookCommandHelper.verifyFirstVisitDescription(result);
       testEnv.lookCommandHelper.verifySceneDescription(result);
       testEnv.lookCommandHelper.verifyNoMove(result);
-      testEnv.lookCommandHelper.verifyNoScoreChange(result);
+      
+      // Verify first visit scoring (1 point for west_of_house)
+      testEnv.lookCommandHelper.verifyFirstVisitScoring(result);
+      testEnv.lookCommandHelper.verifyScoreIncrease(initialScore, 1);
       
       // Verify scene is now marked as visited
       testEnv.lookCommandHelper.verifySceneMarkedVisited();
     });
 
-    it('should show first visit description with "look around"', async () => {
+    it('should show first visit description with "look around" and award 1 point', async () => {
       // Verify this is the first visit
       expect(testEnv.westOfHouseHelper.isFirstVisit()).toBe(true);
+      
+      // Get initial score
+      const initialScore = testEnv.lookCommandHelper.getCurrentScore();
       
       // Execute look around command
       const result = testEnv.lookCommandHelper.executeLookAround();
@@ -45,6 +54,8 @@ describe('Basic Look Command - West of House Scene', () => {
       // Should behave identically to basic look
       testEnv.lookCommandHelper.verifyFirstVisitDescription(result);
       testEnv.lookCommandHelper.verifySceneDescription(result);
+      testEnv.lookCommandHelper.verifyFirstVisitScoring(result);
+      testEnv.lookCommandHelper.verifyScoreIncrease(initialScore, 1);
       testEnv.lookCommandHelper.verifySceneMarkedVisited();
     });
   });
@@ -154,13 +165,17 @@ describe('Basic Look Command - West of House Scene', () => {
       expect(finalMoves).toBe(initialMoves);
     });
 
-    it('should not change score', async () => {
+    it('should change score by 1 on first visit', async () => {
+      // Ensure this is a first visit
+      expect(testEnv.westOfHouseHelper.isFirstVisit()).toBe(true);
+      
       const initialScore = testEnv.lookCommandHelper.getCurrentScore();
       
-      testEnv.lookCommandHelper.executeBasicLook();
+      const result = testEnv.lookCommandHelper.executeBasicLook();
       
       const finalScore = testEnv.lookCommandHelper.getCurrentScore();
-      expect(finalScore).toBe(initialScore);
+      expect(finalScore).toBe(initialScore + 1);
+      testEnv.lookCommandHelper.verifyFirstVisitScoring(result);
     });
 
     it('should set visited flag after first look', async () => {
@@ -171,6 +186,20 @@ describe('Basic Look Command - West of House Scene', () => {
       
       // Should now be marked as visited
       expect(testEnv.westOfHouseHelper.isFirstVisit()).toBe(false);
+    });
+
+    it('should not award points on subsequent looks', async () => {
+      // Mark scene as visited first
+      testEnv.westOfHouseHelper.markAsVisited();
+      expect(testEnv.westOfHouseHelper.isFirstVisit()).toBe(false);
+      
+      const initialScore = testEnv.lookCommandHelper.getCurrentScore();
+      
+      const result = testEnv.lookCommandHelper.executeBasicLook();
+      
+      const finalScore = testEnv.lookCommandHelper.getCurrentScore();
+      expect(finalScore).toBe(initialScore);
+      testEnv.lookCommandHelper.verifyNoScoreChange(result);
     });
   });
 

@@ -180,6 +180,16 @@ describe('Move Command - West of House Scene', () => {
       moveHelper.verifyCountsAsMove(result);
     });
 
+    it('should not award score points for movement between non-scoring scenes', () => {
+      const initialScore = moveHelper.getCurrentScore();
+      
+      const result = moveHelper.executeMoveDirection('north');
+      
+      moveHelper.verifyMovementSuccess(result, 'north_of_house');
+      moveHelper.verifyNoScoreChange(result);
+      expect(moveHelper.getCurrentScore()).toBe(initialScore);
+    });
+
     it('should provide scene description on successful movement', () => {
       const result = moveHelper.executeMoveDirection('north');
       

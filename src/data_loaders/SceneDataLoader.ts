@@ -188,6 +188,10 @@ export class SceneDataLoader implements ISceneDataLoader {
             scene.firstVisitDescription = sceneData.firstVisitDescription;
         }
 
+        if (sceneData.firstVisitPoints !== undefined) {
+            scene.firstVisitPoints = sceneData.firstVisitPoints;
+        }
+
         if (sceneData.region !== undefined) {
             scene.region = sceneData.region;
         }

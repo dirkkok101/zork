@@ -1,6 +1,7 @@
 import { ISceneService, DoorResult } from './interfaces/ISceneService';
 import { IGameStateService } from './interfaces/IGameStateService';
 import { IInventoryService } from './interfaces/IInventoryService';
+import { IScoringService } from './interfaces/IScoringService';
 import { Exit, SceneItem } from '../types/SceneTypes';
 import log from 'loglevel';
 
@@ -11,6 +12,7 @@ import log from 'loglevel';
 export class SceneService implements ISceneService {
   private logger: log.Logger;
   private inventory?: IInventoryService;
+  private scoring?: IScoringService;
 
   constructor(
     private gameState: IGameStateService,
@@ -27,6 +29,13 @@ export class SceneService implements ISceneService {
   }
 
   /**
+   * Set the scoring service (called after initialization to avoid circular deps)
+   */
+  setScoringService(scoring: IScoringService): void {
+    this.scoring = scoring;
+  }
+
+  /**
    * Get the complete scene description with current conditions
    */
   getSceneDescription(sceneId: string): string {
@@ -38,8 +47,11 @@ export class SceneService implements ISceneService {
 
     let description = scene.title;
 
+    // Check if this is a first visit before marking as visited
+    const isFirstVisit = !this.gameState.hasVisitedScene(sceneId);
+
     // Use first visit description if this is the first time here
-    if (!this.gameState.hasVisitedScene(sceneId) && scene.firstVisitDescription) {
+    if (isFirstVisit && scene.firstVisitDescription) {
       description += '\n' + scene.firstVisitDescription;
     } else {
       description += '\n' + scene.description;
@@ -47,6 +59,16 @@ export class SceneService implements ISceneService {
 
     // Mark scene as visited
     this.gameState.markSceneVisited(sceneId);
+
+    // Award scene scoring for first visits
+    if (isFirstVisit && this.scoring) {
+      this.logger.debug(`Awarding scene score for first visit to: ${sceneId}`);
+      this.scoring.awardSceneScore(sceneId);
+    } else if (isFirstVisit && !this.scoring) {
+      this.logger.warn(`First visit to ${sceneId} but no scoring service available`);
+    } else if (!isFirstVisit) {
+      this.logger.debug(`Not first visit to ${sceneId}, no score awarded`);
+    }
 
     return description;
   }

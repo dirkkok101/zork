@@ -100,6 +100,9 @@ export class ServiceInitializer {
     // Inject inventory service into scene service to handle dynamic conditions
     sceneService.setInventoryService(inventoryService);
     
+    // Inject scoring service into scene service to handle first visit scoring
+    sceneService.setScoringService(scoringService);
+    
     const services: Services = {
       gameState: gameStateService,
       scene: sceneService,

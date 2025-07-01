@@ -57,6 +57,36 @@ export class MoveCommandHelper {
   }
 
   /**
+   * Get current score from game state
+   */
+  getCurrentScore(): number {
+    return this.gameState.getScore();
+  }
+
+  /**
+   * Verify no score change occurred
+   */
+  verifyNoScoreChange(result: CommandResult): void {
+    expect(result.scoreChange).toBeFalsy();
+  }
+
+  /**
+   * Verify specific score change occurred
+   */
+  verifyScoreChange(result: CommandResult, expectedPoints: number): void {
+    expect(result.scoreChange).toBe(expectedPoints);
+    expect(result.scoreChange).toBeGreaterThan(0);
+  }
+
+  /**
+   * Verify score increase after movement
+   */
+  verifyScoreIncrease(initialScore: number, expectedIncrease: number): void {
+    const currentScore = this.getCurrentScore();
+    expect(currentScore).toBe(initialScore + expectedIncrease);
+  }
+
+  /**
    * Get available exits from current scene
    */
   getAvailableExits(): any[] {
