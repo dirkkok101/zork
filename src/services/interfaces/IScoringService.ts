@@ -25,9 +25,31 @@ export interface IScoringService {
   /**
    * Calculate deposit bonus points for placing treasure in trophy case
    * @param treasureId The ID of the treasure item
-   * @returns Deposit bonus points (typically 2x base value), or 0 if not a treasure
+   * @returns Deposit bonus points, or 0 if not a treasure or already earned
    */
   calculateDepositScore(treasureId: string): number;
+
+  /**
+   * Award points for depositing a treasure in the trophy case
+   * Combines calculation, awarding, and flag setting in one atomic operation
+   * @param treasureId The ID of the treasure item being deposited
+   * @returns true if points were awarded, false if already deposited or no points
+   */
+  awardDepositScore(treasureId: string): boolean;
+
+  /**
+   * Calculate scene scoring points for first visit
+   * @param sceneId The ID of the scene
+   * @returns Point value for first visit, or 0 if no scoring
+   */
+  calculateSceneScore(sceneId: string): number;
+
+  /**
+   * Award points for visiting a scene for the first time
+   * @param sceneId The ID of the scene being visited
+   * @returns true if points were awarded, false if already visited or no points
+   */
+  awardSceneScore(sceneId: string): boolean;
 
   /**
    * Award points for a one-time game event

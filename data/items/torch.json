@@ -18,11 +18,11 @@
     "on": false
   },
   "tags": [
-    "tool",
-    "visible",
     "switchable",
-    "portable",
+    "tool",
     "flame_source",
+    "portable",
+    "visible",
     "light_source"
   ],
   "properties": {

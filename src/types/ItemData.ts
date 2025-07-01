@@ -99,6 +99,9 @@ export interface ItemProperties {
     /** Match count from OMATCH */
     matchCount?: number;
 
+    /** Deposit values for trophy case - maps item ID to deposit score */
+    depositValues?: Record<string, number>;
+
     /** Any other properties not yet categorized */
     [key: string]: any;
 }

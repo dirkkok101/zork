@@ -14,14 +14,46 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {
-    "open": false
+    "open": true
   },
   "tags": [
     "container",
     "visible"
   ],
   "properties": {
-    "container": true
+    "container": true,
+    "depositValues": {
+      "bagco": 15,
+      "chali": 20,
+      "crown": 25,
+      "spher": 12,
+      "tride": 15,
+      "strad": 20,
+      "coffi": 10,
+      "grail": 7,
+      "diamo": 16,
+      "jade": 10,
+      "emera": 15,
+      "paint": 11,
+      "pearl": 14,
+      "bar": 22,
+      "pot": 20,
+      "coin": 22,
+      "ruby": 23,
+      "brace": 8,
+      "stamp": 14,
+      "statu": 23,
+      "saffr": 10,
+      "torch": 20,
+      "trunk": 23,
+      "bills": 25,
+      "portr": 15,
+      "egg": 10,
+      "baubl": 2,
+      "gcana": 8,
+      "palan": 15,
+      "pal3": 15
+    }
   },
   "interactions": [
     {

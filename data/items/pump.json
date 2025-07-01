@@ -17,8 +17,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
     "tool",
+    "visible",
     "portable"
   ],
   "properties": {},

@@ -15,8 +15,8 @@
   "initialState": {},
   "tags": [
     "visible",
-    "no_description",
-    "turnable"
+    "turnable",
+    "no_description"
   ],
   "properties": {
     "turnable": true

@@ -16,8 +16,8 @@
   "tags": [
     "flammable",
     "visible",
-    "readable",
-    "portable"
+    "portable",
+    "readable"
   ],
   "properties": {
     "size": 1,

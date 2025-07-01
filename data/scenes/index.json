@@ -204,6 +204,9 @@
       "north_of_house.json",
       "south_of_house.json",
       "behind_house.json",
+      "kitchen.json",
+      "attic.json",
+      "living_room.json",
       "forest_1.json",
       "forest_2.json",
       "forest_3.json",
@@ -213,9 +216,6 @@
       "beach.json"
     ],
     "underground": [
-      "kitchen.json",
-      "attic.json",
-      "living_room.json",
       "tree.json",
       "fore5.json",
       "cellar.json",

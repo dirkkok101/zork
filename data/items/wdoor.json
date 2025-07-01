@@ -17,10 +17,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "no_description",
     "visible",
-    "readable",
-    "door"
+    "no_description",
+    "door",
+    "readable"
   ],
   "properties": {
     "readText": "The engravings translate to 'This space intentionally left blank'",

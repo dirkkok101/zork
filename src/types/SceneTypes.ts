@@ -149,6 +149,9 @@ export interface Scene {
     /** Scene-specific state */
     state: Record<string, any>;
 
+    /** Points awarded for first visit to this scene */
+    firstVisitPoints?: number;
+
     /** Tags for categorizing the scene */
     tags: string[];
 }

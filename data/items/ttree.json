@@ -16,8 +16,8 @@
   "initialState": {},
   "tags": [
     "visible",
-    "climbable",
-    "no_description"
+    "no_description",
+    "climbable"
   ],
   "properties": {},
   "interactions": [

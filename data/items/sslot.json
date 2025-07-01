@@ -17,8 +17,8 @@
     "open": false
   },
   "tags": [
-    "visible",
-    "openable"
+    "openable",
+    "visible"
   ],
   "properties": {
     "capacity": 10,

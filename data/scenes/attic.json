@@ -25,15 +25,15 @@
   ],
   "monsters": [],
   "state": {},
-  "lighting": "lit",
-  "region": "underground",
+  "lighting": "daylight",
+  "region": "above_ground",
   "atmosphere": [
-    "The air is cool and damp.",
-    "Water drips somewhere in the darkness.",
-    "Your footsteps echo off the stone walls.",
-    "The walls are rough-hewn stone."
+    "The house creaks with age.",
+    "Dust motes float in the air.",
+    "You notice the faint smell of mildew.",
+    "The floorboards groan under your weight."
   ],
   "tags": [
-    "underground"
+    "above_ground"
   ]
 }

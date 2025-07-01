@@ -17,8 +17,8 @@
   "initialState": {},
   "tags": [
     "visible",
-    "readable",
-    "no_description"
+    "no_description",
+    "readable"
   ],
   "properties": {
     "readText": "\t\t        o  b  o\n\t\t    r \t\t  z\n\t\t f   M  A  G  I  C   z\n\t\t c    W  E   L  L    y\n\t\t    o\t\t  n\n\t\t        m  p  a\n",

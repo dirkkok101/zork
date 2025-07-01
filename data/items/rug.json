@@ -15,10 +15,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "dangerous",
     "visible",
-    "no_description",
-    "portable"
+    "dangerous",
+    "portable",
+    "no_description"
   ],
   "properties": {},
   "interactions": [

@@ -18,8 +18,8 @@
   "tags": [
     "visible",
     "tieable",
-    "treasure",
-    "portable"
+    "portable",
+    "treasure"
   ],
   "properties": {
     "size": 10

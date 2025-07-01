@@ -17,9 +17,9 @@
   "initialState": {},
   "tags": [
     "tool",
+    "portable",
     "visible",
     "no_description",
-    "portable",
     "turnable"
   ],
   "properties": {

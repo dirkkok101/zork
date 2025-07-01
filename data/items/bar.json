@@ -17,8 +17,8 @@
   "initialState": {},
   "tags": [
     "visible",
-    "treasure",
-    "portable"
+    "portable",
+    "treasure"
   ],
   "properties": {
     "size": 20,

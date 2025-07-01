@@ -17,11 +17,11 @@
     "open": false
   },
   "tags": [
-    "visible",
     "readable",
-    "flammable",
     "portable",
-    "container"
+    "visible",
+    "container",
+    "flammable"
   ],
   "properties": {
     "capacity": 2,

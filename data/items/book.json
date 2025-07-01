@@ -20,11 +20,11 @@
     "open": false
   },
   "tags": [
-    "visible",
     "readable",
-    "flammable",
     "portable",
-    "container"
+    "visible",
+    "container",
+    "flammable"
   ],
   "properties": {
     "size": 10,

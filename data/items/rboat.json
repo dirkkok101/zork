@@ -23,10 +23,10 @@
   },
   "tags": [
     "vehicle",
-    "visible",
+    "openable",
     "portable",
-    "flammable",
-    "openable"
+    "visible",
+    "flammable"
   ],
   "properties": {
     "capacity": 100,

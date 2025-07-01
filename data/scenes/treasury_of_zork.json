@@ -46,5 +46,6 @@
     "sacred",
     "final_area"
   ],
+  "firstVisitPoints": 5,
   "firstVisitDescription": "You are in the Treasury of Zork, a vast chamber filled with treasures beyond imagination. The Guardian of Zork stands vigilant, protecting the ultimate treasure."
 }

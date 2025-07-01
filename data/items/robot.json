@@ -16,8 +16,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
     "character",
+    "visible",
     "treasure"
   ],
   "properties": {},

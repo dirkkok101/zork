@@ -17,10 +17,10 @@
     "on": false
   },
   "tags": [
-    "visible",
     "switchable",
-    "portable",
     "flame_source",
+    "portable",
+    "visible",
     "light_source"
   ],
   "properties": {

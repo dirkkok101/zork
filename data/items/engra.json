@@ -17,8 +17,8 @@
   "initialState": {},
   "tags": [
     "visible",
-    "readable",
-    "treasure"
+    "treasure",
+    "readable"
   ],
   "properties": {
     "readText": "The engravings were incised in the living rock of the cave wall by\nan unknown hand.  They depict, in symbolic form, the beliefs of the\nancient peoples of Zork.  Skillfully interwoven with the bas reliefs\nare excerpts illustrating the major tenets expounded by the sacred\ntexts of the religion of that time.  Unfortunately a later age seems\nto have considered them blasphemous and just as skillfully excised\nthem.",

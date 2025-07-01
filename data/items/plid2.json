@@ -18,9 +18,9 @@
   },
   "tags": [
     "container",
-    "no_description",
+    "openable",
     "visible",
-    "openable"
+    "no_description"
   ],
   "properties": {
     "container": true,

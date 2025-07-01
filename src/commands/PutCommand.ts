@@ -170,8 +170,8 @@ export class PutCommand extends BaseCommand {
     let scoreChange = 0;
     if (preposition === 'in' && this.scoring.isTreasure(itemId)) {
       const targetItem = this.gameState.getItem(targetId);
-      // Check if target is trophy case (case ID in original Zork)
-      if (targetItem && (targetId === 'case' || targetItem.name?.toLowerCase().includes('trophy'))) {
+      // Check if target is trophy case (tcase ID in extracted data)
+      if (targetItem && (targetId === 'tcase' || targetId === 'case' || targetItem.name?.toLowerCase().includes('trophy'))) {
         const depositScore = this.scoring.calculateDepositScore(itemId);
         if (depositScore > 0) {
           scoreChange = depositScore;

@@ -17,8 +17,8 @@
   "initialState": {},
   "tags": [
     "visible",
-    "readable",
-    "treasure"
+    "treasure",
+    "readable"
   ],
   "properties": {
     "readText": "The prayer is inscribed in an ancient script which is hardly\nremembered these days, much less understood.  What little of it can\nbe made out seems to be a philippic against small insects,\nabsent-mindedness, and the picking up and dropping of small objects. \nThe final verse seems to consign trespassers to the land of the\ndead.  All evidence indicates that the beliefs of the ancient\nZorkers were obscure.",

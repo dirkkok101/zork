@@ -16,10 +16,10 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "no_description",
     "visible",
-    "door",
-    "turnable"
+    "turnable",
+    "no_description",
+    "door"
   ],
   "properties": {
     "turnable": true

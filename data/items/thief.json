@@ -23,8 +23,8 @@
   "size": "TINY",
   "initialState": {},
   "tags": [
-    "visible",
-    "character"
+    "character",
+    "visible"
   ],
   "properties": {},
   "interactions": [

@@ -18,11 +18,11 @@
     "open": false
   },
   "tags": [
+    "openable",
     "searchable",
-    "visible",
     "portable",
-    "flammable",
-    "openable"
+    "visible",
+    "flammable"
   ],
   "properties": {
     "capacity": 2,

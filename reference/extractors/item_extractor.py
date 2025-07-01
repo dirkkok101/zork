@@ -291,7 +291,11 @@ class ItemExtractor:
         
         # For containers, set initial state
         if 'CONTAINER' in obj['flags'] or 'OPENABLE' in obj['flags']:
-            initial_state['open'] = False  # Containers start closed
+            # Trophy case is special - it starts open in authentic Zork
+            if obj['names'][0].upper() == 'TCASE':
+                initial_state['open'] = True
+            else:
+                initial_state['open'] = False  # Most containers start closed
             
             # Add initial contents if any
             if 'initial_contents' in obj:
@@ -328,8 +332,32 @@ class ItemExtractor:
             properties['turnable'] = True
         if 'SEARCHABLE' in obj['flags']:
             properties['searchable'] = True
+        
+        # Special handling for trophy case - add depositValues
+        if obj['names'] and obj['names'][0].upper() in ['TCASE', 'CASE']:
+            properties['depositValues'] = self.build_deposit_values()
             
         return properties
+
+    def build_deposit_values(self) -> Dict[str, int]:
+        """Build deposit values mapping for trophy case using treasure OFVAL data"""
+        deposit_values = {}
+        
+        for obj in self.objects:
+            # Only process treasures with both value and treasurePoints
+            if ('value' in obj['properties'] and 'treasurePoints' in obj['properties'] and
+                obj['properties']['value'] > 0 and obj['properties']['treasurePoints'] > 0):
+                
+                # Use the primary name (first name) as the key
+                if obj['names']:
+                    primary_name = obj['names'][0].lower()
+                    # Deposit value is typically higher than take value in authentic Zork
+                    # Use a calculation based on the treasure's OFVAL (value property)
+                    base_value = obj['properties']['value']
+                    deposit_value = base_value + obj['properties']['treasurePoints']
+                    deposit_values[primary_name] = deposit_value
+        
+        return deposit_values
 
     def determine_item_type(self, obj: Dict[str, Any]) -> str:
         """Determine the primary item type - aligned with categorization logic"""

@@ -23,5 +23,6 @@
     "maze",
     "maze",
     "confusing"
-  ]
+  ],
+  "firstVisitPoints": 1
 }

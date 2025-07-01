@@ -17,8 +17,8 @@
   "tags": [
     "flammable",
     "visible",
-    "readable",
-    "portable"
+    "portable",
+    "readable"
   ],
   "properties": {
     "readText": "\\",

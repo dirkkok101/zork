@@ -18,8 +18,8 @@
   "tags": [
     "food",
     "visible",
-    "readable",
-    "portable"
+    "portable",
+    "readable"
   ],
   "properties": {
     "size": 4,

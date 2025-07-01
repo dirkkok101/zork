@@ -19,8 +19,8 @@
   "tags": [
     "container",
     "visible",
-    "treasure",
-    "portable"
+    "portable",
+    "treasure"
   ],
   "properties": {
     "capacity": 35,

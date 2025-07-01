@@ -18,8 +18,8 @@
     "lit": false
   },
   "tags": [
-    "light_source",
     "visible",
+    "light_source",
     "portable"
   ],
   "properties": {

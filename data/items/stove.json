@@ -18,8 +18,8 @@
   "tags": [
     "switchable",
     "visible",
-    "no_description",
-    "flame_source"
+    "flame_source",
+    "no_description"
   ],
   "properties": {
     "switchable": true
