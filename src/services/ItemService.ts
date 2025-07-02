@@ -18,6 +18,10 @@ export class ItemService implements IItemService {
   }
 
   // Basic Operations
+  getItem(itemId: string): any {
+    return this.gameState.getItem(itemId);
+  }
+
   canTake(itemId: string): boolean {
     const item = this.gameState.getItem(itemId);
     if (!item) {
@@ -328,7 +332,8 @@ export class ItemService implements IItemService {
       return [];
     }
 
-    return item.contents || [];
+    // Check both item.contents and item.state.contents for compatibility
+    return item.contents || item.state?.contents || [];
   }
 
   addToContainer(containerId: string, itemId: string): ItemResult {
@@ -748,7 +753,45 @@ export class ItemService implements IItemService {
     
     // Check aliases if they exist
     if (item.aliases && Array.isArray(item.aliases)) {
+      // Check for exact alias match
       if (item.aliases.some((alias: string) => alias.toLowerCase() === searchName)) {
+        return true;
+      }
+      
+      // Check for multi-word alias matching (e.g., "large coil" matches aliases ["COIL", "LARGE"])
+      const searchWords = searchName.split(' ').filter(word => word.length > 0);
+      if (searchWords.length > 1) {
+        const aliasesLower = item.aliases.map((alias: string) => alias.toLowerCase());
+        const matchedWords = searchWords.filter(word => aliasesLower.includes(word));
+        
+        // For multi-word searches, require at least half the words to match aliases
+        // This allows "square brick" (50% = 1 word) and "large coil" (100% = 2 words)
+        const requiredMatches = Math.max(1, Math.floor(searchWords.length / 2));
+        if (matchedWords.length >= requiredMatches) {
+          return true;
+        }
+        
+        // Also check if the item name contains all search words or partial alias matches
+        const nameWords = itemName.split(' ');
+        const nameWordsMatch = searchWords.every((word: string) => 
+          nameWords.some((nameWord: string) => nameWord.includes(word)) ||
+          aliasesLower.some((alias: string) => alias.includes(word) || word.startsWith(alias))
+        );
+        if (nameWordsMatch) {
+          return true;
+        }
+      }
+      
+      // Check if any search word matches any alias (for single-word partial matches)
+      const aliasesLower = item.aliases.map((alias: string) => alias.toLowerCase());
+      const hasAliasMatch = searchWords.some((word: string) => {
+        return aliasesLower.some((alias: string) => 
+          alias === word || // exact match
+          word.startsWith(alias) || // "square" starts with "squar"
+          alias.startsWith(word) // "squar" starts with some shorter form
+        );
+      });
+      if (hasAliasMatch) {
         return true;
       }
     }

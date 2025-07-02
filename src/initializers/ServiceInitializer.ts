@@ -23,6 +23,7 @@ import { InventoryService } from '../services/InventoryService';
 import { ItemService } from '../services/ItemService';
 import { OutputService } from '../services/OutputService';
 import { ScoringService } from '../services/ScoringService';
+import { PersistenceService } from '../services/PersistenceService';
 
 /**
  * Collection of all game services
@@ -96,6 +97,7 @@ export class ServiceInitializer {
     const itemService = new ItemService(gameStateService, logger);
     const outputService = new OutputService(logger);
     const scoringService = new ScoringService(gameStateService, logger);
+    const persistenceService = new PersistenceService(gameStateService, logger);
     
     // Inject inventory service into scene service to handle dynamic conditions
     sceneService.setInventoryService(inventoryService);
@@ -108,8 +110,8 @@ export class ServiceInitializer {
       scene: sceneService,
       inventory: inventoryService,
       items: itemService,
-      combat: null as any, // Still mock - not needed for Look command
-      persistence: null as any, // Still mock - not needed for Look command
+      combat: null as any, // Still mock - not needed for current commands
+      persistence: persistenceService,
       output: outputService,
       scoring: scoringService
     };

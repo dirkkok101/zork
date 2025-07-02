@@ -74,8 +74,7 @@ describe('Living Room Scene Scoring', () => {
     test('should integrate with game state properly', async () => {
       // Setup: Clean game state
       testEnv.livingRoomHelper.simulateGameStart();
-      const gameState = testEnv.services.gameState.getGameState();
-      const initialScore = gameState.score;
+      const initialScore = testEnv.livingRoomHelper.getCurrentScore();
 
       // Execute: First visit
       const result = await testEnv.commandProcessor.processCommand('look');
@@ -83,7 +82,7 @@ describe('Living Room Scene Scoring', () => {
       // Verify: Score updated in game state
       expect(result.success).toBe(true);
       testEnv.livingRoomHelper.verifyFirstVisitScoring(result);
-      expect(gameState.score).toBe(initialScore + 1);
+      testEnv.livingRoomHelper.verifyScoreIncrease(initialScore, 1);
       expect(testEnv.services.gameState.hasVisitedScene('living_room')).toBe(true);
     });
 

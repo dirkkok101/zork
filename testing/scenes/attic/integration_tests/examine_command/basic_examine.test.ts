@@ -95,6 +95,7 @@ describe('Attic Scene - Examine Command Integration', () => {
     });
 
     it('examine brick shows contents when open', () => {
+      testEnv.atticHelper.setupTestItems();
       testEnv.atticHelper.setBrickOpen();
       testEnv.atticHelper.addToBrickContainer(['test_emerald', 'test_coins']);
       
@@ -102,7 +103,7 @@ describe('Attic Scene - Examine Command Integration', () => {
       
       testEnv.examineCommandHelper.verifySuccess(result);
       testEnv.examineCommandHelper.verifyBrickOpen(result);
-      testEnv.examineCommandHelper.verifyContainerContents(result, ['test_emerald', 'test_coins']);
+      testEnv.examineCommandHelper.verifyContainerContents(result, ['emerald', 'coins']);
     });
 
     it('examine brick shows empty when open but empty', () => {
@@ -117,6 +118,7 @@ describe('Attic Scene - Examine Command Integration', () => {
     });
 
     it('examine brick hides contents when closed', () => {
+      testEnv.atticHelper.setupTestItems();
       testEnv.atticHelper.setBrickClosed();
       testEnv.atticHelper.addToBrickContainer(['test_emerald']);
       
@@ -124,7 +126,7 @@ describe('Attic Scene - Examine Command Integration', () => {
       
       testEnv.examineCommandHelper.verifySuccess(result);
       testEnv.examineCommandHelper.verifyBrickClosed(result);
-      expect(result.message).not.toContain('test_emerald');
+      expect(result.message).not.toContain('emerald');
     });
 
     it('examine brick state transitions correctly', () => {
@@ -208,11 +210,11 @@ describe('Attic Scene - Examine Command Integration', () => {
       testEnv.examineCommandHelper.verifyBrickDescription(result);
     });
 
-    it('examine command without target fails', () => {
+    it('examine command without target examines scene', () => {
       const result = testEnv.examineCommandHelper.executeExamine('');
       
-      testEnv.examineCommandHelper.verifyFailure(result);
-      testEnv.examineCommandHelper.verifyMissingTarget(result);
+      testEnv.examineCommandHelper.verifySuccess(result);
+      testEnv.examineCommandHelper.verifySceneExamination(result);
     });
 
     it('examine nonexistent item fails', () => {

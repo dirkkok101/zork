@@ -154,7 +154,7 @@ export class CloseCommandHelper {
   verifyWindowCloseSuccess(result: CommandResult): void {
     this.verifySuccess(result);
     this.verifyWindowClosed();
-    expect(result.message).toMatch(/window.*close/i);
+    expect(result.message).toMatch(/close.*window|window.*close/i);
   }
 
   /**
@@ -163,7 +163,7 @@ export class CloseCommandHelper {
   verifySackCloseSuccess(result: CommandResult): void {
     this.verifySuccess(result);
     this.verifySackClosed();
-    expect(result.message).toMatch(/sack.*close/i);
+    expect(result.message).toMatch(/close.*sack/i);
   }
 
   /**
@@ -172,7 +172,7 @@ export class CloseCommandHelper {
   verifyBottleCloseSuccess(result: CommandResult): void {
     this.verifySuccess(result);
     this.verifyBottleClosed();
-    expect(result.message).toMatch(/bottle.*close/i);
+    expect(result.message).toMatch(/close.*bottle/i);
   }
 
   /**
@@ -212,6 +212,14 @@ export class CloseCommandHelper {
   verifyMoveCountIncreased(initialCount: number, expectedIncrease: number): void {
     const currentCount = this.getCurrentMoves();
     expect(currentCount).toBe(initialCount + expectedIncrease);
+  }
+
+  /**
+   * Verify move count has not changed
+   */
+  verifyMoveCountUnchanged(initialCount: number): void {
+    const currentCount = this.getCurrentMoves();
+    expect(currentCount).toBe(initialCount);
   }
 
   /**

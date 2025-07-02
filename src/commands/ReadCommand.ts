@@ -64,7 +64,7 @@ export class ReadCommand extends BaseCommand {
       
       // Must have target to read
       if (args.length === 0) {
-        return this.failure('Read what?', false);
+        return this.failure('Read what?');
       }
       
       const targetName = args.join(' ').toLowerCase();
@@ -72,13 +72,13 @@ export class ReadCommand extends BaseCommand {
       
       // Check for self-reference
       if (this.isSelfReference(targetName)) {
-        return this.failure('You can\'t read yourself!', false);
+        return this.failure('You can\'t read yourself!');
       }
       
       // Find the item to read
       const itemId = this.findItemId(targetName);
       if (!itemId) {
-        return this.failure(`You don't see any ${targetName} here.`, false);
+        return this.failure(`You don't see any ${targetName} here.`);
       }
       
       this.logger.debug(`Found item to read: ${itemId}`);
@@ -88,11 +88,11 @@ export class ReadCommand extends BaseCommand {
       
       // ItemService.readItem returns specific error messages for non-readable items
       if (readableContent === "You can't read that." || readableContent === "You don't see that here.") {
-        return this.failure(readableContent, false);
+        return this.failure(readableContent);
       }
       
       if (readableContent === "There's nothing written on it.") {
-        return this.failure('There is nothing written on it.', false);
+        return this.failure('There is nothing written on it.');
       }
       
       // Return the readable content
@@ -103,7 +103,7 @@ export class ReadCommand extends BaseCommand {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'An error occurred while reading.';
       this.logExecutionError(error as Error, input);
-      return this.failure(errorMessage, false);
+      return this.failure(errorMessage);
     }
   }
 

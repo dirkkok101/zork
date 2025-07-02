@@ -352,7 +352,7 @@ describe('State Validation - Flag Persistence', () => {
       const lookOpen = testEnv.lookCommandHelper.executeBasicLook();
       testEnv.lookCommandHelper.verifyWindowExitDescription(lookOpen);
       
-      testEnv.behindHouseHelper.resetScene(); // Reset position after failed move
+      // The previous failed move attempt shouldn't affect the position since it failed
       const moveOpen = moveHelper.executeMoveWest();
       expect(moveOpen.success).toBe(true);
       expect(moveHelper.getCurrentScene()).toBe('kitchen');

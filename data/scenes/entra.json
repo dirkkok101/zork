@@ -4,8 +4,8 @@
   "description": "You are standing at the entrance of what might have been a coal\nmine. To the northeast and the northwest are entrances to the mine,\nand there is another exit on the south end of the room.",
   "exits": {
     "south": "slide",
-    "nw": "squee",
-    "ne": "tshaf"
+    "northwest": "squee",
+    "northeast": "tshaf"
   },
   "items": [],
   "monsters": [],

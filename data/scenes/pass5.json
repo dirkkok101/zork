@@ -4,7 +4,7 @@
   "description": "This is a high north-south passage, which forks to the northeast.",
   "exits": {
     "north": "chas1",
-    "ne": "echo",
+    "northeast": "echo",
     "south": "carousel_room"
   },
   "items": [],

@@ -365,7 +365,7 @@ export abstract class BaseCommand implements ICommand {
    * @returns Whether the text refers to the player
    */
   protected isSelfReference(text: string): boolean {
-    const selfReferences = ['self', 'me', 'myself', 'player', 'inventory'];
+    const selfReferences = ['self', 'me', 'myself', 'player', 'inventory', 'adventurer'];
     return selfReferences.includes(text.toLowerCase());
   }
 

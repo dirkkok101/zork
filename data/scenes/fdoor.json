@@ -20,8 +20,8 @@
       "failureMessage": "The qdoor is closed."
     },
     "south": "mrd",
-    "se": "mrd",
-    "sw": "mrd"
+    "southeast": "mrd",
+    "southwest": "mrd"
   },
   "items": [
     {

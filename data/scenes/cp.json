@@ -7,11 +7,11 @@
     "south": "fchmp",
     "east": "fchmp",
     "west": "fchmp",
-    "ne": "fchmp",
-    "nw": "fchmp",
-    "se": "fchmp",
+    "northeast": "fchmp",
+    "northwest": "fchmp",
+    "southeast": "fchmp",
     "up": "fchmp",
-    "sw": "fchmp"
+    "southwest": "fchmp"
   },
   "items": [],
   "monsters": [],

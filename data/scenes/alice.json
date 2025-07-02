@@ -9,7 +9,7 @@
       "failureMessage": "Only a mouse could get in there."
     },
     "west": "treasure_well",
-    "nw": "magne"
+    "northwest": "magne"
   },
   "items": [
     {

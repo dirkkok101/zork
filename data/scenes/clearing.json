@@ -3,8 +3,8 @@
   "title": "Clearing",
   "description": "You are in the clearing.",
   "exits": {
-    "sw": "behind_house",
-    "se": "fore5",
+    "southwest": "behind_house",
+    "southeast": "fore5",
     "north": {
       "to": "clearing",
       "description": "You see grating north.",

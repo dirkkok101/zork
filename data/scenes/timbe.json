@@ -4,7 +4,7 @@
   "description": "This is a long and narrow passage, which is cluttered with broken\ntimbers.  A wide passage comes from the north and turns at the \nsouthwest corner of the room into a very narrow passageway.",
   "exits": {
     "north": "bladd",
-    "sw": "bshaf"
+    "southwest": "bshaf"
   },
   "items": [
     {

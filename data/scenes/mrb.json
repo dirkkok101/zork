@@ -4,12 +4,12 @@
   "description": "You are in the hallway.",
   "exits": {
     "north": "mrc",
-    "nw": "mrc",
-    "ne": "mrc",
+    "northwest": "mrc",
+    "northeast": "mrc",
     "in": "inmir",
     "south": "mra",
-    "sw": "mra",
-    "se": "mra"
+    "southwest": "mra",
+    "southeast": "mra"
   },
   "items": [],
   "monsters": [],

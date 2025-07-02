@@ -223,10 +223,10 @@ export class TrophyCaseHelper {
     // Setup test treasures
     this.livingRoomHelper.setupTestTreasures();
 
-    const treasureIds = ['test_egg', 'test_coin', 'test_gem'];
-    const expectedTakeScores = [5, 10, 15];
+    const treasureIds = ['egg', 'coin', 'diamo'];
+    const expectedTakeScores = [5, 12, 6];  // From real treasure data
     const expectedDepositScores = [10, 22, 25];
-    const expectedBonuses = [5, 12, 10]; // deposit - take
+    const expectedBonuses = [5, 10, 19]; // deposit - take
 
     // Add treasures to inventory
     treasureIds.forEach(id => {

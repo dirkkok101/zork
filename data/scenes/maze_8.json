@@ -3,9 +3,9 @@
   "title": "Maze",
   "description": "This is part of a maze of twisty little passages, all alike.",
   "exits": {
-    "ne": "maze_7",
+    "northeast": "maze_7",
     "west": "maze_8",
-    "se": "dead_end_3"
+    "southeast": "dead_end_3"
   },
   "items": [],
   "monsters": [],

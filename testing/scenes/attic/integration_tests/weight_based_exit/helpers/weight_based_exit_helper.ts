@@ -31,9 +31,9 @@ export class WeightBasedExitHelper {
    * Check if player can exit down based on weight
    */
   canExitDown(): boolean {
-    // Based on testing, threshold is between 10-14 weight units
-    // Single items up to 10 weight work, combinations of 14+ fail
-    return this.getCurrentWeight() <= 10;
+    // Uses the same threshold as InventoryService.hasLightLoad()
+    // Based on analysis: threshold is 15 weight units
+    return this.getCurrentWeight() <= 15;
   }
 
   /**
@@ -219,8 +219,8 @@ export class WeightBasedExitHelper {
    * Calculate theoretical weight limit
    */
   calculateWeightLimit(): number {
-    // Based on empirical testing, the limit is 10 weight units
-    return 10; // Verified through comprehensive testing
+    // Based on InventoryService.hasLightLoad(), the limit is 15 weight units
+    return 15; // Matches InventoryService implementation
   }
 
   /**
@@ -229,7 +229,7 @@ export class WeightBasedExitHelper {
   wouldExceedLimit(itemId: string): boolean {
     const currentWeight = this.getCurrentWeight();
     const itemWeight = this.getItemWeight(itemId);
-    return (currentWeight + itemWeight) > 10;
+    return (currentWeight + itemWeight) > 15;
   }
 
   /**

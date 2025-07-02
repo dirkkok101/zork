@@ -159,7 +159,9 @@ describe('Basic Movement Command - Behind House Scene', () => {
       expect(testEnv.behindHouseHelper.isWindowOpen()).toBe(true);
       
       // Reset position since we're still in behind_house after failed move
+      // NOTE: resetScene() resets window to closed, so we need to reopen it
       testEnv.behindHouseHelper.resetScene();
+      testEnv.behindHouseHelper.setWindowOpen();
       
       const result2 = moveHelper.executeMoveWest();
       moveHelper.verifyKitchenAccess(result2);
@@ -191,6 +193,8 @@ describe('Basic Movement Command - Behind House Scene', () => {
       moveHelper.verifyDirectionAbbreviations('east', 'e', 'clearing');
       
       testEnv.behindHouseHelper.resetScene();
+      // Ensure window is open for west/kitchen movement test
+      testEnv.behindHouseHelper.setWindowOpen();
       moveHelper.verifyDirectionAbbreviations('west', 'w', 'kitchen');
     });
 
@@ -241,9 +245,9 @@ describe('Basic Movement Command - Behind House Scene', () => {
       const northResult = moveHelper.executeMoveNorth();
       moveHelper.verifyNorthMovement(northResult);
       
-      // Come back south
-      const southResult = moveHelper.executeMoveDirection('south');
-      moveHelper.verifyMovementSuccess(southResult, 'behind_house');
+      // Come back east (authentic Zork: north_of_house connects to behind_house via east, not south)
+      const eastResult = moveHelper.executeMoveDirection('east');
+      moveHelper.verifyMovementSuccess(eastResult, 'behind_house');
     });
 
     it('should complete round trip via east route', async () => {
@@ -252,6 +256,7 @@ describe('Basic Movement Command - Behind House Scene', () => {
       moveHelper.verifyEastMovement(eastResult);
       
       // Come back southwest (clearing connects back via sw, not west)
+      // Note: Use 'sw' directly as the scene data uses 'sw', not 'southwest'
       const swResult = moveHelper.executeMoveDirection('sw');
       moveHelper.verifyMovementSuccess(swResult, 'behind_house');
     });

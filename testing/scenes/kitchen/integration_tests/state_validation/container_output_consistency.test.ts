@@ -25,7 +25,7 @@ describe('Kitchen Scene - Container Output Consistency', () => {
       testEnv.kitchenHelper.setSackState(false);
       
       let lookResult = testEnv.lookCommandHelper.executeBasicLook();
-      expect(lookResult.message).not.toContain('sandwich');
+      expect(lookResult.message).not.toContain('lunch');
       expect(lookResult.message).not.toContain('garlic');
       
       // Test open sack
@@ -42,7 +42,7 @@ describe('Kitchen Scene - Container Output Consistency', () => {
       const lookResult = testEnv.lookCommandHelper.executeBasicLook();
       const lookInResult = testEnv.lookCommandHelper.executeLookIn('sack');
       
-      expect(lookResult.message).not.toContain('sandwich');
+      expect(lookResult.message).not.toContain('lunch');
       testEnv.lookCommandHelper.verifyClosedContainer(lookInResult, 'sack');
       
       // Open sack - contents visible everywhere
@@ -52,7 +52,7 @@ describe('Kitchen Scene - Container Output Consistency', () => {
       const lookInResult2 = testEnv.lookCommandHelper.executeLookIn('sack');
       
       testEnv.lookCommandHelper.verifyKitchenItems(lookResult2, true, false);
-      testEnv.lookCommandHelper.verifyContainerContents(lookInResult2, 'sack', ['sandwich', 'garlic']);
+      testEnv.lookCommandHelper.verifyContainerContents(lookInResult2, 'sack', ['lunch', 'garlic']);
     });
   });
 
@@ -112,7 +112,7 @@ describe('Kitchen Scene - Container Output Consistency', () => {
         // Verify individual container access
         if (sackOpen) {
           const sackResult = testEnv.lookCommandHelper.executeLookIn('sack');
-          testEnv.lookCommandHelper.verifyContainerContents(sackResult, 'sack', ['sandwich', 'garlic']);
+          testEnv.lookCommandHelper.verifyContainerContents(sackResult, 'sack', ['lunch', 'garlic']);
         }
         
         if (bottleOpen) {

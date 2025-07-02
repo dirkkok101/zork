@@ -109,7 +109,12 @@ export class LookCommand extends BaseCommand {
    */
   private lookAround(): CommandResult {
     const currentSceneId = this.gameState.getCurrentScene();
+    
+    // Get score before scene description (for first visit scoring)
+    const initialScore = this.gameState.getScore();
     const description = this.scene.getSceneDescription(currentSceneId);
+    const finalScore = this.gameState.getScore();
+    const scoreChange = finalScore - initialScore;
     
     // Add visible items
     const visibleItems = this.scene.getVisibleItems(currentSceneId);
@@ -162,7 +167,7 @@ export class LookCommand extends BaseCommand {
       exitsText = `\n\nExits: ${exitNames.join(', ')}`;
     }
     
-    return this.success(description + itemsText + exitsText, false);
+    return this.success(description + itemsText + exitsText, false, scoreChange);
   }
 
   /**

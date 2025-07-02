@@ -7,10 +7,10 @@
     "south": "mra",
     "east": "mra",
     "west": "mra",
-    "ne": "mra",
-    "nw": "mra",
-    "se": "mra",
-    "sw": "mra",
+    "northeast": "mra",
+    "northwest": "mra",
+    "southeast": "mra",
+    "southwest": "mra",
     "out": "mra"
   },
   "items": [

@@ -164,10 +164,11 @@ describe('Basic Examine Command - Behind House Scene', () => {
       examineHelper.verifyInvalidTarget(result, 'mailbox', 'mailbox');
     });
 
-    it('should fail when examining empty string', async () => {
+    it('should examine scene when examining empty string', async () => {
       const result = examineHelper.executeExamineTarget('');
       
-      examineHelper.verifyFailure(result);
+      examineHelper.verifySceneExamination(result);
+      examineHelper.verifyNoMove(result);
     });
   });
 

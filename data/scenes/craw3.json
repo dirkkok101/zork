@@ -4,7 +4,7 @@
   "description": "This is a narrow crawlway.  The crawlway leads from north to south.\nHowever the south passage divides to the south and southwest.",
   "exits": {
     "south": "cave2",
-    "sw": "mirr2",
+    "southwest": "mirr2",
     "north": "mgrai"
   },
   "items": [],

@@ -5,7 +5,7 @@
   "exits": {
     "up": "maze_14",
     "west": "maze_6",
-    "ne": "dead_end_1",
+    "northeast": "dead_end_1",
     "east": "maze_8",
     "south": "maze_15"
   },

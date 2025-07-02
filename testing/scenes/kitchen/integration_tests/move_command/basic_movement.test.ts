@@ -244,7 +244,7 @@ describe('Kitchen Scene - Move Command Integration', () => {
     });
 
     it('invalid direction fails', () => {
-      const result = testEnv.moveCommandHelper.executeMoveDirection('nowhere');
+      const result = testEnv.moveCommandHelper.executeMoveWithGo('nowhere');
       
       testEnv.moveCommandHelper.verifyFailure(result);
       testEnv.moveCommandHelper.verifyCountsAsMove(result);

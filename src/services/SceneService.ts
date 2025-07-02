@@ -57,10 +57,7 @@ export class SceneService implements ISceneService {
       description += '\n' + scene.description;
     }
 
-    // Mark scene as visited
-    this.gameState.markSceneVisited(sceneId);
-
-    // Award scene scoring for first visits
+    // Award scene scoring for first visits BEFORE marking as visited
     if (isFirstVisit && this.scoring) {
       this.logger.debug(`Awarding scene score for first visit to: ${sceneId}`);
       this.scoring.awardSceneScore(sceneId);
@@ -69,6 +66,9 @@ export class SceneService implements ISceneService {
     } else if (!isFirstVisit) {
       this.logger.debug(`Not first visit to ${sceneId}, no score awarded`);
     }
+
+    // Mark scene as visited AFTER awarding score
+    this.gameState.markSceneVisited(sceneId);
 
     return description;
   }
@@ -109,6 +109,11 @@ export class SceneService implements ISceneService {
     }
 
     return scene.exits.filter(exit => {
+      // Filter out blocked exits (those with empty destinations)
+      if (!exit.to || exit.to === '') {
+        return false;
+      }
+
       // Check if exit is hidden
       if (exit.hidden) {
         return false;

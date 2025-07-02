@@ -4,8 +4,8 @@
   "description": "You are in the hallway.",
   "exits": {
     "north": "mrb",
-    "nw": "mrb",
-    "ne": "mrb",
+    "northwest": "mrb",
+    "northeast": "mrb",
     "in": "inmir",
     "south": "mreye"
   },

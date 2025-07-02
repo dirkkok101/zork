@@ -114,4 +114,11 @@ export interface IScoringService {
    * @param treasureId The ID of the treasure item
    */
   markTreasureDeposited(treasureId: string): void;
+
+  /**
+   * Check if a treasure has been found (for test purposes)
+   * @param treasureId The ID of the treasure item
+   * @returns true if the treasure has been found before
+   */
+  hasTreasureBeenFound(treasureId: string): boolean;
 }

@@ -6,7 +6,7 @@
     "south": "mine1",
     "west": "mine5",
     "up": "mine3",
-    "ne": "mine4"
+    "northeast": "mine4"
   },
   "items": [],
   "monsters": [],

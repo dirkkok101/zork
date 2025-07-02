@@ -48,7 +48,7 @@ describe('Kitchen Scene - Food Collection User Journey', () => {
       testEnv.lookCommandHelper.verifyKitchenItems(lookResult3, true, true);
       
       // 7. Verify all food items are now accessible
-      expect(lookResult3.message).toMatch(/sandwich|lunch/i);
+      expect(lookResult3.message).toMatch(/lunch/i);
       expect(lookResult3.message).toContain('garlic');
       expect(lookResult3.message).toContain('water');
       
@@ -68,7 +68,7 @@ describe('Kitchen Scene - Food Collection User Journey', () => {
       let lookResult = testEnv.lookCommandHelper.executeBasicLook();
       testEnv.lookCommandHelper.verifyKitchenItems(lookResult, false, true);
       expect(lookResult.message).toContain('water');
-      expect(lookResult.message).not.toMatch(/sandwich|lunch/i);
+      expect(lookResult.message).not.toMatch(/lunch/i);
       
       // 4. Player then opens sack
       testEnv.openCommandHelper.executeOpenTarget('sack');
@@ -85,7 +85,7 @@ describe('Kitchen Scene - Food Collection User Journey', () => {
       
       // 2. Player looks in each container individually
       const sackContents = testEnv.lookCommandHelper.executeLookIn('sack');
-      testEnv.lookCommandHelper.verifyContainerContents(sackContents, 'sack', ['sandwich', 'garlic']);
+      testEnv.lookCommandHelper.verifyContainerContents(sackContents, 'sack', ['lunch', 'garlic']);
       
       const bottleContents = testEnv.lookCommandHelper.executeLookIn('bottle');
       testEnv.lookCommandHelper.verifyContainerContents(bottleContents, 'bottle', ['water']);
@@ -113,7 +113,7 @@ describe('Kitchen Scene - Food Collection User Journey', () => {
       
       // 3. Player successfully looks in opened sack
       const successLookResult = testEnv.lookCommandHelper.executeLookIn('sack');
-      testEnv.lookCommandHelper.verifyContainerContents(successLookResult, 'sack', ['sandwich', 'garlic']);
+      testEnv.lookCommandHelper.verifyContainerContents(successLookResult, 'sack', ['lunch', 'garlic']);
     });
 
     it('player handles opening already open containers', () => {
@@ -126,7 +126,7 @@ describe('Kitchen Scene - Food Collection User Journey', () => {
       
       // 3. Verify sack is still open and functional
       const lookResult = testEnv.lookCommandHelper.executeLookIn('sack');
-      testEnv.lookCommandHelper.verifyContainerContents(lookResult, 'sack', ['sandwich', 'garlic']);
+      testEnv.lookCommandHelper.verifyContainerContents(lookResult, 'sack', ['lunch', 'garlic']);
     });
 
     it('player handles closing already closed containers', () => {

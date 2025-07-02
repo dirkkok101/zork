@@ -3,8 +3,8 @@
   "title": "Bank Entrance",
   "description": "This is the large entrance hall of the Bank of Zork, the largest\nbanking institution of the Great Underground Empire. A partial\naccount of its history is in 'The Lives of the Twelve Flatheads' with\nthe chapter on J. Pierpont Flathead.  A more detailed history (albeit\nless objective) may be found in Flathead's outrageous autobiography\n'I'm Rich and You Aren't - So There!'.\nMost of the furniture has been ravaged by passing scavengers.  All\nthat remains are two signs at the Northwest and Northeast corners of\nthe room, which say\n  \n      <--  WEST VIEWING ROOM        EAST VIEWING ROOM  -->  \n",
   "exits": {
-    "nw": "bktw",
-    "ne": "bkte",
+    "northwest": "bktw",
+    "northeast": "bkte",
     "south": "galle"
   },
   "items": [],

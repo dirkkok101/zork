@@ -102,10 +102,10 @@ describe('ItemDataLoader.loadAllItems()', () => {
 
       // Verify file reads happened
       expect(mockReadFile).toHaveBeenCalledTimes(4);
-      expect(mockReadFile).toHaveBeenNthCalledWith(1, 'test-path/index.json', 'utf-8');
-      expect(mockReadFile).toHaveBeenNthCalledWith(2, 'test-path/coin.json', 'utf-8');
-      expect(mockReadFile).toHaveBeenNthCalledWith(3, 'test-path/lamp.json', 'utf-8');
-      expect(mockReadFile).toHaveBeenNthCalledWith(4, 'test-path/box.json', 'utf-8');
+      expect(mockReadFile).toHaveBeenNthCalledWith(1, '/Users/dirkkok/Development/zork/test-path/index.json', 'utf-8');
+      expect(mockReadFile).toHaveBeenNthCalledWith(2, '/Users/dirkkok/Development/zork/test-path/coin.json', 'utf-8');
+      expect(mockReadFile).toHaveBeenNthCalledWith(3, '/Users/dirkkok/Development/zork/test-path/lamp.json', 'utf-8');
+      expect(mockReadFile).toHaveBeenNthCalledWith(4, '/Users/dirkkok/Development/zork/test-path/box.json', 'utf-8');
     });
 
     it('should handle empty items array', async () => {
@@ -124,7 +124,7 @@ describe('ItemDataLoader.loadAllItems()', () => {
       // Assert
       expect(result).toHaveLength(0);
       expect(mockReadFile).toHaveBeenCalledTimes(1);
-      expect(mockReadFile).toHaveBeenCalledWith('test-path/index.json', 'utf-8');
+      expect(mockReadFile).toHaveBeenCalledWith('/Users/dirkkok/Development/zork/test-path/index.json', 'utf-8');
     });
 
     it('should load single item successfully', async () => {

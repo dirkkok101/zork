@@ -65,18 +65,30 @@ export class ExamineCommand extends BaseCommand {
       this.logger.debug(`Parsed args: [${args.join(', ')}]`);
       
       if (args.length === 0) {
-        const result = this.failure("Examine what?");
+        // Empty examine should examine the scene (authentic Zork behavior)
+        this.logger.debug('Empty examine command - examining scene');
+        const result = this.examineScene();
         this.logExecutionSuccess(result);
         return result;
       }
       
-      const target = args.join(' ').toLowerCase();
-      this.logger.debug(`Examining target: '${target}'`);
+      const target = args.join(' ').toLowerCase().trim();
+      this.logger.debug(`Examining target: '${target}' (length: ${target.length})`);
       
       let result: CommandResult;
       
+      // Handle empty string target (should fail)
+      if (target === '') {
+        this.logger.debug('Empty string target - failing');
+        result = this.failure('Examine what?');
+      }
+      // Check for scene-related keywords
+      else if (this.isSceneReference(target)) {
+        this.logger.debug('Examining scene (keyword specified)');
+        result = this.examineScene();
+      }
       // Check for self-reference
-      if (this.isSelfReference(target)) {
+      else if (this.isSelfReference(target)) {
         this.logger.debug('Examining self');
         result = this.examineSelf();
       } else {
@@ -105,6 +117,37 @@ export class ExamineCommand extends BaseCommand {
       this.logExecutionError(error as Error, input);
       return this.failure('An error occurred while examining.');
     }
+  }
+
+  /**
+   * Check if target refers to the current scene
+   */
+  private isSceneReference(target: string): boolean {
+    const sceneReferences = ['here', 'around', 'scene', 'room', 'area', 'location'];
+    return sceneReferences.includes(target.toLowerCase());
+  }
+
+  /**
+   * Examine the current scene
+   */
+  private examineScene(): CommandResult {
+    const currentSceneId = this.gameState.getCurrentScene();
+    const scene = this.gameState.getScene(currentSceneId);
+    
+    if (!scene) {
+      return this.failure("You are in an unknown location.");
+    }
+    
+    // Use scene service to get formatted description
+    let description = this.scene.getSceneDescription(currentSceneId);
+    
+    // Add atmosphere if available
+    if (scene.atmosphere && scene.atmosphere.length > 0) {
+      const randomAtmosphere = scene.atmosphere[Math.floor(Math.random() * scene.atmosphere.length)];
+      description += `\n\n${randomAtmosphere}`;
+    }
+    
+    return this.success(description, false);
   }
 
   /**
@@ -247,7 +290,4 @@ export class ExamineCommand extends BaseCommand {
     }
     return null;
   }
-
-
-
 }

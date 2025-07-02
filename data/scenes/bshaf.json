@@ -5,7 +5,7 @@
   "exits": {
     "east": "machi",
     "out": "timbe",
-    "ne": "timbe",
+    "northeast": "timbe",
     "up": {
       "to": null,
       "blocked": true,

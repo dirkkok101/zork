@@ -4,8 +4,8 @@
   "description": "This is part of a maze of twisty little passages, all alike.",
   "exits": {
     "west": "maze_15",
-    "nw": "maze_14",
-    "ne": "maze_7",
+    "northwest": "maze_14",
+    "northeast": "maze_7",
     "south": "maze_7"
   },
   "items": [],

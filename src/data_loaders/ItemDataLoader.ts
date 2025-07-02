@@ -98,7 +98,24 @@ export class ItemDataLoader implements IItemDataLoader {
             const fs = await import('fs/promises');
             const path = await import('path');
             const fullPath = path.resolve(process.cwd(), filePath);
-            return fs.readFile(fullPath, 'utf-8');
+            
+            this.logger.debug(`loadFileContent: Loading ${filePath}`);
+            this.logger.debug(`loadFileContent: Resolved to ${fullPath}`);
+            this.logger.debug(`loadFileContent: Current working directory ${process.cwd()}`);
+            
+            try {
+                const content = await fs.readFile(fullPath, 'utf-8');
+                this.logger.debug(`loadFileContent: Read ${content.length} characters`);
+                
+                if (!content || content.trim() === '') {
+                    throw new Error(`File exists but is empty: ${fullPath}`);
+                }
+                
+                return content;
+            } catch (error) {
+                this.logger.error(`loadFileContent: Error reading ${fullPath}:`, error);
+                throw error;
+            }
         }
     }
 
@@ -111,6 +128,9 @@ export class ItemDataLoader implements IItemDataLoader {
             this.logger.debug(`Loading item index from ${indexUrl}`);
             
             const jsonContent = await this.loadFileContent(indexUrl);
+            if (!jsonContent) {
+                throw new Error(`loadFileContent returned empty/undefined for ${indexUrl}`);
+            }
             const indexData = JSON.parse(jsonContent) as ItemIndexData;
             
             this.validateIndexData(indexData);

@@ -3,10 +3,10 @@
   "title": "Posts Room",
   "description": "This is an enormous room, in the center of which are four wooden\nposts delineating a rectangular area, above which is what appears to\nbe a wooden roof.  In fact, all objects in this room appear to be\nabnormally large. To the east is a passageway.  There is a large\nchasm on the west and the northwest.",
   "exits": {
-    "nw": {
+    "northwest": {
       "to": null,
       "blocked": true,
-      "failureMessage": "You can't go nw from here."
+      "failureMessage": "You can't go northwest from here."
     },
     "east": "alitr",
     "west": {

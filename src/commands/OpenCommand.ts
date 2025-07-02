@@ -154,6 +154,17 @@ export class OpenCommand extends BaseCommand {
       };
     }
 
+    // Check for malformed commands (command keywords in target name)
+    const commandKeywords = ['open', 'close', 'take', 'drop', 'look', 'examine', 'go', 'move', 'get', 'put'];
+    const hasCommandKeyword = args.some(arg => commandKeywords.includes(arg.toLowerCase()));
+    
+    if (hasCommandKeyword) {
+      return {
+        success: false,
+        message: "I don't understand that. Try 'open <object>' or 'open <object> with <key>'."
+      };
+    }
+
     // "open <object>"
     if (args.length === 1) {
       return {

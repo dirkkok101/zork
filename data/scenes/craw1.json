@@ -5,7 +5,7 @@
   "exits": {
     "west": "ravi1",
     "east": "temple_dome",
-    "nw": "egyptian_room"
+    "northwest": "egyptian_room"
   },
   "items": [],
   "monsters": [],

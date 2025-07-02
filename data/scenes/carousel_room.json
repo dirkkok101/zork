@@ -7,10 +7,10 @@
     "south": "cave4",
     "east": "mgrai",
     "west": "pass1",
-    "nw": "cany1",
-    "ne": "pass5",
-    "se": "pass4",
-    "sw": "maze_1",
+    "northwest": "cany1",
+    "northeast": "pass5",
+    "southeast": "pass4",
+    "southwest": "maze_1",
     "out": "pass3"
   },
   "items": [

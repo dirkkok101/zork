@@ -100,7 +100,18 @@ class SceneExtractor:
             'NORTHEAST': 'northeast',
             'NORTHWEST': 'northwest',
             'SOUTHEAST': 'southeast',
-            'SOUTHWEST': 'southwest'
+            'SOUTHWEST': 'southwest',
+            # Add abbreviated forms
+            'N': 'north',
+            'S': 'south',
+            'E': 'east', 
+            'W': 'west',
+            'U': 'up',
+            'D': 'down',
+            'NE': 'northeast',
+            'NW': 'northwest', 
+            'SE': 'southeast',
+            'SW': 'southwest'
         }
 
     def load_source_data(self) -> Dict[str, Any]:

@@ -5,7 +5,7 @@
   "exits": {
     "west": "maze_14",
     "south": "maze_7",
-    "ne": "cyclops_room"
+    "northeast": "cyclops_room"
   },
   "items": [],
   "monsters": [],

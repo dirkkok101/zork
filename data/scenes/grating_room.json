@@ -3,7 +3,7 @@
   "title": "Grating Room",
   "description": "You are in the grating room.",
   "exits": {
-    "sw": "maze_11",
+    "southwest": "maze_11",
     "up": {
       "to": "clearing",
       "description": "You see grating up.",

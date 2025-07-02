@@ -15,10 +15,11 @@ import log from 'loglevel';
 /**
  * Take Command
  * 
- * Handles picking up items from the current scene:
- * - "take <object>" / "get <object>" - Pick up an item
+ * Handles picking up items from the current scene or containers:
+ * - "take <object>" / "get <object>" - Pick up an item from scene
+ * - "take <object> from <container>" - Take item from specific container
  * - "pick up <object>" / "grab <object>" - Same as take
- * - Moves item from scene to player's inventory
+ * - Moves item from scene/container to player's inventory
  * - Validates item is portable and visible
  * 
  * For dropping items, use the drop command.
@@ -38,7 +39,7 @@ export class TakeCommand extends BaseCommand {
     super(
       'take',
       ['get', 'pick', 'grab'],
-      'take <object>',
+      'take <object> [from <container>]',
       'Pick up an object and add it to your inventory.',
       gameState,
       scene,
@@ -58,16 +59,22 @@ export class TakeCommand extends BaseCommand {
   execute(input: string): CommandResult {
     this.logger.debug(`Executing take command: "${input}"`);
 
-    // 1. Parse input using existing helper
-    const targetName = this.parseTargetName(input);
-    if (!targetName) {
-      return this.failure('Take what?');
+    // 1. Parse input to handle "take <item> from <container>" syntax
+    const parseResult = this.parseTakeCommand(input);
+    if (!parseResult.success) {
+      return this.failure(parseResult.message);
     }
 
-    // 2. Find item using BaseCommand method (handles scene, containers, inventory)
-    const targetId = this.findItemId(targetName);
+    const { targetName, containerName } = parseResult;
+
+    // 2. Find item - if container specified, look only in that container
+    const targetId = containerName ? 
+      this.findItemInContainer(targetName!, containerName) : 
+      this.findItemId(targetName!);
+      
     if (!targetId) {
-      return this.failure(`You don't see ${this.getArticle(targetName)} ${targetName} here.`);
+      const locationText = containerName ? ` in the ${containerName}` : ' here';
+      return this.failure(`You don't see ${this.getArticle(targetName!)} ${targetName!}${locationText}.`);
     }
 
     // 3. Check if already in inventory using InventoryService
@@ -115,20 +122,100 @@ export class TakeCommand extends BaseCommand {
   }
 
   /**
-   * Parse target name from input, handling "pick up" syntax
+   * Parse take command variations including "take <item> from <container>"
    */
-  private parseTargetName(input: string): string | null {
+  private parseTakeCommand(input: string): { 
+    success: boolean; 
+    message: string; 
+    targetName?: string; 
+    containerName?: string 
+  } {
     const args = this.getArgs(input);
     if (args.length === 0) {
-      return null;
+      return { success: false, message: 'Take what?' };
     }
 
     // Handle "pick up" as two words
-    if (args[0] === 'up' && args.length > 1) {
-      return args.slice(1).join(' ').toLowerCase();
-    } else {
-      return args.join(' ').toLowerCase();
+    let startIndex = 0;
+    if (args[0] === 'up') {
+      startIndex = 1;
+      if (args.length === 1) {
+        return { success: false, message: 'Pick up what?' };
+      }
     }
+
+    // Look for "from" keyword
+    const fromIndex = args.findIndex((arg, index) => 
+      index >= startIndex && arg.toLowerCase() === 'from'
+    );
+
+    if (fromIndex === -1) {
+      // Simple "take <item>" or "pick up <item>"
+      const targetName = args.slice(startIndex).join(' ').toLowerCase();
+      return { success: true, message: '', targetName };
+    }
+
+    if (fromIndex === startIndex) {
+      // Invalid: "take from" or "pick up from"
+      return { success: false, message: 'Take what from where?' };
+    }
+
+    if (fromIndex === args.length - 1) {
+      // Invalid: ends with "from"
+      return { success: false, message: 'Take from what?' };
+    }
+
+    // "take <item> from <container>"
+    const targetName = args.slice(startIndex, fromIndex).join(' ').toLowerCase();
+    const containerName = args.slice(fromIndex + 1).join(' ').toLowerCase();
+    
+    return { 
+      success: true, 
+      message: '', 
+      targetName, 
+      containerName 
+    };
+  }
+
+  /**
+   * Find item specifically within a named container
+   */
+  private findItemInContainer(itemName: string, containerName: string): string | null {
+    // Find the container first
+    const containerId = this.findItemId(containerName);
+    if (!containerId) {
+      return null;
+    }
+
+    // Check if it's actually a container
+    if (!this.items.isContainer(containerId)) {
+      return null;
+    }
+
+    // Check if container is accessible (open or doesn't need opening)
+    const containerItem = this.gameState.getItem(containerId);
+    if (!containerItem) {
+      return null;
+    }
+
+    const needsOpening = this.items.canOpen(containerId);
+    const isOpen = this.items.isContainerOpen(containerId);
+    
+    if (needsOpening && !isOpen) {
+      return null; // Container is closed
+    }
+
+    // Get container contents and search for the item
+    const contents = this.items.getContainerContents(containerId);
+    
+    for (const itemId of contents) {
+      const item = this.gameState.getItem(itemId);
+      if (item && this.items.itemMatches(item, itemName)) {
+        return itemId;
+      }
+    }
+
+    return null;
   }
 
   /**

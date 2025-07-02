@@ -29,8 +29,7 @@ describe('Conditional Access - Flag Based Exits (Kitchen)', () => {
     );
     closeHelper = new CloseCommandHelper(
       testEnv.commandProcessor,
-      testEnv.services.gameState as any,
-      testEnv.services.items as any
+      testEnv.services.gameState as any
     );
     
     // Ensure clean state
@@ -43,7 +42,9 @@ describe('Conditional Access - Flag Based Exits (Kitchen)', () => {
 
   describe('door_windo_open Flag Mechanics - Kitchen Side', () => {
     it('should initially have window open when entering from behind house', async () => {
-      // Kitchen is typically entered with window already open
+      // Kitchen is typically entered with window already open - set up the scenario
+      testEnv.kitchenHelper.setWindowState(true);
+      
       expect(testEnv.kitchenHelper.isWindowOpen()).toBe(true);
       expect(testEnv.services.gameState.getFlag('door_windo_open')).toBe(true);
     });

@@ -16,6 +16,9 @@ export interface SceneData {
     /** Description shown only on first visit */
     firstVisitDescription?: string;
 
+    /** Points awarded on first visit to the scene */
+    firstVisitPoints?: number;
+
     /** Available exits from the scene - map of direction to destination */
     exits: Record<string, string | {
         /** ID of the destination scene (null for blocked exits) */

@@ -8,7 +8,7 @@
     "down": "maze_10",
     "south": "maze_13",
     "west": "maze_12",
-    "nw": "maze_9"
+    "northwest": "maze_9"
   },
   "items": [],
   "monsters": [],

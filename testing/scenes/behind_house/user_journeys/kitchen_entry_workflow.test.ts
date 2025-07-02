@@ -268,8 +268,8 @@ describe('Kitchen Entry Workflow - User Journey', () => {
       moveHelper.executeMoveNorth();
       expect(moveHelper.getCurrentScene()).toBe('north_of_house');
       
-      // Player returns later
-      moveHelper.executeMoveDirection('south');
+      // Player returns later (east from north_of_house leads to behind_house)
+      moveHelper.executeMoveDirection('east');
       expect(moveHelper.getCurrentScene()).toBe('behind_house');
       
       // Window should still be open

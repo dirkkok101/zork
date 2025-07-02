@@ -33,10 +33,10 @@ export class CommandProcessor implements ICommandProcessor {
         this.logger.debug(`Move counter incremented after command: ${input}`);
       }
       
-      // Handle score changes
+      // Score changes are handled by commands themselves during execution
+      // The scoreChange field is for informational purposes only
       if (result.scoreChange) {
-        this.gameState.addScore(result.scoreChange);
-        this.logger.debug(`Score changed by ${result.scoreChange} after command: ${input}`);
+        this.logger.debug(`Command reported score change of ${result.scoreChange} points: ${input}`);
       }
       
       return result;

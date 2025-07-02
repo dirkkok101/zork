@@ -4,9 +4,9 @@
   "description": "You are on a small, rocky beach on the continuation of the Frigid\nRiver past the Falls.  The beach is narrow due to the presence of the\nWhite Cliffs.  The river canyon opens here and sunlight shines in\nfrom above. A rainbow crosses over the falls to the west and a narrow\npath continues to the southeast.",
   "exits": {
     "up": "rainb",
-    "nw": "rainb",
+    "northwest": "rainb",
     "west": "rainb",
-    "se": "clbot",
+    "southeast": "clbot",
     "launc": {
       "to": null,
       "blocked": true,

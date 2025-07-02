@@ -166,7 +166,7 @@ export class InventoryService implements IInventoryService {
     const currentWeight = this.getCurrentWeight();
     // Based on analysis: player with 32 weight units was blocked,
     // so threshold should be much lower for "light" load
-    const LIGHT_LOAD_THRESHOLD = 10;
+    const LIGHT_LOAD_THRESHOLD = 15;
     return currentWeight <= LIGHT_LOAD_THRESHOLD;
   }
 

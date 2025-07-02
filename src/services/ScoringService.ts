@@ -35,15 +35,18 @@ export class ScoringService implements IScoringService {
       return 0;
     }
 
-    // Try to get treasure points from pre-loaded data
-    let value = this.itemScoringData.get(treasureId) || 0;
-    
-    // If not found in pre-loaded data, check item properties directly
-    if (value === 0) {
-      const treasure = this.gameState.getItem(treasureId);
-      if (treasure?.properties?.treasurePoints) {
-        value = treasure.properties.treasurePoints;
-      }
+    // Check if treasure was already found - only award points on first find
+    const foundFlag = `treasure_found_${treasureId}`;
+    if (this.gameState.getFlag(foundFlag)) {
+      this.logger.debug(`Treasure ${treasureId} already found - no points awarded`);
+      return 0;
+    }
+
+    // Get treasure points from item properties
+    let value = 0;
+    const treasure = this.gameState.getItem(treasureId);
+    if (treasure?.properties?.treasurePoints) {
+      value = treasure.properties.treasurePoints;
     }
     
     this.logger.debug(`Treasure ${treasureId} base score: ${value}`);
@@ -121,8 +124,8 @@ export class ScoringService implements IScoringService {
    * Award points for visiting a scene for the first time
    */
   awardSceneScore(sceneId: string): boolean {
-    const flagName = `scene_visited_${sceneId}`;
-    if (this.gameState.getFlag(flagName)) {
+    // Use the same visited tracking system as SceneService/GameStateService
+    if (this.gameState.hasVisitedScene(sceneId)) {
       this.logger.debug(`Scene ${sceneId} already visited`);
       return false;
     }
@@ -131,16 +134,11 @@ export class ScoringService implements IScoringService {
     this.logger.debug(`Scene ${sceneId} first visit points: ${points}`);
     
     if (points > 0) {
-      // Mark scene as visited
-      this.gameState.setFlag(flagName, true);
-      // Award the points
+      // Award the points (SceneService will handle marking as visited)
       this.gameState.addScore(points);
       this.logger.info(`Awarded ${points} points for first visit to: ${sceneId}`);
       return true;
     }
-
-    // Still mark as visited even if no points
-    this.gameState.setFlag(flagName, true);
     this.logger.debug(`No points for scene ${sceneId}, but marked as visited`);
     return false;
   }
@@ -206,7 +204,7 @@ export class ScoringService implements IScoringService {
     const gameState = this.gameState.getGameState();
     let foundCount = 0;
     
-    for (const [itemId, item] of Object.entries(gameState.items)) {
+    for (const [itemId, _item] of Object.entries(gameState.items)) {
       if (this.isTreasure(itemId)) {
         const foundFlag = `treasure_found_${itemId}`;
         if (this.gameState.getFlag(foundFlag)) {
@@ -226,7 +224,7 @@ export class ScoringService implements IScoringService {
     const gameState = this.gameState.getGameState();
     let depositedCount = 0;
     
-    for (const [itemId, item] of Object.entries(gameState.items)) {
+    for (const [itemId, _item] of Object.entries(gameState.items)) {
       if (this.isTreasure(itemId)) {
         const depositedFlag = `treasure_deposited_${itemId}`;
         if (this.gameState.getFlag(depositedFlag)) {
@@ -305,5 +303,16 @@ export class ScoringService implements IScoringService {
       this.gameState.setFlag(flagName, true);
       this.logger.debug(`Marked treasure ${treasureId} as deposited`);
     }
+  }
+
+  /**
+   * Check if a treasure has been found (for test purposes)
+   */
+  hasTreasureBeenFound(treasureId: string): boolean {
+    if (!this.isTreasure(treasureId)) {
+      return false;
+    }
+    const foundFlag = `treasure_found_${treasureId}`;
+    return this.gameState.getFlag(foundFlag);
   }
 }

@@ -4,7 +4,7 @@
   "description": "This is a non-descript part of a coal mine.",
   "exits": {
     "west": "mine2",
-    "ne": "mine5",
+    "northeast": "mine5",
     "east": "mine5"
   },
   "items": [],

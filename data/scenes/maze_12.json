@@ -4,7 +4,7 @@
   "description": "This is part of a maze of twisty little passages, all alike.",
   "exits": {
     "west": "maze_5",
-    "sw": "maze_11",
+    "southwest": "maze_11",
     "east": "maze_13",
     "up": "maze_9",
     "north": "dead_end_4"

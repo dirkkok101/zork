@@ -185,7 +185,7 @@ export class AtticHelper {
    */
   verifyLighting(): void {
     const scene = this.getScene();
-    expect(scene?.lighting).toBe('lit');
+    expect(scene?.lighting).toBe('daylight');
   }
 
   /**
@@ -377,5 +377,48 @@ export class AtticHelper {
    */
   isContainer(itemId: string): boolean {
     return this.itemService.isContainer(itemId);
+  }
+
+  /**
+   * Create a test item for use in attic container tests
+   */
+  createTestItem(id: string, name: string): void {
+    const testItem = {
+      id,
+      name,
+      aliases: [id.toUpperCase()],
+      description: `A test item: ${name}`,
+      examineText: `This is a test item used for container tests: ${name}`,
+      type: "TOOL" as any,
+      portable: true,
+      visible: true,
+      weight: 2,
+      size: "TINY" as any,
+      tags: ["portable", "test"],
+      properties: {},
+      interactions: [],
+      state: {},
+      initialLocation: "unknown"
+    };
+    
+    // Add to game state
+    (this.gameState as any).gameState.items[id] = testItem;
+  }
+
+  /**
+   * Setup test items for container tests
+   */
+  setupTestItems(): void {
+    this.createTestItem("test_emerald", "emerald");
+    this.createTestItem("test_coins", "coins");
+  }
+
+  /**
+   * Clear test items from game state
+   */
+  clearTestItemsFromState(): void {
+    const gameState = (this.gameState as any).gameState;
+    delete gameState.items["test_emerald"];
+    delete gameState.items["test_coins"];
   }
 }

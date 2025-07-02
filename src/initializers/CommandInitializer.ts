@@ -16,7 +16,9 @@ import {
   OpenCommand, 
   CloseCommand, 
   PutCommand, 
-  ReadCommand 
+  ReadCommand,
+  SaveCommand,
+  RestoreCommand
 } from '../commands';
 import { Services } from './ServiceInitializer';
 
@@ -183,6 +185,28 @@ export class CommandInitializer {
         services.output,
         services.scoring,
         loggingService.getLogger('ReadCommand')
+      ),
+      new SaveCommand(
+        services.gameState,
+        services.scene,
+        services.inventory,
+        services.items,
+        services.combat,
+        services.persistence,
+        services.output,
+        services.scoring,
+        loggingService.getLogger('SaveCommand')
+      ),
+      new RestoreCommand(
+        services.gameState,
+        services.scene,
+        services.inventory,
+        services.items,
+        services.combat,
+        services.persistence,
+        services.output,
+        services.scoring,
+        loggingService.getLogger('RestoreCommand')
       )
     ];
     

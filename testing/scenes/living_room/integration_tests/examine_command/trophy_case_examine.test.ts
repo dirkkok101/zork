@@ -229,7 +229,7 @@ describe('Living Room - Examine Trophy Case Integration Tests', () => {
       testEnv.livingRoomHelper.addTreasureToTrophyCase('test_gem');
       const initialState = {
         currentScene: testEnv.services.gameState.getCurrentScene(),
-        inventoryCount: testEnv.services.gameState.getInventory().length,
+        inventoryCount: testEnv.services.inventory.getItems().length,
         score: testEnv.livingRoomHelper.getCurrentScore(),
         trophyCaseOpen: testEnv.livingRoomHelper.isTrophyCaseOpen(),
         trophyCaseContents: testEnv.livingRoomHelper.getTrophyCaseContents().length,
@@ -243,7 +243,7 @@ describe('Living Room - Examine Trophy Case Integration Tests', () => {
       expect(result.success).toBe(true);
       const finalState = {
         currentScene: testEnv.services.gameState.getCurrentScene(),
-        inventoryCount: testEnv.services.gameState.getInventory().length,
+        inventoryCount: testEnv.services.inventory.getItems().length,
         score: testEnv.livingRoomHelper.getCurrentScore(),
         trophyCaseOpen: testEnv.livingRoomHelper.isTrophyCaseOpen(),
         trophyCaseContents: testEnv.livingRoomHelper.getTrophyCaseContents().length,

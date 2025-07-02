@@ -4,7 +4,7 @@
   "description": "You have entered a cave with passages leading north and southeast.",
   "exits": {
     "north": "carousel_room",
-    "se": "riddl"
+    "southeast": "riddl"
   },
   "items": [
     {

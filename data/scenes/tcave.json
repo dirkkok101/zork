@@ -4,7 +4,7 @@
   "description": "This is a small cave whose exits are on the south and northwest.",
   "exits": {
     "south": "rcave",
-    "nw": "chas3"
+    "northwest": "chas3"
   },
   "items": [
     {

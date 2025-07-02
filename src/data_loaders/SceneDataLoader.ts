@@ -114,7 +114,19 @@ export class SceneDataLoader implements ISceneDataLoader {
             const fs = await import('fs/promises');
             const path = await import('path');
             const fullPath = path.resolve(process.cwd(), filePath);
-            return fs.readFile(fullPath, 'utf-8');
+            
+            try {
+                const content = await fs.readFile(fullPath, 'utf-8');
+                
+                if (!content || content.trim() === '') {
+                    throw new Error(`File exists but is empty: ${fullPath}`);
+                }
+                
+                return content;
+            } catch (error) {
+                this.logger.error(`Error reading ${fullPath}:`, error);
+                throw error;
+            }
         }
     }
 
@@ -127,6 +139,9 @@ export class SceneDataLoader implements ISceneDataLoader {
             this.logger.debug(`Loading scene index from ${indexUrl}`);
             
             const jsonContent = await this.loadFileContent(indexUrl);
+            if (!jsonContent) {
+                throw new Error(`loadFileContent returned empty/undefined for ${indexUrl}`);
+            }
             const indexData = JSON.parse(jsonContent) as SceneIndexData;
             
             this.validateIndexData(indexData);
@@ -199,9 +214,10 @@ export class SceneDataLoader implements ISceneDataLoader {
         return scene;
     }
 
+
     /**
      * Convert exits from Record<string, string | object> to Exit[]
-     * Filters out blocked exits (where blocked=true or to=null)
+     * Includes blocked exits with failure messages
      */
     private convertExits(exitsData: SceneData['exits']): Exit[] {
         const exits: Exit[] = [];
@@ -214,9 +230,15 @@ export class SceneDataLoader implements ISceneDataLoader {
                     to: exitInfo
                 });
             } else if (exitInfo && typeof exitInfo === 'object') {
-                // Skip blocked exits - they should not be in the Scene.exits array
+                // Handle blocked exits - include them with null destination and failure message
                 if (exitInfo.blocked === true || exitInfo.to === null) {
-                    this.logger.debug(`Skipping blocked exit ${direction} (blocked: ${exitInfo.blocked}, to: ${exitInfo.to})`);
+                    this.logger.debug(`Including blocked exit ${direction} with failure message`);
+                    const exit: Exit = {
+                        direction,
+                        to: '', // Empty string instead of null for type compatibility
+                        failureMessage: exitInfo.failureMessage || `You cannot go ${direction}.`
+                    };
+                    exits.push(exit);
                     continue;
                 }
 

@@ -5,7 +5,7 @@
   "exits": {
     "south": "tshaf",
     "west": "smell",
-    "ne": "mine1"
+    "northeast": "mine1"
   },
   "items": [],
   "monsters": [],

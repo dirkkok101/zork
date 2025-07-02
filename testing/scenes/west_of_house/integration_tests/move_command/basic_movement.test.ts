@@ -63,7 +63,7 @@ describe('Move Command - West of House Scene', () => {
       
       moveHelper.verifyFailure(result);
       moveHelper.verifyCountsAsMove(result); // Failed moves still count as moves
-      moveHelper.verifyMessageContains(result, 'Only a mouse could get in there');
+      moveHelper.verifyMessageContains(result, 'The door is locked, and there is evidently no key.');
       // Should remain in west_of_house
       expect(moveHelper.getCurrentScene()).toBe('west_of_house');
     });
@@ -203,7 +203,7 @@ describe('Move Command - West of House Scene', () => {
       const result = moveHelper.executeMoveDirection('east');
       
       moveHelper.verifyFailure(result);
-      moveHelper.verifyMessageContains(result, 'Only a mouse could get in there');
+      moveHelper.verifyMessageContains(result, 'The door is locked, and there is evidently no key.');
     });
   });
 

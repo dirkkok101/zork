@@ -217,23 +217,13 @@ export class MoveCommand extends BaseCommand {
    * Get failure message for blocked exits from original scene data
    */
   private getBlockedExitMessage(sceneId: string, direction: string): string | null {
-    // Get the raw scene data to check for blocked exits
-    const scene = this.gameState.getScene(sceneId);
-    if (!scene) {
-      return null;
-    }
+    // Check all exits for failure messages
+    const allExits = this.scene.getAllExits(sceneId);
+    const exit = allExits.find(e => 
+      e.direction.toLowerCase() === direction.toLowerCase()
+    );
 
-    // Check if we can access the original SceneData through the scene
-    // Since we're working with loaded Scene objects, we need a different approach
-    // For now, return generic blocked messages for known blocked exits
-    
-    // Known blocked exits in west_of_house (this should be expanded based on actual data)
-    if (sceneId === 'west_of_house' && direction.toLowerCase() === 'east') {
-      return "Only a mouse could get in there.";
-    }
-
-    // Add other known blocked exits as needed
-    return null;
+    return exit?.failureMessage || null;
   }
 
   /**

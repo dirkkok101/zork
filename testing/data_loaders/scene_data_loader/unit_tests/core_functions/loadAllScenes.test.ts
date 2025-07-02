@@ -237,7 +237,7 @@ describe('SceneDataLoader.loadAllScenes()', () => {
       // Assert
       expect(result).toHaveLength(3); // Only valid scenes
       expect(result.map(s => s.id)).toEqual(['scene1', 'scene3', 'scene5']);
-      expect(consoleErrorSpy).toHaveBeenCalledTimes(4); // 2 errors each for scene2 and scene4 (loadSceneFromFile + loadAllScenes)
+      expect(consoleErrorSpy).toHaveBeenCalledTimes(5); // Error logging for scene2 and scene4 failures
 
       consoleErrorSpy.mockRestore();
     });

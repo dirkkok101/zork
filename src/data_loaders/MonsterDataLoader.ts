@@ -106,6 +106,10 @@ export class MonsterDataLoader implements IMonsterDataLoader {
             this.logger.debug(`Loading monster index from ${indexUrl}`);
             
             const jsonContent = await this.loadFileContent(indexUrl);
+            console.error(`MonsterDataLoader: jsonContent type: ${typeof jsonContent}, value: ${JSON.stringify(jsonContent)}`);
+            if (!jsonContent) {
+                throw new Error(`loadFileContent returned empty/undefined for ${indexUrl}`);
+            }
             const indexData = JSON.parse(jsonContent) as MonsterIndex;
             
             this.validateIndexData(indexData);

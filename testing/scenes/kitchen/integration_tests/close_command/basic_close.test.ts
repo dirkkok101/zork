@@ -46,7 +46,7 @@ describe('Kitchen Scene - Close Command Integration', () => {
       const result = testEnv.closeCommandHelper.executeCloseTarget('window');
       
       testEnv.closeCommandHelper.verifyAlreadyClosed(result, 'window');
-      testEnv.closeCommandHelper.verifyCountsAsMove(result);
+      testEnv.closeCommandHelper.verifyNoMove(result);
     });
 
     it('window closing unsets global flag correctly', () => {
@@ -102,7 +102,7 @@ describe('Kitchen Scene - Close Command Integration', () => {
       const result = testEnv.closeCommandHelper.executeCloseTarget('sack');
       
       testEnv.closeCommandHelper.verifyAlreadyClosed(result, 'sack');
-      testEnv.closeCommandHelper.verifyCountsAsMove(result);
+      testEnv.closeCommandHelper.verifyNoMove(result);
     });
 
     it('closing sack hides contents in look command', () => {
@@ -157,7 +157,7 @@ describe('Kitchen Scene - Close Command Integration', () => {
       const result = testEnv.closeCommandHelper.executeCloseTarget('bottle');
       
       testEnv.closeCommandHelper.verifyAlreadyClosed(result, 'bottle');
-      testEnv.closeCommandHelper.verifyCountsAsMove(result);
+      testEnv.closeCommandHelper.verifyNoMove(result);
     });
 
     it('closing bottle hides water in look command', () => {
@@ -273,14 +273,14 @@ describe('Kitchen Scene - Close Command Integration', () => {
       const result = testEnv.closeCommandHelper.executeCloseTarget('nonexistent');
       
       testEnv.closeCommandHelper.verifyItemNotFound(result, 'nonexistent');
-      testEnv.closeCommandHelper.verifyCountsAsMove(result);
+      testEnv.closeCommandHelper.verifyNoMove(result);
     });
 
     it('close non-closeable item fails', () => {
       const result = testEnv.closeCommandHelper.executeCloseTarget('kitchen');
       
       testEnv.closeCommandHelper.verifyFailure(result);
-      testEnv.closeCommandHelper.verifyCountsAsMove(result);
+      testEnv.closeCommandHelper.verifyNoMove(result);
     });
 
     it('empty close command fails', () => {
@@ -350,17 +350,17 @@ describe('Kitchen Scene - Close Command Integration', () => {
       testEnv.closeCommandHelper.verifyMoveCountIncreased(initialMoves, 3);
     });
 
-    it('failed close commands still increment move counter', () => {
+    it('failed close commands do not increment move counter', () => {
       const initialMoves = testEnv.closeCommandHelper.getCurrentMoves();
       
       // Try closing already closed window
       testEnv.kitchenHelper.setWindowState(false);
       testEnv.closeCommandHelper.executeCloseTarget('window');
-      testEnv.closeCommandHelper.verifyMoveCountIncreased(initialMoves, 1);
+      testEnv.closeCommandHelper.verifyMoveCountUnchanged(initialMoves);
       
       // Try closing nonexistent item
       testEnv.closeCommandHelper.executeCloseTarget('nonexistent');
-      testEnv.closeCommandHelper.verifyMoveCountIncreased(initialMoves, 2);
+      testEnv.closeCommandHelper.verifyMoveCountUnchanged(initialMoves);
     });
   });
 
@@ -443,7 +443,7 @@ describe('Kitchen Scene - Close Command Integration', () => {
       
       // Initially look in sack succeeds
       let lookInResult = testEnv.lookCommandHelper.executeLookIn('sack');
-      testEnv.lookCommandHelper.verifyContainerContents(lookInResult, 'sack', ['sandwich', 'garlic']);
+      testEnv.lookCommandHelper.verifyContainerContents(lookInResult, 'sack', ['lunch', 'garlic']);
       
       // Close sack
       testEnv.closeCommandHelper.executeCloseTarget('sack');

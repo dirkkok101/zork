@@ -69,10 +69,10 @@ describe('Put Command - Living Room Trophy Case (Authentic)', () => {
         putHelper.verifyTreasureDepositWithScoring(result, 'coin', 'priceless zorkmid');
         putHelper.verifyInventoryCountChange(initialCount, -1);
         
-        // Verify score increase (authentic Zork scoring: deposit bonus only) 
+        // Verify score increase (authentic Zork scoring: full deposit value) 
         const expectedDepositBonus = putHelper.getDepositBonus('coin');
         expect(result.scoreChange).toBe(expectedDepositBonus);
-        expect(expectedDepositBonus).toBe(10); // 22 deposit - 12 treasure = 10 bonus
+        expect(expectedDepositBonus).toBe(22); // Full deposit value as per authentic Zork
       });
 
       it('should work with coin aliases', () => {
@@ -142,10 +142,10 @@ describe('Put Command - Living Room Trophy Case (Authentic)', () => {
         
         putHelper.verifyTreasureDepositWithScoring(result, 'egg', 'jewel-encrusted egg');
         
-        // Verify score increase (authentic Zork scoring: deposit bonus only)
+        // Verify score increase (authentic Zork scoring: full deposit value)
         const expectedDepositBonus = putHelper.getDepositBonus('egg');
         expect(result.scoreChange).toBe(expectedDepositBonus);
-        expect(expectedDepositBonus).toBe(5); // 10 deposit - 5 treasure = 5 bonus
+        expect(expectedDepositBonus).toBe(10); // Full deposit value as per authentic Zork
       });
 
       it('should work with egg aliases', () => {

@@ -3,7 +3,7 @@
   "title": "Atlantis Room",
   "description": "This is an ancient room, long under water.  There are exits here\nto the southeast and upward.",
   "exits": {
-    "se": "resen",
+    "southeast": "resen",
     "up": "cave1"
   },
   "items": [

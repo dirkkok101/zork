@@ -3,9 +3,9 @@
   "title": "Coal mine",
   "description": "This is a non-descript part of a coal mine.",
   "exits": {
-    "se": "mine4",
+    "southeast": "mine4",
     "up": "mine5",
-    "nw": "mine7"
+    "northwest": "mine7"
   },
   "items": [],
   "monsters": [],

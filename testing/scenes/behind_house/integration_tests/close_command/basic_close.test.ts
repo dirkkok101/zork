@@ -104,7 +104,7 @@ describe('Basic Close Command - Behind House Scene', () => {
       const result = closeHelper.testWindowCloseWhenAlreadyClosed();
       
       closeHelper.verifyAlreadyClosed(result);
-      closeHelper.verifyCountsAsMove(result);
+      closeHelper.verifyNoMove(result);  // Failed commands don't count as moves in authentic Zork
       closeHelper.verifyWindowClosed(); // Should remain closed
     });
 
@@ -119,12 +119,12 @@ describe('Basic Close Command - Behind House Scene', () => {
       testEnv.behindHouseHelper.verifyKitchenAccessBlocked();
     });
 
-    it('should still count as a move even when already closed', async () => {
+    it('should not count as a move when already closed', async () => {
       const initialMoves = closeHelper.getCurrentMoves();
       
       closeHelper.executeCloseWindow();
       
-      closeHelper.verifyMoveCounterIncremented(initialMoves);
+      closeHelper.verifyMoveCounterUnchanged(initialMoves);  // Failed commands don't count as moves in authentic Zork
     });
   });
 

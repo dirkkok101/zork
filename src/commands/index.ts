@@ -19,3 +19,5 @@ export { MoveCommand } from './MoveCommand';
 export { TakeCommand } from './TakeCommand';
 export { DropCommand } from './DropCommand';
 export { PutCommand } from './PutCommand';
+export { SaveCommand } from './SaveCommand';
+export { RestoreCommand } from './RestoreCommand';

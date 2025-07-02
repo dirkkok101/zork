@@ -3,7 +3,7 @@
   "title": "Machine Room",
   "description": "You are in the machine room.",
   "exits": {
-    "nw": "bshaf"
+    "northwest": "bshaf"
   },
   "items": [
     {

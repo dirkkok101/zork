@@ -13,6 +13,7 @@ export interface LivingRoomTestEnvironment {
   livingRoomHelper: LivingRoomHelper;
   trophyCaseHelper: TrophyCaseHelper;
   cleanup: () => void;
+  executeCommand: (command: string) => any;
 }
 
 /**
@@ -59,7 +60,6 @@ export class IntegrationTestFactory {
     // Create test helpers
     const livingRoomHelper = new LivingRoomHelper(
       services.gameState as any,
-      services.items as any,
       services.scene as any,
       services.scoring as any
     );
@@ -86,7 +86,8 @@ export class IntegrationTestFactory {
       commandProcessor,
       livingRoomHelper,
       trophyCaseHelper,
-      cleanup
+      cleanup,
+      executeCommand: (command: string) => commandProcessor.processCommand(command)
     };
   }
 

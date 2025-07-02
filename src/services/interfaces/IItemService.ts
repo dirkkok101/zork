@@ -27,6 +27,9 @@ export interface ItemResult {
  */
 export interface IItemService {
   // Basic item operations
+  /** Get item data by ID */
+  getItem(itemId: string): any;
+  
   /** Check if an item can be picked up */
   canTake(itemId: string): boolean;
   

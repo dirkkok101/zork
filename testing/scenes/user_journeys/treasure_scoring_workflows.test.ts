@@ -341,8 +341,8 @@ describe('Treasure Collection Scoring Workflows', () => {
       scoringHelper.markTreasureDeposited('coin');
       testEnv.services.scoring.awardEventScore('first_treasure');
       
-      // Verify state is set
-      expect(scoringHelper.getCurrentScore()).toBe(100);
+      // Verify state is set (100 base + 5 first_treasure event = 105)
+      expect(scoringHelper.getCurrentScore()).toBe(105);
       expect(scoringHelper.isTreasureFound('coin')).toBe(true);
       expect(scoringHelper.isTreasureDeposited('coin')).toBe(true);
       expect(scoringHelper.isScoringEventEarned('first_treasure')).toBe(true);

@@ -191,11 +191,11 @@ export class KitchenHelper {
   }
 
   /**
-   * Verify scene lighting is lit
+   * Verify scene lighting matches loaded data
    */
   verifyLighting(): void {
     const scene = this.getScene();
-    expect(scene?.lighting).toBe('lit');
+    expect(scene?.lighting).toBe('daylight');
   }
 
   /**

@@ -3,10 +3,10 @@
   "title": "Maze",
   "description": "This is part of a maze of twisty little passages, all alike.",
   "exits": {
-    "ne": "grating_room",
+    "northeast": "grating_room",
     "down": "maze_10",
-    "nw": "maze_13",
-    "sw": "maze_12"
+    "northwest": "maze_13",
+    "southwest": "maze_12"
   },
   "items": [],
   "monsters": [],

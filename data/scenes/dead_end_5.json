@@ -3,7 +3,7 @@
   "title": "Dead End",
   "description": "Dead End",
   "exits": {
-    "sw": "chas3"
+    "southwest": "chas3"
   },
   "items": [],
   "monsters": [],

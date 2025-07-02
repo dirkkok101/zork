@@ -9,7 +9,7 @@
       "failureMessage": "You can't go up from here."
     },
     "north": "fore5",
-    "se": "cltop",
+    "southeast": "cltop",
     "south": "forest_4",
     "west": "forest_2"
   },

@@ -3,7 +3,7 @@
   "title": "Ladder Bottom",
   "description": "This is a rather wide room.  On one side is the bottom of a\nnarrow wooden ladder.  To the northeast and the south are passages\nleaving the room.",
   "exits": {
-    "ne": "dead_end_7",
+    "northeast": "dead_end_7",
     "south": "timbe",
     "up": "tladd"
   },

@@ -265,10 +265,4 @@ export class LookCommandHelper {
     return this.gameState.getGameState().moves;
   }
 
-  /**
-   * Get current score for comparison
-   */
-  getCurrentScore(): number {
-    return this.gameState.getScore();
-  }
 }

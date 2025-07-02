@@ -320,12 +320,11 @@ export class LivingRoomPutCommandHelper {
 
   /**
    * Get treasure's deposit bonus (authentic Zork scoring logic)
-   * This is the additional points earned when depositing in trophy case
+   * In authentic Zork, depositing treasures awards the full deposit value
    */
   getDepositBonus(treasureId: string): number {
-    const depositValue = this.getDepositValue(treasureId);
-    const treasurePoints = this.getTreasurePoints(treasureId);
-    return depositValue - treasurePoints;
+    // Return the full deposit value as per authentic Zork behavior
+    return this.getDepositValue(treasureId);
   }
 
   /**
