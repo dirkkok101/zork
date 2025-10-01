@@ -84,6 +84,23 @@ export interface IGameStateService {
   /** Update scene-specific runtime state */
   updateSceneRuntimeState(sceneId: string, updates: Record<string, any>): void;
 
+  // AI-Enhanced Mode Support
+
+  /** Get player's chosen name (for enhanced mode) */
+  getPlayerName(): string | undefined;
+
+  /** Set player's chosen name (for enhanced mode) */
+  setPlayerName(name: string): void;
+
+  /** Get game style (for enhanced mode) */
+  getGameStyle(): import('../../types/GameState').GameStyle | undefined;
+
+  /** Set game style (for enhanced mode) */
+  setGameStyle(style: import('../../types/GameState').GameStyle): void;
+
+  /** Check if enhanced mode is active */
+  isEnhancedMode(): boolean;
+
   /** Get the complete game state (for persistence) */
   getGameState(): GameState;
 

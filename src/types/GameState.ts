@@ -3,6 +3,11 @@ import {Item} from './ItemTypes';
 import {Monster} from './Monster';
 
 /**
+ * Game style type for AI-enhanced mode
+ */
+export type GameStyle = 'fantasy' | 'scifi' | 'modern' | 'classic';
+
+/**
  * Core game state interface
  * Represents the complete state of the game at any point in time
  */
@@ -36,6 +41,12 @@ export interface GameState {
 
     /** Monsters in the game world */
     monsters: Record<string, Monster>;
+
+    /** Player's chosen name (for AI-enhanced mode) */
+    playerName?: string;
+
+    /** Game style for AI-enhanced mode */
+    gameStyle?: GameStyle;
 }
 
 /**

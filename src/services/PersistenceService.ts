@@ -9,8 +9,11 @@ import log from 'loglevel';
  */
 interface SavedGameData {
   version: string;
+  mode: 'classic' | 'enhanced';
   timestamp: number;
   gameState: GameState;
+  playerName?: string;
+  gameStyle?: string;
 }
 
 /**
@@ -19,7 +22,8 @@ interface SavedGameData {
  */
 export class PersistenceService implements IPersistenceService {
   private readonly SAVE_KEY = 'zork-save';
-  private readonly SAVE_VERSION = '1.0.0';
+  private readonly CLASSIC_VERSION = '1.0.0';
+  private readonly ENHANCED_VERSION = '2.0.0';
   private logger: log.Logger;
 
   constructor(
@@ -38,21 +42,29 @@ export class PersistenceService implements IPersistenceService {
 
       // Get current game state
       const gameState = this.gameStateService.getGameState();
-      
+
+      // Determine if this is enhanced mode
+      const isEnhanced = this.gameStateService.isEnhancedMode();
+      const mode = isEnhanced ? 'enhanced' : 'classic';
+      const version = isEnhanced ? this.ENHANCED_VERSION : this.CLASSIC_VERSION;
+
       // Create save data with metadata
       const saveData: SavedGameData = {
-        version: this.SAVE_VERSION,
+        version: version,
+        mode: mode,
         timestamp: Date.now(),
-        gameState: gameState
+        gameState: gameState,
+        playerName: gameState.playerName,
+        gameStyle: gameState.gameStyle
       };
 
       // Serialize to JSON
       const serializedData = JSON.stringify(saveData, null, 2);
-      
+
       // Save to localStorage
       this.setStorageItem(this.SAVE_KEY, serializedData);
-      
-      this.logger.info(`Game saved successfully at ${new Date(saveData.timestamp).toISOString()}`);
+
+      this.logger.info(`Game saved successfully (${mode} mode) at ${new Date(saveData.timestamp).toISOString()}`);
       return true;
 
     } catch (error) {
@@ -83,7 +95,7 @@ export class PersistenceService implements IPersistenceService {
 
       // Parse JSON
       const saveData: SavedGameData = JSON.parse(serializedData);
-      
+
       // Validate save data structure
       if (!this.validateSaveData(saveData)) {
         this.logger.error('Save data validation failed');
@@ -92,8 +104,14 @@ export class PersistenceService implements IPersistenceService {
 
       // Restore game state
       this.gameStateService.setGameState(saveData.gameState);
-      
-      this.logger.info(`Game restored successfully from ${new Date(saveData.timestamp).toISOString()}`);
+
+      // Log mode information
+      const mode = saveData.mode || 'classic';
+      const modeInfo = mode === 'enhanced'
+        ? `${mode} mode (${saveData.playerName}, ${saveData.gameStyle})`
+        : `${mode} mode`;
+
+      this.logger.info(`Game restored successfully (${modeInfo}) from ${new Date(saveData.timestamp).toISOString()}`);
       return true;
 
     } catch (error) {

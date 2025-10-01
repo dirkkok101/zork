@@ -160,6 +160,47 @@ export class GameStateService implements IGameStateService {
     this.logger.debug(`Updated runtime state for scene ${sceneId}`);
   }
 
+  // AI-Enhanced Mode Support
+
+  /**
+   * Get player's chosen name (for enhanced mode)
+   */
+  getPlayerName(): string | undefined {
+    return this.gameState.playerName;
+  }
+
+  /**
+   * Set player's chosen name (for enhanced mode)
+   */
+  setPlayerName(name: string): void {
+    this.gameState.playerName = name;
+    this.logger.debug(`Player name set to: ${name}`);
+  }
+
+  /**
+   * Get game style (for enhanced mode)
+   */
+  getGameStyle(): import('../types/GameState').GameStyle | undefined {
+    return this.gameState.gameStyle;
+  }
+
+  /**
+   * Set game style (for enhanced mode)
+   */
+  setGameStyle(style: import('../types/GameState').GameStyle): void {
+    this.gameState.gameStyle = style;
+    this.logger.debug(`Game style set to: ${style}`);
+  }
+
+  /**
+   * Check if enhanced mode is active
+   */
+  isEnhancedMode(): boolean {
+    return this.gameState.gameStyle !== undefined &&
+           this.gameState.gameStyle !== 'classic' &&
+           this.gameState.playerName !== undefined;
+  }
+
   /**
    * Get the complete game state (for persistence)
    */

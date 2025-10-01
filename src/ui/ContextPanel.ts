@@ -8,7 +8,7 @@
  * - Player inventory
  */
 
-import { IGameStateService } from '../services/interfaces';
+import { IGameStateService, ISceneService } from '../services/interfaces';
 import { Scene, Exit } from '../types/SceneTypes';
 import { Item } from '../types/ItemTypes';
 import * as log from 'loglevel';
@@ -16,6 +16,7 @@ import * as log from 'loglevel';
 export class ContextPanel {
     private panelElement: HTMLElement;
     private gameStateService!: IGameStateService;
+    private sceneService!: ISceneService;
     private logger: log.Logger;
     private onItemClick: (itemName: string) => void;
     private isCollapsed = false;
@@ -120,8 +121,9 @@ export class ContextPanel {
     /**
      * Initialize the panel with game state service
      */
-    initialize(gameStateService: IGameStateService, containerElement: HTMLElement): void {
+    initialize(gameStateService: IGameStateService, sceneService: ISceneService, containerElement: HTMLElement): void {
         this.gameStateService = gameStateService;
+        this.sceneService = sceneService;
         containerElement.appendChild(this.panelElement);
         this.update();
         this.logger.debug('Context panel initialized');
@@ -169,7 +171,10 @@ export class ContextPanel {
     private updateExits(scene: Scene): void {
         this.exitsElement.innerHTML = '';
 
-        if (!scene.exits || scene.exits.length === 0) {
+        // Get contextually available exits (respects doors, locks, conditions)
+        const availableExits = this.sceneService.getAvailableExits(scene.id);
+
+        if (availableExits.length === 0) {
             this.exitsElement.innerHTML = '<div class="empty-state">No obvious exits</div>';
             return;
         }
@@ -177,10 +182,7 @@ export class ContextPanel {
         const exitList = document.createElement('ul');
         exitList.className = 'exit-list';
 
-        scene.exits.forEach(exit => {
-            // Skip hidden exits
-            if (exit.hidden) return;
-
+        availableExits.forEach(exit => {
             const exitItem = document.createElement('li');
             exitItem.className = 'exit-item clickable';
             exitItem.dataset.direction = exit.direction;
@@ -188,6 +190,18 @@ export class ContextPanel {
             const directionSpan = document.createElement('span');
             directionSpan.className = 'exit-direction';
             directionSpan.textContent = `${this.getDirectionArrow(exit.direction)} ${this.capitalizeFirst(exit.direction)}`;
+
+            // Add destination hint if available
+            if (exit.to) {
+                const gameState = this.gameStateService.getGameState();
+                const destScene = gameState.scenes[exit.to];
+                if (destScene && gameState.sceneStates[exit.to]?.visited) {
+                    const destHint = document.createElement('span');
+                    destHint.className = 'exit-destination';
+                    destHint.textContent = ` (${destScene.title})`;
+                    directionSpan.appendChild(destHint);
+                }
+            }
 
             exitItem.appendChild(directionSpan);
 
@@ -208,23 +222,21 @@ export class ContextPanel {
     private updateItems(scene: Scene, currentSceneId: string): void {
         this.itemsElement.innerHTML = '';
 
-        const gameState = this.gameStateService.getGameState();
-        const sceneState = gameState.sceneStates[currentSceneId];
-
-        // Get items in scene
-        const itemsInScene: string[] = sceneState?.items || [];
+        // Get visible items from SceneService
+        const itemsInScene: string[] = this.sceneService.getSceneItems(currentSceneId);
 
         if (itemsInScene.length === 0) {
             this.itemsElement.innerHTML = '<div class="empty-state">Nothing of interest</div>';
             return;
         }
 
+        const gameState = this.gameStateService.getGameState();
         const itemList = document.createElement('ul');
         itemList.className = 'item-list';
 
         itemsInScene.forEach(itemId => {
             const item = gameState.items[itemId];
-            if (!item || !item.visible) return;
+            if (!item) return;
 
             const itemElement = document.createElement('li');
             itemElement.className = 'item clickable';
@@ -238,7 +250,7 @@ export class ContextPanel {
 
             // Click handler
             itemElement.addEventListener('click', () => {
-                this.onItemClick(item.name);
+                this.onItemClick(`examine ${item.name}`);
             });
 
             itemList.appendChild(itemElement);
