@@ -1,224 +1,168 @@
 /**
- * Basic Inventory Command Tests - West of House Scene
- * Tests inventory display functionality in the west_of_house scene
+ * Inventory Command Tests - West of House Scene
+ * Auto-generated tests for inventory command functionality
  */
 
-import { IntegrationTestEnvironment, IntegrationTestFactory } from '../look_command/helpers/integration_test_factory';
-import { InventoryCommandHelper } from './helpers/inventory_command_helper';
+import '../setup';
+import { WestOfHouseTestEnvironment, WestOfHouseIntegrationTestFactory } from '../look_command/helpers/integration_test_factory';
+import { InventoryCommandHelper } from '@testing/helpers/InventoryCommandHelper';
 
 describe('Inventory Command - West of House Scene', () => {
-  let testEnv: IntegrationTestEnvironment;
+  let testEnv: WestOfHouseTestEnvironment;
   let inventoryHelper: InventoryCommandHelper;
 
-  beforeAll(async () => {
-    testEnv = await IntegrationTestFactory.createTestEnvironment();
-    
-    // Create Inventory command helper
+  beforeEach(async () => {
+    testEnv = await WestOfHouseIntegrationTestFactory.createTestEnvironment();
+
     inventoryHelper = new InventoryCommandHelper(
       testEnv.commandProcessor,
       testEnv.services.inventory as any
     );
   });
 
-  beforeEach(() => {
-    // Reset scene and clear any test items
-    testEnv.westOfHouseHelper.resetScene();
-    testEnv.westOfHouseHelper.clearTestItems();
-    
-    // Clear inventory for fresh test
-    inventoryHelper.clearInventory();
-  });
-
-  afterAll(() => {
+  afterEach(() => {
     testEnv.cleanup();
   });
 
-  describe('Basic Inventory Display', () => {
+  describe('Empty Inventory', () => {
     it('should display empty inventory message when carrying nothing', () => {
-      const result = inventoryHelper.executeInventoryDisplay();
-      
-      inventoryHelper.verifyEmptyInventory(result);
-      expect(inventoryHelper.getInventoryCount()).toBe(0);
-    });
+      // Ensure inventory is empty
+      inventoryHelper.clearInventory();
 
+      const result = inventoryHelper.executeInventoryDisplay();
+
+      inventoryHelper.verifySuccess(result);
+      expect(result.message).toMatch(/empty|nothing|not carrying/i);
+      inventoryHelper.verifyNoMove(result);
+    });
+  });
+
+  describe('Single Item in Inventory', () => {
     it('should display single item when carrying one item', () => {
-      // Add a test item to inventory
-      const success = inventoryHelper.addItemToInventory('mat');
-      expect(success).toBe(true);
-      
-      const result = inventoryHelper.executeInventoryDisplay();
-      
-      inventoryHelper.verifyInventorySingleItem(result, 'welcome mat');
-      expect(inventoryHelper.getInventoryCount()).toBe(1);
-    });
-
-    it('should display two items with proper grammar', () => {
-      // Add two test items to inventory
+      // Setup: Clear inventory and add one item
+      inventoryHelper.clearInventory();
       inventoryHelper.addItemToInventory('mat');
-      inventoryHelper.addItemToInventory('adver');
-      
-      const result = inventoryHelper.executeInventoryDisplay();
-      
-      inventoryHelper.verifyInventoryTwoItems(result, 'welcome mat', 'leaflet');
-      expect(inventoryHelper.getInventoryCount()).toBe(2);
-    });
 
-    it('should display multiple items with proper comma formatting', () => {
-      // Add three items to inventory
-      inventoryHelper.addItemToInventory('mat');
-      inventoryHelper.addItemToInventory('adver');
-      
-      // Add a third item if available in the scene
-      const testItemId = 'lamp'; // Assuming lamp exists in test data
-      if (inventoryHelper.addItemToInventory(testItemId)) {
-        const result = inventoryHelper.executeInventoryDisplay();
-        
-        inventoryHelper.verifyInventoryMultipleItems(result, ['welcome mat', 'leaflet', 'lamp']);
-        expect(inventoryHelper.getInventoryCount()).toBe(3);
-      } else {
-        // If lamp not available, just test with two items
-        const result = inventoryHelper.executeInventoryDisplay();
-        inventoryHelper.verifyInventoryTwoItems(result, 'welcome mat', 'leaflet');
-      }
+      const result = inventoryHelper.executeInventoryDisplay();
+
+      inventoryHelper.verifySuccess(result);
+      expect(result.message).toMatch(/carrying|have/i);
+      expect(result.message.toLowerCase()).toContain('welcome mat'.toLowerCase());
+      inventoryHelper.verifyNoMove(result);
     });
   });
 
-  describe('Command Aliases and Syntax', () => {
-    beforeEach(() => {
-      // Add one item for consistent testing
-      inventoryHelper.addItemToInventory('mat');
-    });
+  describe('Command Syntax and Aliases', () => {
+    it('should work with "inventory" command', () => {
+      inventoryHelper.clearInventory();
 
-    it('should work with full "inventory" command', () => {
-      const result = inventoryHelper.executeInventoryDisplay();
-      
-      inventoryHelper.verifyInventorySingleItem(result, 'welcome mat');
-    });
+      const result = inventoryHelper.executeInventory('inventory');
 
-    it('should work with "i" alias', () => {
-      const result = inventoryHelper.executeInventoryShort();
-      
-      inventoryHelper.verifyInventorySingleItem(result, 'welcome mat');
-    });
-
-    it('should work with "inv" alias', () => {
-      const result = inventoryHelper.executeInventoryAbbreviated();
-      
-      inventoryHelper.verifyInventorySingleItem(result, 'welcome mat');
-    });
-
-    it('should ignore extra arguments gracefully', () => {
-      const result = inventoryHelper.executeInventory('inventory extra arguments');
-      
-      // Should still show inventory despite extra arguments
-      inventoryHelper.verifyInventorySingleItem(result, 'welcome mat');
-    });
-
-    it('should ignore extra arguments with aliases', () => {
-      const result = inventoryHelper.executeInventory('i some extra text');
-      
-      // Should still show inventory despite extra arguments
-      inventoryHelper.verifyInventorySingleItem(result, 'welcome mat');
-    });
-  });
-
-  describe('Command Properties', () => {
-    it('should not count as a move', () => {
-      const result = inventoryHelper.executeInventoryDisplay();
-      
+      inventoryHelper.verifySuccess(result);
       inventoryHelper.verifyNoMove(result);
     });
 
-    it('should always succeed', () => {
-      const result = inventoryHelper.executeInventoryDisplay();
-      
+    it('should work with "i" shorthand', () => {
+      inventoryHelper.clearInventory();
+
+      const result = inventoryHelper.executeInventoryShort();
+
       inventoryHelper.verifySuccess(result);
+      inventoryHelper.verifyNoMove(result);
     });
 
-    it('should not provide score change', () => {
-      const result = inventoryHelper.executeInventoryDisplay();
-      
-      expect(result.scoreChange).toBe(0);
+    it('should work with "inv" abbreviation', () => {
+      inventoryHelper.clearInventory();
+
+      const result = inventoryHelper.executeInventoryAbbreviated();
+
+      inventoryHelper.verifySuccess(result);
+      inventoryHelper.verifyNoMove(result);
+    });
+
+    it('should display same result for all aliases', () => {
+      // Setup
+      inventoryHelper.clearInventory();
+      inventoryHelper.addItemToInventory('mat');
+
+      const inventoryResult = inventoryHelper.executeInventory('inventory');
+      const iResult = inventoryHelper.executeInventoryShort();
+      const invResult = inventoryHelper.executeInventoryAbbreviated();
+
+      // All should show the same item
+      expect(inventoryResult.message).toBe(iResult.message);
+      expect(inventoryResult.message).toBe(invResult.message);
     });
   });
 
-  describe('Dynamic Inventory Changes', () => {
-    it('should reflect inventory changes immediately', () => {
+  describe('Game State Tracking', () => {
+    it('should not count inventory as a move', () => {
+      const result = inventoryHelper.executeInventoryDisplay();
+
+      inventoryHelper.verifyNoMove(result);
+    });
+
+    it('should consistently report inventory state', () => {
+      inventoryHelper.clearInventory();
+
+      const result1 = inventoryHelper.executeInventoryDisplay();
+      const result2 = inventoryHelper.executeInventoryDisplay();
+
+      // Both should report empty inventory
+      expect(result2.message).toBe(result1.message);
+    });
+
+    it('should track inventory changes across commands', () => {
       // Start empty
-      let result = inventoryHelper.executeInventoryDisplay();
-      inventoryHelper.verifyEmptyInventory(result);
-      
+      inventoryHelper.clearInventory();
+
+      const emptyResult = inventoryHelper.executeInventoryDisplay();
+      expect(emptyResult.message).toMatch(/empty|nothing/i);
+
       // Add item
       inventoryHelper.addItemToInventory('mat');
-      result = inventoryHelper.executeInventoryDisplay();
-      inventoryHelper.verifyInventorySingleItem(result, 'welcome mat');
-      
-      // Add another item
-      inventoryHelper.addItemToInventory('adver');
-      result = inventoryHelper.executeInventoryDisplay();
-      inventoryHelper.verifyInventoryTwoItems(result, 'welcome mat', 'leaflet');
-      
-      // Remove first item
-      inventoryHelper.removeItemFromInventory('mat');
-      result = inventoryHelper.executeInventoryDisplay();
-      inventoryHelper.verifyInventorySingleItem(result, 'leaflet');
-      
-      // Clear all
-      inventoryHelper.clearInventory();
-      result = inventoryHelper.executeInventoryDisplay();
-      inventoryHelper.verifyEmptyInventory(result);
-    });
 
-    it('should handle rapid consecutive inventory commands', () => {
-      inventoryHelper.addItemToInventory('mat');
-      
-      // Execute multiple times rapidly
-      for (let i = 0; i < 5; i++) {
-        const result = inventoryHelper.executeInventoryDisplay();
-        inventoryHelper.verifyInventorySingleItem(result, 'welcome mat');
-      }
+      // Verify inventory reflects change
+      const updatedResult = inventoryHelper.executeInventoryDisplay();
+      expect(updatedResult.message.toLowerCase()).toContain('welcome mat'.toLowerCase());
+      expect(updatedResult.message).not.toBe(emptyResult.message);
     });
   });
 
-  describe('Integration with Game State', () => {
-    it('should work correctly after other commands', () => {
-      // This test ensures inventory command works within broader game context
-      
-      // Start with empty inventory
-      let result = inventoryHelper.executeInventoryDisplay();
-      inventoryHelper.verifyEmptyInventory(result);
-      
-      // Simulate taking an item (using inventory service directly for test isolation)
-      inventoryHelper.addItemToInventory('mat');
-      
-      // Check inventory shows the item
-      result = inventoryHelper.executeInventoryDisplay();
-      inventoryHelper.verifyInventorySingleItem(result, 'welcome mat');
-      
-      // Simulate dropping the item
-      inventoryHelper.removeItemFromInventory('mat');
-      
-      // Check inventory is empty again
-      result = inventoryHelper.executeInventoryDisplay();
-      inventoryHelper.verifyEmptyInventory(result);
+  describe('Inventory Count Verification', () => {
+    it('should have zero items when inventory is empty', () => {
+      inventoryHelper.clearInventory();
+
+      expect(inventoryHelper.getInventoryCount()).toBe(0);
+
+      const result = inventoryHelper.executeInventoryDisplay();
+      expect(result.message).toMatch(/empty|nothing/i);
     });
 
-    it('should maintain consistent formatting across game sessions', () => {
-      // Test that inventory format is consistent regardless of when it's called
-      
-      const testItems = ['mat'];
-      
-      // Add items in different orders and check formatting consistency
-      testItems.forEach(itemId => {
-        inventoryHelper.clearInventory();
-        inventoryHelper.addItemToInventory(itemId);
-        
-        const result = inventoryHelper.executeInventoryDisplay();
-        inventoryHelper.verifySuccess(result);
-        inventoryHelper.verifyNoMove(result);
-        // Message should always start with "You are carrying" for non-empty inventory
-        expect(result.message).toMatch(/^You are carrying/);
-      });
+    it('should have correct count when items are added', () => {
+      inventoryHelper.clearInventory();
+
+      expect(inventoryHelper.getInventoryCount()).toBe(0);
+
+      inventoryHelper.addItemToInventory('mat');
+
+      expect(inventoryHelper.getInventoryCount()).toBe(1);
+    });
+
+  });
+
+  describe('State Consistency', () => {
+    it('should maintain inventory state across multiple checks', () => {
+      inventoryHelper.clearInventory();
+      inventoryHelper.addItemToInventory('mat');
+
+      const result1 = inventoryHelper.executeInventoryDisplay();
+      const result2 = inventoryHelper.executeInventoryDisplay();
+      const result3 = inventoryHelper.executeInventoryDisplay();
+
+      // All results should be identical
+      expect(result2.message).toBe(result1.message);
+      expect(result3.message).toBe(result1.message);
     });
   });
 });

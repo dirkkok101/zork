@@ -1,11 +1,12 @@
 /**
- * Behind House Scene Test Helper
- * Provides utilities specific to testing the behind_house scene
+ * BehindHouseHelper - Scene Test Helper
+ * Auto-generated scene helper for Behind House
+ *
+ * This helper provides utilities for testing the behind_house scene.
  */
 
 import { GameStateService } from '@/services/GameStateService';
 import { SceneService } from '@/services/SceneService';
-import { Item, ItemType } from '@/types/ItemTypes';
 import { Scene } from '@/types/SceneTypes';
 
 export class BehindHouseHelper {
@@ -36,125 +37,29 @@ export class BehindHouseHelper {
    */
   resetScene(): void {
     this.gameState.setCurrentScene('behind_house');
-    
+
     // Clear visited flag to test first visit behavior
     this.gameState.updateSceneRuntimeState('behind_house', { visited: false });
-    
-    // Clear any existing runtime scene items first
+
+    // Clear existing runtime scene items
     const currentSceneItems = this.sceneService.getSceneItems('behind_house');
-    currentSceneItems.forEach(itemId => {
+    currentSceneItems.forEach((itemId: string) => {
       this.sceneService.removeItemFromScene('behind_house', itemId);
     });
-    
-    // Restore authentic Zork items to the scene using SceneService
+
+    // Restore authentic items from scene data
     const authenticItems = ['windo'];
-    authenticItems.forEach(itemId => {
+    authenticItems.forEach((itemId: string) => {
       this.sceneService.addItemToScene('behind_house', itemId);
     });
-    
-    // Also set the scene.items for backwards compatibility
+
+    // Update scene.items for backwards compatibility
     const scene = this.getScene();
     if (scene) {
       scene.items = [
         { itemId: 'windo', visible: true }
       ];
     }
-    
-    // Reset window state to closed (default state)
-    this.setWindowClosed();
-  }
-
-  /**
-   * Set the window to open state (enables kitchen access)
-   */
-  setWindowOpen(): void {
-    this.gameState.setFlag('door_windo_open', true);
-  }
-
-  /**
-   * Set the window to closed state (blocks kitchen access)
-   */
-  setWindowClosed(): void {
-    this.gameState.setFlag('door_windo_open', false);
-  }
-
-  /**
-   * Check if the window is currently open
-   */
-  isWindowOpen(): boolean {
-    return this.gameState.getFlag('door_windo_open') === true;
-  }
-
-  /**
-   * Verify kitchen access is available (window open)
-   */
-  verifyKitchenAccessAvailable(): void {
-    const exits = this.sceneService.getAvailableExits('behind_house');
-    const exitDirections = exits.map((exit: any) => exit.direction);
-    
-    expect(exitDirections).toContain('west');
-    expect(exitDirections).toContain('in');
-    expect(this.isWindowOpen()).toBe(true);
-  }
-
-  /**
-   * Verify kitchen access is blocked (window closed)
-   */
-  verifyKitchenAccessBlocked(): void {
-    // West and In exits may still be present but should fail when attempted
-    expect(this.isWindowOpen()).toBe(false);
-  }
-
-  /**
-   * Add a test item to the scene
-   */
-  addItemToScene(itemId: string, itemData: Partial<Item>): void {
-    const defaultItem: Item = {
-      id: itemId,
-      name: itemData.name || 'Test Item',
-      aliases: itemData.aliases || [],
-      description: itemData.description || 'A test item.',
-      examineText: itemData.examineText || 'It looks like a test item.',
-      type: itemData.type || ItemType.TOOL,
-      portable: itemData.portable !== undefined ? itemData.portable : true,
-      visible: itemData.visible !== undefined ? itemData.visible : true,
-      weight: itemData.weight || 1,
-      size: itemData.size || 'SMALL' as any,
-      tags: itemData.tags || [],
-      properties: itemData.properties || {},
-      interactions: itemData.interactions || [],
-      currentLocation: 'behind_house',
-      state: itemData.state || {},
-      flags: itemData.flags || {},
-      ...itemData
-    };
-
-    // Add item to game state items collection
-    const gameState = this.gameState.getGameState();
-    gameState.items[itemId] = defaultItem;
-    
-    // Add item to scene
-    this.sceneService.addItemToScene('behind_house', itemId);
-  }
-
-  /**
-   * Verify expected exits are available (without window condition check)
-   */
-  verifyExpectedExits(): void {
-    const exits = this.sceneService.getAvailableExits('behind_house');
-    const exitDirections = exits.map((exit: any) => exit.direction);
-    
-    expect(exitDirections).toContain('north');
-    expect(exitDirections).toContain('south');
-    expect(exitDirections).toContain('east');
-    // west and in depend on window state
-  }
-
-  /**
-   * Get scene description for comparison
-   */
-  getSceneDescription(): string {
-    return this.sceneService.getSceneDescription('behind_house');
   }
 
   /**
@@ -165,10 +70,10 @@ export class BehindHouseHelper {
   }
 
   /**
-   * Mark scene as visited (for testing subsequent visits)
+   * Mark the scene as visited
    */
   markAsVisited(): void {
-    this.gameState.markSceneVisited('behind_house');
+    this.gameState.updateSceneRuntimeState('behind_house', { visited: true });
   }
 
   /**
@@ -179,24 +84,21 @@ export class BehindHouseHelper {
   }
 
   /**
-   * Remove all test items from the scene
+   * Clear all test items from the scene
    */
   clearTestItems(): void {
-    const scene = this.getScene();
-    if (scene) {
-      // Remove items that were added for testing
-      const testItemIds = scene.items
-        .map((item: any) => item.itemId)
-        .filter((id: string) => id.startsWith('test_') || id.includes('_test'));
-      
-      testItemIds.forEach((itemId: string) => {
+    const sceneItems = this.getSceneItems();
+    const authenticItems = ['windo'];
+
+    sceneItems.forEach((itemId: string) => {
+      if (!authenticItems.includes(itemId)) {
         this.sceneService.removeItemFromScene('behind_house', itemId);
-      });
-    }
+      }
+    });
   }
 
   /**
-   * Verify scene contains expected atmospheric elements
+   * Verify scene has atmospheric messages
    */
   verifyAtmosphere(): void {
     const scene = this.getScene();
@@ -205,7 +107,7 @@ export class BehindHouseHelper {
   }
 
   /**
-   * Verify scene lighting is daylight
+   * Verify scene lighting
    */
   verifyLighting(): void {
     const scene = this.getScene();
@@ -213,21 +115,14 @@ export class BehindHouseHelper {
   }
 
   /**
-   * Get the window item for testing
+   * Verify expected exits are available
    */
-  getWindow(): Item | undefined {
-    return this.gameState.getItem('windo');
-  }
+  verifyExpectedExits(): void {
+    const exits = this.sceneService.getAvailableExits('behind_house');
+    const exitDirections = exits.map((exit: any) => exit.direction);
 
-  /**
-   * Verify window item properties
-   */
-  verifyWindowProperties(): void {
-    const window = this.getWindow();
-    expect(window).toBeDefined();
-    expect(window?.type).toBe(ItemType.TOOL);
-    expect(window?.portable).toBe(false);
-    expect(window?.visible).toBe(true);
-    expect(window?.tags).toContain('door');
+    expect(exitDirections).toContain('north');
+    expect(exitDirections).toContain('south');
+    expect(exitDirections).toContain('east');
   }
 }

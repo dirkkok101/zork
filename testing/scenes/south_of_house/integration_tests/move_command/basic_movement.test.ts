@@ -54,7 +54,7 @@ describe('Move Command - South of House Scene', () => {
       const result = moveHelper.executeMoveDirection('north');
 
       moveHelper.verifyBlockedExit(result);
-      expect(result.message).toContain('The windows are all barred.');
+      expect(result.message).toContain("The windows are all barred.");
       expect(moveHelper.getCurrentScene()).toBe('south_of_house');
     });
 

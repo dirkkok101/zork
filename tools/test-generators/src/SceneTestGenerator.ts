@@ -20,6 +20,8 @@ import { StateValidationTestGenerator } from './generators/StateValidationTestGe
 import { ScoringTestGenerator } from './generators/ScoringTestGenerator.js';
 import { ConditionalAccessTestGenerator } from './generators/ConditionalAccessTestGenerator.js';
 import { WeightTestGenerator } from './generators/WeightTestGenerator.js';
+import { WorkflowGenerator } from './generators/WorkflowGenerator.js';
+import { UserJourneyGenerator } from './generators/UserJourneyGenerator.js';
 import { writeFile, ensureDir, getSceneTestDir } from './utils/fileUtils.js';
 import { GeneratorOptions, GenerationResult, GeneratedFile } from './types/GeneratorTypes.js';
 
@@ -41,6 +43,8 @@ export class SceneTestGenerator {
   private scoringTestGenerator: ScoringTestGenerator;
   private conditionalAccessTestGenerator: ConditionalAccessTestGenerator;
   private weightTestGenerator: WeightTestGenerator;
+  private workflowGenerator: WorkflowGenerator;
+  private userJourneyGenerator: UserJourneyGenerator;
 
   constructor(dataPath?: string) {
     this.analyzer = new SceneAnalyzer(dataPath);
@@ -60,6 +64,8 @@ export class SceneTestGenerator {
     this.scoringTestGenerator = new ScoringTestGenerator();
     this.conditionalAccessTestGenerator = new ConditionalAccessTestGenerator();
     this.weightTestGenerator = new WeightTestGenerator();
+    this.workflowGenerator = new WorkflowGenerator();
+    this.userJourneyGenerator = new UserJourneyGenerator();
   }
 
   /**
@@ -298,7 +304,29 @@ export class SceneTestGenerator {
       });
     }
 
-    // 17. Generate setup file if it doesn't exist
+    // 17. Generate workflow tests (if scene has workflow-worthy features)
+    if (this.workflowGenerator.shouldGenerate(scene)) {
+      const workflowTestPath = path.join(baseDir, this.workflowGenerator.getDir(scene), this.workflowGenerator.getFilename(scene));
+      const workflowTestContent = this.workflowGenerator.generate(scene);
+      files.push({
+        path: workflowTestPath,
+        content: workflowTestContent,
+        type: 'test'
+      });
+    }
+
+    // 18. Generate user journey tests (if scene has journey-worthy features)
+    if (this.userJourneyGenerator.shouldGenerate(scene)) {
+      const userJourneyTestPath = path.join(baseDir, this.userJourneyGenerator.getDir(scene), this.userJourneyGenerator.getFilename(scene));
+      const userJourneyTestContent = this.userJourneyGenerator.generate(scene);
+      files.push({
+        path: userJourneyTestPath,
+        content: userJourneyTestContent,
+        type: 'test'
+      });
+    }
+
+    // 19. Generate setup file if it doesn't exist
     const setupPath = path.join(baseDir, 'integration_tests', 'setup.ts');
     const setupContent = this.generateSetupFile();
     files.push({

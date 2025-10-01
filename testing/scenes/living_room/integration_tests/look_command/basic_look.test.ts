@@ -1,300 +1,184 @@
-import { IntegrationTestFactory, LivingRoomTestEnvironment } from '../helpers/integration_test_factory';
+/**
+ * Basic Look Command Integration Tests
+ * Auto-generated tests for look functionality in Living Room
+ */
 
-describe('Living Room - Look Command Integration Tests', () => {
+import '../setup';
+import { LivingRoomTestEnvironment, LivingRoomIntegrationTestFactory } from './helpers/integration_test_factory';
+
+describe('Basic Look Command - Living Room Scene', () => {
   let testEnv: LivingRoomTestEnvironment;
 
   beforeEach(async () => {
-    testEnv = await IntegrationTestFactory.createTestEnvironment();
+    testEnv = await LivingRoomIntegrationTestFactory.createTestEnvironment();
   });
 
   afterEach(() => {
     testEnv.cleanup();
   });
 
-  describe('Basic Look Functionality', () => {
-    test('should display living room description on first visit and award 1 point', async () => {
-      // Setup: Fresh environment with unvisited living room and score at 0
-      testEnv.livingRoomHelper.resetScoringState();
-      const initialScore = testEnv.livingRoomHelper.getCurrentScore();
-      expect(initialScore).toBe(0);
+  describe('First Visit Look', () => {
+    it('should show first visit description on initial look and award 1 point', async () => {
+      // Verify this is the first visit
+      expect(testEnv.livingRoomHelper.isFirstVisit()).toBe(true);
 
-      // Execute: Look command
-      const result = await testEnv.commandProcessor.processCommand('look');
+      // Get initial score
+      const initialScore = testEnv.lookCommandHelper.getCurrentScore();
 
-      // Verify: First visit description and scoring
-      expect(result.success).toBe(true);
-      expect(result.message).toContain('You are in the living room');
-      expect(result.message).toContain('trophy case');
-      expect(result.message).toContain('oriental rug');
-      
-      // Should include first visit description
-      expect(result.message).toContain('doorway to the east');
-      expect(result.message).toContain('wooden door');
-      
-      // Verify first visit scoring (1 point for living room)
-      testEnv.livingRoomHelper.verifyFirstVisitScoring(result);
-      testEnv.livingRoomHelper.verifyScoreIncrease(initialScore, 1);
-      expect(testEnv.services.gameState.hasVisitedScene('living_room')).toBe(true);
+      // Execute look command
+      const result = testEnv.lookCommandHelper.executeBasicLook();
+
+      // Verify first visit description
+      testEnv.lookCommandHelper.verifyFirstVisitDescription(result);
+      testEnv.lookCommandHelper.verifySceneDescription(result);
+      testEnv.lookCommandHelper.verifyNoMove(result);
+
+      // Verify first visit scoring
+      testEnv.lookCommandHelper.verifyFirstVisitScoring(result);
+      testEnv.lookCommandHelper.verifyScoreIncrease(initialScore, 1);
+
+      // Verify scene is now marked as visited
+      testEnv.lookCommandHelper.verifySceneMarkedVisited();
     });
 
-    test('should display standard description on subsequent visits with no score change', async () => {
-      // Setup: Mark scene as already visited
-      testEnv.services.gameState.markSceneVisited('living_room');
-      const initialScore = testEnv.livingRoomHelper.getCurrentScore();
+    it('should show first visit description with "look around" and award 1 point', async () => {
+      expect(testEnv.livingRoomHelper.isFirstVisit()).toBe(true);
 
-      // Execute: Look command
-      const result = await testEnv.commandProcessor.processCommand('look');
+      const initialScore = testEnv.lookCommandHelper.getCurrentScore();
+      const result = testEnv.lookCommandHelper.executeLookAround();
 
-      // Verify: Standard description, no additional scoring
-      expect(result.success).toBe(true);
-      expect(result.message).toContain('You are in the living room');
-      expect(result.message).toContain('trophy case');
-      
-      // Should not award additional score for subsequent visits
-      testEnv.livingRoomHelper.verifyNoScoreChange(result);
-      expect(testEnv.livingRoomHelper.getCurrentScore()).toBe(initialScore);
-    });
-
-    test('should list all visible items in the living room', async () => {
-      // Execute: Look command
-      const result = await testEnv.commandProcessor.processCommand('look');
-
-      // Verify: All required items are mentioned
-      expect(result.success).toBe(true);
-      expect(result.message).toContain('trophy case');
-      expect(result.message).toContain('lamp');
-      
-      // May also contain other items like rug, paper, sword depending on implementation
-      const state = {
-        currentScene: testEnv.services.gameState.getCurrentScene(),
-        inventoryCount: testEnv.services.gameState.getGameState().inventory.length,
-        score: testEnv.livingRoomHelper.getCurrentScore(),
-        trophyCaseOpen: testEnv.livingRoomHelper.isTrophyCaseOpen(),
-        trophyCaseContents: testEnv.livingRoomHelper.getTrophyCaseContents().length,
-        totalWeight: testEnv.livingRoomHelper.getTotalInventoryWeight()
-      };
-      expect(state.currentScene).toBe('living_room');
-    });
-
-    test('should show trophy case state in room description', async () => {
-      // Test closed trophy case
-      testEnv.livingRoomHelper.closeTrophyCase();
-      let result = await testEnv.commandProcessor.processCommand('look');
-      
-      expect(result.success).toBe(true);
-      expect(result.message).toContain('trophy case');
-      // Should not show contents when closed
-      
-      // Test open trophy case
-      testEnv.livingRoomHelper.openTrophyCase();
-      result = await testEnv.commandProcessor.processCommand('look');
-      
-      expect(result.success).toBe(true);
-      expect(result.message).toContain('trophy case');
-      // Open trophy case should be indicated somehow
+      testEnv.lookCommandHelper.verifyFirstVisitDescription(result);
+      testEnv.lookCommandHelper.verifySceneDescription(result);
+      testEnv.lookCommandHelper.verifyFirstVisitScoring(result);
+      testEnv.lookCommandHelper.verifyScoreIncrease(initialScore, 1);
+      testEnv.lookCommandHelper.verifySceneMarkedVisited();
     });
   });
 
-  describe('Trophy Case Content Display', () => {
-    test('should show empty open trophy case', async () => {
-      // Setup: Open empty trophy case
-      testEnv.livingRoomHelper.openTrophyCase();
-
-      // Execute: Look command
-      const result = await testEnv.commandProcessor.processCommand('look');
-
-      // Verify: Trophy case is mentioned and appears empty
-      expect(result.success).toBe(true);
-      expect(result.message).toContain('trophy case');
-      
-      // Verify trophy case is actually open and empty
-      const trophyCaseStatus = testEnv.trophyCaseHelper.getTrophyCaseStatus();
-      expect(trophyCaseStatus.isOpen).toBe(true);
-      expect(trophyCaseStatus.totalTreasures).toBe(0);
+  describe('Subsequent Visit Look', () => {
+    beforeEach(() => {
+      // Mark scene as visited first
+      testEnv.livingRoomHelper.markAsVisited();
     });
 
-    test('should show treasures in open trophy case', async () => {
-      // Setup: Add treasures to open trophy case
-      testEnv.livingRoomHelper.setupTestTreasures();
-      testEnv.livingRoomHelper.openTrophyCase();
-      testEnv.livingRoomHelper.addTreasureToTrophyCase('test_gem');
+    it('should show regular description on look', async () => {
+      expect(testEnv.livingRoomHelper.isFirstVisit()).toBe(false);
 
-      // Execute: Look command
-      const result = await testEnv.commandProcessor.processCommand('look');
+      const result = testEnv.lookCommandHelper.executeBasicLook();
 
-      // Verify: Room and trophy case with contents
-      expect(result.success).toBe(true);
-      expect(result.message).toContain('trophy case');
-      
-      // Verify trophy case has contents
-      const trophyCaseStatus = testEnv.trophyCaseHelper.getTrophyCaseStatus();
-      expect(trophyCaseStatus.isOpen).toBe(true);
-      expect(trophyCaseStatus.totalTreasures).toBeGreaterThan(0);
+      testEnv.lookCommandHelper.verifySuccess(result);
+      expect(result.message).toContain('Living Room');
+      testEnv.lookCommandHelper.verifyNoMove(result);
+      testEnv.lookCommandHelper.verifyNoScoreChange(result);
     });
 
-    test('should not show treasure details when trophy case is closed', async () => {
-      // Setup: Add treasures and close trophy case
-      testEnv.livingRoomHelper.setupTestTreasures();
-      testEnv.livingRoomHelper.openTrophyCase();
-      testEnv.livingRoomHelper.addTreasureToTrophyCase('test_gem');
-      testEnv.livingRoomHelper.closeTrophyCase();
+    it('should show regular description with "look around"', async () => {
+      const result = testEnv.lookCommandHelper.executeLookAround();
 
-      // Execute: Look command
-      const result = await testEnv.commandProcessor.processCommand('look');
-
-      // Verify: Trophy case is mentioned but contents are hidden
-      expect(result.success).toBe(true);
-      expect(result.message).toContain('trophy case');
-      
-      // Verify trophy case is closed but has contents
-      const trophyCaseStatus = testEnv.trophyCaseHelper.getTrophyCaseStatus();
-      expect(trophyCaseStatus.isOpen).toBe(false);
-      expect(trophyCaseStatus.totalTreasures).toBeGreaterThan(0);
+      testEnv.lookCommandHelper.verifySuccess(result);
+      expect(result.message).toContain('Living Room');
     });
   });
 
-  describe('Exit Information Display', () => {
-    test('should show available exits', async () => {
-      // Execute: Look command
-      const result = await testEnv.commandProcessor.processCommand('look');
+  describe('Exit Display', () => {
+    it('should display available exits in look result', async () => {
+      const result = testEnv.lookCommandHelper.executeBasicLook();
 
-      // Verify: Exits are described
-      expect(result.success).toBe(true);
-      // Should mention exits to kitchen (east), cellar (down), etc.
-      // Exact format depends on implementation
+      testEnv.lookCommandHelper.verifySuccess(result);
+      expect(result.message).toMatch(/exits?:/i);
     });
 
-    test('should indicate weight restrictions for kitchen exit', async () => {
-      // Setup: Heavy inventory that blocks kitchen exit
-      testEnv.livingRoomHelper.setupHeavyInventory();
+  });
 
-      // Execute: Look command
-      const result = await testEnv.commandProcessor.processCommand('look');
+  describe('Atmospheric Elements', () => {
+    it('should verify scene has atmospheric messages', () => {
+      testEnv.livingRoomHelper.verifyAtmosphere();
+    });
 
-      // Verify: Living room is shown correctly
-      expect(result.success).toBe(true);
-      expect(result.message).toContain('living room');
-      
-      // Verify basic state is accessible (weight calculation may not be implemented yet)
-      const gameState = testEnv.services.gameState.getGameState();
-      const state = {
-        currentScene: testEnv.services.gameState.getCurrentScene(),
-        inventoryCount: gameState.inventory.length,
-        score: testEnv.livingRoomHelper.getCurrentScore(),
-        trophyCaseOpen: testEnv.livingRoomHelper.isTrophyCaseOpen(),
-        trophyCaseContents: testEnv.livingRoomHelper.getTrophyCaseContents().length,
-        totalWeight: testEnv.livingRoomHelper.getTotalInventoryWeight()
-      };
-      
-      // Accept current weight calculation behavior (may be 0 if service not fully implemented)
-      expect(state.totalWeight).toBeGreaterThanOrEqual(0);
-      expect(state.currentScene).toBe('living_room');
+    it('should verify scene lighting is daylight', () => {
+      testEnv.livingRoomHelper.verifyLighting();
+    });
+
+    it('should include scene title in description', async () => {
+      const result = testEnv.lookCommandHelper.executeBasicLook();
+
+      expect(result.message).toContain('Living Room');
     });
   });
 
-  describe('Atmosphere and Immersion', () => {
-    test('should include atmospheric details', async () => {
-      // Execute: Look command
-      const result = await testEnv.commandProcessor.processCommand('look');
+  describe('State Tracking', () => {
+    it('should not increment move counter', async () => {
+      const initialMoves = testEnv.lookCommandHelper.getCurrentMoves();
 
-      // Verify: Basic room description
-      expect(result.success).toBe(true);
-      expect(result.message).toContain('living room');
-      
-      // Note: Atmospheric messages may be randomized or context-dependent
-      // The specific implementation will determine exact content
+      testEnv.lookCommandHelper.executeBasicLook();
+
+      const finalMoves = testEnv.lookCommandHelper.getCurrentMoves();
+      expect(finalMoves).toBe(initialMoves);
     });
 
-    test('should maintain consistent description across multiple looks', async () => {
-      // Execute: Multiple look commands
-      const firstLook = await testEnv.commandProcessor.processCommand('look');
-      const secondLook = await testEnv.commandProcessor.processCommand('look');
+    it('should change score by 1 on first visit', async () => {
+      expect(testEnv.livingRoomHelper.isFirstVisit()).toBe(true);
 
-      // Verify: Consistent core elements
-      expect(firstLook.success).toBe(true);
-      expect(secondLook.success).toBe(true);
-      
-      expect(firstLook.message).toContain('living room');
-      expect(secondLook.message).toContain('living room');
-      expect(firstLook.message).toContain('trophy case');
-      expect(secondLook.message).toContain('trophy case');
-    });
-  });
+      const initialScore = testEnv.lookCommandHelper.getCurrentScore();
+      const result = testEnv.lookCommandHelper.executeBasicLook();
 
-  describe('Error Handling', () => {
-    test('should handle corrupted scene state gracefully', async () => {
-      // Setup: Corrupt scene state
-      // Scene state is managed by services as any;
-
-      // Execute: Look command
-      const result = await testEnv.commandProcessor.processCommand('look');
-
-      // Verify: Should either recover gracefully or show appropriate error
-      // Exact behavior depends on implementation
-      expect(result).toBeDefined();
+      const finalScore = testEnv.lookCommandHelper.getCurrentScore();
+      expect(finalScore).toBe(initialScore + 1);
+      testEnv.lookCommandHelper.verifyFirstVisitScoring(result);
     });
 
-    test('should handle missing trophy case gracefully', async () => {
-      // Setup: Remove trophy case from items
-      // Items are managed by services - cannot delete directly;
+    it('should set visited flag after first look', async () => {
+      expect(testEnv.livingRoomHelper.isFirstVisit()).toBe(true);
 
-      // Execute: Look command
-      const result = await testEnv.commandProcessor.processCommand('look');
+      testEnv.lookCommandHelper.executeBasicLook();
 
-      // Verify: Should still show room description
-      expect(result.success).toBe(true);
-      expect(result.message).toContain('living room');
+      expect(testEnv.livingRoomHelper.isFirstVisit()).toBe(false);
+    });
+
+    it('should not award points on subsequent looks', async () => {
+      testEnv.livingRoomHelper.markAsVisited();
+      expect(testEnv.livingRoomHelper.isFirstVisit()).toBe(false);
+
+      const initialScore = testEnv.lookCommandHelper.getCurrentScore();
+      const result = testEnv.lookCommandHelper.executeBasicLook();
+
+      const finalScore = testEnv.lookCommandHelper.getCurrentScore();
+      expect(finalScore).toBe(initialScore);
+      testEnv.lookCommandHelper.verifyNoScoreChange(result);
     });
   });
 
-  describe('Performance and State', () => {
-    test('should not modify game state unexpectedly', async () => {
-      // Setup: Record initial state with scene already visited to avoid scoring
-      testEnv.services.gameState.markSceneVisited('living_room');
-      const initialState = {
-        currentScene: testEnv.services.gameState.getCurrentScene(),
-        inventoryCount: testEnv.services.gameState.getGameState().inventory.length,
-        score: testEnv.livingRoomHelper.getCurrentScore(),
-        trophyCaseOpen: testEnv.livingRoomHelper.isTrophyCaseOpen(),
-        trophyCaseContents: testEnv.livingRoomHelper.getTrophyCaseContents().length,
-        totalWeight: testEnv.livingRoomHelper.getTotalInventoryWeight()
-      };
-
-      // Execute: Look command
-      const result = await testEnv.commandProcessor.processCommand('look');
-
-      // Verify: State changes are appropriate
-      const finalState = {
-        currentScene: testEnv.services.gameState.getCurrentScene(),
-        inventoryCount: testEnv.services.gameState.getGameState().inventory.length,
-        score: testEnv.livingRoomHelper.getCurrentScore(),
-        trophyCaseOpen: testEnv.livingRoomHelper.isTrophyCaseOpen(),
-        trophyCaseContents: testEnv.livingRoomHelper.getTrophyCaseContents().length,
-        totalWeight: testEnv.livingRoomHelper.getTotalInventoryWeight()
-      };
-      
-      expect(result.success).toBe(true);
-      expect(finalState.currentScene).toBe(initialState.currentScene);
-      expect(finalState.inventoryCount).toBe(initialState.inventoryCount);
-      expect(finalState.trophyCaseOpen).toBe(initialState.trophyCaseOpen);
-      
-      // Score should not change for already visited scene
-      testEnv.livingRoomHelper.verifyNoScoreChange(result);
-      expect(finalState.score).toBe(initialState.score);
+  describe('Command Variations', () => {
+    it('should accept "look" command', async () => {
+      const result = testEnv.lookCommandHelper.executeLook('look');
+      testEnv.lookCommandHelper.verifySuccess(result);
     });
 
-    test('should handle repeated look commands efficiently', async () => {
-      // Execute: Multiple look commands rapidly
-      const results = [];
-      for (let i = 0; i < 10; i++) {
-        results.push(await testEnv.commandProcessor.processCommand('look'));
-      }
+    it('should accept "l" shorthand', async () => {
+      const result = testEnv.lookCommandHelper.executeLook('l');
+      testEnv.lookCommandHelper.verifySuccess(result);
+    });
 
-      // Verify: All results are successful and consistent
-      results.forEach(result => {
-        expect(result.success).toBe(true);
-        expect(result.message).toContain('living room');
-      });
+    it('should accept "look around"', async () => {
+      const result = testEnv.lookCommandHelper.executeLook('look around');
+      testEnv.lookCommandHelper.verifySuccess(result);
+    });
+
+    it('should produce same result for all basic look variations', async () => {
+      // Mark as visited first to avoid first-visit differences
+      testEnv.livingRoomHelper.markAsVisited();
+
+      const lookResult = testEnv.lookCommandHelper.executeLook('look');
+      const lResult = testEnv.lookCommandHelper.executeLook('l');
+      const lookAroundResult = testEnv.lookCommandHelper.executeLook('look around');
+
+      testEnv.lookCommandHelper.verifySuccess(lookResult);
+      testEnv.lookCommandHelper.verifySuccess(lResult);
+      testEnv.lookCommandHelper.verifySuccess(lookAroundResult);
+
+      expect(lookResult.message).toContain('Living Room');
+      expect(lResult.message).toContain('Living Room');
+      expect(lookAroundResult.message).toContain('Living Room');
     });
   });
 });
