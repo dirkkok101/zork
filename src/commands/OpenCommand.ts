@@ -205,4 +205,54 @@ export class OpenCommand extends BaseCommand {
     }
     return undefined;
   }
+
+  /**
+   * Get context-aware suggestions for the open command
+   */
+  override getSuggestions(input: string): string[] {
+    const suggestions: string[] = [];
+    const words = input.toLowerCase().trim().split(/\s+/);
+    const firstWord = words[0] || '';
+
+    // Only provide suggestions for this command's verbs
+    if (!['open', 'unlock'].includes(firstWord)) {
+      return [];
+    }
+
+    // Get openable items in current scene (only closed ones)
+    const currentSceneId = this.gameState.getCurrentScene();
+    const openableItems = this.items.getOpenableItemsInScene(currentSceneId, true); // true = must be closed
+
+    // Also check inventory for openable items
+    const inventoryItems = this.items.getInventoryItems().filter(item => {
+      const canBeOpened = this.items.isContainer(item.id) || item.properties?.openable === true;
+      const isOpen = item.state?.open || false;
+      return canBeOpened && !isOpen;
+    });
+
+    // Generate suggestions with metadata
+    [...openableItems, ...inventoryItems].forEach(item => {
+      if (item && item.name) {
+        // Build metadata string for parsing in GameInterface
+        const metadata: string[] = [];
+
+        // Add item type
+        if (item.type) {
+          metadata.push(`itemType:${item.type.toLowerCase()}`);
+        }
+
+        // Add state (these are all closed items)
+        metadata.push('itemState:closed');
+
+        // Format: "command|metadata1|metadata2"
+        const suggestionText = metadata.length > 0
+          ? `${firstWord} ${item.name}|${metadata.join('|')}`
+          : `${firstWord} ${item.name}`;
+
+        suggestions.push(suggestionText);
+      }
+    });
+
+    return suggestions;
+  }
 }

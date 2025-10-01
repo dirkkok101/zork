@@ -111,37 +111,51 @@ export class ReadCommand extends BaseCommand {
    * Get suggestions for read completion
    */
   override getSuggestions(input: string): string[] {
-    if (input === '') {
+    const suggestions: string[] = [];
+    const words = input.toLowerCase().trim().split(/\s+/);
+    const firstWord = words[0] || '';
+
+    // Only provide suggestions for this command's verb
+    if (firstWord !== 'read' && firstWord !== '') {
+      return [];
+    }
+
+    if (input === '' || firstWord === '') {
       return ['read'];
     }
 
     // Get readable items from current scene and inventory
     const currentSceneId = this.gameState.getCurrentScene();
-    const sceneItems = this.scene.getSceneItems(currentSceneId);
-    const inventoryItems = this.inventory.getItems();
-    const allItems = [...sceneItems, ...inventoryItems];
+    const readableItems = this.items.getReadableItemsInScene(currentSceneId);
+    const inventoryItems = this.items.getInventoryItems();
 
-    const readableItems: string[] = [];
-    
-    for (const itemId of allItems) {
-      // Check if item is readable by testing the readItem result
-      const readResult = this.items.readItem(itemId);
-      if (readResult !== "You can't read that." && readResult !== "You don't see that here.") {
-        const item = this.gameState.getItem(itemId);
-        if (item) {
-          readableItems.push(item.name);
-          if (item.aliases) {
-            readableItems.push(...item.aliases);
+    // Combine scene and inventory items
+    const allReadableItems = [...readableItems, ...inventoryItems];
+
+    // Generate suggestions with metadata
+    allReadableItems.forEach(item => {
+      if (item && item.name) {
+        // Check if item is actually readable
+        const readResult = this.items.readItem(item.id);
+        if (readResult !== "You can't read that." && readResult !== "You don't see that here.") {
+          // Build metadata string for parsing in GameInterface
+          const metadata: string[] = [];
+
+          // Add item type
+          if (item.type) {
+            metadata.push(`itemType:${item.type.toLowerCase()}`);
           }
+
+          // Format: "command|metadata1|metadata2"
+          const suggestionText = metadata.length > 0
+            ? `read ${item.name}|${metadata.join('|')}`
+            : `read ${item.name}`;
+
+          suggestions.push(suggestionText);
         }
       }
-    }
+    });
 
-    // Filter based on input
-    const matchingItems = readableItems.filter(name => 
-      name.toLowerCase().startsWith(input.toLowerCase())
-    );
-
-    return ['read', ...matchingItems];
+    return suggestions;
   }
 }

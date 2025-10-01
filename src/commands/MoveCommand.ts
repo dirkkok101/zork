@@ -230,26 +230,65 @@ export class MoveCommand extends BaseCommand {
    * Get suggestions for movement completion
    */
   override getSuggestions(input: string): string[] {
-    if (input === '') {
-      return ['go', 'north', 'south', 'east', 'west', 'up', 'down'];
-    }
+    const suggestions: string[] = [];
+    const lowerInput = input.toLowerCase().trim();
+    const words = lowerInput.split(/\s+/);
+    const firstWord = words[0] || '';
+    const restOfInput = words.slice(1).join(' ');
 
-    // Get available directions from current scene
+    // Get available exits from current scene
     const currentSceneId = this.gameState.getCurrentScene();
     const availableExits = this.scene.getAvailableExits(currentSceneId);
-    const directions = availableExits.map(exit => exit.direction);
 
-    // Check if input matches start of any direction
-    const matchingDirections = directions.filter(dir => 
-      dir.toLowerCase().startsWith(input.toLowerCase())
-    );
+    // Movement verbs
+    const moveVerbs = ['go', 'move', 'walk', 'travel'];
 
-    // Also check standard movement commands
-    const commands = ['go', 'move', 'walk'];
-    const matchingCommands = commands.filter(cmd => 
-      cmd.startsWith(input.toLowerCase())
-    );
+    // Check if user is typing a movement verb
+    if (moveVerbs.includes(firstWord)) {
+      // User typed "go" or "go " - suggest "go <direction>" with destination info
+      availableExits.forEach(exit => {
+        const dirLower = exit.direction.toLowerCase();
+        if (!restOfInput || dirLower.includes(restOfInput)) {
+          // Build metadata string for parsing in GameInterface
+          const metadata: string[] = [];
 
-    return [...matchingCommands, ...matchingDirections];
+          // Get destination scene title for context
+          const destScene = this.gameState.getScene(exit.to);
+          if (destScene) {
+            metadata.push(`destination:${destScene.title}`);
+          }
+
+          // Format: "command|metadata1|metadata2"
+          const suggestionText = metadata.length > 0
+            ? `${firstWord} ${exit.direction}|${metadata.join('|')}`
+            : `${firstWord} ${exit.direction}`;
+
+          suggestions.push(suggestionText);
+        }
+      });
+    } else {
+      // User is typing a direction directly (e.g., "nor" for "north")
+      // Suggest matching directions with destination info
+      availableExits.forEach(exit => {
+        if (exit.direction.toLowerCase().startsWith(lowerInput) || lowerInput === '') {
+          // Build metadata string for parsing in GameInterface
+          const metadata: string[] = [];
+
+          const destScene = this.gameState.getScene(exit.to);
+          if (destScene) {
+            metadata.push(`destination:${destScene.title}`);
+          }
+
+          // Format: "command|metadata1|metadata2"
+          const suggestionText = metadata.length > 0
+            ? `${exit.direction}|${metadata.join('|')}`
+            : exit.direction;
+
+          suggestions.push(suggestionText);
+        }
+      });
+    }
+
+    return suggestions;
   }
 }

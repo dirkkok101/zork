@@ -280,4 +280,49 @@ export class TakeCommand extends BaseCommand {
       this.scene.addItemToScene(currentSceneId, itemId);
     }
   }
+
+  /**
+   * Get context-aware suggestions for the take command
+   */
+  override getSuggestions(input: string): string[] {
+    const suggestions: string[] = [];
+    const words = input.toLowerCase().trim().split(/\s+/);
+    const firstWord = words[0] || '';
+
+    // Only provide suggestions for this command's verbs
+    if (!['take', 'get', 'pick', 'grab'].includes(firstWord)) {
+      return [];
+    }
+
+    // Get portable items in current scene
+    const currentSceneId = this.gameState.getCurrentScene();
+    const portableItems = this.items.getPortableItemsInScene(currentSceneId);
+
+    // Generate suggestions with metadata
+    portableItems.forEach(item => {
+      if (item && item.name) {
+        // Build metadata string for parsing in GameInterface
+        const metadata: string[] = [];
+
+        // Add item type
+        if (item.type) {
+          metadata.push(`itemType:${item.type.toLowerCase()}`);
+        }
+
+        // Add portable flag
+        if (item.portable !== undefined) {
+          metadata.push(`portable:${item.portable}`);
+        }
+
+        // Format: "command|metadata1|metadata2"
+        const suggestionText = metadata.length > 0
+          ? `${firstWord} ${item.name}|${metadata.join('|')}`
+          : `${firstWord} ${item.name}`;
+
+        suggestions.push(suggestionText);
+      }
+    });
+
+    return suggestions;
+  }
 }

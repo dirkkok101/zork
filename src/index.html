@@ -12,25 +12,30 @@
             <h1>ZORK I: The Great Underground Empire</h1>
             <p class="subtitle">A Text Adventure</p>
         </header>
-        
-        <main id="game-main">
-            <div id="output-area">
-                <div id="game-text">
-                    <div class="loading">🎮 Loading Zork...</div>
+
+        <div id="game-content">
+            <main id="game-main">
+                <div id="output-area">
+                    <div id="game-text">
+                        <div class="loading">🎮 Loading Zork...</div>
+                    </div>
                 </div>
-            </div>
-            
-            <div id="input-area">
-                <div id="prompt">></div>
-                <input type="text" id="command-input" placeholder="Enter command..." autocomplete="off">
-            </div>
-        </main>
-        
+
+                <div id="input-area">
+                    <div id="prompt">></div>
+                    <input type="text" id="command-input" placeholder="Enter command..." autocomplete="off">
+                </div>
+            </main>
+
+            <!-- Context panel will be inserted here by JavaScript -->
+        </div>
+
         <footer>
             <div id="status-bar">
-                <span id="score">Score: 0</span>
-                <span id="moves">Moves: 0</span>
-                <span id="status">Ready</span>
+                <span id="location" class="status-location">Location: Unknown</span>
+                <span id="score" class="status-score">Score: 0/350</span>
+                <span id="rank" class="status-rank">★☆☆☆☆</span>
+                <span id="moves" class="status-moves">Moves: 0</span>
             </div>
         </footer>
     </div>
