@@ -76,6 +76,7 @@ export class SceneAnalyzer {
       id: sceneId,
       title: sceneData.title,
       description: sceneData.description,
+      firstVisitDescription: sceneData.firstVisitDescription, // Optional field
       className: toClassName(sceneId),
       helperName: toHelperName(sceneId),
       testEnvType: toTestEnvType(sceneId),

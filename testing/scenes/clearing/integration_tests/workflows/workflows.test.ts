@@ -64,51 +64,51 @@ describe('Workflows - Clearing Scene', () => {
       const exitSouthwestResult = testEnv.commandProcessor.processCommand('southwest');
       expect(exitSouthwestResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitSouthwestResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('northeast');
+        testEnv.services.gameState.setCurrentScene('clearing');
       }
       const exitSoutheastResult = testEnv.commandProcessor.processCommand('southeast');
       expect(exitSoutheastResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitSoutheastResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('northwest');
+        testEnv.services.gameState.setCurrentScene('clearing');
       }
       const exitWestResult = testEnv.commandProcessor.processCommand('west');
       expect(exitWestResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitWestResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('east');
+        testEnv.services.gameState.setCurrentScene('clearing');
       }
       const exitSouthResult = testEnv.commandProcessor.processCommand('south');
       expect(exitSouthResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitSouthResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('north');
+        testEnv.services.gameState.setCurrentScene('clearing');
       }
       const exitNorthResult = testEnv.commandProcessor.processCommand('north');
       expect(exitNorthResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitNorthResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('south');
+        testEnv.services.gameState.setCurrentScene('clearing');
       }
       const exitEastResult = testEnv.commandProcessor.processCommand('east');
       expect(exitEastResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitEastResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('west');
+        testEnv.services.gameState.setCurrentScene('clearing');
       }
       const exitDownResult = testEnv.commandProcessor.processCommand('down');
       expect(exitDownResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitDownResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('up');
+        testEnv.services.gameState.setCurrentScene('clearing');
       }
 
       // Verify back in original scene

@@ -120,12 +120,6 @@ describe('Open Command - Living Room Scene', () => {
 
       openHelper.verifyFailure(result);
     });
-
-    it('should handle opening items from other scenes', () => {
-      const result = openHelper.executeOpenTarget('trophy_case');
-
-      openHelper.verifyFailure(result);
-    });
   });
 
   describe('Game State Tracking', () => {

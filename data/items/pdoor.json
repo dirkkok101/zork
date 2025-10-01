@@ -23,7 +23,8 @@
     "door"
   ],
   "properties": {
-    "container": true
+    "container": true,
+    "capacity": 0
   },
   "interactions": [
     {

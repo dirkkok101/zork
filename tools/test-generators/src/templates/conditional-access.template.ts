@@ -176,13 +176,14 @@ describe('Conditional Access - {{title}} Scene', () => {
       testEnv.services.gameState.setFlag('{{this.flagName}}', false);
       {{/each}}
 
+      {{#if unconditionalExits}}
       const restrictedExits = accessHelper.getAvailableExits();
-      const restrictedDirections = restrictedExits.map(exit => exit.direction);
 
       // Unconditional exits should always be available
       {{#each unconditionalExits}}
-      expect(restrictedDirections).toContain('{{this.direction}}');
+      expect(restrictedExits.map(exit => exit.direction)).toContain('{{this.direction}}');
       {{/each}}
+      {{/if}}
 
       // Now test with all flags true (maximum access)
       {{#each conditionalExits}}
@@ -215,12 +216,9 @@ describe('Conditional Access - {{title}} Scene', () => {
       // Flag should still be true
       accessHelper.validateFlagState('{{this.flagName}}', true);
 
-      // Move back (if possible)
-      {{#if this.returnDirection}}
-      accessHelper.executeCommand('{{this.returnDirection}}');
-      expect(accessHelper.getCurrentScene()).toBe('{{../id}}');
+      // Return to original scene for flag consistency check
+      accessHelper.setCurrentScene('{{../id}}');
       accessHelper.validateFlagState('{{this.flagName}}', true);
-      {{/if}}
     });
 
     {{/each}}

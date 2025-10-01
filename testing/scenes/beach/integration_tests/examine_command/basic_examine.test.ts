@@ -25,6 +25,45 @@ describe('Examine Command - Sandy Beach Scene', () => {
   });
 
   describe('Examine Items in Scene', () => {
+    it('should examine statue and show description', () => {
+      const result = examineHelper.executeExamineTarget('statu');
+
+      examineHelper.verifySuccess(result);
+      expect(result.message.length).toBeGreaterThan(10);
+      examineHelper.verifyNoMove(result);
+    });
+
+    it('should examine statue using "sculp" alias', () => {
+      const result = examineHelper.executeExamineTarget('sculp');
+
+      if (result.success) {
+        examineHelper.verifySuccess(result);
+      } else {
+        // Alias may not be recognized
+        examineHelper.verifyFailure(result);
+      }
+    });
+    it('should examine statue using "rock" alias', () => {
+      const result = examineHelper.executeExamineTarget('rock');
+
+      if (result.success) {
+        examineHelper.verifySuccess(result);
+      } else {
+        // Alias may not be recognized
+        examineHelper.verifyFailure(result);
+      }
+    });
+    it('should examine statue using "beaut" alias', () => {
+      const result = examineHelper.executeExamineTarget('beaut');
+
+      if (result.success) {
+        examineHelper.verifySuccess(result);
+      } else {
+        // Alias may not be recognized
+        examineHelper.verifyFailure(result);
+      }
+    });
+
     it('should examine sandy beach and show description', () => {
       const result = examineHelper.executeExamineTarget('sand');
 
@@ -56,14 +95,25 @@ describe('Examine Command - Sandy Beach Scene', () => {
 
   });
 
+  describe('Examine Items in Inventory', () => {
+    it('should examine statue when in inventory', () => {
+      // Add item to inventory
+      examineHelper.addItemToInventory('statu');
+
+      const result = examineHelper.executeExamineTarget('statu');
+
+      examineHelper.verifySuccess(result);
+    });
+  });
+
   describe('Command Syntax and Aliases', () => {
     it('should work with "examine" command', () => {
-      const result = examineHelper.executeExamineTarget('sand');
+      const result = examineHelper.executeExamineTarget('statu');
       examineHelper.verifySuccess(result);
     });
 
     it('should work with "x" shorthand', () => {
-      const result = examineHelper.executeExamine('x sand');
+      const result = examineHelper.executeExamine('x statu');
 
       if (result.success) {
         examineHelper.verifySuccess(result);
@@ -74,7 +124,7 @@ describe('Examine Command - Sandy Beach Scene', () => {
     });
 
     it('should work with "look at" syntax', () => {
-      const result = examineHelper.executeExamine('look at sand');
+      const result = examineHelper.executeExamine('look at statu');
 
       if (result.success) {
         examineHelper.verifySuccess(result);
@@ -113,13 +163,13 @@ describe('Examine Command - Sandy Beach Scene', () => {
 
   describe('Game State Tracking', () => {
     it('should not count examine as a move', () => {
-      const result = examineHelper.executeExamineTarget('sand');
+      const result = examineHelper.executeExamineTarget('statu');
 
       examineHelper.verifyNoMove(result);
     });
 
     it('should return different result than look command', () => {
-      const examineResult = examineHelper.executeExamineTarget('sand');
+      const examineResult = examineHelper.executeExamineTarget('statu');
       const lookResult = examineHelper.executeExamine('look');
 
       examineHelper.verifySuccess(examineResult);
@@ -128,4 +178,20 @@ describe('Examine Command - Sandy Beach Scene', () => {
     });
   });
 
+  describe('Examine Multiple Items', () => {
+    it('should examine each item with unique descriptions', () => {
+      const results: string[] = [];
+
+      const result0 = examineHelper.executeExamineTarget('statu');
+      examineHelper.verifySuccess(result0);
+      results.push(result0.message);
+      const result1 = examineHelper.executeExamineTarget('sand');
+      examineHelper.verifySuccess(result1);
+      results.push(result1.message);
+
+      // Each item should have a unique description
+      const uniqueResults = new Set(results);
+      expect(uniqueResults.size).toBe(results.length);
+    });
+  });
 });

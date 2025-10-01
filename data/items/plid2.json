@@ -24,6 +24,7 @@
   ],
   "properties": {
     "container": true,
+    "capacity": 0,
     "openable": true
   },
   "interactions": [

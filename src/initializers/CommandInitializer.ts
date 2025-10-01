@@ -42,9 +42,13 @@ export class CommandInitializer {
     logger.info('🎯 Initializing game commands...');
     
     try {
-      // Create CommandService
-      const commandService = new CommandService(loggingService.getLogger('CommandService'));
-      
+      // Create CommandService with scene and gameState services for direction fallback
+      const commandService = new CommandService(
+        loggingService.getLogger('CommandService'),
+        services.scene,
+        services.gameState
+      );
+
       // Create and register all commands
       const commands = this.createCommands(services, loggingService);
       commandService.registerCommands(commands);

@@ -37,30 +37,30 @@ describe('Workflows - Dam Scene', () => {
       const exitSouthResult = testEnv.commandProcessor.processCommand('south');
       expect(exitSouthResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitSouthResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('north');
+        testEnv.services.gameState.setCurrentScene('dam');
       }
       const exitDownResult = testEnv.commandProcessor.processCommand('down');
       expect(exitDownResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitDownResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('up');
+        testEnv.services.gameState.setCurrentScene('dam');
       }
       const exitEastResult = testEnv.commandProcessor.processCommand('east');
       expect(exitEastResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitEastResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('west');
+        testEnv.services.gameState.setCurrentScene('dam');
       }
       const exitNorthResult = testEnv.commandProcessor.processCommand('north');
       expect(exitNorthResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitNorthResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('south');
+        testEnv.services.gameState.setCurrentScene('dam');
       }
 
       // Verify back in original scene

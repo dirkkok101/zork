@@ -37,6 +37,21 @@ describe('Inventory Command - Sandy Beach Scene', () => {
     });
   });
 
+  describe('Single Item in Inventory', () => {
+    it('should display single item when carrying one item', () => {
+      // Setup: Clear inventory and add one item
+      inventoryHelper.clearInventory();
+      inventoryHelper.addItemToInventory('statu');
+
+      const result = inventoryHelper.executeInventoryDisplay();
+
+      inventoryHelper.verifySuccess(result);
+      expect(result.message).toMatch(/carrying|have/i);
+      expect(result.message.toLowerCase()).toContain('statue'.toLowerCase());
+      inventoryHelper.verifyNoMove(result);
+    });
+  });
+
   describe('Command Syntax and Aliases', () => {
     it('should work with "inventory" command', () => {
       inventoryHelper.clearInventory();
@@ -65,6 +80,19 @@ describe('Inventory Command - Sandy Beach Scene', () => {
       inventoryHelper.verifyNoMove(result);
     });
 
+    it('should display same result for all aliases', () => {
+      // Setup
+      inventoryHelper.clearInventory();
+      inventoryHelper.addItemToInventory('statu');
+
+      const inventoryResult = inventoryHelper.executeInventory('inventory');
+      const iResult = inventoryHelper.executeInventoryShort();
+      const invResult = inventoryHelper.executeInventoryAbbreviated();
+
+      // All should show the same item
+      expect(inventoryResult.message).toBe(iResult.message);
+      expect(inventoryResult.message).toBe(invResult.message);
+    });
   });
 
   describe('Game State Tracking', () => {
@@ -84,6 +112,57 @@ describe('Inventory Command - Sandy Beach Scene', () => {
       expect(result2.message).toBe(result1.message);
     });
 
+    it('should track inventory changes across commands', () => {
+      // Start empty
+      inventoryHelper.clearInventory();
+
+      const emptyResult = inventoryHelper.executeInventoryDisplay();
+      expect(emptyResult.message).toMatch(/empty|nothing/i);
+
+      // Add item
+      inventoryHelper.addItemToInventory('statu');
+
+      // Verify inventory reflects change
+      const updatedResult = inventoryHelper.executeInventoryDisplay();
+      expect(updatedResult.message.toLowerCase()).toContain('statue'.toLowerCase());
+      expect(updatedResult.message).not.toBe(emptyResult.message);
+    });
   });
 
+  describe('Inventory Count Verification', () => {
+    it('should have zero items when inventory is empty', () => {
+      inventoryHelper.clearInventory();
+
+      expect(inventoryHelper.getInventoryCount()).toBe(0);
+
+      const result = inventoryHelper.executeInventoryDisplay();
+      expect(result.message).toMatch(/empty|nothing/i);
+    });
+
+    it('should have correct count when items are added', () => {
+      inventoryHelper.clearInventory();
+
+      expect(inventoryHelper.getInventoryCount()).toBe(0);
+
+      inventoryHelper.addItemToInventory('statu');
+
+      expect(inventoryHelper.getInventoryCount()).toBe(1);
+    });
+
+  });
+
+  describe('State Consistency', () => {
+    it('should maintain inventory state across multiple checks', () => {
+      inventoryHelper.clearInventory();
+      inventoryHelper.addItemToInventory('statu');
+
+      const result1 = inventoryHelper.executeInventoryDisplay();
+      const result2 = inventoryHelper.executeInventoryDisplay();
+      const result3 = inventoryHelper.executeInventoryDisplay();
+
+      // All results should be identical
+      expect(result2.message).toBe(result1.message);
+      expect(result3.message).toBe(result1.message);
+    });
+  });
 });

@@ -50,7 +50,7 @@ describe('Living Room - Take Command with Treasure Scoring Integration Tests', (
       }
     });
 
-    test('should take treasure from living room floor and award first-time points', async () => {
+    test('should take treasure from living room floor but NOT award points (points only on deposit)', async () => {
       // Setup: Place treasure in living room using services
       testEnv.livingRoomHelper.setupTestTreasures();
       // The setupTestTreasures now properly adds real treasures
@@ -61,7 +61,7 @@ describe('Living Room - Take Command with Treasure Scoring Integration Tests', (
       // Execute: Take treasure for first time
       const result = await testEnv.commandProcessor.processCommand('take egg');
 
-      // Verify: Successful take with scoring
+      // Verify: Successful take but NO scoring (authentic Zork behavior)
       expect(result.success).toBe(true);
       expect(result.message).toContain('egg');
 
@@ -71,14 +71,11 @@ describe('Living Room - Take Command with Treasure Scoring Integration Tests', (
       const sceneItems = testEnv.services.scene.getSceneItems('living_room');
       expect(sceneItems).not.toContain('egg');
 
-      // Verify first-time take scoring
+      // Verify NO scoring on take (points only awarded on deposit)
       const finalScore = testEnv.livingRoomHelper.getCurrentScore();
-      const expectedTakeScore = testEnv.trophyCaseHelper.getTakeValue('egg');
-      // Score should increase by the treasure points (using real game data)
-      expect(finalScore).toBeGreaterThanOrEqual(initialScore + expectedTakeScore);
-      expect(finalScore).toBe(initialScore + expectedTakeScore); // Use real treasure points
+      expect(finalScore).toBe(initialScore); // No points awarded
 
-      // Verify treasure found flag
+      // Verify treasure found flag is set (for tracking)
       expect(testEnv.livingRoomHelper.hasTreasureBeenFound('egg')).toBe(true);
     });
 
@@ -157,11 +154,11 @@ describe('Living Room - Take Command with Treasure Scoring Integration Tests', (
     test('should correctly identify treasures vs non-treasures', async () => {
       // Setup: Mix of treasures and non-treasures
       testEnv.livingRoomHelper.setupTestTreasures();
-      
+
       // Add non-treasure (lamp) to scene using service
       testEnv.services.scene.addItemToScene('living_room', 'lamp');
-      
-      // Add treasure to scene using service  
+
+      // Add treasure to scene using service
       testEnv.services.scene.addItemToScene('living_room', 'egg');
 
       testEnv.livingRoomHelper.resetScoringState();
@@ -175,26 +172,25 @@ describe('Living Room - Take Command with Treasure Scoring Integration Tests', (
       expect(lampResult.success).toBe(true);
       expect(treasureResult.success).toBe(true);
 
-      // Verify: Only treasure awards points
+      // Verify: Neither item awards points on take (authentic Zork behavior)
       const finalScore = testEnv.livingRoomHelper.getCurrentScore();
-      const expectedTreasureScore = testEnv.trophyCaseHelper.getTakeValue('egg');
-      // May include first treasure bonus, so use greater than or equal
-      expect(finalScore).toBeGreaterThanOrEqual(initialScore + expectedTreasureScore);
+      expect(finalScore).toBe(initialScore); // No points on take
 
       // Verify: Only treasure marked as found
       expect(testEnv.livingRoomHelper.hasTreasureBeenFound('egg')).toBe(true);
     });
 
-    test('should calculate correct take scores for different treasures', async () => {
+    test('should calculate correct deposit scores for different treasures', async () => {
       // Setup: Verify scoring calculations
       testEnv.livingRoomHelper.setupTestTreasures();
 
-      // Verify individual treasure take values from real game data
-      expect(testEnv.trophyCaseHelper.getTakeValue('egg')).toBe(5);
-      expect(testEnv.trophyCaseHelper.getTakeValue('coin')).toBeGreaterThan(0);
-      expect(testEnv.trophyCaseHelper.getTakeValue('diamo')).toBeGreaterThan(0);
+      // Verify deposit values from trophy case data (authentic Zork)
+      // Points are only awarded when deposited, not when taken
+      expect(testEnv.services.scoring.calculateDepositScore('egg')).toBe(10);
+      expect(testEnv.services.scoring.calculateDepositScore('coin')).toBeGreaterThan(0);
+      expect(testEnv.services.scoring.calculateDepositScore('diamo')).toBeGreaterThan(0);
 
-      // Verify scoring service consistency
+      // Verify calculateTreasureScore still exists for tracking but shouldn't be used for scoring
       expect(testEnv.services.scoring.calculateTreasureScore('egg')).toBe(5);
       expect(testEnv.services.scoring.calculateTreasureScore('coin')).toBeGreaterThan(0);
       expect(testEnv.services.scoring.calculateTreasureScore('diamo')).toBeGreaterThan(0);
@@ -202,11 +198,11 @@ describe('Living Room - Take Command with Treasure Scoring Integration Tests', (
   });
 
   describe('First Treasure Achievement', () => {
-    test('should award first treasure achievement bonus', async () => {
+    test('should mark first treasure as found but NOT award points', async () => {
       // Setup: No treasures found yet
       testEnv.livingRoomHelper.setupTestTreasures();
       testEnv.livingRoomHelper.resetScoringState();
-      
+
       // Add treasure to scene using service
       testEnv.services.scene.addItemToScene('living_room', 'egg');
 
@@ -218,24 +214,18 @@ describe('Living Room - Take Command with Treasure Scoring Integration Tests', (
       // Verify: Successful take
       expect(result.success).toBe(true);
 
-      // Verify: Both treasure score and first treasure bonus awarded
+      // Verify: NO points awarded on take (authentic Zork)
       const finalScore = testEnv.livingRoomHelper.getCurrentScore();
-      const expectedTreasureScore = testEnv.trophyCaseHelper.getTakeValue('egg');
-      
-      // May include first treasure bonus depending on implementation
-      expect(finalScore).toBeGreaterThanOrEqual(initialScore + expectedTreasureScore);
+      expect(finalScore).toBe(initialScore); // No points on take
 
-      // Check if first treasure event was triggered
-      const hasFirstTreasure = testEnv.livingRoomHelper.hasEarnedScoringEvent('first_treasure');
-      // This depends on implementation - may be triggered by finding first treasure
-      console.log('First treasure event status:', hasFirstTreasure);
+      // Verify: Treasure marked as found
+      expect(testEnv.livingRoomHelper.hasTreasureBeenFound('egg')).toBe(true);
     });
 
-    test('should not award first treasure bonus for subsequent treasures', async () => {
+    test('should also not award points for subsequent treasures', async () => {
       // Setup: Already found one treasure
       testEnv.livingRoomHelper.setupTestTreasures();
       testEnv.services.gameState.setFlag('treasure_found_egg', true);
-      testEnv.services.gameState.setFlag('scoring_event_first_treasure', true);
 
       // Add treasure to scene using service
       testEnv.services.scene.addItemToScene('living_room', 'coin');
@@ -245,12 +235,10 @@ describe('Living Room - Take Command with Treasure Scoring Integration Tests', (
       // Execute: Take second treasure
       const result = await testEnv.commandProcessor.processCommand('take coins');
 
-      // Verify: Only normal treasure score awarded
+      // Verify: No points awarded (same as first treasure)
       expect(result.success).toBe(true);
       const finalScore = testEnv.livingRoomHelper.getCurrentScore();
-      const expectedTreasureScore = testEnv.trophyCaseHelper.getTakeValue('coin');
-      // Should be exactly the treasure score without first treasure bonus
-      expect(finalScore).toBe(initialScore + expectedTreasureScore);
+      expect(finalScore).toBe(initialScore); // No points on take
     });
   });
 
@@ -293,20 +281,14 @@ describe('Living Room - Take Command with Treasure Scoring Integration Tests', (
       const eggResult = await testEnv.commandProcessor.processCommand('take egg');
       const coinResult = await testEnv.commandProcessor.processCommand('take coins from trophy case');
 
-      // Verify: Consistent scoring
+      // Verify: Consistent scoring (no points on take)
       expect(eggResult.success).toBe(true);
       expect(coinResult.success).toBe(true);
 
       const finalScore = testEnv.livingRoomHelper.getCurrentScore();
-      const expectedEggScore = testEnv.trophyCaseHelper.getTakeValue('egg');
-      
-      // Coin should not award take points if already found/deposited
-      const expectedTotal = testEnv.livingRoomHelper.hasTreasureBeenFound('coin') 
-        ? expectedEggScore 
-        : expectedEggScore + testEnv.trophyCaseHelper.getTakeValue('coin');
 
-      console.log('Expected total:', expectedTotal);
-      expect(finalScore).toBeGreaterThanOrEqual(initialScore + expectedEggScore);
+      // No points awarded on take (authentic Zork behavior)
+      expect(finalScore).toBe(initialScore);
     });
   });
 
@@ -372,7 +354,7 @@ describe('Living Room - Take Command with Treasure Scoring Integration Tests', (
       // Setup: Heavy inventory near weight limit
       testEnv.livingRoomHelper.setupHeavyInventory();
       testEnv.livingRoomHelper.setupTestTreasures();
-      
+
       testEnv.services.scene.addItemToScene('living_room', 'diamo');
 
       // Execute: Try to take treasure with heavy inventory
@@ -380,8 +362,8 @@ describe('Living Room - Take Command with Treasure Scoring Integration Tests', (
 
       // Verify: May succeed or fail based on weight limits
       expect(result).toBeDefined();
-      
-      // If successful, should still award scoring
+
+      // If successful, treasure should be in inventory (no points awarded on take)
       if (result.success) {
         expect(testEnv.services.gameState.getGameState().inventory).toContain('diamo');
       }

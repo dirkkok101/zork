@@ -180,11 +180,18 @@ export class MoveCommand extends BaseCommand {
   private getMovementFailureMessage(sceneId: string, direction: string): string {
     // Get ALL exits (including blocked ones) to check for failure messages
     const allExits = this.scene.getAllExits(sceneId);
-    const exit = allExits.find(e => 
-      e.direction.toLowerCase() === direction.toLowerCase() ||
-      (direction.toLowerCase().length <= e.direction.toLowerCase().length && 
-       e.direction.toLowerCase().startsWith(direction.toLowerCase()))
-    );
+    const dirLower = direction.toLowerCase();
+
+    // First try exact match
+    let exit = allExits.find(e => e.direction.toLowerCase() === dirLower);
+
+    // If no exact match, try prefix match
+    if (!exit) {
+      exit = allExits.find(e =>
+        dirLower.length <= e.direction.toLowerCase().length &&
+        e.direction.toLowerCase().startsWith(dirLower)
+      );
+    }
 
     if (exit) {
       // Check if exit is locked

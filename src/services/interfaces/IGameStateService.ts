@@ -29,7 +29,10 @@ export interface IGameStateService {
   
   /** Get the value of a global game flag */
   getFlag(name: string): boolean;
-  
+
+  /** Check if a flag has been explicitly set (distinguishes unset from false) */
+  hasFlag(name: string): boolean;
+
   /** Set a global game flag (used for puzzle states, story progression) */
   setFlag(name: string, value: boolean): void;
   

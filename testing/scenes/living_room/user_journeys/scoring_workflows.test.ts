@@ -42,24 +42,23 @@ describe('Living Room - Scoring Workflow User Journey Tests', () => {
       const gameState = testEnv.services.gameState.getGameState();
       gameState.inventory = [];
 
-      // Step 2: Player takes first treasure (take points + first treasure bonus)
+      // Step 2: Player takes first treasure (NO points on take - authentic Zork)
       const takeResult = await testEnv.commandProcessor.processCommand(`take ${realTreasureId}`);
       expect(takeResult.success).toBe(true);
 
       const afterTakeScore = testEnv.livingRoomHelper.getCurrentScore();
-      const expectedTakeScore = testEnv.trophyCaseHelper.getTakeValue(realTreasureId);
-      expect(afterTakeScore).toBeGreaterThanOrEqual(sceneScore + expectedTakeScore);
+      expect(afterTakeScore).toBe(sceneScore); // No points awarded on take
 
       // Phase 3: Player discovers trophy case and deposit scoring
       await testEnv.commandProcessor.processCommand('open trophy case');
-      
-      // Step 3: Player deposits treasure (deposit bonus scoring)
+
+      // Step 3: Player deposits treasure (ALL treasure points awarded here)
       const putResult = await testEnv.commandProcessor.processCommand(`put ${realTreasureId} in trophy case`);
       expect(putResult.success).toBe(true);
 
       const finalScore = testEnv.livingRoomHelper.getCurrentScore();
-      
-      // Verify deposit increased score (accept real game scoring behavior)
+
+      // Verify deposit increased score (all treasure points awarded on deposit)
       expect(finalScore).toBeGreaterThan(afterTakeScore);
 
       // Verify: Complete scoring progression tracked
@@ -515,9 +514,9 @@ describe('Living Room - Scoring Workflow User Journey Tests', () => {
 
       const finalScore = testEnv.livingRoomHelper.getCurrentScore();
 
-      // Verify: Complete workflow with integrated scoring
-      expect(huntScore).toBeGreaterThan(exploreScore);
-      expect(depositScore).toBeGreaterThan(huntScore);
+      // Verify: Complete workflow with integrated scoring (authentic Zork behavior)
+      expect(huntScore).toBe(exploreScore); // No points on take
+      expect(depositScore).toBeGreaterThan(huntScore); // Points awarded on deposit
       expect(finalScore).toBe(depositScore); // Examine doesn't change score
 
       // Verify: All scoring states properly tracked

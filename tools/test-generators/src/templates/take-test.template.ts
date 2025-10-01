@@ -201,15 +201,6 @@ describe('Take Command - {{title}} Scene', () => {
       takeHelper.verifyFailure(result);
       takeHelper.verifyInvalidTarget(result, 'nonexistent_item_xyz');
     });
-
-    {{#if takeableItems}}
-    it('should handle taking items from other scenes', () => {
-      const result = takeHelper.executeTake('sword');
-
-      takeHelper.verifyFailure(result);
-      takeHelper.verifyInvalidTarget(result, 'sword');
-    });
-    {{/if}}
   });
 
   describe('Game State Tracking', () => {

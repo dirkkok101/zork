@@ -85,40 +85,37 @@ describe('Scoring - {{title}} Scene', () => {
   {{#if hasTreasures}}
   describe('Treasure Collection Scoring', () => {
     {{#each treasures}}
-    it('should award points for first-time collection of {{this.name}}', () => {
+    it('should NOT award points when taking {{this.name}} (points only on deposit)', () => {
       // Setup: Reset scoring and ensure treasure is in scene
       scoringHelper.resetScoringState();
       testEnv.services.scene.addItemToScene('{{../id}}', '{{this.id}}');
 
       const initialScore = scoringHelper.getCurrentScore();
-      const expectedPoints = scoringHelper.getTreasureScore('{{this.id}}');
 
       // Execute: Take treasure for first time
       const result = testEnv.commandProcessor.processCommand('take {{this.name}}');
 
-      if (result.success && expectedPoints > 0) {
-        // Verify: Points awarded for first-time collection
+      if (result.success) {
+        // Verify: No points awarded on take (authentic Zork behavior)
+        // Points are only awarded when deposited in trophy case
         const finalScore = scoringHelper.getCurrentScore();
-        expect(finalScore).toBe(initialScore + expectedPoints);
-        expect(scoringHelper.isTreasureFound('{{this.id}}')).toBe(true);
+        expect(finalScore).toBe(initialScore); // No score change
+        expect(scoringHelper.isTreasureFound('{{this.id}}')).toBe(true); // But treasure is marked as found
       }
     });
 
-    it('should not award points for {{this.name}} if already found', () => {
-      // Setup: Mark treasure as already found
+    it('should maintain treasure found flag even without points', () => {
+      // Setup: Reset scoring and ensure treasure is in scene
       scoringHelper.resetScoringState();
-      scoringHelper.markTreasureFound('{{this.id}}');
       testEnv.services.scene.addItemToScene('{{../id}}', '{{this.id}}');
 
-      const initialScore = scoringHelper.getCurrentScore();
-
-      // Execute: Take already-found treasure
+      // Execute: Take treasure
       const result = testEnv.commandProcessor.processCommand('take {{this.name}}');
 
       if (result.success) {
-        // Verify: No additional points awarded
+        // Verify: Treasure marked as found even though no points awarded yet
+        expect(scoringHelper.isTreasureFound('{{this.id}}')).toBe(true);
         scoringHelper.verifyNoScoreChange(result);
-        expect(scoringHelper.getCurrentScore()).toBe(initialScore);
       }
     });
 

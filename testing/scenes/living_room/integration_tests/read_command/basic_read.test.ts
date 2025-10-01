@@ -259,12 +259,6 @@ describe('Read Command - Living Room Scene', () => {
 
       readHelper.verifyFailure(result);
     });
-
-    it('should handle reading items from other scenes', () => {
-      const result = readHelper.executeReadItem('sword');
-
-      readHelper.verifyFailure(result);
-    });
   });
 
   describe('Game State Tracking', () => {

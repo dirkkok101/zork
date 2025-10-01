@@ -78,40 +78,49 @@ export class LookCommandHelper {
   }
 
   /**
-   * Verify the result contains scene title and description
+   * Verify the result contains scene title
    */
-  verifySceneDescription(result: CommandResult): void {
+  verifySceneTitle(result: CommandResult, expectedTitle: string): void {
     this.verifySuccess(result);
-    expect(result.message).toContain('West of House');
-    expect(result.message).toContain('white house');
-    expect(result.message).toContain('boarded front door');
+    expect(result.message).toContain(expectedTitle);
+  }
+
+  /**
+   * Verify the result contains expected description substring
+   */
+  verifyDescriptionContains(result: CommandResult, expectedSubstring: string): void {
+    this.verifySuccess(result);
+    expect(result.message).toContain(expectedSubstring);
   }
 
   /**
    * Verify the result contains first visit description
    */
-  verifyFirstVisitDescription(result: CommandResult): void {
+  verifyFirstVisitDescription(result: CommandResult, expectedSubstring: string): void {
     this.verifySuccess(result);
-    expect(result.message).toContain('You are standing in an open field');
+    expect(result.message).toContain(expectedSubstring);
   }
 
   /**
    * Verify the result contains regular description (not first visit)
    */
-  verifyRegularDescription(result: CommandResult): void {
+  verifyRegularDescription(result: CommandResult, expectedSubstring: string): void {
     this.verifySuccess(result);
-    expect(result.message).toContain('This is an open field');
+    expect(result.message).toContain(expectedSubstring);
   }
 
   /**
    * Verify the result contains exit information
    */
-  verifyExitInformation(result: CommandResult): void {
+  verifyExitInformation(result: CommandResult, expectedExits?: string[]): void {
     this.verifySuccess(result);
     expect(result.message).toMatch(/exits?:/i);
-    expect(result.message).toContain('north');
-    expect(result.message).toContain('south');
-    expect(result.message).toContain('west');
+
+    if (expectedExits) {
+      expectedExits.forEach(exit => {
+        expect(result.message.toLowerCase()).toContain(exit.toLowerCase());
+      });
+    }
   }
 
   /**
@@ -179,7 +188,8 @@ export class LookCommandHelper {
    * Verify game state was marked as visited after look
    */
   verifySceneMarkedVisited(): void {
-    expect(this.gameState.hasVisitedScene('west_of_house')).toBe(true);
+    const currentScene = this.gameState.getCurrentScene();
+    expect(this.gameState.hasVisitedScene(currentScene)).toBe(true);
   }
 
   /**

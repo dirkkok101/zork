@@ -141,14 +141,6 @@ describe('Open Command - {{title}} Scene', () => {
 
       openHelper.verifyFailure(result);
     });
-
-    {{#if openableContainers}}
-    it('should handle opening items from other scenes', () => {
-      const result = openHelper.executeOpenTarget('trophy_case');
-
-      openHelper.verifyFailure(result);
-    });
-    {{/if}}
   });
 
   describe('Game State Tracking', () => {

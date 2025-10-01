@@ -74,8 +74,8 @@ describe('Move Command - Clearing Scene', () => {
 
       const result = moveHelper.executeMoveDirection('north');
 
-      moveHelper.verifyMovementSuccess(result, 'clearing');
-      expect(moveHelper.getCurrentScene()).toBe('clearing');
+      moveHelper.verifyMovementSuccess(result, 'grating_room');
+      expect(moveHelper.getCurrentScene()).toBe('grating_room');
     });
 
     it('should block east exit when condition not met', async () => {
@@ -95,8 +95,8 @@ describe('Move Command - Clearing Scene', () => {
 
       const result = moveHelper.executeMoveDirection('east');
 
-      moveHelper.verifyMovementSuccess(result, 'clearing');
-      expect(moveHelper.getCurrentScene()).toBe('clearing');
+      moveHelper.verifyMovementSuccess(result, 'grating_room');
+      expect(moveHelper.getCurrentScene()).toBe('grating_room');
     });
 
     it('should block down exit when condition not met', async () => {

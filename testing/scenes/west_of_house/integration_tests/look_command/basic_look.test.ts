@@ -29,8 +29,8 @@ describe('Basic Look Command - West of House Scene', () => {
       const result = testEnv.lookCommandHelper.executeBasicLook();
 
       // Verify first visit description
-      testEnv.lookCommandHelper.verifyFirstVisitDescription(result);
-      testEnv.lookCommandHelper.verifySceneDescription(result);
+      testEnv.lookCommandHelper.verifyFirstVisitDescription(result, 'You are standing in an open field west of a white');
+      testEnv.lookCommandHelper.verifySceneTitle(result, 'West of House');
       testEnv.lookCommandHelper.verifyNoMove(result);
 
       // Verify first visit scoring
@@ -47,8 +47,8 @@ describe('Basic Look Command - West of House Scene', () => {
       const initialScore = testEnv.lookCommandHelper.getCurrentScore();
       const result = testEnv.lookCommandHelper.executeLookAround();
 
-      testEnv.lookCommandHelper.verifyFirstVisitDescription(result);
-      testEnv.lookCommandHelper.verifySceneDescription(result);
+      testEnv.lookCommandHelper.verifyFirstVisitDescription(result, 'You are standing in an open field west of a white');
+      testEnv.lookCommandHelper.verifySceneTitle(result, 'West of House');
       testEnv.lookCommandHelper.verifyFirstVisitScoring(result);
       testEnv.lookCommandHelper.verifyScoreIncrease(initialScore, 1);
       testEnv.lookCommandHelper.verifySceneMarkedVisited();

@@ -24,6 +24,8 @@ describe('Sandy Beach Scene - User Journeys', () => {
       expect(lookResult.success).toBe(true);
 
       // Step 2: Examine interesting items
+      const examineStatuResult = testEnv.commandProcessor.processCommand('examine statue');
+      expect(examineStatuResult.success).toBe(true);
       const examineSandResult = testEnv.commandProcessor.processCommand('examine sandy beach');
       expect(examineSandResult.success).toBe(true);
 
@@ -34,12 +36,34 @@ describe('Sandy Beach Scene - User Journeys', () => {
 
   });
 
+  describe('Treasure Hunter Journey', () => {
+    it('should prioritize collecting valuable treasures', () => {
+      // Identify statue as treasure
+      const examineStatuResult = testEnv.commandProcessor.processCommand('examine statue');
+      expect(examineStatuResult.success).toBe(true);
+
+      // Collect treasure
+      const takeStatuResult = testEnv.commandProcessor.processCommand('take statue');
+      if (takeStatuResult.success) {
+        expect(testEnv.services.gameState.getGameState().inventory).toContain('statu');
+      }
+
+      // Verify treasures collected
+      const inventory = testEnv.services.gameState.getGameState().inventory;
+      expect(inventory.length).toBeGreaterThan(0);
+    });
+
+  });
+
   describe('Efficiency-Focused Journey', () => {
     it('should complete scene objectives with minimal moves', () => {
       const initialMoves = testEnv.services.gameState.getGameState().moves || 0;
 
       // Quick assessment
       testEnv.commandProcessor.processCommand('look');
+
+      // Take most valuable/useful item
+      testEnv.commandProcessor.processCommand('take statue');
 
       // Exit efficiently
       testEnv.commandProcessor.processCommand('launc');
@@ -55,7 +79,10 @@ describe('Sandy Beach Scene - User Journeys', () => {
       testEnv.commandProcessor.processCommand('look');
 
       // Step 2: Examine every item
+      testEnv.commandProcessor.processCommand('examine statue');
       testEnv.commandProcessor.processCommand('examine sandy beach');
+
+      // Step 4: Take all items (if possible)
 
       // Step 5: Check inventory
       const inventoryResult = testEnv.commandProcessor.processCommand('inventory');
@@ -88,7 +115,8 @@ describe('Sandy Beach Scene - User Journeys', () => {
       if (launcResult.countsAsMove) {
         expect(testEnv.services.gameState.getCurrentScene()).toBe('rivr4');
 
-        // Return to original scene
+        // Return to original scene for next test
+        testEnv.services.gameState.setCurrentScene(originalScene);
       }
       // Test south exit
       const southResult = testEnv.commandProcessor.processCommand('south');
@@ -96,9 +124,8 @@ describe('Sandy Beach Scene - User Journeys', () => {
       if (southResult.countsAsMove) {
         expect(testEnv.services.gameState.getCurrentScene()).toBe('fante');
 
-        // Return to original scene
-        testEnv.commandProcessor.processCommand('north');
-        expect(testEnv.services.gameState.getCurrentScene()).toBe(originalScene);
+        // Return to original scene for next test
+        testEnv.services.gameState.setCurrentScene(originalScene);
       }
     });
   });
@@ -109,8 +136,10 @@ describe('Sandy Beach Scene - User Journeys', () => {
 
       // Complex sequence of actions
       testEnv.commandProcessor.processCommand('look');
-      testEnv.commandProcessor.processCommand('examine sandy beach');
+      testEnv.commandProcessor.processCommand('examine statue');
       testEnv.commandProcessor.processCommand('inventory');
+      testEnv.commandProcessor.processCommand('take statue');
+      testEnv.commandProcessor.processCommand('drop statue');
 
       // Verify state consistency
       expect(testEnv.services.gameState.getCurrentScene()).toBe(startScene);

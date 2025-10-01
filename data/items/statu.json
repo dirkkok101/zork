@@ -11,7 +11,7 @@
   ],
   "type": "TREASURE",
   "portable": true,
-  "visible": false,
+  "visible": true,
   "weight": 8,
   "size": "SMALL",
   "initialState": {},

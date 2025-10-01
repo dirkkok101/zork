@@ -110,9 +110,8 @@ describe('Clearing Scene - User Journeys', () => {
       if (southwestResult.countsAsMove) {
         expect(testEnv.services.gameState.getCurrentScene()).toBe('behind_house');
 
-        // Return to original scene
-        testEnv.commandProcessor.processCommand('northeast');
-        expect(testEnv.services.gameState.getCurrentScene()).toBe(originalScene);
+        // Return to original scene for next test
+        testEnv.services.gameState.setCurrentScene(originalScene);
       }
       // Test southeast exit
       const southeastResult = testEnv.commandProcessor.processCommand('southeast');
@@ -120,9 +119,8 @@ describe('Clearing Scene - User Journeys', () => {
       if (southeastResult.countsAsMove) {
         expect(testEnv.services.gameState.getCurrentScene()).toBe('fore5');
 
-        // Return to original scene
-        testEnv.commandProcessor.processCommand('northwest');
-        expect(testEnv.services.gameState.getCurrentScene()).toBe(originalScene);
+        // Return to original scene for next test
+        testEnv.services.gameState.setCurrentScene(originalScene);
       }
       // Test west exit
       const westResult = testEnv.commandProcessor.processCommand('west');
@@ -130,9 +128,8 @@ describe('Clearing Scene - User Journeys', () => {
       if (westResult.countsAsMove) {
         expect(testEnv.services.gameState.getCurrentScene()).toBe('forest_3');
 
-        // Return to original scene
-        testEnv.commandProcessor.processCommand('east');
-        expect(testEnv.services.gameState.getCurrentScene()).toBe(originalScene);
+        // Return to original scene for next test
+        testEnv.services.gameState.setCurrentScene(originalScene);
       }
       // Test south exit
       const southResult = testEnv.commandProcessor.processCommand('south');
@@ -140,9 +137,8 @@ describe('Clearing Scene - User Journeys', () => {
       if (southResult.countsAsMove) {
         expect(testEnv.services.gameState.getCurrentScene()).toBe('forest_2');
 
-        // Return to original scene
-        testEnv.commandProcessor.processCommand('north');
-        expect(testEnv.services.gameState.getCurrentScene()).toBe(originalScene);
+        // Return to original scene for next test
+        testEnv.services.gameState.setCurrentScene(originalScene);
       }
     });
   });

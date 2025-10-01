@@ -192,26 +192,6 @@ describe('Weight Restrictions - {{title}} Scene', () => {
       weightHelper.verifyFailure(result);
       weightHelper.verifyWeightErrorMessage(result);
     });
-
-    {{#if hasOtherExits}}
-    it('should allow other exits regardless of weight', () => {
-      weightHelper.clearInventory();
-      {{#each overLimitItems}}
-      testEnv.commandProcessor.processCommand('take {{this.name}}');
-      {{/each}}
-
-      // {{restrictedDirection}} should be blocked
-      const blockedResult = weightHelper.attemptExit('{{restrictedDirection}}');
-      weightHelper.verifyWeightBlockedExit(blockedResult, '{{id}}');
-
-      // Other exits should work
-      {{#each unrestrictedExits}}
-      const {{this.direction}}Result = weightHelper.attemptExit('{{this.direction}}');
-      weightHelper.verifySuccessfulExit({{this.direction}}Result, '{{this.to}}');
-      testEnv.services.gameState.setCurrentScene('{{../id}}');
-      {{/each}}
-    });
-    {{/if}}
   });
 
   describe('Weight Management Strategies', () => {

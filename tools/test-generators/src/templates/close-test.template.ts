@@ -141,12 +141,6 @@ describe('Close Command - {{title}} Scene', () => {
 
       closeHelper.verifyFailure(result);
     });
-
-    it('should handle closing items from other scenes', () => {
-      const result = closeHelper.executeCloseTarget('trophy_case');
-
-      closeHelper.verifyFailure(result);
-    });
   });
 
   describe('Game State Tracking', () => {

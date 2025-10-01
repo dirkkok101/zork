@@ -32,7 +32,7 @@ describe('Conditional Access - Clearing Scene', () => {
       accessHelper.validateFlagState('door_grate_open', false);
 
       // Attempt to move - should be blocked
-      accessHelper.validateBlockedExit('north', /(?:closed|blocked|locked|cannot)/i);
+      accessHelper.validateBlockedExit('north', /The grating is locked\./i);
       expect(accessHelper.getCurrentScene()).toBe('clearing');
     });
 
@@ -42,7 +42,7 @@ describe('Conditional Access - Clearing Scene', () => {
       accessHelper.validateFlagState('door_grate_open', true);
 
       // Attempt to move - should succeed
-      accessHelper.validateAllowedExit('north', 'clearing');
+      accessHelper.validateAllowedExit('north', 'grating_room');
     });
 
     it('should show correct error message for blocked north exit', () => {
@@ -51,7 +51,7 @@ describe('Conditional Access - Clearing Scene', () => {
       const result = accessHelper.executeCommand('north');
 
       accessHelper.verifyFailure(result);
-      expect(result.message).toMatch(/(?:closed|blocked|locked|cannot)/i);
+      expect(result.message).toMatch(/The grating is locked\./i);
     });
 
     it('should persist door_grate_open flag across commands', () => {
@@ -95,7 +95,7 @@ describe('Conditional Access - Clearing Scene', () => {
       testEnv.services.gameState.setFlag('door_grate_open', true);
       result = accessHelper.executeCommand('north');
       accessHelper.verifySuccess(result);
-      expect(accessHelper.getCurrentScene()).toBe('clearing');
+      expect(accessHelper.getCurrentScene()).toBe('grating_room');
 
       // Return to original scene
       accessHelper.setCurrentScene('clearing');
@@ -129,7 +129,7 @@ describe('Conditional Access - Clearing Scene', () => {
       accessHelper.validateFlagState('door_grate_open', false);
 
       // Attempt to move - should be blocked
-      accessHelper.validateBlockedExit('east', /(?:closed|blocked|locked|cannot)/i);
+      accessHelper.validateBlockedExit('east', /The grating is locked\./i);
       expect(accessHelper.getCurrentScene()).toBe('clearing');
     });
 
@@ -139,7 +139,7 @@ describe('Conditional Access - Clearing Scene', () => {
       accessHelper.validateFlagState('door_grate_open', true);
 
       // Attempt to move - should succeed
-      accessHelper.validateAllowedExit('east', 'clearing');
+      accessHelper.validateAllowedExit('east', 'grating_room');
     });
 
     it('should show correct error message for blocked east exit', () => {
@@ -148,7 +148,7 @@ describe('Conditional Access - Clearing Scene', () => {
       const result = accessHelper.executeCommand('east');
 
       accessHelper.verifyFailure(result);
-      expect(result.message).toMatch(/(?:closed|blocked|locked|cannot)/i);
+      expect(result.message).toMatch(/The grating is locked\./i);
     });
 
     it('should persist door_grate_open flag across commands', () => {
@@ -192,7 +192,7 @@ describe('Conditional Access - Clearing Scene', () => {
       testEnv.services.gameState.setFlag('door_grate_open', true);
       result = accessHelper.executeCommand('east');
       accessHelper.verifySuccess(result);
-      expect(accessHelper.getCurrentScene()).toBe('clearing');
+      expect(accessHelper.getCurrentScene()).toBe('grating_room');
 
       // Return to original scene
       accessHelper.setCurrentScene('clearing');
@@ -226,7 +226,7 @@ describe('Conditional Access - Clearing Scene', () => {
       accessHelper.validateFlagState('door_grate_open', false);
 
       // Attempt to move - should be blocked
-      accessHelper.validateBlockedExit('down', /(?:closed|blocked|locked|cannot)/i);
+      accessHelper.validateBlockedExit('down', /The grating is locked\./i);
       expect(accessHelper.getCurrentScene()).toBe('clearing');
     });
 
@@ -245,7 +245,7 @@ describe('Conditional Access - Clearing Scene', () => {
       const result = accessHelper.executeCommand('down');
 
       accessHelper.verifyFailure(result);
-      expect(result.message).toMatch(/(?:closed|blocked|locked|cannot)/i);
+      expect(result.message).toMatch(/The grating is locked\./i);
     });
 
     it('should persist door_grate_open flag across commands', () => {
@@ -415,13 +415,12 @@ describe('Conditional Access - Clearing Scene', () => {
       testEnv.services.gameState.setFlag('door_grate_open', false);
 
       const restrictedExits = accessHelper.getAvailableExits();
-      const restrictedDirections = restrictedExits.map(exit => exit.direction);
 
       // Unconditional exits should always be available
-      expect(restrictedDirections).toContain('southwest');
-      expect(restrictedDirections).toContain('southeast');
-      expect(restrictedDirections).toContain('west');
-      expect(restrictedDirections).toContain('south');
+      expect(restrictedExits.map(exit => exit.direction)).toContain('southwest');
+      expect(restrictedExits.map(exit => exit.direction)).toContain('southeast');
+      expect(restrictedExits.map(exit => exit.direction)).toContain('west');
+      expect(restrictedExits.map(exit => exit.direction)).toContain('south');
 
       // Now test with all flags true (maximum access)
       testEnv.services.gameState.setFlag('door_grate_open', true);
@@ -449,14 +448,13 @@ describe('Conditional Access - Clearing Scene', () => {
 
       // Move to destination
       accessHelper.executeCommand('north');
-      expect(accessHelper.getCurrentScene()).toBe('clearing');
+      expect(accessHelper.getCurrentScene()).toBe('grating_room');
 
       // Flag should still be true
       accessHelper.validateFlagState('door_grate_open', true);
 
-      // Move back (if possible)
-      accessHelper.executeCommand('south');
-      expect(accessHelper.getCurrentScene()).toBe('clearing');
+      // Return to original scene for flag consistency check
+      accessHelper.setCurrentScene('clearing');
       accessHelper.validateFlagState('door_grate_open', true);
     });
 
@@ -466,14 +464,13 @@ describe('Conditional Access - Clearing Scene', () => {
 
       // Move to destination
       accessHelper.executeCommand('east');
-      expect(accessHelper.getCurrentScene()).toBe('clearing');
+      expect(accessHelper.getCurrentScene()).toBe('grating_room');
 
       // Flag should still be true
       accessHelper.validateFlagState('door_grate_open', true);
 
-      // Move back (if possible)
-      accessHelper.executeCommand('west');
-      expect(accessHelper.getCurrentScene()).toBe('clearing');
+      // Return to original scene for flag consistency check
+      accessHelper.setCurrentScene('clearing');
       accessHelper.validateFlagState('door_grate_open', true);
     });
 
@@ -488,9 +485,8 @@ describe('Conditional Access - Clearing Scene', () => {
       // Flag should still be true
       accessHelper.validateFlagState('door_grate_open', true);
 
-      // Move back (if possible)
-      accessHelper.executeCommand('up');
-      expect(accessHelper.getCurrentScene()).toBe('clearing');
+      // Return to original scene for flag consistency check
+      accessHelper.setCurrentScene('clearing');
       accessHelper.validateFlagState('door_grate_open', true);
     });
 
@@ -590,7 +586,7 @@ describe('Conditional Access - Clearing Scene', () => {
         'door_grate_open',
         true,
         'north',
-        'clearing'
+        'grating_room'
       );
 
       // Reset scene
@@ -612,7 +608,7 @@ describe('Conditional Access - Clearing Scene', () => {
         'door_grate_open',
         true,
         'east',
-        'clearing'
+        'grating_room'
       );
 
       // Reset scene

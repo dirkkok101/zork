@@ -81,9 +81,8 @@ describe('South of House Scene - User Journeys', () => {
       if (westResult.countsAsMove) {
         expect(testEnv.services.gameState.getCurrentScene()).toBe('west_of_house');
 
-        // Return to original scene
-        testEnv.commandProcessor.processCommand('east');
-        expect(testEnv.services.gameState.getCurrentScene()).toBe(originalScene);
+        // Return to original scene for next test
+        testEnv.services.gameState.setCurrentScene(originalScene);
       }
       // Test east exit
       const eastResult = testEnv.commandProcessor.processCommand('east');
@@ -91,9 +90,8 @@ describe('South of House Scene - User Journeys', () => {
       if (eastResult.countsAsMove) {
         expect(testEnv.services.gameState.getCurrentScene()).toBe('behind_house');
 
-        // Return to original scene
-        testEnv.commandProcessor.processCommand('west');
-        expect(testEnv.services.gameState.getCurrentScene()).toBe(originalScene);
+        // Return to original scene for next test
+        testEnv.services.gameState.setCurrentScene(originalScene);
       }
       // Test south exit
       const southResult = testEnv.commandProcessor.processCommand('south');
@@ -101,9 +99,8 @@ describe('South of House Scene - User Journeys', () => {
       if (southResult.countsAsMove) {
         expect(testEnv.services.gameState.getCurrentScene()).toBe('forest_2');
 
-        // Return to original scene
-        testEnv.commandProcessor.processCommand('north');
-        expect(testEnv.services.gameState.getCurrentScene()).toBe(originalScene);
+        // Return to original scene for next test
+        testEnv.services.gameState.setCurrentScene(originalScene);
       }
     });
   });

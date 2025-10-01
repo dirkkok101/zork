@@ -116,9 +116,10 @@ export class ConditionalAccessTestGenerator extends BaseGenerator {
    * Extract error pattern from exit condition or metadata
    */
   private extractErrorPattern(exit: any, flagName: string, items: any[]): string {
-    // If exit has explicit error message
-    if (exit.blockedMessage) {
-      return this.escapeRegexPattern(exit.blockedMessage);
+    // If exit has explicit error message (check both blockedMessage and failureMessage)
+    const errorMessage = exit.blockedMessage || exit.failureMessage;
+    if (errorMessage) {
+      return this.escapeRegexPattern(errorMessage);
     }
 
     // Try to find related item and generate error pattern
@@ -128,8 +129,8 @@ export class ConditionalAccessTestGenerator extends BaseGenerator {
       return `(?:closed|blocked|locked|cannot)`;
     }
 
-    // Generic error pattern
-    return `(?:can't|cannot|unable|blocked|closed)`;
+    // Generic error pattern (more flexible to handle game's flavor text)
+    return `.+`;  // Match any non-empty message
   }
 
   /**

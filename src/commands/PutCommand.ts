@@ -180,7 +180,7 @@ export class PutCommand extends BaseCommand {
           // Mark treasure as deposited for tracking
           this.scoring.markTreasureDeposited(itemId);
           
-          this.logger.info(`Treasure deposited! ${itemId} awarded ${depositScore} additional points`);
+          this.logger.info(`Treasure deposited! ${itemId} awarded ${depositScore} points`);
         }
       }
     }

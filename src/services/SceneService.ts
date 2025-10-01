@@ -199,11 +199,18 @@ export class SceneService implements ISceneService {
    */
   canMoveTo(fromScene: string, direction: string): boolean {
     const availableExits = this.getAvailableExits(fromScene);
-    const exit = availableExits.find(e => 
-      e.direction.toLowerCase() === direction.toLowerCase() ||
-      (direction.toLowerCase().length <= e.direction.toLowerCase().length && 
-       e.direction.toLowerCase().startsWith(direction.toLowerCase()))
-    );
+    const dirLower = direction.toLowerCase();
+
+    // First try exact match
+    let exit = availableExits.find(e => e.direction.toLowerCase() === dirLower);
+
+    // If no exact match, try prefix match
+    if (!exit) {
+      exit = availableExits.find(e =>
+        dirLower.length <= e.direction.toLowerCase().length &&
+        e.direction.toLowerCase().startsWith(dirLower)
+      );
+    }
 
     if (!exit) {
       return false;
@@ -223,12 +230,18 @@ export class SceneService implements ISceneService {
   moveTo(direction: string): string {
     const currentSceneId = this.gameState.getCurrentScene();
     const availableExits = this.getAvailableExits(currentSceneId);
-    
-    const exit = availableExits.find(e => 
-      e.direction.toLowerCase() === direction.toLowerCase() ||
-      (direction.toLowerCase().length <= e.direction.toLowerCase().length && 
-       e.direction.toLowerCase().startsWith(direction.toLowerCase()))
-    );
+    const dirLower = direction.toLowerCase();
+
+    // First try exact match
+    let exit = availableExits.find(e => e.direction.toLowerCase() === dirLower);
+
+    // If no exact match, try prefix match
+    if (!exit) {
+      exit = availableExits.find(e =>
+        dirLower.length <= e.direction.toLowerCase().length &&
+        e.direction.toLowerCase().startsWith(dirLower)
+      );
+    }
 
     if (!exit) {
       throw new Error(`No exit in direction: ${direction}`);
@@ -241,7 +254,7 @@ export class SceneService implements ISceneService {
     // Move to the new scene
     this.gameState.setCurrentScene(exit.to);
     this.logger.debug(`Player moved from ${currentSceneId} to ${exit.to} via ${direction}`);
-    
+
     return exit.to;
   }
 
@@ -294,15 +307,28 @@ export class SceneService implements ISceneService {
   private checkCondition(condition: string | string[]): boolean {
     if (typeof condition === 'string') {
       // Handle dynamic inventory-based conditions
+      // Check if flag is explicitly set first (for testing/special cases)
       if (condition === 'light_load') {
+        // If flag has been explicitly set, use that value
+        if (this.gameState.hasFlag('light_load')) {
+          return this.gameState.getFlag('light_load');
+        }
+
+        // Fall back to dynamic inventory check
         if (!this.inventory) {
           this.logger.warn('Cannot check light_load condition: inventory service not available');
           return false;
         }
         return this.inventory.hasLightLoad();
       }
-      
+
       if (condition === 'empty_handed') {
+        // If flag has been explicitly set, use that value
+        if (this.gameState.hasFlag('empty_handed')) {
+          return this.gameState.getFlag('empty_handed');
+        }
+
+        // Fall back to dynamic inventory check
         if (!this.inventory) {
           this.logger.warn('Cannot check empty_handed condition: inventory service not available');
           return false;

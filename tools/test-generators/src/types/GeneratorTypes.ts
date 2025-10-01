@@ -23,6 +23,7 @@ export interface AnalyzedScene {
   id: string;
   title: string;
   description: string;
+  firstVisitDescription?: string;  // Optional - shown only on first visit
   className: string;           // "NorthOfHouse"
   helperName: string;          // "NorthOfHouseHelper"
   testEnvType: string;         // "NorthOfHouseTestEnvironment"

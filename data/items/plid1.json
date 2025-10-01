@@ -22,7 +22,8 @@
     "no_description"
   ],
   "properties": {
-    "container": true
+    "container": true,
+    "capacity": 0
   },
   "interactions": [
     {

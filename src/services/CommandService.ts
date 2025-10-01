@@ -3,17 +3,19 @@ import { ICommand } from '../commands/interfaces/ICommand';
 import { CommandResult } from '../types/CommandTypes';
 import log from 'loglevel';
 import {ICommandService} from './interfaces';
+import { ISceneService } from './interfaces/ISceneService';
+import { IGameStateService } from './interfaces/IGameStateService';
 
 /**
  * Command Service Implementation
- * 
+ *
  * Simple, focused command registry and execution service.
  * Commands are self-contained and handle their own parsing and service orchestration.
  */
 export class CommandService implements ICommandService {
   /** Registry of commands mapped by name and aliases */
   private commands: Map<string, ICommand> = new Map();
-  
+
   /** Command history for debugging and UI */
   private commandHistory: string[] = [];
   private readonly maxHistory = 100;
@@ -21,12 +23,20 @@ export class CommandService implements ICommandService {
   /** Logger for this service */
   private logger: log.Logger;
 
+  /** Optional services for direction fallback */
+  private sceneService: ISceneService | undefined;
+  private gameStateService: IGameStateService | undefined;
+
   /**
    * Create a new CommandService
    * @param logger Logger instance (optional, will create one if not provided)
+   * @param sceneService Scene service for direction fallback (optional)
+   * @param gameStateService Game state service for direction fallback (optional)
    */
-  constructor(logger?: log.Logger) {
+  constructor(logger?: log.Logger, sceneService?: ISceneService, gameStateService?: IGameStateService) {
     this.logger = logger || log.getLogger('CommandService');
+    this.sceneService = sceneService;
+    this.gameStateService = gameStateService;
   }
 
   /**
@@ -270,8 +280,34 @@ export class CommandService implements ICommandService {
    * Handle unknown command
    */
   private handleUnknownCommand(input: string): CommandResult {
+    const firstWord = input.split(/\s+/)[0] || input;
+
+    // Check if this is a direction command (fallback for custom scene directions)
+    // This allows custom directions like "launc" and blocked exits like "land" to work as bare commands
+    if (this.sceneService && this.gameStateService && firstWord === input) {
+      // Single word input - check if it's a valid direction (including blocked exits)
+      const currentScene = this.gameStateService.getCurrentScene();
+      const allExits = this.sceneService.getAllExits(currentScene);
+
+      // Check if input matches any exit direction (exact or prefix match)
+      const matchingExit = allExits.find(exit =>
+        exit.direction.toLowerCase() === firstWord.toLowerCase() ||
+        (firstWord.length <= exit.direction.toLowerCase().length &&
+         exit.direction.toLowerCase().startsWith(firstWord.toLowerCase()))
+      );
+
+      if (matchingExit) {
+        this.logger.debug(`Routing unknown command '${input}' to MoveCommand (matches exit: ${matchingExit.direction})`);
+        // Route to MoveCommand by looking it up
+        const moveCommand = this.commands.get('move');
+        if (moveCommand && moveCommand.canExecute()) {
+          return moveCommand.execute(input);
+        }
+      }
+    }
+
     const suggestions = this.getSuggestions(input);
-    
+
     if (suggestions.length > 0) {
       const suggestionText = suggestions.slice(0, 3).join(', ');
       return this.createFailureResult(
@@ -279,9 +315,7 @@ export class CommandService implements ICommandService {
         false
       );
     }
-    
-    const firstWord = input.split(/\s+/)[0] || input;
-    
+
     // Special handling for common requests
     if (firstWord.toLowerCase() === 'help') {
       return this.createFailureResult(
@@ -289,7 +323,7 @@ export class CommandService implements ICommandService {
         false
       );
     }
-    
+
     return this.createFailureResult(
       `I don't know how to "${firstWord}". Try: look, examine, take, move, inventory`,
       false

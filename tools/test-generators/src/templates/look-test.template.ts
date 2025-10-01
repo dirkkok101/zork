@@ -30,8 +30,8 @@ describe('Basic Look Command - {{title}} Scene', () => {
       const result = testEnv.lookCommandHelper.executeBasicLook();
 
       // Verify first visit description
-      testEnv.lookCommandHelper.verifyFirstVisitDescription(result);
-      testEnv.lookCommandHelper.verifySceneDescription(result);
+      testEnv.lookCommandHelper.verifyFirstVisitDescription(result, '{{firstVisitDescriptionSubstring}}');
+      testEnv.lookCommandHelper.verifySceneTitle(result, '{{title}}');
       testEnv.lookCommandHelper.verifyNoMove(result);
 
       // Verify first visit scoring
@@ -48,8 +48,8 @@ describe('Basic Look Command - {{title}} Scene', () => {
       const initialScore = testEnv.lookCommandHelper.getCurrentScore();
       const result = testEnv.lookCommandHelper.executeLookAround();
 
-      testEnv.lookCommandHelper.verifyFirstVisitDescription(result);
-      testEnv.lookCommandHelper.verifySceneDescription(result);
+      testEnv.lookCommandHelper.verifyFirstVisitDescription(result, '{{firstVisitDescriptionSubstring}}');
+      testEnv.lookCommandHelper.verifySceneTitle(result, '{{title}}');
       testEnv.lookCommandHelper.verifyFirstVisitScoring(result);
       testEnv.lookCommandHelper.verifyScoreIncrease(initialScore, {{firstVisitPoints}});
       testEnv.lookCommandHelper.verifySceneMarkedVisited();

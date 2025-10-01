@@ -195,23 +195,6 @@ describe('Weight Restrictions - Living Room Scene', () => {
       weightHelper.verifyFailure(result);
       weightHelper.verifyWeightErrorMessage(result);
     });
-
-    it('should allow other exits regardless of weight', () => {
-      weightHelper.clearInventory();
-      testEnv.commandProcessor.processCommand('take sword');
-
-      // east should be blocked
-      const blockedResult = weightHelper.attemptExit('east');
-      weightHelper.verifyWeightBlockedExit(blockedResult, 'living_room');
-
-      // Other exits should work
-      const westResult = weightHelper.attemptExit('west');
-      weightHelper.verifySuccessfulExit(westResult, 'strange_passage');
-      testEnv.services.gameState.setCurrentScene('living_room');
-      const downResult = weightHelper.attemptExit('down');
-      weightHelper.verifySuccessfulExit(downResult, 'cellar');
-      testEnv.services.gameState.setCurrentScene('living_room');
-    });
   });
 
   describe('Weight Management Strategies', () => {

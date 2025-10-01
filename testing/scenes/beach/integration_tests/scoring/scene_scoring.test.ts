@@ -64,6 +64,43 @@ describe('Scoring - Sandy Beach Scene', () => {
     });
   });
 
+  describe('Treasure Collection Scoring', () => {
+    it('should NOT award points when taking statue (points only on deposit)', () => {
+      // Setup: Reset scoring and ensure treasure is in scene
+      scoringHelper.resetScoringState();
+      testEnv.services.scene.addItemToScene('beach', 'statu');
+
+      const initialScore = scoringHelper.getCurrentScore();
+
+      // Execute: Take treasure for first time
+      const result = testEnv.commandProcessor.processCommand('take statue');
+
+      if (result.success) {
+        // Verify: No points awarded on take (authentic Zork behavior)
+        // Points are only awarded when deposited in trophy case
+        const finalScore = scoringHelper.getCurrentScore();
+        expect(finalScore).toBe(initialScore); // No score change
+        expect(scoringHelper.isTreasureFound('statu')).toBe(true); // But treasure is marked as found
+      }
+    });
+
+    it('should maintain treasure found flag even without points', () => {
+      // Setup: Reset scoring and ensure treasure is in scene
+      scoringHelper.resetScoringState();
+      testEnv.services.scene.addItemToScene('beach', 'statu');
+
+      // Execute: Take treasure
+      const result = testEnv.commandProcessor.processCommand('take statue');
+
+      if (result.success) {
+        // Verify: Treasure marked as found even though no points awarded yet
+        expect(scoringHelper.isTreasureFound('statu')).toBe(true);
+        scoringHelper.verifyNoScoreChange(result);
+      }
+    });
+
+  });
+
   describe('Scoring State Integrity', () => {
     it('should maintain score consistency across commands', () => {
       scoringHelper.resetScoringState();
@@ -86,12 +123,28 @@ describe('Scoring - Sandy Beach Scene', () => {
 
       // Execute various commands
       testEnv.commandProcessor.processCommand('look');
+      testEnv.services.scene.addItemToScene('', 'statu');
+      testEnv.commandProcessor.processCommand('take statue');
 
       // Score should never go below initial
       const finalScore = scoringHelper.getCurrentScore();
       expect(finalScore).toBeGreaterThanOrEqual(initialScore);
     });
 
+    it('should maintain treasure found flags correctly', () => {
+      scoringHelper.resetScoringState();
+
+      // Initially no treasures found
+      expect(scoringHelper.isTreasureFound('statu')).toBe(false);
+
+      // Take a treasure
+      testEnv.services.scene.addItemToScene('', 'statu');
+      const result = testEnv.commandProcessor.processCommand('take statue');
+
+      if (result.success) {
+        expect(scoringHelper.isTreasureFound('statu')).toBe(true);
+      }
+    });
   });
 
   describe('Maximum Score Tracking', () => {

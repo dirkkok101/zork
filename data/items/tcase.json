@@ -14,7 +14,7 @@
   "weight": 5,
   "size": "TINY",
   "initialState": {
-    "open": true
+    "open": false
   },
   "tags": [
     "container",
@@ -22,6 +22,7 @@
   ],
   "properties": {
     "container": true,
+    "capacity": 1000,
     "depositValues": {
       "bagco": 15,
       "chali": 20,

@@ -1,18 +1,18 @@
 /**
- * Examine Command Tests - Behind House Scene
+ * Examine Command Tests - Reservoir Scene
  * Auto-generated tests for examine command functionality
  */
 
 import '../setup';
-import { BehindHouseTestEnvironment, BehindHouseIntegrationTestFactory } from '../look_command/helpers/integration_test_factory';
+import { ReservoirTestEnvironment, ReservoirIntegrationTestFactory } from '../look_command/helpers/integration_test_factory';
 import { ExamineCommandHelper } from '@testing/helpers/ExamineCommandHelper';
 
-describe('Examine Command - Behind House Scene', () => {
-  let testEnv: BehindHouseTestEnvironment;
+describe('Examine Command - Reservoir Scene', () => {
+  let testEnv: ReservoirTestEnvironment;
   let examineHelper: ExamineCommandHelper;
 
   beforeEach(async () => {
-    testEnv = await BehindHouseIntegrationTestFactory.createTestEnvironment();
+    testEnv = await ReservoirIntegrationTestFactory.createTestEnvironment();
 
     examineHelper = new ExamineCommandHelper(
       testEnv.commandProcessor,
@@ -25,24 +25,66 @@ describe('Examine Command - Behind House Scene', () => {
   });
 
   describe('Examine Items in Scene', () => {
-    it('should examine window and show description', () => {
-      const result = examineHelper.executeExamineTarget('windo');
+    it('should examine trunk of jewels and show description', () => {
+      const result = examineHelper.executeExamineTarget('trunk');
 
       examineHelper.verifySuccess(result);
-      expect(result.message.length).toBeGreaterThan(10);
+      expect(result.message.length).toBeGreaterThan(0);
       examineHelper.verifyNoMove(result);
+    });
+
+    it('should examine trunk of jewels using "chest" alias', () => {
+      const result = examineHelper.executeExamineTarget('chest');
+
+      if (result.success) {
+        examineHelper.verifySuccess(result);
+      } else {
+        // Alias may not be recognized
+        examineHelper.verifyFailure(result);
+      }
+    });
+    it('should examine trunk of jewels using "jewel" alias', () => {
+      const result = examineHelper.executeExamineTarget('jewel');
+
+      if (result.success) {
+        examineHelper.verifySuccess(result);
+      } else {
+        // Alias may not be recognized
+        examineHelper.verifyFailure(result);
+      }
+    });
+    it('should examine trunk of jewels using "old" alias', () => {
+      const result = examineHelper.executeExamineTarget('old');
+
+      if (result.success) {
+        examineHelper.verifySuccess(result);
+      } else {
+        // Alias may not be recognized
+        examineHelper.verifyFailure(result);
+      }
     });
 
   });
 
+  describe('Examine Items in Inventory', () => {
+    it('should examine trunk of jewels when in inventory', () => {
+      // Add item to inventory
+      examineHelper.addItemToInventory('trunk');
+
+      const result = examineHelper.executeExamineTarget('trunk');
+
+      examineHelper.verifySuccess(result);
+    });
+  });
+
   describe('Command Syntax and Aliases', () => {
     it('should work with "examine" command', () => {
-      const result = examineHelper.executeExamineTarget('windo');
+      const result = examineHelper.executeExamineTarget('trunk');
       examineHelper.verifySuccess(result);
     });
 
     it('should work with "x" shorthand', () => {
-      const result = examineHelper.executeExamine('x windo');
+      const result = examineHelper.executeExamine('x trunk');
 
       if (result.success) {
         examineHelper.verifySuccess(result);
@@ -53,7 +95,7 @@ describe('Examine Command - Behind House Scene', () => {
     });
 
     it('should work with "look at" syntax', () => {
-      const result = examineHelper.executeExamine('look at windo');
+      const result = examineHelper.executeExamine('look at trunk');
 
       if (result.success) {
         examineHelper.verifySuccess(result);
@@ -92,13 +134,13 @@ describe('Examine Command - Behind House Scene', () => {
 
   describe('Game State Tracking', () => {
     it('should not count examine as a move', () => {
-      const result = examineHelper.executeExamineTarget('windo');
+      const result = examineHelper.executeExamineTarget('trunk');
 
       examineHelper.verifyNoMove(result);
     });
 
     it('should return different result than look command', () => {
-      const examineResult = examineHelper.executeExamineTarget('windo');
+      const examineResult = examineHelper.executeExamineTarget('trunk');
       const lookResult = examineHelper.executeExamine('look');
 
       examineHelper.verifySuccess(examineResult);

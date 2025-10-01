@@ -186,9 +186,9 @@ describe('Workflows - Attic Scene', () => {
       const exitDownResult = testEnv.commandProcessor.processCommand('down');
       expect(exitDownResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitDownResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('up');
+        testEnv.services.gameState.setCurrentScene('attic');
       }
 
       // Verify back in original scene

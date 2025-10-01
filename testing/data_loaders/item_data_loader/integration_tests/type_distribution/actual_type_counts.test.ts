@@ -60,11 +60,11 @@ describe('ItemDataLoader - Type Distribution Integration', () => {
       
       if (containersWithCapacity.length > 0) {
         console.log(`  Containers with capacity: ${containersWithCapacity.length}/${containerItems.length}`);
-        
+
         // Validate capacity values are reasonable
         containersWithCapacity.forEach(container => {
           expect(typeof container.properties.capacity).toBe('number');
-          expect(container.properties.capacity).toBeGreaterThan(0);
+          expect(container.properties.capacity).toBeGreaterThanOrEqual(0); // Allow 0 for lids and doors
           expect(container.properties.capacity).toBeLessThanOrEqual(1000); // Allow exactly 1000
         });
       }

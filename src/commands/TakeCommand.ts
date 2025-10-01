@@ -103,22 +103,15 @@ export class TakeCommand extends BaseCommand {
       return this.failure("You can't carry any more items.");
     }
 
-    // 8. Handle scoring for treasures
-    let scoreChange = 0;
+    // 8. Handle treasure tracking (scoring happens on deposit, not on take)
     if (this.scoring.isTreasure(targetId)) {
-      const treasureScore = this.scoring.calculateTreasureScore(targetId);
-      if (treasureScore > 0) {
-        scoreChange = treasureScore;
-        this.gameState.addScore(treasureScore);
-        
-        // Mark treasure as found for tracking
-        this.scoring.markTreasureFound(targetId);
-        
-        this.logger.info(`Treasure found! ${targetId} awarded ${treasureScore} points`);
-      }
+      // Mark treasure as found for tracking purposes
+      // Points are only awarded when deposited in trophy case
+      this.scoring.markTreasureFound(targetId);
+      this.logger.debug(`Treasure found: ${targetId} (no points awarded until deposited)`);
     }
 
-    return this.success(takeResult.message, true, scoreChange);
+    return this.success(takeResult.message, true, 0);
   }
 
   /**

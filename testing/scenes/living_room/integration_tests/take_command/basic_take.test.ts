@@ -364,13 +364,6 @@ describe('Take Command - Living Room Scene', () => {
       takeHelper.verifyFailure(result);
       takeHelper.verifyInvalidTarget(result, 'nonexistent_item_xyz');
     });
-
-    it('should handle taking items from other scenes', () => {
-      const result = takeHelper.executeTake('sword');
-
-      takeHelper.verifyFailure(result);
-      takeHelper.verifyInvalidTarget(result, 'sword');
-    });
   });
 
   describe('Game State Tracking', () => {

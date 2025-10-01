@@ -15,8 +15,31 @@ export class LookTestGenerator extends BaseGenerator {
    * Generate look command tests
    */
   generate(scene: AnalyzedScene): string {
-    const code = this.template(scene);
+    // Extract a unique substring from firstVisitDescription for verification
+    const firstVisitDescriptionSubstring = this.extractDescriptionSubstring(
+      scene.firstVisitDescription || scene.description
+    );
+
+    const templateData = {
+      ...scene,
+      firstVisitDescriptionSubstring
+    };
+
+    const code = this.template(templateData);
     return this.format(code);
+  }
+
+  /**
+   * Extract a distinctive substring from description for testing
+   */
+  private extractDescriptionSubstring(description: string): string {
+    // Get first sentence or first 50 characters, whichever is shorter
+    const firstSentence = description.split(/[.!?]/)[0];
+    const substring = firstSentence.length > 50
+      ? firstSentence.substring(0, 50)
+      : firstSentence;
+
+    return substring.trim();
   }
 
   /**

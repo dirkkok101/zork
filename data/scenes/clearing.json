@@ -6,7 +6,7 @@
     "southwest": "behind_house",
     "southeast": "fore5",
     "north": {
-      "to": "clearing",
+      "to": "grating_room",
       "description": "You see grating north.",
       "condition": "door_grate_open",
       "locked": false,
@@ -14,7 +14,7 @@
       "failureMessage": "The grating is locked."
     },
     "east": {
-      "to": "clearing",
+      "to": "grating_room",
       "description": "You see grating east.",
       "condition": "door_grate_open",
       "locked": false,

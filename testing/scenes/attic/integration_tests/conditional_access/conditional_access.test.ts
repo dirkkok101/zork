@@ -32,7 +32,7 @@ describe('Conditional Access - Attic Scene', () => {
       accessHelper.validateFlagState('light_load', false);
 
       // Attempt to move - should be blocked
-      accessHelper.validateBlockedExit('down', /(?:can&#x27;t|cannot|unable|blocked|closed)/i);
+      accessHelper.validateBlockedExit('down', /The chimney is too narrow for you and all of your baggage\./i);
       expect(accessHelper.getCurrentScene()).toBe('attic');
     });
 
@@ -51,7 +51,7 @@ describe('Conditional Access - Attic Scene', () => {
       const result = accessHelper.executeCommand('down');
 
       accessHelper.verifyFailure(result);
-      expect(result.message).toMatch(/(?:can&#x27;t|cannot|unable|blocked|closed)/i);
+      expect(result.message).toMatch(/The chimney is too narrow for you and all of your baggage\./i);
     });
 
     it('should persist light_load flag across commands', () => {
@@ -88,11 +88,6 @@ describe('Conditional Access - Attic Scene', () => {
     it('should show different available exits based on flag states', () => {
       // Test with all flags false (maximum restrictions)
       testEnv.services.gameState.setFlag('light_load', false);
-
-      const restrictedExits = accessHelper.getAvailableExits();
-      const restrictedDirections = restrictedExits.map(exit => exit.direction);
-
-      // Unconditional exits should always be available
 
       // Now test with all flags true (maximum access)
       testEnv.services.gameState.setFlag('light_load', true);

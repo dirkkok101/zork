@@ -32,7 +32,7 @@ describe('Conditional Access - Reservoir Scene', () => {
       accessHelper.validateFlagState('egypt_flag', false);
 
       // Attempt to move - should be blocked
-      accessHelper.validateBlockedExit('south', /(?:can&#x27;t|cannot|unable|blocked|closed)/i);
+      accessHelper.validateBlockedExit('south', /The passage is too steep for carrying the coffin\./i);
       expect(accessHelper.getCurrentScene()).toBe('reservoir');
     });
 
@@ -51,7 +51,7 @@ describe('Conditional Access - Reservoir Scene', () => {
       const result = accessHelper.executeCommand('south');
 
       accessHelper.verifyFailure(result);
-      expect(result.message).toMatch(/(?:can&#x27;t|cannot|unable|blocked|closed)/i);
+      expect(result.message).toMatch(/The passage is too steep for carrying the coffin\./i);
     });
 
     it('should persist egypt_flag flag across commands', () => {
@@ -61,7 +61,7 @@ describe('Conditional Access - Reservoir Scene', () => {
       accessHelper.validateFlagPersistence('egypt_flag', false, [
         'look',
         'inventory',
-        'examine item'
+        'examine trunk of jewels'
       ]);
     });
 
@@ -113,11 +113,10 @@ describe('Conditional Access - Reservoir Scene', () => {
       testEnv.services.gameState.setFlag('egypt_flag', false);
 
       const restrictedExits = accessHelper.getAvailableExits();
-      const restrictedDirections = restrictedExits.map(exit => exit.direction);
 
       // Unconditional exits should always be available
-      expect(restrictedDirections).toContain('north');
-      expect(restrictedDirections).toContain('up');
+      expect(restrictedExits.map(exit => exit.direction)).toContain('north');
+      expect(restrictedExits.map(exit => exit.direction)).toContain('up');
 
       // Now test with all flags true (maximum access)
       testEnv.services.gameState.setFlag('egypt_flag', true);
@@ -144,9 +143,8 @@ describe('Conditional Access - Reservoir Scene', () => {
       // Flag should still be true
       accessHelper.validateFlagState('egypt_flag', true);
 
-      // Move back (if possible)
-      accessHelper.executeCommand('north');
-      expect(accessHelper.getCurrentScene()).toBe('reservoir');
+      // Return to original scene for flag consistency check
+      accessHelper.setCurrentScene('reservoir');
       accessHelper.validateFlagState('egypt_flag', true);
     });
 

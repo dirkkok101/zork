@@ -54,30 +54,28 @@ export class ScoringService implements IScoringService {
   }
 
   /**
-   * Calculate deposit bonus points for placing treasure in trophy case
-   * Returns 0 if the deposit bonus has already been earned
+   * Calculate deposit points for placing treasure in trophy case
+   * Returns 0 if the treasure has already been deposited
+   * Note: In authentic Zork, ALL treasure points are awarded on deposit, not on take
    */
   calculateDepositScore(treasureId: string): number {
     if (!this.isTreasure(treasureId)) {
       return 0;
     }
 
-    // Check if deposit bonus already earned
+    // Check if treasure already deposited
     const depositedFlag = `treasure_deposited_${treasureId}`;
     if (this.gameState.getFlag(depositedFlag)) {
-      this.logger.debug(`Treasure ${treasureId} deposit bonus already earned`);
-      return 0; // Already earned, no bonus
+      this.logger.debug(`Treasure ${treasureId} already deposited - no points awarded`);
+      return 0; // Already deposited
     }
 
     // Read deposit value directly from loaded trophy case data
     const trophyCase = this.gameState.getItem('tcase');
     const depositValue = trophyCase?.properties?.depositValues?.[treasureId] || 0;
-    
-    const baseValue = this.calculateTreasureScore(treasureId);
-    const depositBonus = depositValue - baseValue; // Additional points beyond base take score
-    
-    this.logger.debug(`Treasure ${treasureId} deposit bonus: ${depositBonus} (total deposit: ${depositValue}, base: ${baseValue})`);
-    return Math.max(0, depositBonus); // Ensure non-negative
+
+    this.logger.debug(`Treasure ${treasureId} deposit value: ${depositValue} points`);
+    return depositValue; // Return full deposit value (not a bonus)
   }
 
   /**

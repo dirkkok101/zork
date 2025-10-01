@@ -104,23 +104,23 @@ describe('Workflows - West of House Scene', () => {
       const exitNorthResult = testEnv.commandProcessor.processCommand('north');
       expect(exitNorthResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitNorthResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('south');
+        testEnv.services.gameState.setCurrentScene('west_of_house');
       }
       const exitSouthResult = testEnv.commandProcessor.processCommand('south');
       expect(exitSouthResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitSouthResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('north');
+        testEnv.services.gameState.setCurrentScene('west_of_house');
       }
       const exitWestResult = testEnv.commandProcessor.processCommand('west');
       expect(exitWestResult).toBeDefined();
 
-      // Return to original scene
+      // Return to original scene for next test
       if (exitWestResult.countsAsMove) {
-        testEnv.commandProcessor.processCommand('east');
+        testEnv.services.gameState.setCurrentScene('west_of_house');
       }
 
       // Verify back in original scene

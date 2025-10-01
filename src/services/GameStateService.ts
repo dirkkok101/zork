@@ -45,6 +45,10 @@ export class GameStateService implements IGameStateService {
     return this.gameState.flags[name] || false;
   }
 
+  hasFlag(name: string): boolean {
+    return name in this.gameState.flags;
+  }
+
   setFlag(name: string, value: boolean): void {
     this.logger.debug(`Setting flag ${name} to ${value}`);
     this.gameState.flags[name] = value;
@@ -156,7 +160,8 @@ export class GameStateService implements IGameStateService {
         variables: {}
       };
     }
-    Object.assign(this.gameState.sceneStates[sceneId].variables, updates);
+    // Update the scene state properties, not just variables
+    Object.assign(this.gameState.sceneStates[sceneId], updates);
     this.logger.debug(`Updated runtime state for scene ${sceneId}`);
   }
 

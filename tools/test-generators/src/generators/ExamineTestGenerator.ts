@@ -83,11 +83,23 @@ export class ExamineTestGenerator extends BaseGenerator {
   }
 
   /**
-   * Truncate text to specified length
+   * Truncate text to specified length and escape special characters for template string literals
    */
   private truncateText(text: string, maxLength: number): string {
-    if (!text || text.length <= maxLength) return text;
-    return text.substring(0, maxLength) + '...';
+    if (!text) return text;
+
+    // Truncate first
+    let result = text.length <= maxLength ? text : text.substring(0, maxLength) + '...';
+
+    // Escape special characters for JavaScript string literals
+    result = result
+      .replace(/\\/g, '\\\\')  // Backslash must be first
+      .replace(/'/g, "\\'")    // Escape single quotes
+      .replace(/\n/g, '\\n')   // Escape newlines
+      .replace(/\r/g, '\\r')   // Escape carriage returns
+      .replace(/\t/g, '\\t');  // Escape tabs
+
+    return result;
   }
 
   /**
