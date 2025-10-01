@@ -16,6 +16,10 @@ import { CloseTestGenerator } from './generators/CloseTestGenerator.js';
 import { ReadTestGenerator } from './generators/ReadTestGenerator.js';
 import { PutTestGenerator } from './generators/PutTestGenerator.js';
 import { InventoryTestGenerator } from './generators/InventoryTestGenerator.js';
+import { StateValidationTestGenerator } from './generators/StateValidationTestGenerator.js';
+import { ScoringTestGenerator } from './generators/ScoringTestGenerator.js';
+import { ConditionalAccessTestGenerator } from './generators/ConditionalAccessTestGenerator.js';
+import { WeightTestGenerator } from './generators/WeightTestGenerator.js';
 import { writeFile, ensureDir, getSceneTestDir } from './utils/fileUtils.js';
 import { GeneratorOptions, GenerationResult, GeneratedFile } from './types/GeneratorTypes.js';
 
@@ -33,6 +37,10 @@ export class SceneTestGenerator {
   private readTestGenerator: ReadTestGenerator;
   private putTestGenerator: PutTestGenerator;
   private inventoryTestGenerator: InventoryTestGenerator;
+  private stateValidationTestGenerator: StateValidationTestGenerator;
+  private scoringTestGenerator: ScoringTestGenerator;
+  private conditionalAccessTestGenerator: ConditionalAccessTestGenerator;
+  private weightTestGenerator: WeightTestGenerator;
 
   constructor(dataPath?: string) {
     this.analyzer = new SceneAnalyzer(dataPath);
@@ -48,6 +56,10 @@ export class SceneTestGenerator {
     this.readTestGenerator = new ReadTestGenerator();
     this.putTestGenerator = new PutTestGenerator();
     this.inventoryTestGenerator = new InventoryTestGenerator();
+    this.stateValidationTestGenerator = new StateValidationTestGenerator();
+    this.scoringTestGenerator = new ScoringTestGenerator();
+    this.conditionalAccessTestGenerator = new ConditionalAccessTestGenerator();
+    this.weightTestGenerator = new WeightTestGenerator();
   }
 
   /**
@@ -242,7 +254,51 @@ export class SceneTestGenerator {
       });
     }
 
-    // 13. Generate setup file if it doesn't exist
+    // 13. Generate state validation tests (if scene has stateful items or conditional exits)
+    if (this.stateValidationTestGenerator.shouldGenerate(scene)) {
+      const stateValidationTestPath = path.join(baseDir, this.stateValidationTestGenerator.getDir(scene), this.stateValidationTestGenerator.getFilename(scene));
+      const stateValidationTestContent = this.stateValidationTestGenerator.generate(scene);
+      files.push({
+        path: stateValidationTestPath,
+        content: stateValidationTestContent,
+        type: 'test'
+      });
+    }
+
+    // 14. Generate scoring tests (if scene has treasures or is trophy case scene)
+    if (this.scoringTestGenerator.shouldGenerate(scene)) {
+      const scoringTestPath = path.join(baseDir, this.scoringTestGenerator.getDir(scene), this.scoringTestGenerator.getFilename(scene));
+      const scoringTestContent = this.scoringTestGenerator.generate(scene);
+      files.push({
+        path: scoringTestPath,
+        content: scoringTestContent,
+        type: 'test'
+      });
+    }
+
+    // 15. Generate conditional access tests (if scene has conditional exits)
+    if (this.conditionalAccessTestGenerator.shouldGenerate(scene)) {
+      const conditionalAccessTestPath = path.join(baseDir, this.conditionalAccessTestGenerator.getDir(scene), this.conditionalAccessTestGenerator.getFilename(scene));
+      const conditionalAccessTestContent = this.conditionalAccessTestGenerator.generate(scene);
+      files.push({
+        path: conditionalAccessTestPath,
+        content: conditionalAccessTestContent,
+        type: 'test'
+      });
+    }
+
+    // 16. Generate weight restriction tests (if scene has weight-restricted exits)
+    if (this.weightTestGenerator.shouldGenerate(scene)) {
+      const weightTestPath = path.join(baseDir, this.weightTestGenerator.getDir(scene), this.weightTestGenerator.getFilename(scene));
+      const weightTestContent = this.weightTestGenerator.generate(scene);
+      files.push({
+        path: weightTestPath,
+        content: weightTestContent,
+        type: 'test'
+      });
+    }
+
+    // 17. Generate setup file if it doesn't exist
     const setupPath = path.join(baseDir, 'integration_tests', 'setup.ts');
     const setupContent = this.generateSetupFile();
     files.push({
