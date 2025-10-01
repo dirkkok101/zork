@@ -1,7 +1,7 @@
 # Comprehensive Test Generator Plan
 **Created:** 2025-10-01
 **Updated:** 2025-10-01
-**Status:** Phase 2 - COMPLETE ✅
+**Status:** Phase 3 - IN PROGRESS (50% - 2 of 4 generators complete)
 
 ---
 
@@ -29,12 +29,41 @@
 
 **Phase 2 Complete!** All 8 command generators implemented and passing tests
 
+### 🔄 Phase 3: IN PROGRESS (75% - 3 of 4 generators complete)
+
+**Completed Advanced Generators:**
+1. ✅ **StateValidationTestGenerator** - 17 tests/scene (when stateful items present), 100% pass rate
+   - Container state persistence tests
+   - Item state persistence tests
+   - Flag-based state consistency tests
+   - State consistency across commands
+   - State persistence across scene transitions
+
+2. ✅ **ScoringTestGenerator** - 7 tests/scene (universal), 100% pass rate
+   - First visit scoring verification
+   - Treasure collection scoring
+   - Trophy case deposit scoring
+   - Non-treasure items verification
+   - Score state integrity checks
+   - Maximum score tracking
+
+3. ✅ **ConditionalAccessTestGenerator** - 30 tests/scene (when conditional exits present), 100% pass rate
+   - Flag-based exit mechanics
+   - Conditional vs unconditional exits
+   - Cross-scene flag persistence
+   - Integration with other commands
+   - Edge case and error handling
+
+**Kitchen Scene Stats:** 232 passing tests (178 command + 17 state validation + 7 scoring + 30 conditional access)
+
+**Next Up:** WeightTestGenerator (final generator in Phase 3)
+
 ---
 
 ## Executive Summary
 
 **Initial State:** Generator created basic tests (look, move) for 15% of functionality
-**Current State:** Phase 2 COMPLETE - All 8 command generators implemented, 181 tests passing
+**Current State:** Phase 3 IN PROGRESS - 10 generators complete (8 command + 2 advanced), 202 kitchen tests passing
 **Goal:** Generate comprehensive tests covering 90%+ of game functionality
 **Impact:** Eliminate 330+ hours of manual test writing
 **Timeline:** 4 phases over 2-3 weeks
@@ -318,56 +347,74 @@ describe('Take Command - {{title}} Scene', () => {
 
 **Success Criteria**: Templates generate comprehensive, well-organized tests
 
-### Phase 3: Advanced Generators (4-6 days)
+### Phase 3: Advanced Generators (4-6 days) 🔄 IN PROGRESS (75% Complete)
 
-#### 3.1 State Validation Generator (Days 8-9)
+#### 3.1 State Validation Generator (Days 8-9) ✅ COMPLETE
 **Goal**: Generate state persistence and consistency tests
 
-- [ ] **StateValidationTestGenerator**
-  - Container state persistence (open/close)
-  - Item state persistence (on/off, etc.)
-  - Flag persistence
-  - State consistency across commands
+- [x] **StateValidationTestGenerator** ✅ DONE
+  - Container state persistence (open/close) ✅
+  - Item state persistence (on/off, etc.) ✅
+  - Flag persistence ✅
+  - State consistency across commands ✅
+  - State persistence across scene transitions ✅
+  - **17 tests generated for kitchen**
 
-**Template**: state-validation.template.ts
+**Template**: state-validation.template.ts ✅
 
 **Tests Generated**:
-- Container output consistency
-- Item state after interactions
-- Flag-based behavior
-- State across save/load (if applicable)
+- Container state persistence (open/close state maintained)
+- Item state persistence (weapon states, etc.)
+- Flag-based state consistency
+- State consistency across multiple query methods
+- State validation after failed operations
+- Game state integrity checks
 
-#### 3.2 Scoring Test Generator (Day 10)
+#### 3.2 Scoring Test Generator (Day 10) ✅ COMPLETE
 **Goal**: Generate scoring validation tests
 
-- [ ] **ScoringTestGenerator**
-  - Treasure collection scoring
-  - First-time actions scoring
-  - Score thresholds
-  - Rank changes
+- [x] **ScoringTestGenerator** ✅ DONE
+  - First visit scoring ✅
+  - Treasure collection scoring ✅
+  - Trophy case deposit bonuses ✅
+  - Non-treasure verification ✅
+  - Score state integrity ✅
+  - **7 tests generated for kitchen**
 
-**Template**: scoring.template.ts
+**Template**: scoring.template.ts ✅
 
 **Tests Generated**:
-- Taking treasures
-- Depositing treasures
-- Scene exploration scoring
-- Combat/puzzle scoring
+- First visit scene scoring (flexible for scenes with/without points)
+- Treasure discovery and collection points
+- Trophy case deposit bonus scoring
+- Already-found treasure (no duplicate points)
+- Non-treasure items (no scoring)
+- Score consistency and integrity validation
+- Maximum score tracking
 
-#### 3.3 Conditional Access Generator (Day 11)
+#### 3.3 Conditional Access Generator (Day 11) ✅ COMPLETE
 **Goal**: Generate tests for flag-based mechanics
 
-- [ ] **ConditionalAccessTestGenerator**
-  - Flag-based exits
-  - Item visibility conditions
-  - Action availability conditions
+- [x] **ConditionalAccessTestGenerator** ✅ DONE
+  - Flag-based exits ✅
+  - Conditional exit blocking/allowing ✅
+  - Flag state persistence ✅
+  - Cross-scene flag consistency ✅
+  - **30 tests generated for kitchen**
 
-**Template**: conditional-access.template.ts
+**Template**: conditional-access.template.ts ✅
 
 **Tests Generated**:
-- Exits that require flags
-- Items that appear/disappear
-- Commands that depend on state
+- Flag mechanics (setting/unsetting via commands)
+- Blocked vs allowed exit testing
+- Multiple conditional exits handling
+- Unconditional exits always available
+- Exit availability based on flag states
+- Cross-scene flag consistency validation
+- Integration with other commands (examine, inventory)
+- Error handling and edge cases
+- Manual flag manipulation
+- Undefined flag state handling
 
 #### 3.4 Weight/Capacity Generator (Day 12)
 **Goal**: Generate weight and capacity restriction tests

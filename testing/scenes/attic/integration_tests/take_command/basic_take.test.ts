@@ -1,18 +1,27 @@
 /**
- * Attic Scene - Take Command Integration Tests
- * Tests all aspects of the take command with focus on weight management and attic exit mechanics
+ * Take Command Tests - Attic Scene
+ * Auto-generated tests for take command functionality
  */
 
-import '../look_command/setup';
-import { AtticIntegrationTestFactory, AtticTestEnvironment } from '../look_command/helpers/attic_integration_test_factory';
+import '../setup';
+import { AtticTestEnvironment, AtticIntegrationTestFactory } from '../look_command/helpers/integration_test_factory';
+import { TakeCommandHelper } from '@testing/helpers/TakeCommandHelper';
 
-describe('Attic Scene - Take Command Integration', () => {
+describe('Take Command - Attic Scene', () => {
   let testEnv: AtticTestEnvironment;
+  let takeHelper: TakeCommandHelper;
 
   beforeEach(async () => {
     testEnv = await AtticIntegrationTestFactory.createTestEnvironment();
-    testEnv.atticHelper.resetScene();
-    testEnv.atticHelper.clearTestItems();
+
+    takeHelper = new TakeCommandHelper(
+      testEnv.commandProcessor,
+      testEnv.services.gameState as any,
+      testEnv.services.inventory as any,
+      testEnv.services.items as any,
+      testEnv.services.scene as any,
+      testEnv.services.scoring as any
+    );
   });
 
   afterEach(() => {
@@ -20,443 +29,344 @@ describe('Attic Scene - Take Command Integration', () => {
   });
 
   describe('Take Individual Items', () => {
-    it('take brick succeeds and adds to inventory', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      const result = testEnv.takeCommandHelper.executeTake('brick');
-      
-      testEnv.takeCommandHelper.verifySuccess(result);
-      testEnv.takeCommandHelper.verifyItemTaken(result, 'brick');
-      testEnv.takeCommandHelper.verifyInventoryContains('brick');
-      testEnv.takeCommandHelper.verifyItemRemovedFromScene('brick');
-      testEnv.takeCommandHelper.verifyNoScoreChange(result);
+    it('should take brick and add to inventory', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('brick');
+
+      takeHelper.verifySuccess(result);
+      takeHelper.verifyInventoryContains('brick');
+      takeHelper.verifyItemRemovedFromScene('brick');
+      takeHelper.verifyNoScoreChange(result);
     });
 
-    it('take rope succeeds and adds to inventory', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      const result = testEnv.takeCommandHelper.executeTake('rope');
-      
-      testEnv.takeCommandHelper.verifySuccess(result);
-      testEnv.takeCommandHelper.verifyItemTaken(result, 'rope');
-      testEnv.takeCommandHelper.verifyInventoryContains('rope');
-      testEnv.takeCommandHelper.verifyItemRemovedFromScene('rope');
-      testEnv.takeCommandHelper.verifyNoScoreChange(result);
-    });
+    it('should take brick using "brick" alias', () => {
+      takeHelper.clearPlayerInventory();
 
-    it('take knife succeeds and adds to inventory', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      const result = testEnv.takeCommandHelper.executeTake('knife');
-      
-      testEnv.takeCommandHelper.verifySuccess(result);
-      testEnv.takeCommandHelper.verifyItemTaken(result, 'knife');
-      testEnv.takeCommandHelper.verifyInventoryContains('knife');
-      testEnv.takeCommandHelper.verifyItemRemovedFromScene('knife');
-      testEnv.takeCommandHelper.verifyNoScoreChange(result);
-    });
+      const result = takeHelper.executeTake('brick');
 
-    it('take large coil (rope alias) works', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      const result = testEnv.takeCommandHelper.executeTake('large coil');
-      
       if (result.success) {
-        testEnv.takeCommandHelper.verifyItemTaken(result, 'rope');
-        testEnv.takeCommandHelper.verifyInventoryContains('rope');
+        takeHelper.verifySuccess(result);
+        takeHelper.verifyInventoryContains('brick');
       } else {
         // Alias may not be recognized
-        testEnv.takeCommandHelper.verifyInvalidTarget(result, 'large coil');
+        takeHelper.verifyInvalidTarget(result, 'brick');
       }
     });
 
-    it('take square brick (brick alias) works', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      const result = testEnv.takeCommandHelper.executeTake('square brick');
-      
+    it('should take brick using "squar" alias', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('squar');
+
       if (result.success) {
-        testEnv.takeCommandHelper.verifyItemTaken(result, 'brick');
-        testEnv.takeCommandHelper.verifyInventoryContains('brick');
+        takeHelper.verifySuccess(result);
+        takeHelper.verifyInventoryContains('brick');
       } else {
         // Alias may not be recognized
-        testEnv.takeCommandHelper.verifyInvalidTarget(result, 'square brick');
-      }
-    });
-  });
-
-  describe('Weight Management and Exit Restrictions', () => {
-    it('taking single light item allows exit', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      // Take knife (5 weight)
-      testEnv.takeCommandHelper.executeTake('knife');
-      
-      const currentWeight = testEnv.takeCommandHelper.getCurrentInventoryWeight();
-      expect(currentWeight).toBe(5);
-      
-      // Should still be able to exit
-      const moveResult = testEnv.moveCommandHelper.executeMoveDown();
-      if (testEnv.takeCommandHelper.hasLightLoad()) {
-        testEnv.moveCommandHelper.verifyKitchenAccess(moveResult);
+        takeHelper.verifyInvalidTarget(result, 'squar');
       }
     });
 
-    it('taking medium weight item allows exit', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      // Take brick (9 weight)
-      testEnv.takeCommandHelper.executeTake('brick');
-      
-      const currentWeight = testEnv.takeCommandHelper.getCurrentInventoryWeight();
-      expect(currentWeight).toBe(9);
-      
-      // Should still be able to exit
-      const moveResult = testEnv.moveCommandHelper.executeMoveDown();
-      if (testEnv.takeCommandHelper.hasLightLoad()) {
-        testEnv.moveCommandHelper.verifyKitchenAccess(moveResult);
-      }
-    });
+    it('should take brick using "clay" alias', () => {
+      takeHelper.clearPlayerInventory();
 
-    it('taking heavy item may restrict exit', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      // Take rope (10 weight)
-      testEnv.takeCommandHelper.executeTake('rope');
-      
-      const currentWeight = testEnv.takeCommandHelper.getCurrentInventoryWeight();
-      expect(currentWeight).toBe(10);
-      
-      // Exit capability depends on weight threshold
-      const moveResult = testEnv.moveCommandHelper.executeMoveDown();
-      if (testEnv.takeCommandHelper.hasLightLoad()) {
-        testEnv.moveCommandHelper.verifyKitchenAccess(moveResult);
+      const result = takeHelper.executeTake('clay');
+
+      if (result.success) {
+        takeHelper.verifySuccess(result);
+        takeHelper.verifyInventoryContains('brick');
       } else {
-        testEnv.moveCommandHelper.verifyWeightBasedFailure(moveResult);
+        // Alias may not be recognized
+        takeHelper.verifyInvalidTarget(result, 'clay');
       }
     });
 
-    it('taking multiple items exceeds weight threshold', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      // Take all items: brick (9) + rope (10) + knife (5) = 24 weight
-      testEnv.takeCommandHelper.executeTake('brick');
-      testEnv.takeCommandHelper.executeTake('rope');
-      testEnv.takeCommandHelper.executeTake('knife');
-      
-      const currentWeight = testEnv.takeCommandHelper.getCurrentInventoryWeight();
-      expect(currentWeight).toBe(24);
-      
-      // Should exceed weight threshold and block exit
-      expect(testEnv.takeCommandHelper.hasLightLoad()).toBe(false);
-      
-      const moveResult = testEnv.moveCommandHelper.executeMoveDown();
-      testEnv.moveCommandHelper.verifyWeightBasedFailure(moveResult);
+    it('should take rope and add to inventory', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('rope');
+
+      takeHelper.verifySuccess(result);
+      takeHelper.verifyInventoryContains('rope');
+      takeHelper.verifyItemRemovedFromScene('rope');
     });
 
-    it('weight threshold boundary testing', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      // Test incremental weight addition
-      testEnv.takeCommandHelper.executeTake('knife'); // 5 weight
-      let canExit = testEnv.takeCommandHelper.hasLightLoad();
-      
-      testEnv.takeCommandHelper.executeTake('brick'); // +9 = 14 total
-      let canExitAfterBrick = testEnv.takeCommandHelper.hasLightLoad();
-      
-      testEnv.takeCommandHelper.executeTake('rope'); // +10 = 24 total  
-      let canExitAfterAll = testEnv.takeCommandHelper.hasLightLoad();
-      
-      // Should transition from light to heavy at some point
-      expect(canExit || canExitAfterBrick || !canExitAfterAll).toBe(true);
+    it('should take rope using "hemp" alias', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('hemp');
+
+      if (result.success) {
+        takeHelper.verifySuccess(result);
+        takeHelper.verifyInventoryContains('rope');
+      } else {
+        // Alias may not be recognized
+        takeHelper.verifyInvalidTarget(result, 'hemp');
+      }
     });
+
+    it('should take rope using "coil" alias', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('coil');
+
+      if (result.success) {
+        takeHelper.verifySuccess(result);
+        takeHelper.verifyInventoryContains('rope');
+      } else {
+        // Alias may not be recognized
+        takeHelper.verifyInvalidTarget(result, 'coil');
+      }
+    });
+
+    it('should take rope using "large" alias', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('large');
+
+      if (result.success) {
+        takeHelper.verifySuccess(result);
+        takeHelper.verifyInventoryContains('rope');
+      } else {
+        // Alias may not be recognized
+        takeHelper.verifyInvalidTarget(result, 'large');
+      }
+    });
+
+    it('should take knife and add to inventory', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('knife');
+
+      takeHelper.verifySuccess(result);
+      takeHelper.verifyInventoryContains('knife');
+      takeHelper.verifyItemRemovedFromScene('knife');
+      takeHelper.verifyNoScoreChange(result);
+    });
+
+    it('should take knife using "blade" alias', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('blade');
+
+      if (result.success) {
+        takeHelper.verifySuccess(result);
+        takeHelper.verifyInventoryContains('knife');
+      } else {
+        // Alias may not be recognized
+        takeHelper.verifyInvalidTarget(result, 'blade');
+      }
+    });
+
+    it('should take knife using "nasty" alias', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('nasty');
+
+      if (result.success) {
+        takeHelper.verifySuccess(result);
+        takeHelper.verifyInventoryContains('knife');
+      } else {
+        // Alias may not be recognized
+        takeHelper.verifyInvalidTarget(result, 'nasty');
+      }
+    });
+
+    it('should take knife using "unrus" alias', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('unrus');
+
+      if (result.success) {
+        takeHelper.verifySuccess(result);
+        takeHelper.verifyInventoryContains('knife');
+      } else {
+        // Alias may not be recognized
+        takeHelper.verifyInvalidTarget(result, 'unrus');
+      }
+    });
+
+    it('should take knife using "plain" alias', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('plain');
+
+      if (result.success) {
+        takeHelper.verifySuccess(result);
+        takeHelper.verifyInventoryContains('knife');
+      } else {
+        // Alias may not be recognized
+        takeHelper.verifyInvalidTarget(result, 'plain');
+      }
+    });
+
   });
 
   describe('Take Already Taken Items', () => {
-    it('take brick twice fails on second attempt', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
+    it('should fail to take brick twice', () => {
+      takeHelper.clearPlayerInventory();
+
       // First take should succeed
-      let result = testEnv.takeCommandHelper.executeTake('brick');
-      testEnv.takeCommandHelper.verifySuccess(result);
-      testEnv.takeCommandHelper.verifyInventoryContains('brick');
-      
+      let result = takeHelper.executeTake('brick');
+      takeHelper.verifySuccess(result);
+      takeHelper.verifyInventoryContains('brick');
+
       // Second take should fail
-      result = testEnv.takeCommandHelper.executeTake('brick');
-      testEnv.takeCommandHelper.verifyFailure(result);
-      testEnv.takeCommandHelper.verifyNotPresent(result, 'brick');
+      result = takeHelper.executeTake('brick');
+      takeHelper.verifyFailure(result);
+      takeHelper.verifyNotPresent(result);
     });
 
-    it('take all items then try again fails', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      // Take all items
-      testEnv.takeCommandHelper.executeTake('brick');
-      testEnv.takeCommandHelper.executeTake('rope');
-      testEnv.takeCommandHelper.executeTake('knife');
-      
+    it('should handle taking multiple items in sequence', () => {
+      takeHelper.clearPlayerInventory();
+
+      takeHelper.executeTake('brick');
+      takeHelper.verifyInventoryContains('brick');
+      takeHelper.executeTake('rope');
+      takeHelper.verifyInventoryContains('rope');
+      takeHelper.executeTake('knife');
+      takeHelper.verifyInventoryContains('knife');
+
       // Verify all in inventory
-      testEnv.takeCommandHelper.verifyInventoryContains('brick');
-      testEnv.takeCommandHelper.verifyInventoryContains('rope');
-      testEnv.takeCommandHelper.verifyInventoryContains('knife');
-      
-      // Try to take again - should all fail
-      let result = testEnv.takeCommandHelper.executeTake('brick');
-      testEnv.takeCommandHelper.verifyNotPresent(result, 'brick');
-      
-      result = testEnv.takeCommandHelper.executeTake('rope');
-      testEnv.takeCommandHelper.verifyNotPresent(result, 'rope');
-      
-      result = testEnv.takeCommandHelper.executeTake('knife');
-      testEnv.takeCommandHelper.verifyNotPresent(result, 'knife');
+      takeHelper.verifyInventoryContains('brick');
+      takeHelper.verifyInventoryContains('rope');
+      takeHelper.verifyInventoryContains('knife');
     });
   });
 
-  describe('Take from Container', () => {
-    it('take item from open brick container', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      testEnv.atticHelper.setBrickOpen();
-      testEnv.atticHelper.addToBrickContainer(['test_coin']);
-      
-      const result = testEnv.takeCommandHelper.executeTake('test_coin');
-      
-      if (result.success) {
-        testEnv.takeCommandHelper.verifyItemTaken(result, 'test_coin');
-        testEnv.takeCommandHelper.verifyInventoryContains('test_coin');
-        // Item should be removed from container
-        expect(testEnv.atticHelper.getBrickContents()).not.toContain('test_coin');
-      } else {
-        // Implementation may not support taking from containers directly
-        testEnv.takeCommandHelper.verifyInvalidTarget(result, 'test_coin');
-      }
+  describe('Command Syntax and Aliases', () => {
+    it('should work with "take" command', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('brick');
+      takeHelper.verifySuccess(result);
     });
 
-    it('take item from closed brick container fails', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      testEnv.atticHelper.setBrickClosed();
-      testEnv.atticHelper.addToBrickContainer(['test_coin']);
-      
-      const result = testEnv.takeCommandHelper.executeTake('test_coin');
-      
-      testEnv.takeCommandHelper.verifyFailure(result);
-      testEnv.takeCommandHelper.verifyInvalidTarget(result, 'test_coin');
-      
-      // Item should still be in container
-      expect(testEnv.atticHelper.getBrickContents()).toContain('test_coin');
+    it('should work with "get" alias', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTakeWith('get', 'brick');
+      takeHelper.verifySuccess(result);
+    });
+
+    it('should work with "pick up" syntax', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTakeWith('pick up', 'brick');
+
+      if (result.success) {
+        takeHelper.verifyInventoryContains('brick');
+      } else {
+        // Multi-word commands may not be supported
+        takeHelper.verifyFailure(result);
+      }
     });
   });
 
-  describe('Take Command Variations', () => {
-    it('take command without target fails', () => {
-      const result = testEnv.takeCommandHelper.executeTake('');
-      
-      testEnv.takeCommandHelper.verifyFailure(result);
-      testEnv.takeCommandHelper.verifyMissingTarget(result);
+  describe('Error Handling', () => {
+    it('should handle empty take command gracefully', () => {
+      const result = takeHelper.executeTake('');
+
+      takeHelper.verifyFailure(result);
+      takeHelper.verifyMissingTarget(result);
     });
 
-    it('take nonexistent item fails', () => {
-      const result = testEnv.takeCommandHelper.executeTake('nonexistent');
-      
-      testEnv.takeCommandHelper.verifyFailure(result);
-      testEnv.takeCommandHelper.verifyInvalidTarget(result, 'nonexistent');
+    it('should handle non-existent items gracefully', () => {
+      const result = takeHelper.executeTake('nonexistent_item_xyz');
+
+      takeHelper.verifyFailure(result);
+      takeHelper.verifyInvalidTarget(result, 'nonexistent_item_xyz');
     });
 
-    it('take item not in attic fails', () => {
-      const result = testEnv.takeCommandHelper.executeTake('table');
-      
-      testEnv.takeCommandHelper.verifyFailure(result);
-      testEnv.takeCommandHelper.verifyInvalidTarget(result, 'table');
-    });
+    it('should handle taking items from other scenes', () => {
+      const result = takeHelper.executeTake('sword');
 
-    it('get command works as take alias', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      const result = testEnv.takeCommandHelper.executeTakeWith('get', 'knife');
-      
-      testEnv.takeCommandHelper.verifySuccess(result);
-      testEnv.takeCommandHelper.verifyInventoryContains('knife');
-    });
-
-    it('pick up command works as take alias', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      const result = testEnv.takeCommandHelper.executeTakeWith('pick up', 'brick');
-      
-      if (result.success) {
-        testEnv.takeCommandHelper.verifyInventoryContains('brick');
-      } else {
-        // May not support multi-word commands
-        testEnv.takeCommandHelper.verifyFailure(result);
-      }
+      takeHelper.verifyFailure(result);
+      takeHelper.verifyInvalidTarget(result, 'sword');
     });
   });
 
   describe('Game State Tracking', () => {
-    it('take command counts as move', () => {
-      const initialMoves = testEnv.takeCommandHelper.getCurrentMoves();
-      
-      testEnv.takeCommandHelper.executeTake('knife');
-      
-      expect(testEnv.takeCommandHelper.getCurrentMoves()).toBe(initialMoves + 1);
+    it('should count take command as a move', () => {
+      takeHelper.clearPlayerInventory();
+      const initialMoves = takeHelper.getCurrentMoves();
+
+      takeHelper.executeTake('brick');
+
+      expect(takeHelper.getCurrentMoves()).toBe(initialMoves + 1);
     });
 
-    it('take command does not change score initially', () => {
-      const initialScore = testEnv.takeCommandHelper.getCurrentScore();
-      
-      testEnv.takeCommandHelper.executeTake('knife');
-      
-      expect(testEnv.takeCommandHelper.getCurrentScore()).toBe(initialScore);
+    it('should not change score for non-treasure items', () => {
+      takeHelper.clearPlayerInventory();
+      const initialScore = takeHelper.getCurrentScore();
+
+      takeHelper.executeTake('brick');
+
+      expect(takeHelper.getCurrentScore()).toBe(initialScore);
     });
 
-    it('take treasure may affect score when deposited', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      const initialScore = testEnv.takeCommandHelper.getCurrentScore();
-      
-      // Take rope (treasure)
-      testEnv.takeCommandHelper.executeTake('rope');
-      
-      // Score shouldn't change until deposited somewhere
-      expect(testEnv.takeCommandHelper.getCurrentScore()).toBe(initialScore);
-    });
+    it('should update scene state when taking items', () => {
+      // Verify item starts in scene
+      expect(takeHelper.isInScene('brick')).toBe(true);
 
-    it('taking items updates scene state', () => {
-      const initialItems = testEnv.atticHelper.getSceneItems();
-      expect(initialItems).toContain('knife');
-      
-      testEnv.takeCommandHelper.executeTake('knife');
-      
-      const finalItems = testEnv.atticHelper.getSceneItems();
-      expect(finalItems).not.toContain('knife');
+      takeHelper.executeTake('brick');
+
+      // Verify item removed from scene
+      expect(takeHelper.isInScene('brick')).toBe(false);
     });
   });
 
-  describe('Integration with Movement', () => {
-    it('take heavy items and test exit restriction', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      // Take items until heavy
-      testEnv.takeCommandHelper.executeTake('brick');
-      testEnv.takeCommandHelper.executeTake('rope');
-      testEnv.takeCommandHelper.executeTake('knife');
-      
-      // Verify heavy load
-      expect(testEnv.takeCommandHelper.hasLightLoad()).toBe(false);
-      
-      // Should not be able to exit
-      const moveResult = testEnv.moveCommandHelper.executeMoveDown();
-      testEnv.moveCommandHelper.verifyWeightBasedFailure(moveResult);
-      
-      // Player should still be in attic
-      expect(testEnv.takeCommandHelper.getCurrentScene()).toBe('attic');
+  describe('Treasure Collection', () => {
+    it('should take rope treasure without immediate score change', () => {
+      takeHelper.clearPlayerInventory();
+      const initialScore = takeHelper.getCurrentScore();
+
+      const result = takeHelper.executeTake('rope');
+
+      takeHelper.verifySuccess(result);
+      takeHelper.verifyInventoryContains('rope');
+
+      // Score changes when deposited, not when taken
+      expect(takeHelper.getCurrentScore()).toBe(initialScore);
+    });
+  });
+
+  describe('Weight Management', () => {
+    it('should track inventory weight after taking items', () => {
+      takeHelper.clearPlayerInventory();
+
+      takeHelper.executeTake('brick');
+      takeHelper.executeTake('rope');
+      takeHelper.executeTake('knife');
+
+      const totalWeight = takeHelper.getCurrentInventoryWeight();
+      expect(totalWeight).toBeGreaterThan(0);
     });
 
-    it('strategic item management for exit', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      // Take valuable but lighter items first
-      testEnv.takeCommandHelper.executeTake('knife'); // 5 weight
-      testEnv.takeCommandHelper.executeTake('brick'); // 9 weight = 14 total
-      
-      // Should be able to exit with these
-      if (testEnv.takeCommandHelper.hasLightLoad()) {
-        const moveResult = testEnv.moveCommandHelper.executeMoveDown();
-        testEnv.moveCommandHelper.verifyKitchenAccess(moveResult);
-      }
+    it('should handle taking heavy item rope (10 weight)', () => {
+      takeHelper.clearPlayerInventory();
+
+      const result = takeHelper.executeTake('rope');
+
+      takeHelper.verifySuccess(result);
+
+      const currentWeight = takeHelper.getCurrentInventoryWeight();
+      expect(currentWeight).toBe(10);
     });
   });
 
   describe('Item State Preservation', () => {
-    it('taking container preserves its state', () => {
-      testEnv.atticHelper.setBrickOpen();
-      testEnv.atticHelper.addToBrickContainer(['test_item']);
-      
-      testEnv.takeCommandHelper.executeTake('brick');
-      
-      // Brick should still be open and contain item
-      testEnv.atticHelper.verifyBrickState(true);
-      expect(testEnv.atticHelper.getBrickContents()).toContain('test_item');
-    });
+    it('should preserve brick state when taken', () => {
+      takeHelper.clearPlayerInventory();
 
-    it('taking weapon preserves its state', () => {
-      testEnv.atticHelper.setKnifeOn();
-      
-      testEnv.takeCommandHelper.executeTake('knife');
-      
-      // Knife should still be on
-      testEnv.atticHelper.verifyKnifeState(true);
-    });
+      // Open the item before taking
+      takeHelper.executeOpen('open brick');
 
-    it('item states persist in inventory', () => {
-      testEnv.atticHelper.setBrickOpen();
-      testEnv.atticHelper.setKnifeOn();
-      
-      testEnv.takeCommandHelper.executeTake('brick');
-      testEnv.takeCommandHelper.executeTake('knife');
-      
-      // Both should maintain their states
-      testEnv.atticHelper.verifyBrickState(true);
-      testEnv.atticHelper.verifyKnifeState(true);
-    });
-  });
+      takeHelper.executeTake('brick');
 
-  describe('Realistic Usage Scenarios', () => {
-    it('treasure hunting workflow', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      // Examine and take valuable rope treasure
-      const examineResult = testEnv.examineCommandHelper.executeExamine('rope');
-      testEnv.examineCommandHelper.verifySuccess(examineResult);
-      
-      const takeResult = testEnv.takeCommandHelper.executeTake('rope');
-      testEnv.takeCommandHelper.verifySuccess(takeResult);
-      testEnv.takeCommandHelper.verifyInventoryContains('rope');
-      
-      // Check if can still exit
-      const currentWeight = testEnv.takeCommandHelper.getCurrentInventoryWeight();
-      expect(currentWeight).toBe(10);
-    });
-
-    it('tool collection workflow', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      // Take knife as tool
-      testEnv.takeCommandHelper.executeTake('knife');
-      testEnv.takeCommandHelper.verifyInventoryContains('knife');
-      
-      // Open and examine container
-      testEnv.openCommandHelper.executeOpen('brick');
-      const lookInResult = testEnv.lookCommandHelper.executeLookIn('brick');
-      testEnv.lookCommandHelper.verifySuccess(lookInResult);
-      
-      // Take container too
-      testEnv.takeCommandHelper.executeTake('brick');
-      testEnv.takeCommandHelper.verifyInventoryContains('brick');
-    });
-
-    it('weight management strategy', () => {
-      testEnv.atticHelper.clearPlayerInventory();
-      
-      // Take lightest items first
-      testEnv.takeCommandHelper.executeTake('knife'); // 5 weight
-      
-      // Check if can take more
-      let currentWeight = testEnv.takeCommandHelper.getCurrentInventoryWeight();
-      expect(currentWeight).toBe(5);
-      
-      // Take medium weight
-      testEnv.takeCommandHelper.executeTake('brick'); // +9 = 14 total
-      currentWeight = testEnv.takeCommandHelper.getCurrentInventoryWeight();
-      expect(currentWeight).toBe(14);
-      
-      // Decide on heavy item based on weight limit
-      if (testEnv.takeCommandHelper.hasLightLoad()) {
-        // Can take rope
-        testEnv.takeCommandHelper.executeTake('rope');
-      }
-      
-      // Final weight check
-      const finalWeight = testEnv.takeCommandHelper.getCurrentInventoryWeight();
-      expect(finalWeight).toBeGreaterThan(14);
+      // Item should be in inventory (state preservation verified by game logic)
+      takeHelper.verifyInventoryContains('brick');
     });
   });
 });

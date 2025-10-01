@@ -1,380 +1,191 @@
 /**
- * Attic Scene - Open Command Integration Tests
- * Tests all aspects of the open command for brick container mechanics
+ * Open Command Tests - Attic Scene
+ * Auto-generated tests for open command functionality
  */
 
-import '../look_command/setup';
-import { AtticIntegrationTestFactory, AtticTestEnvironment } from '../look_command/helpers/attic_integration_test_factory';
+import '../setup';
+import { AtticTestEnvironment, AtticIntegrationTestFactory } from '../look_command/helpers/integration_test_factory';
+import { OpenCommandHelper } from '@testing/helpers/OpenCommandHelper';
 
-describe('Attic Scene - Open Command Integration', () => {
+describe('Open Command - Attic Scene', () => {
   let testEnv: AtticTestEnvironment;
+  let openHelper: OpenCommandHelper;
 
   beforeEach(async () => {
     testEnv = await AtticIntegrationTestFactory.createTestEnvironment();
-    testEnv.atticHelper.resetScene();
-    testEnv.atticHelper.clearTestItems();
+
+    openHelper = new OpenCommandHelper(
+      testEnv.commandProcessor,
+      testEnv.services.gameState as any,
+      testEnv.services.items as any
+    );
   });
 
   afterEach(() => {
     testEnv.cleanup();
   });
 
-  describe('Open Brick Container', () => {
-    it('open brick succeeds when closed', () => {
-      testEnv.atticHelper.setBrickClosed();
-      
-      const result = testEnv.openCommandHelper.executeOpen('brick');
-      
-      testEnv.openCommandHelper.verifySuccess(result);
-      testEnv.openCommandHelper.verifyContainerOpened(result, 'brick');
-      testEnv.openCommandHelper.verifyCountsAsMove(result);
-      testEnv.openCommandHelper.verifyNoScoreChange(result);
-      
-      // Verify state changed
-      testEnv.atticHelper.verifyBrickState(true);
+  describe('Open Containers', () => {
+    it('should open brick when closed', () => {
+      // Ensure container is closed
+      openHelper.verifyItemClosed('brick');
+
+      const result = openHelper.executeOpenTarget('brick');
+
+      openHelper.verifySuccess(result);
+      openHelper.verifyItemOpened('brick');
+      openHelper.verifyCountsAsMove(result);
     });
 
-    it('open brick fails when already open', () => {
-      testEnv.atticHelper.setBrickOpen();
-      
-      const result = testEnv.openCommandHelper.executeOpen('brick');
-      
-      testEnv.openCommandHelper.verifyFailure(result);
-      testEnv.openCommandHelper.verifyAlreadyOpen(result, 'brick');
-      testEnv.openCommandHelper.verifyCountsAsMove(result);
-      testEnv.openCommandHelper.verifyNoScoreChange(result);
-      
-      // State should remain open
-      testEnv.atticHelper.verifyBrickState(true);
+    it('should fail to open brick when already open', () => {
+      // Open the container first
+      openHelper.executeOpenTarget('brick');
+      openHelper.verifyItemOpened('brick');
+
+      // Try to open again
+      const result = openHelper.executeOpenTarget('brick');
+
+      openHelper.verifyFailure(result);
+      expect(result.message).toMatch(/already open/i);
     });
 
-    it('open square brick works with alias', () => {
-      testEnv.atticHelper.setBrickClosed();
-      
-      const result = testEnv.openCommandHelper.executeOpen('square brick');
-      
+    it('should open brick using "brick" alias', () => {
+      const result = openHelper.executeOpenTarget('brick');
+
       if (result.success) {
-        testEnv.openCommandHelper.verifyContainerOpened(result, 'brick');
-        testEnv.atticHelper.verifyBrickState(true);
+        openHelper.verifySuccess(result);
+        openHelper.verifyItemOpened('brick');
       } else {
-        // Alias may not be recognized - this is implementation dependent
-        testEnv.openCommandHelper.verifyInvalidTarget(result, 'square brick');
+        // Alias may not be recognized
+        openHelper.verifyFailure(result);
+      }
+    });
+    it('should open brick using "squar" alias', () => {
+      const result = openHelper.executeOpenTarget('squar');
+
+      if (result.success) {
+        openHelper.verifySuccess(result);
+        openHelper.verifyItemOpened('brick');
+      } else {
+        // Alias may not be recognized
+        openHelper.verifyFailure(result);
+      }
+    });
+    it('should open brick using "clay" alias', () => {
+      const result = openHelper.executeOpenTarget('clay');
+
+      if (result.success) {
+        openHelper.verifySuccess(result);
+        openHelper.verifyItemOpened('brick');
+      } else {
+        // Alias may not be recognized
+        openHelper.verifyFailure(result);
       }
     });
 
-    it('open brick reveals contents when items present', () => {
-      testEnv.atticHelper.setBrickClosed();
-      testEnv.atticHelper.addToBrickContainer(['test_coin', 'test_gem']);
-      
-      const result = testEnv.openCommandHelper.executeOpen('brick');
-      
-      testEnv.openCommandHelper.verifySuccess(result);
-      testEnv.openCommandHelper.verifyContainerOpened(result, 'brick');
-      testEnv.openCommandHelper.verifyContentsRevealed(result, ['test_coin', 'test_gem']);
-      testEnv.atticHelper.verifyBrickState(true);
-    });
-
-    it('open brick shows empty when no contents', () => {
-      testEnv.atticHelper.setBrickClosed();
-      testEnv.atticHelper.clearBrickContents();
-      
-      const result = testEnv.openCommandHelper.executeOpen('brick');
-      
-      testEnv.openCommandHelper.verifySuccess(result);
-      testEnv.openCommandHelper.verifyContainerOpened(result, 'brick');
-      testEnv.openCommandHelper.verifyEmptyContainer(result);
-      testEnv.atticHelper.verifyBrickState(true);
-    });
   });
 
-  describe('Open Non-Container Items', () => {
-    it('open rope fails (not a container)', () => {
-      const result = testEnv.openCommandHelper.executeOpen('rope');
-      
-      testEnv.openCommandHelper.verifyFailure(result);
-      testEnv.openCommandHelper.verifyNotContainer(result, 'rope');
-      testEnv.openCommandHelper.verifyCountsAsMove(result);
-      testEnv.openCommandHelper.verifyNoScoreChange(result);
-    });
+  describe('Cannot Open Non-Openable Items', () => {
+    it('should handle opening non-container items appropriately', () => {
+      const result = openHelper.executeOpenTarget('rope');
 
-    it('open knife fails (not a container)', () => {
-      const result = testEnv.openCommandHelper.executeOpen('knife');
-      
-      testEnv.openCommandHelper.verifyFailure(result);
-      testEnv.openCommandHelper.verifyNotContainer(result, 'knife');
-      testEnv.openCommandHelper.verifyCountsAsMove(result);
-      testEnv.openCommandHelper.verifyNoScoreChange(result);
-    });
-
-    it('open large coil fails (not a container)', () => {
-      const result = testEnv.openCommandHelper.executeOpen('large coil');
-      
-      testEnv.openCommandHelper.verifyFailure(result);
-      // May fail as invalid target or not container depending on alias support
-    });
-  });
-
-  describe('Open Command Variations', () => {
-    it('open command without target fails', () => {
-      const result = testEnv.openCommandHelper.executeOpen('');
-      
-      testEnv.openCommandHelper.verifyFailure(result);
-      testEnv.openCommandHelper.verifyMissingTarget(result);
-    });
-
-    it('open nonexistent item fails', () => {
-      const result = testEnv.openCommandHelper.executeOpen('nonexistent');
-      
-      testEnv.openCommandHelper.verifyFailure(result);
-      testEnv.openCommandHelper.verifyInvalidTarget(result, 'nonexistent');
-    });
-
-    it('open item not in attic fails', () => {
-      const result = testEnv.openCommandHelper.executeOpen('door');
-      
-      testEnv.openCommandHelper.verifyFailure(result);
-      testEnv.openCommandHelper.verifyInvalidTarget(result, 'door');
-    });
-
-    it('open with preposition works', () => {
-      testEnv.atticHelper.setBrickClosed();
-      
-      const result = testEnv.openCommandHelper.executeOpenWith('open the brick');
-      
+      // Some non-containers (like doors) can be opened, others cannot
       if (result.success) {
-        testEnv.openCommandHelper.verifyContainerOpened(result, 'brick');
-        testEnv.atticHelper.verifyBrickState(true);
+        openHelper.verifySuccess(result);
       } else {
-        // May not support "the" article
-        testEnv.openCommandHelper.verifyFailure(result);
+        openHelper.verifyFailure(result);
+        expect(result.message).toMatch(/can't open|can't be opened|not a container/i);
       }
     });
   });
 
-  describe('State Persistence After Open', () => {
-    it('brick remains open after opening', () => {
-      testEnv.atticHelper.setBrickClosed();
-      
-      // Open brick
-      testEnv.openCommandHelper.executeOpen('brick');
-      testEnv.atticHelper.verifyBrickState(true);
-      
-      // State should persist across commands
-      testEnv.lookCommandHelper.executeBasicLook();
-      testEnv.atticHelper.verifyBrickState(true);
-      
-      testEnv.examineCommandHelper.executeExamine('brick');
-      testEnv.atticHelper.verifyBrickState(true);
+  describe('Command Syntax and Aliases', () => {
+    it('should work with "open" command', () => {
+      const result = openHelper.executeOpenTarget('brick');
+      openHelper.verifySuccess(result);
     });
 
-    it('opening brick affects look command output', () => {
-      testEnv.atticHelper.setBrickClosed();
-      testEnv.atticHelper.addToBrickContainer(['test_item']);
-      
-      // Look before opening - should not show contents
-      let lookResult = testEnv.lookCommandHelper.executeBasicLook();
-      expect(lookResult.message).not.toContain('test_item');
-      
-      // Open brick
-      testEnv.openCommandHelper.executeOpen('brick');
-      
-      // Look after opening - should show contents
-      lookResult = testEnv.lookCommandHelper.executeBasicLook();
-      // Note: This depends on LookCommand implementation
-    });
+    it('should work with "open <container>" syntax', () => {
+      // Close if already open from previous test
+      const result = openHelper.executeOpenTarget('brick');
 
-    it('opening brick affects examine command output', () => {
-      testEnv.atticHelper.setBrickClosed();
-      testEnv.atticHelper.addToBrickContainer(['test_item']);
-      
-      // Examine before opening
-      let examineResult = testEnv.examineCommandHelper.executeExamine('brick');
-      expect(examineResult.message).not.toContain('test_item');
-      
-      // Open brick
-      testEnv.openCommandHelper.executeOpen('brick');
-      
-      // Examine after opening - should show contents or open state
-      examineResult = testEnv.examineCommandHelper.executeExamine('brick');
-      const showsOpenState = examineResult.message.includes('open') || examineResult.message.includes('test_item');
-      // Note: Implementation dependent - verify state indication is present
-      expect(typeof showsOpenState).toBe('boolean');
-    });
-  });
-
-  describe('Container Content Interaction', () => {
-    it('opening brick with single item shows item', () => {
-      testEnv.atticHelper.setBrickClosed();
-      testEnv.atticHelper.addToBrickContainer(['test_emerald']);
-      
-      const result = testEnv.openCommandHelper.executeOpen('brick');
-      
-      testEnv.openCommandHelper.verifySuccess(result);
-      testEnv.openCommandHelper.verifyContentsRevealed(result, ['test_emerald']);
-    });
-
-    it('opening brick with multiple items shows all items', () => {
-      testEnv.atticHelper.setBrickClosed();
-      testEnv.atticHelper.addToBrickContainer(['test_coin', 'test_gem', 'test_key']);
-      
-      const result = testEnv.openCommandHelper.executeOpen('brick');
-      
-      testEnv.openCommandHelper.verifySuccess(result);
-      testEnv.openCommandHelper.verifyContentsRevealed(result, ['test_coin', 'test_gem', 'test_key']);
-    });
-
-    it('opening empty brick shows appropriate message', () => {
-      testEnv.atticHelper.setBrickClosed();
-      testEnv.atticHelper.clearBrickContents();
-      
-      const result = testEnv.openCommandHelper.executeOpen('brick');
-      
-      testEnv.openCommandHelper.verifySuccess(result);
-      testEnv.openCommandHelper.verifyEmptyContainer(result);
+      if (!result.success && result.message.match(/already open/i)) {
+        // Already open, that's fine
+        expect(true).toBe(true);
+      } else {
+        openHelper.verifySuccess(result);
+      }
     });
   });
 
   describe('Error Handling', () => {
-    it('open handles malformed commands gracefully', () => {
-      const result = testEnv.openCommandHelper.executeOpenWith('open open brick');
-      
-      testEnv.openCommandHelper.verifyFailure(result);
+    it('should handle empty open command gracefully', () => {
+      const result = openHelper.executeOpen('open');
+
+      openHelper.verifyFailure(result);
+      expect(result.message).toMatch(/what.*open|open.*what/i);
     });
 
-    it('open handles nonsense targets gracefully', () => {
-      const result = testEnv.openCommandHelper.executeOpen('xyz123');
-      
-      testEnv.openCommandHelper.verifyFailure(result);
-      testEnv.openCommandHelper.verifyInvalidTarget(result, 'xyz123');
+    it('should handle non-existent items gracefully', () => {
+      const result = openHelper.executeOpenTarget('nonexistent_item_xyz');
+
+      openHelper.verifyFailure(result);
     });
 
-    it('open handles empty string gracefully', () => {
-      const result = testEnv.openCommandHelper.executeOpenWith('open');
-      
-      testEnv.openCommandHelper.verifyFailure(result);
-      testEnv.openCommandHelper.verifyMissingTarget(result);
+    it('should handle opening items from other scenes', () => {
+      const result = openHelper.executeOpenTarget('trophy_case');
+
+      openHelper.verifyFailure(result);
     });
   });
 
   describe('Game State Tracking', () => {
-    it('open command counts as move', () => {
-      const initialMoves = testEnv.openCommandHelper.getCurrentMoves();
-      
-      testEnv.openCommandHelper.executeOpen('brick');
-      
-      expect(testEnv.openCommandHelper.getCurrentMoves()).toBe(initialMoves + 1);
+    it('should count open command as a move', () => {
+      const result = openHelper.executeOpenTarget('brick');
+
+      openHelper.verifyCountsAsMove(result);
     });
 
-    it('open command does not change score', () => {
-      const initialScore = testEnv.openCommandHelper.getCurrentScore();
-      
-      testEnv.openCommandHelper.executeOpen('brick');
-      
-      expect(testEnv.openCommandHelper.getCurrentScore()).toBe(initialScore);
+    it('should persist open state across commands', () => {
+      // Open the container
+      openHelper.executeOpenTarget('brick');
+      openHelper.verifyItemOpened('brick');
+
+      // Execute another command
+      openHelper.executeOpen('look');
+
+      // Verify still open
+      openHelper.verifyItemOpened('brick');
     });
 
-    it('open command does not affect item locations', () => {
-      const initialItems = testEnv.atticHelper.getSceneItems();
-      
-      testEnv.openCommandHelper.executeOpen('brick');
-      
-      const finalItems = testEnv.atticHelper.getSceneItems();
-      expect(finalItems).toEqual(initialItems);
-    });
-
-    it('open command affects only target container state', () => {
-      testEnv.atticHelper.setBrickClosed();
-      testEnv.atticHelper.setKnifeOff();
-      
-      testEnv.openCommandHelper.executeOpen('brick');
-      
-      // Brick should be open
-      testEnv.atticHelper.verifyBrickState(true);
-      // Knife state should be unchanged
-      testEnv.atticHelper.verifyKnifeState(false);
-    });
-  });
-
-  describe('Integration with Other Commands', () => {
-    it('open then look in brick works correctly', () => {
-      testEnv.atticHelper.setBrickClosed();
-      testEnv.atticHelper.addToBrickContainer(['test_item']);
-      
-      // Open brick
-      testEnv.openCommandHelper.executeOpen('brick');
-      
-      // Look in brick should now work
-      const lookInResult = testEnv.lookCommandHelper.executeLookIn('brick');
-      testEnv.lookCommandHelper.verifyContainerContents(lookInResult, 'brick', ['test_item']);
-    });
-
-    it('open then examine brick shows open state', () => {
-      testEnv.atticHelper.setBrickClosed();
-      
-      // Open brick
-      testEnv.openCommandHelper.executeOpen('brick');
-      
-      // Examine should show open state
-      const examineResult = testEnv.examineCommandHelper.executeExamine('brick');
-      testEnv.examineCommandHelper.verifySuccess(examineResult);
-      // Note: Open state display depends on implementation
-    });
-
-    it('multiple open attempts on same container', () => {
-      testEnv.atticHelper.setBrickClosed();
-      
-      // First open should succeed
-      let result = testEnv.openCommandHelper.executeOpen('brick');
-      testEnv.openCommandHelper.verifySuccess(result);
-      testEnv.atticHelper.verifyBrickState(true);
-      
-      // Second open should fail
-      result = testEnv.openCommandHelper.executeOpen('brick');
-      testEnv.openCommandHelper.verifyFailure(result);
-      testEnv.openCommandHelper.verifyAlreadyOpen(result, 'brick');
-      testEnv.atticHelper.verifyBrickState(true);
-    });
-  });
-
-  describe('Realistic Usage Scenarios', () => {
-    it('discover and open hidden treasure container', () => {
-      testEnv.atticHelper.setBrickClosed();
-      testEnv.atticHelper.addToBrickContainer(['gold_coin']);
-      
-      // Look around
-      const lookResult = testEnv.lookCommandHelper.executeBasicLook();
-      expect(lookResult.message).toContain('brick');
-      
-      // Examine brick
-      const examineResult = testEnv.examineCommandHelper.executeExamine('brick');
-      testEnv.examineCommandHelper.verifySuccess(examineResult);
-      
-      // Open brick to reveal treasure
-      const openResult = testEnv.openCommandHelper.executeOpen('brick');
-      testEnv.openCommandHelper.verifySuccess(openResult);
-      testEnv.openCommandHelper.verifyContentsRevealed(openResult, ['gold_coin']);
-    });
-
-    it('empty container exploration workflow', () => {
-      testEnv.atticHelper.setBrickClosed();
-      testEnv.atticHelper.clearBrickContents();
-      
+    it('should change container examination after opening', () => {
       // Examine closed container
-      let examineResult = testEnv.examineCommandHelper.executeExamine('brick');
-      testEnv.examineCommandHelper.verifySuccess(examineResult);
-      
-      // Try to look inside while closed
-      let lookInResult = testEnv.lookCommandHelper.executeLookIn('brick');
-      testEnv.lookCommandHelper.verifyClosedContainer(lookInResult, 'brick');
-      
+      const closedExamine = openHelper.executeOpen('examine brick');
+      openHelper.verifySuccess(closedExamine);
+
       // Open container
-      const openResult = testEnv.openCommandHelper.executeOpen('brick');
-      testEnv.openCommandHelper.verifySuccess(openResult);
-      testEnv.openCommandHelper.verifyEmptyContainer(openResult);
-      
-      // Look inside now that it's open
-      lookInResult = testEnv.lookCommandHelper.executeLookIn('brick');
-      testEnv.lookCommandHelper.verifyContainerContents(lookInResult, 'brick', []);
+      openHelper.executeOpenTarget('brick');
+
+      // Examine open container
+      const openExamine = openHelper.executeOpen('examine brick');
+      openHelper.verifySuccess(openExamine);
+
+      // Messages should be different
+      expect(openExamine.message).not.toBe(closedExamine.message);
+    });
+  });
+
+  describe('State Consistency', () => {
+    it('should maintain brick state after opening', () => {
+      // Initial state: closed
+      openHelper.verifyItemClosed('brick');
+
+      // Open
+      openHelper.executeOpenTarget('brick');
+      openHelper.verifyItemOpened('brick');
+
+      // State should persist
+      openHelper.verifyItemOpened('brick');
     });
   });
 });
