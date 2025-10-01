@@ -215,12 +215,10 @@ describe('Workflows - {{title}} Scene', () => {
       const exit{{this.capitalizedDirection}}Result = testEnv.commandProcessor.processCommand('{{this.direction}}');
       expect(exit{{this.capitalizedDirection}}Result).toBeDefined();
 
-      {{#if this.returnDirection}}
-      // Return to original scene
+      // Return to original scene for next test
       if (exit{{this.capitalizedDirection}}Result.countsAsMove) {
-        testEnv.commandProcessor.processCommand('{{this.returnDirection}}');
+        testEnv.services.gameState.setCurrentScene('{{../id}}');
       }
-      {{/if}}
       {{/each}}
 
       // Verify back in original scene

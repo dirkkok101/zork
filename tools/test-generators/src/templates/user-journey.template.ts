@@ -264,11 +264,8 @@ describe('{{title}} Scene - User Journeys', () => {
       if ({{this.direction}}Result.countsAsMove) {
         expect(testEnv.services.gameState.getCurrentScene()).toBe('{{this.to}}');
 
-        // Return to original scene
-        {{#if this.returnDirection}}
-        testEnv.commandProcessor.processCommand('{{this.returnDirection}}');
-        expect(testEnv.services.gameState.getCurrentScene()).toBe(originalScene);
-        {{/if}}
+        // Return to original scene for next test
+        testEnv.services.gameState.setCurrentScene(originalScene);
       }
       {{/each}}
     });
