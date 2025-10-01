@@ -88,10 +88,60 @@ export class CloseCommand extends BaseCommand {
 
     // Otherwise, delegate to ItemService for containers
     const closeResult = this.items.closeItem(targetId);
-    
-    return closeResult.success 
+
+    return closeResult.success
       ? this.success(closeResult.message, true, 0)
       : this.failure(closeResult.message);
+  }
+
+  /**
+   * Get context-aware suggestions for the close command
+   */
+  override getSuggestions(input: string): string[] {
+    const suggestions: string[] = [];
+    const words = input.toLowerCase().trim().split(/\s+/);
+    const firstWord = words[0] || '';
+
+    // Only provide suggestions for this command's verbs
+    if (!['close', 'shut'].includes(firstWord)) {
+      return [];
+    }
+
+    // Get openable items in current scene (only open ones)
+    const currentSceneId = this.gameState.getCurrentScene();
+    const closeableItems = this.items.getOpenableItemsInScene(currentSceneId, false); // false = must be open
+
+    // Also check inventory for closeable items
+    const inventoryItems = this.items.getInventoryItems().filter(item => {
+      const canBeOpened = this.items.isContainer(item.id) || item.properties?.openable === true;
+      const isOpen = item.state?.open || false;
+      return canBeOpened && isOpen;
+    });
+
+    // Generate suggestions with metadata
+    [...closeableItems, ...inventoryItems].forEach(item => {
+      if (item && item.name) {
+        // Build metadata string for parsing in GameInterface
+        const metadata: string[] = [];
+
+        // Add item type
+        if (item.type) {
+          metadata.push(`itemType:${item.type.toLowerCase()}`);
+        }
+
+        // Add state (these are all open items)
+        metadata.push('itemState:open');
+
+        // Format: "command|metadata1|metadata2"
+        const suggestionText = metadata.length > 0
+          ? `${firstWord} ${item.name}|${metadata.join('|')}`
+          : `${firstWord} ${item.name}`;
+
+        suggestions.push(suggestionText);
+      }
+    });
+
+    return suggestions;
   }
 
 }

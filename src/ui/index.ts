@@ -4,3 +4,6 @@
  */
 
 export { GameInterface } from './GameInterface';
+export { AutocompleteDropdown, Suggestion } from './AutocompleteDropdown';
+export { ContextPanel } from './ContextPanel';
+export { TypewriterEffect, TypewriterOptions } from './TypewriterEffect';

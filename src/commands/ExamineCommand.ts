@@ -290,4 +290,51 @@ export class ExamineCommand extends BaseCommand {
     }
     return null;
   }
+
+  /**
+   * Get context-aware suggestions for the examine command
+   */
+  override getSuggestions(input: string): string[] {
+    const suggestions: string[] = [];
+    const words = input.toLowerCase().trim().split(/\s+/);
+    const firstWord = words[0] || '';
+
+    // Only provide suggestions for this command's verbs
+    if (!['examine', 'x', 'look', 'l', 'inspect'].includes(firstWord)) {
+      return [];
+    }
+
+    // Get visible items in current scene and inventory
+    const currentSceneId = this.gameState.getCurrentScene();
+    const sceneItems = this.items.getVisibleItemsInScene(currentSceneId);
+    const inventoryItems = this.items.getInventoryItems();
+
+    // Combine and generate suggestions with metadata
+    [...sceneItems, ...inventoryItems].forEach(item => {
+      if (item && item.name) {
+        // Build metadata string for parsing in GameInterface
+        const metadata: string[] = [];
+
+        // Add item type
+        if (item.type) {
+          metadata.push(`itemType:${item.type.toLowerCase()}`);
+        }
+
+        // Add state if item is openable
+        if (this.items.isContainer(item.id)) {
+          const state = item.state?.open ? 'open' : 'closed';
+          metadata.push(`itemState:${state}`);
+        }
+
+        // Format: "command|metadata1|metadata2"
+        const suggestionText = metadata.length > 0
+          ? `${firstWord} ${item.name}|${metadata.join('|')}`
+          : `${firstWord} ${item.name}`;
+
+        suggestions.push(suggestionText);
+      }
+    });
+
+    return suggestions;
+  }
 }

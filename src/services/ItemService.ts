@@ -804,4 +804,182 @@ export class ItemService implements IItemService {
     
     return false;
   }
+
+  // Suggestion Helper Methods
+
+  /**
+   * Get portable items in a specific scene for autocomplete suggestions
+   * Includes items directly in scene AND items in open containers
+   */
+  getPortableItemsInScene(sceneId: string): any[] {
+    const gameState = this.gameState.getGameState();
+    const scene = gameState.scenes[sceneId];
+
+    if (!scene) {
+      return [];
+    }
+
+    // Get items from scene state if available, otherwise from scene definition
+    const sceneState = gameState.sceneStates[sceneId];
+    const itemsFromSceneDef = scene.items || [];
+    const itemsFromSceneState = sceneState?.items || [];
+    const itemIds = itemsFromSceneState.length > 0 ? itemsFromSceneState : itemsFromSceneDef.map((item: any) => item.itemId || item);
+
+    const portableItems: any[] = [];
+
+    // Get portable items directly in scene
+    itemIds.forEach((itemId: string) => {
+      const item = gameState.items[itemId];
+      if (item && item.visible && item.portable) {
+        portableItems.push(item);
+      }
+
+      // Also check if this item is an open container with portable items inside
+      if (item && this.isContainer(itemId) && this.isContainerOpen(itemId)) {
+        const contents = this.getContainerContents(itemId);
+        contents.forEach((contentId: string) => {
+          const contentItem = gameState.items[contentId];
+          if (contentItem && contentItem.visible && contentItem.portable) {
+            portableItems.push(contentItem);
+          }
+        });
+      }
+    });
+
+    return portableItems;
+  }
+
+  /**
+   * Get visible items in a specific scene (for examine, look) for autocomplete suggestions
+   * Includes items directly in scene AND items in open containers
+   */
+  getVisibleItemsInScene(sceneId: string): any[] {
+    const gameState = this.gameState.getGameState();
+    const scene = gameState.scenes[sceneId];
+
+    if (!scene) {
+      return [];
+    }
+
+    // Get items from scene state if available, otherwise from scene definition
+    const sceneState = gameState.sceneStates[sceneId];
+    const itemsFromSceneDef = scene.items || [];
+    const itemsFromSceneState = sceneState?.items || [];
+    const itemIds = itemsFromSceneState.length > 0 ? itemsFromSceneState : itemsFromSceneDef.map((item: any) => item.itemId || item);
+
+    const visibleItems: any[] = [];
+
+    // Get visible items directly in scene
+    itemIds.forEach((itemId: string) => {
+      const item = gameState.items[itemId];
+      if (item && item.visible) {
+        visibleItems.push(item);
+      }
+
+      // Also check if this item is an open container with visible items inside
+      if (item && this.isContainer(itemId) && this.isContainerOpen(itemId)) {
+        const contents = this.getContainerContents(itemId);
+        contents.forEach((contentId: string) => {
+          const contentItem = gameState.items[contentId];
+          if (contentItem && contentItem.visible) {
+            visibleItems.push(contentItem);
+          }
+        });
+      }
+    });
+
+    return visibleItems;
+  }
+
+  /**
+   * Get openable/closeable items in a scene for autocomplete suggestions
+   * @param sceneId Scene to search
+   * @param mustBeClosed If true, only returns closed items (for "open"). If false, only returns open items (for "close")
+   */
+  getOpenableItemsInScene(sceneId: string, mustBeClosed: boolean): any[] {
+    const gameState = this.gameState.getGameState();
+    const scene = gameState.scenes[sceneId];
+
+    if (!scene) {
+      return [];
+    }
+
+    // Get items from scene state if available, otherwise from scene definition
+    const sceneState = gameState.sceneStates[sceneId];
+    const itemsFromSceneDef = scene.items || [];
+    const itemsFromSceneState = sceneState?.items || [];
+    const itemIds = itemsFromSceneState.length > 0 ? itemsFromSceneState : itemsFromSceneDef.map((item: any) => item.itemId || item);
+
+    // Filter for openable items with correct state
+    return itemIds
+      .map((itemId: string) => gameState.items[itemId])
+      .filter((item: any) => {
+        if (!item || !item.visible) return false;
+
+        // Check if item can be opened
+        const canBeOpened = this.isContainer(item.id) || item.properties?.openable === true;
+        if (!canBeOpened) return false;
+
+        // Check current state
+        const isOpen = item.state?.open || false;
+
+        // For "open" command: only show closed items
+        // For "close" command: only show open items
+        return mustBeClosed ? !isOpen : isOpen;
+      });
+  }
+
+  /**
+   * Get all items in player's inventory for autocomplete suggestions
+   */
+  getInventoryItems(): any[] {
+    const gameState = this.gameState.getGameState();
+    const inventory = gameState.inventory || [];
+
+    return inventory
+      .map((itemId: string) => gameState.items[itemId])
+      .filter((item: any) => item !== undefined);
+  }
+
+  /**
+   * Get readable items in scene for autocomplete suggestions
+   * Includes items directly in scene AND items in open containers
+   */
+  getReadableItemsInScene(sceneId: string): any[] {
+    const gameState = this.gameState.getGameState();
+    const scene = gameState.scenes[sceneId];
+
+    if (!scene) {
+      return [];
+    }
+
+    // Get items from scene state if available, otherwise from scene definition
+    const sceneState = gameState.sceneStates[sceneId];
+    const itemsFromSceneDef = scene.items || [];
+    const itemsFromSceneState = sceneState?.items || [];
+    const itemIds = itemsFromSceneState.length > 0 ? itemsFromSceneState : itemsFromSceneDef.map((item: any) => item.itemId || item);
+
+    const readableItems: any[] = [];
+
+    // Get readable items directly in scene
+    itemIds.forEach((itemId: string) => {
+      const item = gameState.items[itemId];
+      if (item && item.visible && (item.type === ItemType.READABLE || item.properties?.readable === true)) {
+        readableItems.push(item);
+      }
+
+      // Also check if this item is an open container with readable items inside
+      if (item && this.isContainer(itemId) && this.isContainerOpen(itemId)) {
+        const contents = this.getContainerContents(itemId);
+        contents.forEach((contentId: string) => {
+          const contentItem = gameState.items[contentId];
+          if (contentItem && contentItem.visible && (contentItem.type === ItemType.READABLE || contentItem.properties?.readable === true)) {
+            readableItems.push(contentItem);
+          }
+        });
+      }
+    });
+
+    return readableItems;
+  }
 }

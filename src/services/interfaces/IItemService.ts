@@ -105,4 +105,20 @@ export interface IItemService {
 
   /** Check if an item matches a name or alias */
   itemMatches(item: any, name: string): boolean;
+
+  // Suggestion helper methods for autocomplete
+  /** Get portable items in a scene for autocomplete suggestions */
+  getPortableItemsInScene(sceneId: string): any[];
+
+  /** Get visible items in a scene for autocomplete suggestions */
+  getVisibleItemsInScene(sceneId: string): any[];
+
+  /** Get openable items in a scene for autocomplete suggestions */
+  getOpenableItemsInScene(sceneId: string, mustBeClosed: boolean): any[];
+
+  /** Get all items in player's inventory for autocomplete suggestions */
+  getInventoryItems(): any[];
+
+  /** Get readable items in a scene for autocomplete suggestions */
+  getReadableItemsInScene(sceneId: string): any[];
 }

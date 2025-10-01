@@ -106,7 +106,51 @@ export class DropCommand extends BaseCommand {
     // Add item to current scene
     const currentSceneId = this.gameState.getCurrentScene();
     this.scene.addItemToScene(currentSceneId, itemId);
-    
+
     return this.success(`You drop the ${item.name}.`, true, 0);
+  }
+
+  /**
+   * Get context-aware suggestions for the drop command
+   */
+  override getSuggestions(input: string): string[] {
+    const suggestions: string[] = [];
+    const words = input.toLowerCase().trim().split(/\s+/);
+    const firstWord = words[0] || '';
+
+    // Only provide suggestions for this command's verbs
+    if (!['drop', 'put'].includes(firstWord)) {
+      return [];
+    }
+
+    // Get items in inventory
+    const inventoryItems = this.items.getInventoryItems();
+
+    // Generate suggestions with metadata
+    inventoryItems.forEach(item => {
+      if (item && item.name) {
+        // Build metadata string for parsing in GameInterface
+        const metadata: string[] = [];
+
+        // Add item type
+        if (item.type) {
+          metadata.push(`itemType:${item.type.toLowerCase()}`);
+        }
+
+        // Add portable flag
+        if (item.portable !== undefined) {
+          metadata.push(`portable:${item.portable}`);
+        }
+
+        // Format: "command|metadata1|metadata2"
+        const suggestionText = metadata.length > 0
+          ? `${firstWord} ${item.name}|${metadata.join('|')}`
+          : `${firstWord} ${item.name}`;
+
+        suggestions.push(suggestionText);
+      }
+    });
+
+    return suggestions;
   }
 }
