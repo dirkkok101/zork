@@ -30,17 +30,32 @@ npm run lint
 
 ### Current Status ✅
 
-- **Data Loading**: 214 items, 196 scenes, 9 monsters loaded from JSON
+- **Data Loading**: 214 items, 196 scenes, 9 monsters (cyclops, ghost, gnome_of_zurich, grue, guardian_of_zork, thief, troll, vampire_bat, volcano_gnome) loaded from JSON
+- **Service Layer**: 10 services implemented (2,891 lines total)
+  - **Core State**: `GameStateService`, `SceneService`, `InventoryService`
+  - **Domain Logic**: `ItemService` (containers + lights + locks), `ScoringService`
+  - **Infrastructure**: `PersistenceService`, `OutputService`, `CommandService`, `CommandProcessor`, `LoggingService`
+  - **Total**: Clean architecture with dependency injection, SOLID principles
+  - See [Service Reference](./docs/services/service-reference.md) for complete details
 - **Command System**: Modular command architecture with service injection
-- **Service Interfaces**: Lean service design following SOLID principles
-- **Commands Implemented**: `look`, `examine` with full parsing and suggestion support
+- **Commands Implemented**: 12 commands with comprehensive testing (36+ aliases)
+  - **Core**: `look` (l), `move` (n/s/e/w/u/d + 14 more), `examine` (x), `take` (get), `open`, `close` (shut)
+  - **Inventory**: `inventory` (i), `drop`, `put` (place)
+  - **Interaction**: `read`
+  - **System**: `save`, `restore`
+  - **Total**: 2,709 lines of command implementation + 522 lines BaseCommand
+  - See [Command Reference](./docs/commands/command-reference.md) for complete details
+- **Scene Integration Tests**: 15 scenes with comprehensive test coverage (7.7% of 196 total)
+  - 69 test files covering commands, state validation, scoring, and user journeys
+  - Automated test generator for rapid scene test creation
 
 ### Next Steps 🚧
 
-- Implement service layer (GameStateService, SceneService, etc.)
-- Create game loop with user input handling
-- Add remaining 23 commands
-- Implement UI layer
+- **Scene Test Coverage**: Expand from 15 to 50+ scenes (25% target)
+- **Additional Commands**: Implement remaining commands (attack, unlock, light, etc.)
+- **Combat System**: Implement CombatService (currently interface-only)
+- **UI Enhancements**: Improve game interface and command suggestions
+- **Test Generation**: Automate complex test scenarios beyond basic look/move
 
 ## Project Structure
 

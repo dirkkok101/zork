@@ -135,11 +135,43 @@ testing/
     └── data_generators.ts     # Test data generators
 ```
 
+### Scene Integration Tests
+
+**Special Case**: Scene integration tests follow a unique per-scene organization pattern.
+
+**Directory Structure**:
+```
+testing/scenes/{scene_id}/
+├── integration_tests/
+│   ├── look_command/
+│   │   ├── basic_look.test.ts
+│   │   ├── setup.ts
+│   │   └── helpers/
+│   │       ├── {scene}_helper.ts
+│   │       ├── look_command_helper.ts
+│   │       └── integration_test_factory.ts
+│   ├── move_command/
+│   │   ├── basic_movement.test.ts
+│   │   └── helpers/
+│   │       └── move_command_helper.ts
+│   ├── {command}_command/           # Additional commands
+│   ├── state_validation/            # Complex state tests
+│   └── scoring/                     # Scoring validation
+└── user_journeys/                  # Multi-command workflows
+    └── {workflow}_workflow.test.ts
+```
+
+**Current Coverage**: 15 out of 196 scenes (7.7%)
+- Complex scenes: west_of_house (13 tests), kitchen (10), living_room (8), attic (8), behind_house (8)
+- Simple scenes: north_of_house, south_of_house, beach, forest scenes, etc. (2 tests each)
+
+**See**: [Scene Integration Testing Guide](./scene-integration-testing-guide.md) for complete documentation.
+
 ### File Naming Conventions
 
 #### Unit Tests
 - **Pattern**: `{functionName}.test.ts`
-- **Examples**: 
+- **Examples**:
   - `loadAllItems.test.ts`
   - `parseCondition.test.ts`
   - `validateItemData.test.ts`
@@ -150,6 +182,13 @@ testing/
   - `full_dataset.test.ts`
   - `cross_category.test.ts`
   - `treasures_loading.test.ts`
+
+#### Scene Integration Tests
+- **Pattern**: `basic_{command}.test.ts` or `{workflow}_workflow.test.ts`
+- **Examples**:
+  - `basic_look.test.ts`
+  - `basic_movement.test.ts`
+  - `mailbox_complete_interaction.test.ts`
 
 #### Test Data
 - **Pattern**: `mock_{entityType}.json` or `test_{scenario}.json`

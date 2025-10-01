@@ -1,244 +1,180 @@
-# Zork Game Service Interfaces
+# Zork Service Layer Documentation
 
-This directory contains documentation for all service interfaces in the Zork game, designed following SOLID principles with consistent naming conventions.
+This directory contains comprehensive documentation for the service layer in the Zork game implementation.
 
-## Service Architecture Overview
+## Overview
 
-The Zork game uses a layered architecture with services that handle specific game mechanics. All services follow SOLID principles and use dependency injection for loose coupling and testability.
+The Zork game uses a service-oriented architecture with **10 implemented services** (2,891 lines total) that handle all game logic and state management. Services follow SOLID principles with dependency injection and interface-based design.
 
-### Architecture Layers
+## Service Architecture
 
 ```
 Presentation Layer (UI)
        ↓
-Command Layer (Game Logic Orchestration)
+Command Layer (Commands orchestrate services)
        ↓
-Services Layer (Business Logic)
+Services Layer (Business logic)
        ↓
-Data Access Layer (Game Data Management)
+Data Access Layer (Game state and data)
 ```
 
-## Service Interface Organization
+## Implemented Services
 
-All service interfaces are located in `/src/services/interfaces/` and follow consistent naming:
+### Core State Services
+- **GameStateService** (176 lines) - Central state management, score, flags, moves, data access
+- **SceneService** (506 lines) - Scene navigation, exits, doors, lighting
+- **InventoryService** (195 lines) - Player inventory, capacity, weight management
 
-- **Interface Naming**: `I{ServiceName}Service` (e.g., `IItemService`)
-- **Result Types**: `{Service}Result` (e.g., `ContainerResult`, `CombatResult`)
-- **Configuration**: `{Service}Configuration` (e.g., `WeaponConfiguration`)
+### Domain Services
+- **ItemService** (806 lines) - Item interactions, **consolidates containers + light sources + locks**
+- **ScoringService** (317 lines) - Treasure scoring, events, ranking system
+- **CombatService** - Interface exists but **NOT implemented** (null service)
 
-## Complete Service Coverage
+### Infrastructure Services
+- **PersistenceService** (271 lines) - Save/restore to localStorage
+- **OutputService** (131 lines) - Message formatting, text wrapping
+- **CommandService** (309 lines) - Command registration and lookup
+- **CommandProcessor** (65 lines) - Command execution orchestration
+- **LoggingService** (115 lines) - Logging infrastructure with log levels
 
-### ✅ All 9 Interaction Commands Covered
+## Documentation
 
-Based on analysis of 214 item JSON files from the original Zork data, our services cover **all unique interaction commands**:
+### [Service Reference](./service-reference.md)
+Complete API reference for all 10 services including:
+- Method signatures and parameters
+- Return types and error handling
+- Usage examples
+- Service dependencies
+- Implementation details
 
-| Command | Count | Service Interface | Method |
-|---------|-------|-------------------|---------|
-| examine | 214 items | `IItemService` | `examineItem()` |
-| take | 102 items | `IItemService` | `takeItem()` |
-| open | 36 items | `IContainerService` | `openContainer()` |
-| close | 36 items | `IContainerService` | `closeContainer()` |
-| read | 33 items | `IItemService` | `readItem()` |
-| turn on | 11 items | `ILightSourceService` | `lightSource()` |
-| turn off | 11 items | `ILightSourceService` | `extinguishSource()` |
-| turn | 4 items | `IPhysicalInteractionService` | `turnItem()` |
-| search | 2 items | `IPhysicalInteractionService` | `searchItem()` |
+### [Service Implementation Guide](./service-implementation-guide.md)
+Step-by-step guide for adding new services:
+- When to create new services vs extending existing ones
+- Service categories and patterns
+- Dependency injection patterns
+- Testing strategy
+- Best practices and common pitfalls
+- Complete implementation checklist
 
-## Service Interfaces
+## Key Architectural Patterns
 
-### Core Services
+### Dependency Injection
+Services use constructor injection for required dependencies and setter injection for circular dependencies:
 
-#### [IItemService](./IItemService.md)
-**Responsibility**: Basic item operations and core interactions
-- Primary interactions: take, drop, examine, read
-- Secondary interactions: search, turn, push, pull
-- State management and property access
+```typescript
+// Constructor injection
+constructor(
+  gameState: IGameStateService,
+  logger: log.Logger
+) {
+  this.gameState = gameState;
+  this.logger = logger;
+}
 
-#### [IContainerService](./IContainerService.md)  
-**Responsibility**: Container operations and item storage
-- Container operations: open, close, lock, unlock
-- Item management: put items in, take items out
-- Capacity and weight constraints
+// Setter injection (circular dependencies)
+setInventoryService(inventory: IInventoryService): void {
+  this.inventory = inventory;
+}
+```
 
-#### [ILightSourceService](./ILightSourceService.md)
-**Responsibility**: Light source management and scene illumination
-- Lighting operations: light, extinguish, ignition sources
-- Scene illumination checking and fuel management
-- Light intensity and duration tracking
+### Service Initialization
+Services are initialized in dependency order via `ServiceInitializer` (no registry pattern):
 
-### Specialized Services
+```typescript
+// 1. Core state (no dependencies)
+const gameStateService = new GameStateService('west_of_house', logger);
 
-#### [IPhysicalInteractionService](./IPhysicalInteractionService.md)
-**Responsibility**: Physical manipulation of items
-- Mechanical interactions: turn, push, pull, move
-- Environmental interactions: climb, dig, tie
-- Object manipulation: lift, wave, rub, touch
+// 2. Domain services (depend on gameState)
+const sceneService = new SceneService(gameStateService, logger);
+const inventoryService = new InventoryService(gameStateService, logger);
 
-#### [IWeaponService](./IWeaponService.md)
-**Responsibility**: Combat and weapon mechanics
-- Weapon management: wield, unwield, repair
-- Combat system: attack, damage calculation
-- Combat statistics and weapon durability
+// 3. Cross-service dependencies
+sceneService.setInventoryService(inventoryService);
+```
 
-#### [IConsumableService](./IConsumableService.md)
-**Responsibility**: Food and drink consumption mechanics
-- Consumption: eat, drink with nutritional effects
-- Nutrition tracking: hunger, thirst, health monitoring
-- Spoilage and freshness checking
-
-#### [IFireService](./IFireService.md)
-**Responsibility**: Fire, burning, and ignition mechanics
-- Fire operations: light, burn, extinguish
-- Fire spread simulation and hazard detection
-- Ignition sources and safety warnings
-
-#### [IVehicleService](./IVehicleService.md)
-**Responsibility**: Transportation and vehicle operations
-- Vehicle operations: board, disembark, travel
-- Cargo management and route planning
-- Vehicle maintenance and fuel consumption
-
-### Service Registry
-
-#### [IServiceRegistry](./IServiceRegistry.md)
-**Responsibility**: Dependency injection and service lifecycle
-- Service registration and retrieval
-- Health monitoring and configuration
-- Service lifecycle management
-
-## SOLID Principles Implementation
-
-### Single Responsibility Principle (SRP) ✅
-- Each service interface has one clear, focused responsibility
-- No overlapping concerns between services
-- Clear separation of item operations, combat, consumption, etc.
-
-### Open-Closed Principle (OCP) ✅
-- Interfaces are open for extension via inheritance
-- New behaviors can be added without modifying existing interfaces
-- Plugin architecture for specialized behaviors
-
-### Liskov Substitution Principle (LSP) ✅
-- All implementations can be substituted for their interfaces
-- Consistent contracts across all service methods
-- Mock implementations work seamlessly with real ones
-
-### Interface Segregation Principle (ISP) ✅
-- Clients depend only on methods they actually use
+### Interface Segregation
+Each service has a focused interface in `src/services/interfaces/`:
+- Lean interfaces with only essential methods
 - No "fat" interfaces with unrelated methods
-- Focused, cohesive interfaces
+- Clear separation of concerns
 
-### Dependency Inversion Principle (DIP) ✅
-- High-level modules depend on abstractions (interfaces)
-- `IServiceRegistry` provides dependency injection
-- Easy mocking and testing support
+## Service Design Principles
 
-## Testing Strategy
+### Single Responsibility
+Each service has one clear responsibility:
+- ✅ **ItemService**: All item interactions (containers, lights, locks)
+- ❌ **NOT**: Separate ContainerService, LightSourceService, WeaponService
 
-Each service interface supports comprehensive testing:
+### Consolidation Pattern
+ItemService demonstrates consolidation - it handles:
+- Basic item operations (examine, take, drop)
+- Container operations (open, close, put items in)
+- Light source operations (turn on/off, fuel)
+- Lock operations (lock/unlock)
 
-### Unit Testing
-- Mock all dependencies using interface types
-- Test business logic in isolation
-- Verify error handling and edge cases
+This consolidation works because all operations share common item state management patterns.
 
-### Integration Testing
+### State Management
+Services don't hold state - they operate on GameState:
+```typescript
+// ✅ Good - uses GameStateService
+addItem(itemId: string): boolean {
+  this.gameState.addToInventory(itemId);
+  return true;
+}
+
+// ❌ Bad - holds state
+private inventory: string[] = [];
+addItem(itemId: string): boolean {
+  this.inventory.push(itemId);
+  return true;
+}
+```
+
+## Testing
+
+Services are designed for comprehensive testing:
+
+### Unit Tests
+- Test service methods in isolation
+- Mock dependencies using interfaces
+- Located in `src/services/__tests__/`
+
+### Integration Tests
 - Test service interactions with real implementations
-- Validate data flow between services
-- Test with actual game data
+- Use test factories for setup
+- Located in `testing/scenes/*/integration_tests/`
 
-### Contract Testing
-- Verify implementations conform to interface contracts
-- Test substitutability of different implementations
-- Validate consistent behavior across implementations
+## SOLID Principles
 
-## Usage Examples
-
-### Basic Service Usage
-```typescript
-import { IServiceRegistry, IItemService } from '../services/interfaces';
-
-class GameController {
-  constructor(private serviceRegistry: IServiceRegistry) {}
-  
-  async handleTakeItem(itemName: string) {
-    const itemService = this.serviceRegistry.getItemService();
-    const result = itemService.takeItem(itemName);
-    return result;
-  }
-}
-```
-
-### Service Composition
-```typescript
-async handleComplexAction(action: string, target: string) {
-  const itemService = this.serviceRegistry.getItemService();
-  const weaponService = this.serviceRegistry.getWeaponService();
-  const fireService = this.serviceRegistry.getFireService();
-  
-  if (action === 'light') {
-    // Try to light target with available ignition sources
-    const ignitionSources = fireService.getAvailableIgnitionSources();
-    if (ignitionSources.length > 0) {
-      return fireService.lightWithFire(target, ignitionSources[0]);
-    }
-  }
-  
-  return itemService.interactWithItem(target, action);
-}
-```
-
-## Development Guidelines
-
-### When to Create a New Service
-1. **Single Responsibility**: New functionality doesn't fit existing services
-2. **Domain Separation**: Distinct game mechanic (combat vs. consumption)
-3. **Complexity**: Sufficient complexity to warrant separate service
-4. **Reusability**: Functionality will be used across multiple commands
-
-### Service Design Principles
-1. **Stateless**: Services should not maintain game state
-2. **Pure Functions**: Methods should be predictable and testable
-3. **Error Handling**: Consistent error reporting via result types
-4. **Documentation**: All methods must be fully documented
-
-### Adding New Methods
-1. **Interface First**: Define interface method before implementation
-2. **Result Types**: Use appropriate result types for responses
-3. **Validation**: Validate inputs and provide clear error messages
-4. **Testing**: Write tests before implementation
-
-## Performance Considerations
-
-### Service Optimization
-- Services are designed for single-responsibility, enabling optimization
-- Caching strategies can be applied per service
-- Lazy loading of expensive operations
-
-### Memory Management
-- Services don't hold state, reducing memory footprint
-- Game state is managed separately from business logic
-- Efficient lookup patterns for item operations
-
-## Future Extensibility
-
-The service architecture is designed for extensibility:
-
-### New Game Mechanics
-- Add new service interfaces for new mechanics
-- Existing services remain unchanged
-- Plugin architecture supports community extensions
-
-### Enhanced Features
-- Services can be enhanced with new methods
-- Backward compatibility maintained through interface versioning
-- Configuration system supports feature toggles
+All services follow SOLID principles:
+- **S**ingle Responsibility - Each service has one clear purpose
+- **O**pen-Closed - Open for extension, closed for modification
+- **L**iskov Substitution - Implementations are substitutable for interfaces
+- **I**nterface Segregation - Lean, focused interfaces
+- **D**ependency Inversion - Depend on abstractions, not implementations
 
 ## Related Documentation
 
-- [Item Types Documentation](../data/item-data-analysis.md)
-- [Testing Guidelines](../testing/testing-guidelines.md)
-- [Data Loader Documentation](../data_loaders/ItemDataLoader.md)
-- [Command Layer Documentation](../commands/)
+- [Command Reference](../commands/command-reference.md) - How commands use services
+- [Command Implementation Guide](../commands/command-implementation-guide.md) - Adding new commands
+- [Testing Guidelines](../testing/testing-guidelines.md) - Testing strategy
+- [Architecture Overview](../README.md) - System architecture
 
-This service architecture provides a solid foundation for implementing the complete Zork game while maintaining clean, testable, and extensible code.
+## Archive
+
+Obsolete service documentation (describing non-existent services) has been moved to the `archive/` directory for historical reference. **Do not use archived documentation** - it describes an architecture that was never implemented.
+
+## Summary
+
+The service layer provides:
+- Clean separation of concerns
+- Dependency injection for testability
+- Interface-based design for flexibility
+- Consolidated domain services (ItemService)
+- Infrastructure services for cross-cutting concerns
+- SOLID principles throughout
+
+For complete API details, see [Service Reference](./service-reference.md).
+
+For implementation guidance, see [Service Implementation Guide](./service-implementation-guide.md).

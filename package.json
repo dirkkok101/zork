@@ -14,8 +14,13 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:item-loader": "jest --testPathPattern=\"testing/data_loaders/item_data_loader/unit_tests\"",
+    "test:diagnostics:scenes": "bash tools/test-diagnostics.sh --scenes",
+    "test:diagnostics:items": "bash tools/test-diagnostics.sh --items",
+    "test:diagnostics:monsters": "bash tools/test-diagnostics.sh --monsters",
     "lint": "eslint src/**/*.ts testing/**/*.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate:scene": "npx tsx tools/test-generators/src/cli.ts generate-scene",
+    "generate:validate": "npx tsx tools/test-generators/src/cli.ts validate"
   },
   "keywords": [
     "zork",

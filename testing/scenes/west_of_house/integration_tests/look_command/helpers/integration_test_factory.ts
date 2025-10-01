@@ -1,6 +1,6 @@
 /**
- * Integration Test Factory
- * Creates and configures real services and game environment for integration testing
+ * Integration Test Factory for West of House
+ * Auto-generated factory for west_of_house scene tests
  */
 
 import { GameInitializer } from '@/initializers/GameInitializer';
@@ -9,10 +9,10 @@ import { CommandInitializer } from '@/initializers/CommandInitializer';
 import { CommandProcessor } from '@/services/CommandProcessor';
 import LoggingService from '@/services/LoggingService';
 import { WestOfHouseHelper } from './west_of_house_helper';
-import { LookCommandHelper } from './look_command_helper';
+import { LookCommandHelper } from '@testing/helpers/LookCommandHelper';
 import log from 'loglevel';
 
-export interface IntegrationTestEnvironment {
+export interface WestOfHouseTestEnvironment {
   services: Services;
   commandProcessor: CommandProcessor;
   westOfHouseHelper: WestOfHouseHelper;
@@ -21,78 +21,74 @@ export interface IntegrationTestEnvironment {
   resetScoring: () => void;
 }
 
-export class IntegrationTestFactory {
+export class WestOfHouseIntegrationTestFactory {
   /**
-   * Create a complete integration test environment with real services and data
+   * Create a complete integration test environment for West of House
    */
-  static async createTestEnvironment(): Promise<IntegrationTestEnvironment> {
+  static async createTestEnvironment(): Promise<WestOfHouseTestEnvironment> {
     // Set up logging for tests
     const loggingService = new LoggingService();
-    loggingService.setDefaultLevel(log.levels.WARN); // Reduce noise in tests
-    
-    // Use the same initialization path as production
+    loggingService.setDefaultLevel(log.levels.WARN);
+
+    // Initialize game data and services
     const gameData = await GameInitializer.initialize(loggingService);
-    
-    // Initialize real services with mock combat and persistence
     const services = ServiceInitializer.initialize(gameData, loggingService);
-    
-    // Replace null services with mocks for the ones we don't use in look command
+
+    // Add mock services if needed
     if (!services.combat) {
-      services.combat = IntegrationTestFactory.createMockCombatService() as any;
+      services.combat = WestOfHouseIntegrationTestFactory.createMockCombatService() as any;
     }
     if (!services.persistence) {
-      services.persistence = IntegrationTestFactory.createMockPersistenceService() as any;
+      services.persistence = WestOfHouseIntegrationTestFactory.createMockPersistenceService() as any;
     }
-    
-    // Initialize command service and processor
+
+    // Initialize commands
     const commandService = CommandInitializer.initialize(services, loggingService);
     const commandProcessor = new CommandProcessor(
       commandService,
       services.gameState,
       loggingService.getLogger('CommandProcessor')
     );
-    
-    // Ensure player starts in west_of_house
+
+    // Set player to west_of_house scene
     services.gameState.setCurrentScene('west_of_house');
-    
-    // Create test helpers
+
+    // Create helpers
     const westOfHouseHelper = new WestOfHouseHelper(
       services.gameState as any,
       services.scene as any
     );
-    
+
     const lookCommandHelper = new LookCommandHelper(
       commandProcessor,
       services.gameState as any
     );
-    
-    // Reset to clean state
+
+    // Reset scene to clean state
     westOfHouseHelper.resetScene();
-    
+
     const cleanup = () => {
-      // Clean up any test data
-      westOfHouseHelper.clearTestItems();
       westOfHouseHelper.resetScene();
     };
 
     const resetScoring = () => {
       // Reset score to 0
       services.gameState.addScore(-services.gameState.getScore());
-      
-      // Clear all scoring flags
+
+      // Clear treasure flags
       const treasureIds = ['coin', 'lamp', 'egg', 'bar', 'emera', 'ruby', 'diamo', 'saffr', 'chali', 'tride', 'bauble', 'coffi'];
       treasureIds.forEach(treasureId => {
         services.gameState.setFlag(`treasure_found_${treasureId}`, false);
         services.gameState.setFlag(`treasure_deposited_${treasureId}`, false);
       });
-      
+
       // Clear scoring event flags
       const eventIds = ['first_treasure', 'defeat_troll', 'defeat_thief', 'open_trophy_case', 'solve_maze', 'reach_endgame'];
       eventIds.forEach(eventId => {
         services.gameState.setFlag(`scoring_event_${eventId}`, false);
       });
     };
-    
+
     return {
       services,
       commandProcessor,
@@ -104,24 +100,27 @@ export class IntegrationTestFactory {
   }
 
   /**
-   * Create a test environment with mock combat and persistence services
-   * These aren't needed for look command tests but are required by the interfaces
+   * Create mock combat service
    */
-  static createMockCombatService() {
+  private static createMockCombatService(): any {
     return {
-      getMonstersInScene: jest.fn().mockReturnValue([]),
-      canAttack: jest.fn().mockReturnValue(false),
-      attack: jest.fn().mockReturnValue({ success: false, message: 'Mock combat' }),
-      giveToMonster: jest.fn().mockReturnValue({ success: false, message: 'Mock give' }),
-      sayToMonster: jest.fn().mockReturnValue({ success: false, message: 'Mock say' })
+      initiateCombat: jest.fn(),
+      processCombatTurn: jest.fn(),
+      getCombatState: jest.fn(() => null),
+      isInCombat: jest.fn(() => false),
+      endCombat: jest.fn()
     };
   }
 
-  static createMockPersistenceService() {
+  /**
+   * Create mock persistence service
+   */
+  private static createMockPersistenceService(): any {
     return {
-      saveGame: jest.fn().mockResolvedValue(true),
-      restoreGame: jest.fn().mockResolvedValue(true),
-      hasSavedGame: jest.fn().mockReturnValue(false)
+      saveGame: jest.fn(),
+      loadGame: jest.fn(),
+      listSaves: jest.fn(() => []),
+      deleteSave: jest.fn()
     };
   }
 }

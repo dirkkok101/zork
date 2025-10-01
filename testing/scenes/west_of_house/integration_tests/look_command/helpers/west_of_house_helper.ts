@@ -1,11 +1,12 @@
 /**
- * West of House Scene Test Helper
- * Provides utilities specific to testing the west_of_house scene
+ * WestOfHouseHelper - Scene Test Helper
+ * Auto-generated scene helper for West of House
+ *
+ * This helper provides utilities for testing the west_of_house scene.
  */
 
 import { GameStateService } from '@/services/GameStateService';
 import { SceneService } from '@/services/SceneService';
-import { Item, ItemType } from '@/types/ItemTypes';
 import { Scene } from '@/types/SceneTypes';
 
 export class WestOfHouseHelper {
@@ -36,23 +37,23 @@ export class WestOfHouseHelper {
    */
   resetScene(): void {
     this.gameState.setCurrentScene('west_of_house');
-    
+
     // Clear visited flag to test first visit behavior
     this.gameState.updateSceneRuntimeState('west_of_house', { visited: false });
-    
-    // Clear any existing runtime scene items first
+
+    // Clear existing runtime scene items
     const currentSceneItems = this.sceneService.getSceneItems('west_of_house');
-    currentSceneItems.forEach(itemId => {
+    currentSceneItems.forEach((itemId: string) => {
       this.sceneService.removeItemFromScene('west_of_house', itemId);
     });
-    
-    // Restore authentic Zork items to the scene using SceneService
+
+    // Restore authentic items from scene data
     const authenticItems = ['fdoor', 'mailb', 'mat'];
-    authenticItems.forEach(itemId => {
+    authenticItems.forEach((itemId: string) => {
       this.sceneService.addItemToScene('west_of_house', itemId);
     });
-    
-    // Also set the scene.items for backwards compatibility
+
+    // Update scene.items for backwards compatibility
     const scene = this.getScene();
     if (scene) {
       scene.items = [
@@ -61,99 +62,6 @@ export class WestOfHouseHelper {
         { itemId: 'mat', visible: true }
       ];
     }
-    
-    // Reset item states to their initial values
-    const mailbox = this.gameState.getItem('mailb');
-    if (mailbox) {
-      // Set container state
-      mailbox.state = { 
-        isOpen: false
-      };
-      // Set container contents (ItemService expects this directly on the item)
-      (mailbox as any).contents = ['adver'];
-    }
-  }
-
-  /**
-   * Add a test item to the scene
-   */
-  addItemToScene(itemId: string, itemData: Partial<Item>): void {
-    const defaultItem: Item = {
-      id: itemId,
-      name: itemData.name || 'Test Item',
-      aliases: itemData.aliases || [],
-      description: itemData.description || 'A test item.',
-      examineText: itemData.examineText || 'It looks like a test item.',
-      type: itemData.type || ItemType.TOOL,
-      portable: itemData.portable !== undefined ? itemData.portable : true,
-      visible: itemData.visible !== undefined ? itemData.visible : true,
-      weight: itemData.weight || 1,
-      size: itemData.size || 'SMALL' as any,
-      tags: itemData.tags || [],
-      properties: itemData.properties || {},
-      interactions: itemData.interactions || [],
-      currentLocation: 'west_of_house',
-      state: itemData.state || {},
-      flags: itemData.flags || {},
-      ...itemData
-    };
-
-    // Add item to game state items collection
-    const gameState = this.gameState.getGameState();
-    gameState.items[itemId] = defaultItem;
-    
-    // Add item to scene
-    this.sceneService.addItemToScene('west_of_house', itemId);
-  }
-
-  /**
-   * Add a test container to the scene
-   */
-  addContainerToScene(containerId: string, options: {
-    name?: string;
-    isOpen?: boolean;
-    isLocked?: boolean;
-    contents?: string[];
-  } = {}): void {
-    const containerItem: Partial<Item> = {
-      id: containerId,
-      name: options.name || 'Test Container',
-      description: 'A test container.',
-      examineText: 'It looks like a test container.',
-      type: ItemType.CONTAINER,
-      properties: {
-        container: true,
-        openable: true,
-        lockable: options.isLocked !== undefined
-      },
-      state: {
-        isOpen: options.isOpen !== undefined ? options.isOpen : true,
-        isLocked: options.isLocked || false,
-        contents: options.contents || []
-      }
-    };
-
-    this.addItemToScene(containerId, containerItem);
-  }
-
-  /**
-   * Verify expected exits are available
-   */
-  verifyExpectedExits(): void {
-    const exits = this.sceneService.getAvailableExits('west_of_house');
-    const exitDirections = exits.map((exit: any) => exit.direction);
-    
-    expect(exitDirections).toContain('north');
-    expect(exitDirections).toContain('south');
-    expect(exitDirections).toContain('west');
-    // Note: east is blocked, so it might not appear in available exits
-  }
-
-  /**
-   * Get scene description for comparison
-   */
-  getSceneDescription(): string {
-    return this.sceneService.getSceneDescription('west_of_house');
   }
 
   /**
@@ -164,54 +72,10 @@ export class WestOfHouseHelper {
   }
 
   /**
-   * Mark scene as visited (for testing subsequent visits)
+   * Mark the scene as visited
    */
   markAsVisited(): void {
-    this.gameState.markSceneVisited('west_of_house');
-  }
-
-  /**
-   * Get current score from game state
-   */
-  getCurrentScore(): number {
-    return this.gameState.getScore();
-  }
-
-  /**
-   * Verify scene has the expected first visit points
-   */
-  verifyFirstVisitPoints(): void {
-    const scene = this.getScene();
-    expect(scene?.firstVisitPoints).toBe(1);
-  }
-
-  /**
-   * Verify scoring configuration matches expected values
-   */
-  verifyScoringConfiguration(): void {
-    const scene = this.getScene();
-    expect(scene).toBeDefined();
-    expect(scene?.firstVisitPoints).toBe(1);
-    expect(typeof scene?.firstVisitPoints).toBe('number');
-  }
-
-  /**
-   * Test helper to simulate fresh game start for scoring tests
-   */
-  simulateGameStart(): void {
-    // Reset to clean state
-    this.resetScene();
-    
-    // Ensure score starts at 0
-    const currentScore = this.getCurrentScore();
-    if (currentScore !== 0) {
-      // Reset game state score if needed
-      this.gameState.addScore(-currentScore);
-    }
-    
-    // Verify clean state
-    expect(this.isFirstVisit()).toBe(true);
-    expect(this.getCurrentScore()).toBe(0);
+    this.gameState.updateSceneRuntimeState('west_of_house', { visited: true });
   }
 
   /**
@@ -222,24 +86,21 @@ export class WestOfHouseHelper {
   }
 
   /**
-   * Remove all test items from the scene
+   * Clear all test items from the scene
    */
   clearTestItems(): void {
-    const scene = this.getScene();
-    if (scene) {
-      // Remove items that were added for testing
-      const testItemIds = scene.items
-        .map((item: any) => item.itemId)
-        .filter((id: string) => id.startsWith('test_') || id.includes('_test'));
-      
-      testItemIds.forEach((itemId: string) => {
+    const sceneItems = this.getSceneItems();
+    const authenticItems = ['fdoor', 'mailb', 'mat'];
+
+    sceneItems.forEach((itemId: string) => {
+      if (!authenticItems.includes(itemId)) {
         this.sceneService.removeItemFromScene('west_of_house', itemId);
-      });
-    }
+      }
+    });
   }
 
   /**
-   * Verify scene contains expected atmospheric elements
+   * Verify scene has atmospheric messages
    */
   verifyAtmosphere(): void {
     const scene = this.getScene();
@@ -248,10 +109,22 @@ export class WestOfHouseHelper {
   }
 
   /**
-   * Verify scene lighting is daylight
+   * Verify scene lighting
    */
   verifyLighting(): void {
     const scene = this.getScene();
     expect(scene?.lighting).toBe('daylight');
+  }
+
+  /**
+   * Verify expected exits are available
+   */
+  verifyExpectedExits(): void {
+    const exits = this.sceneService.getAvailableExits('west_of_house');
+    const exitDirections = exits.map((exit: any) => exit.direction);
+
+    expect(exitDirections).toContain('north');
+    expect(exitDirections).toContain('south');
+    expect(exitDirections).toContain('west');
   }
 }

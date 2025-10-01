@@ -1,0 +1,496 @@
+/**
+ * Take Command Test Helper
+ * Provides utilities for testing the Take command in integration tests
+ */
+
+import { CommandResult } from '@/types/CommandTypes';
+import { CommandProcessor } from '@/services/CommandProcessor';
+import { IGameStateService, IInventoryService, IItemService, ISceneService, IScoringService } from '@/services/interfaces';
+import { ScoringValidationHelper } from '@testing/utils/scoring_validation_helper';
+
+export class TakeCommandHelper {
+  private scoringHelper?: ScoringValidationHelper;
+
+  constructor(
+    private commandProcessor: CommandProcessor,
+    private gameState: IGameStateService,
+    private inventory: IInventoryService,
+    private items: IItemService,
+    private scene: ISceneService,
+    private scoring?: IScoringService
+  ) {
+    if (this.scoring) {
+      this.scoringHelper = new ScoringValidationHelper(this.gameState, this.scoring);
+    }
+  }
+
+  /**
+   * Execute a take command and return the result
+   */
+  executeTake(target: string): CommandResult {
+    return this.commandProcessor.processCommand(`take ${target}`);
+  }
+
+  /**
+   * Execute "take <target>" command
+   */
+  executeTakeTarget(target: string): CommandResult {
+    return this.executeTake(target);
+  }
+
+  /**
+   * Execute take command with specified verb
+   */
+  executeTakeWith(verb: string, target: string): CommandResult {
+    return this.executeTake(`${verb} ${target}`);
+  }
+
+  /**
+   * Execute an open command (for setup in tests)
+   */
+  executeOpen(input: string): CommandResult {
+    return this.commandProcessor.processCommand(input);
+  }
+
+  /**
+   * Verify item was successfully taken
+   */
+  verifyItemTaken(result: CommandResult, itemName: string): void {
+    this.verifySuccess(result);
+    expect(result.message).toMatch(new RegExp(`take.*${itemName}`, 'i'));
+  }
+
+  /**
+   * Verify item is now in player inventory
+   */
+  verifyInventoryContains(itemId: string): void {
+    const inventory = this.gameState.getGameState().inventory;
+    expect(inventory).toContain(itemId);
+  }
+
+  /**
+   * Verify item is not in player inventory
+   */
+  verifyInventoryDoesNotContain(itemId: string): void {
+    const inventory = this.gameState.getGameState().inventory;
+    expect(inventory).not.toContain(itemId);
+  }
+
+  /**
+   * Verify item was removed from scene
+   */
+  verifyItemRemovedFromScene(itemId: string): void {
+    const currentScene = this.getCurrentScene();
+    const sceneItems = this.scene.getSceneItems(currentScene);
+    expect(sceneItems).not.toContain(itemId);
+  }
+
+  /**
+   * Verify item is not present (already taken or not available)
+   */
+  verifyNotPresent(result: CommandResult): void {
+    this.verifyFailure(result);
+    // Check for common "not present" error patterns
+    expect(result.message).toMatch(/already have|don't see|can't find|not here|isn't here/i);
+  }
+
+  /**
+   * Verify error message for missing target
+   */
+  verifyMissingTarget(result: CommandResult): void {
+    this.verifyFailure(result);
+    expect(result.message).toMatch(/what.*take|take.*what/i);
+  }
+
+  /**
+   * Verify error message for invalid target
+   */
+  verifyInvalidTarget(result: CommandResult, target: string): void {
+    this.verifyFailure(result);
+    expect(result.message).toMatch(new RegExp(`don't see.*${target}|can't find.*${target}`, 'i'));
+  }
+
+  /**
+   * Get current player inventory weight
+   */
+  getCurrentInventoryWeight(): number {
+    const gameState = this.gameState.getGameState();
+    return gameState.inventory.reduce((total, itemId) => {
+      const item = this.gameState.getItem(itemId);
+      return total + (item?.weight || 0);
+    }, 0);
+  }
+
+  /**
+   * Check if player has light load (weight < 20)
+   */
+  hasLightLoad(): boolean {
+    return this.getCurrentInventoryWeight() < 20;
+  }
+
+  /**
+   * Get current scene ID
+   */
+  getCurrentScene(): string {
+    return this.gameState.getCurrentScene();
+  }
+
+  /**
+   * Get current moves count
+   */
+  getCurrentMoves(): number {
+    return this.gameState.getGameState().moves;
+  }
+
+  /**
+   * Get player inventory
+   */
+  getPlayerInventory(): string[] {
+    return this.gameState.getGameState().inventory;
+  }
+
+  /**
+   * Clear player inventory for testing
+   */
+  clearPlayerInventory(): void {
+    const gameState = this.gameState.getGameState();
+    gameState.inventory = [];
+  }
+
+  /**
+   * Add item to inventory manually for testing
+   */
+  addToInventory(itemId: string): void {
+    const gameState = this.gameState.getGameState();
+    if (!gameState.inventory.includes(itemId)) {
+      gameState.inventory.push(itemId);
+    }
+  }
+
+  /**
+   * Remove item from inventory manually for testing
+   */
+  removeFromInventory(itemId: string): void {
+    const gameState = this.gameState.getGameState();
+    const index = gameState.inventory.indexOf(itemId);
+    if (index > -1) {
+      gameState.inventory.splice(index, 1);
+    }
+  }
+
+  /**
+   * Get weight of specific item
+   */
+  getItemWeight(itemId: string): number {
+    const item = this.gameState.getItem(itemId);
+    return item?.weight || 0;
+  }
+
+  /**
+   * Verify inventory weight equals expected value
+   */
+  verifyInventoryWeight(expectedWeight: number): void {
+    const currentWeight = this.getCurrentInventoryWeight();
+    expect(currentWeight).toBe(expectedWeight);
+  }
+
+  /**
+   * Verify inventory contains exactly the specified items
+   */
+  verifyInventoryContents(expectedItems: string[]): void {
+    const inventory = this.getPlayerInventory();
+    expect(inventory.sort()).toEqual(expectedItems.sort());
+  }
+
+  /**
+   * Verify inventory is empty
+   */
+  verifyInventoryEmpty(): void {
+    const inventory = this.getPlayerInventory();
+    expect(inventory).toEqual([]);
+  }
+
+  /**
+   * Verify specific message content
+   */
+  verifyMessage(result: CommandResult, expectedMessage: string): void {
+    expect(result.message).toBe(expectedMessage);
+  }
+
+  /**
+   * Verify message contains specific text
+   */
+  verifyMessageContains(result: CommandResult, expectedText: string): void {
+    expect(result.message).toContain(expectedText);
+  }
+
+  /**
+   * Verify message matches pattern
+   */
+  verifyMessageMatches(result: CommandResult, pattern: RegExp): void {
+    expect(result.message).toMatch(pattern);
+  }
+
+  /**
+   * Check if an item is in the player's inventory
+   */
+  isInInventory(itemId: string): boolean {
+    return this.inventory.hasItem(itemId);
+  }
+
+  /**
+   * Check if an item is in the current scene
+   */
+  isInScene(itemId: string): boolean {
+    const currentSceneId = this.gameState.getCurrentScene();
+    const sceneItems = this.scene.getSceneItems(currentSceneId);
+    return sceneItems.includes(itemId);
+  }
+
+  /**
+   * Check if an item is in a specific container
+   */
+  isInContainer(itemId: string, containerId: string): boolean {
+    const contents = this.items.getContainerContents(containerId);
+    return contents.includes(itemId);
+  }
+
+  /**
+   * Check if an item is accessible (in scene, inventory, or open containers)
+   */
+  isAccessible(itemId: string): boolean {
+    // Check inventory
+    if (this.isInInventory(itemId)) {
+      return true;
+    }
+
+    // Check scene
+    if (this.isInScene(itemId)) {
+      return true;
+    }
+
+    // Check open containers in scene
+    const currentSceneId = this.gameState.getCurrentScene();
+    const sceneItems = this.scene.getSceneItems(currentSceneId);
+    
+    for (const sceneItemId of sceneItems) {
+      const container = this.gameState.getItem(sceneItemId);
+      if (container && this.items.isContainer(sceneItemId)) {
+        const isOpen = container.state?.open || false;
+        if (isOpen && this.isInContainer(itemId, sceneItemId)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Get current inventory count
+   */
+  getInventoryCount(): number {
+    return this.inventory.getItems().length;
+  }
+
+  /**
+   * Verify that the command succeeded
+   */
+  verifySuccess(result: CommandResult): void {
+    expect(result.success).toBe(true);
+    expect(result.message).toBeDefined();
+    expect(result.message.length).toBeGreaterThan(0);
+  }
+
+  /**
+   * Verify that the command failed with optional message pattern
+   */
+  verifyFailure(result: CommandResult, expectedMessagePattern?: string | RegExp): void {
+    expect(result.success).toBe(false);
+    expect(result.message).toBeDefined();
+    expect(result.message.length).toBeGreaterThan(0);
+    
+    if (expectedMessagePattern) {
+      if (typeof expectedMessagePattern === 'string') {
+        expect(result.message).toContain(expectedMessagePattern);
+      } else {
+        expect(result.message).toMatch(expectedMessagePattern);
+      }
+    }
+  }
+
+  /**
+   * Verify that the result contains specific text
+   */
+  verifyContainsText(result: CommandResult, expectedText: string): void {
+    expect(result.message.toLowerCase()).toContain(expectedText.toLowerCase());
+  }
+
+  /**
+   * Verify that the command does not count as a move
+   */
+  verifyNoMove(result: CommandResult): void {
+    expect(result.countsAsMove).toBe(false);
+  }
+
+  /**
+   * Verify that the command counts as a move
+   */
+  verifyCountsAsMove(result: CommandResult): void {
+    expect(result.countsAsMove).toBe(true);
+  }
+
+  /**
+   * Verify item not found message
+   */
+  verifyItemNotFound(result: CommandResult, itemName: string): void {
+    this.verifyFailure(result);
+    expect(result.message).toMatch(new RegExp(`don't see.*${itemName}`, 'i'));
+  }
+
+  /**
+   * Verify item cannot be taken message
+   */
+  verifyCannotTake(result: CommandResult, itemName: string): void {
+    this.verifyFailure(result);
+    expect(result.message).toMatch(new RegExp(`can't take.*${itemName}`, 'i'));
+  }
+
+  /**
+   * Verify already have item message
+   */
+  verifyAlreadyHave(result: CommandResult, itemName: string): void {
+    this.verifyFailure(result);
+    expect(result.message).toMatch(new RegExp(`already have.*${itemName}`, 'i'));
+  }
+
+  /**
+   * Verify successful take message
+   */
+  verifyTakeSuccess(result: CommandResult, itemName: string): void {
+    this.verifySuccess(result);
+    expect(result.message).toMatch(new RegExp(`take.*${itemName}`, 'i'));
+    this.verifyCountsAsMove(result);
+  }
+
+  /**
+   * Verify item was moved from scene to inventory
+   */
+  verifyItemMoved(itemId: string, shouldBeInInventory: boolean = true): void {
+    if (shouldBeInInventory) {
+      expect(this.isInInventory(itemId)).toBe(true);
+      expect(this.isInScene(itemId)).toBe(false);
+    } else {
+      expect(this.isInInventory(itemId)).toBe(false);
+      expect(this.isInScene(itemId)).toBe(true);
+    }
+  }
+
+  /**
+   * Verify inventory count changed by expected amount
+   */
+  verifyInventoryCountChange(initialCount: number, expectedChange: number): void {
+    const currentCount = this.getInventoryCount();
+    expect(currentCount).toBe(initialCount + expectedChange);
+  }
+
+  // === Scoring Validation Methods ===
+
+  /**
+   * Get current player score
+   */
+  getCurrentScore(): number {
+    return this.scoringHelper?.getCurrentScore() || 0;
+  }
+
+  /**
+   * Verify treasure scoring on take
+   */
+  verifyTreasureTakeScoring(result: CommandResult, itemId: string): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.verifyTreasureDiscovery(result, itemId);
+    }
+  }
+
+  /**
+   * Verify no scoring impact for non-treasures
+   */
+  verifyNonTreasureTakeScoring(result: CommandResult, itemId: string): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.verifyNonTreasureNoScoring(result, itemId);
+    }
+  }
+
+  /**
+   * Verify score change in result
+   */
+  verifyScoreChange(result: CommandResult, expectedPoints: number): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.verifyScoreChange(result, expectedPoints);
+    }
+  }
+
+  /**
+   * Verify no score change in result
+   */
+  verifyNoScoreChange(result: CommandResult): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.verifyNoScoreChange(result);
+    }
+  }
+
+  /**
+   * Verify score increased by expected amount
+   */
+  verifyScoreIncrease(initialScore: number, expectedIncrease: number): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.verifyScoreIncrease(initialScore, expectedIncrease);
+    }
+  }
+
+  /**
+   * Check if an item is a treasure
+   */
+  isTreasure(itemId: string): boolean {
+    return this.scoringHelper?.isTreasure(itemId) || false;
+  }
+
+  /**
+   * Get treasure base score value
+   */
+  getTreasureScore(treasureId: string): number {
+    return this.scoringHelper?.getTreasureScore(treasureId) || 0;
+  }
+
+  /**
+   * Reset scoring state for clean tests
+   */
+  resetScoringState(): void {
+    if (this.scoringHelper) {
+      this.scoringHelper.resetScoringState();
+    }
+  }
+
+  /**
+   * Get scoring helper for advanced scoring tests
+   */
+  getScoringHelper(): ScoringValidationHelper | undefined {
+    return this.scoringHelper;
+  }
+
+  /**
+   * Verify successful take with scoring validation
+   */
+  verifyTakeSuccessWithScoring(result: CommandResult, itemName: string, itemId: string): void {
+    this.verifyTakeSuccess(result, itemName);
+    
+    if (this.scoringHelper && this.isTreasure(itemId)) {
+      const expectedScore = this.getTreasureScore(itemId);
+      if (expectedScore > 0) {
+        this.verifyScoreChange(result, expectedScore);
+      }
+    } else {
+      this.verifyNoScoreChange(result);
+    }
+  }
+}

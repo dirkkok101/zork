@@ -44,12 +44,63 @@ python3 interactions_extractor.py
 - **427 JSON files** organized by category (scenes, items, monsters, mechanics, interactions)
 - **Individual file per game element** for lazy loading and performance
 - **TypeScript strict compatibility** - all JSON validates against interfaces
-- **Hierarchical organization**: 
+- **Hierarchical organization**:
   - `scenes/`: 196 locations (above_ground, underground, maze, endgame)
-  - `items/`: 214 objects (treasures, tools, containers, weapons, consumables) 
-  - `monsters/`: 4 creatures (humanoids, creatures, mechanisms)
+  - `items/`: 214 objects (treasures, tools, containers, weapons, consumables)
+  - `monsters/`: 9 creatures (cyclops, ghost, gnome_of_zurich, grue, guardian_of_zork, thief, troll, vampire_bat, volcano_gnome)
   - `mechanics/`: Game systems (scoring, death, flags, treasure)
   - `interactions/`: Command system (verbs, prepositions, syntax)
+
+### Command Architecture (`src/commands/`)
+- **12 commands implemented** (2,709 lines + 522 lines BaseCommand)
+- **36+ aliases** for authentic Zork experience
+- **Service injection** for all commands (8 services per command)
+- **Implemented commands**: look, examine, move, take, drop, open, close, put, read, inventory, save, restore
+- **BaseCommand** provides shared utilities (parsing, object finding, result building)
+- All commands registered in `CommandInitializer` with dependency injection
+- See `docs/commands/command-reference.md` for complete details
+- See `docs/commands/command-implementation-guide.md` for adding new commands
+
+### Service Architecture (`src/services/`)
+- **10 services implemented** (2,891 lines total)
+- **Core State Services**:
+  - `GameStateService` (176 lines) - Central state management, score, flags, moves, data access
+  - `SceneService` (506 lines) - Scene navigation, exits, doors, lighting
+  - `InventoryService` (195 lines) - Player inventory, capacity, weight management
+- **Domain Services**:
+  - `ItemService` (806 lines) - Item interactions, **consolidates containers + light sources + locks**
+  - `ScoringService` (317 lines) - Treasure scoring, events, ranking system
+  - `CombatService` - Interface exists but **NOT implemented** (null service)
+- **Infrastructure Services**:
+  - `PersistenceService` (271 lines) - Save/restore to localStorage
+  - `OutputService` (131 lines) - Message formatting, text wrapping
+  - `CommandService` (309 lines) - Command registration and lookup
+  - `CommandProcessor` (65 lines) - Command execution orchestration
+  - `LoggingService` (115 lines) - Logging infrastructure with log levels
+- **Service Initialization**: Direct instantiation via `ServiceInitializer` (no registry pattern)
+- **Dependency Injection**: Constructor injection + setter injection for circular dependencies
+- See `docs/services/service-reference.md` for complete API reference
+- See `docs/services/service-implementation-guide.md` for adding new services
+
+### Testing Architecture (`testing/`)
+- **Scene Integration Tests**: 15 scenes with comprehensive coverage (7.7% of 196 total)
+- **Test Files**: 69 test files covering all command interactions
+- **Helper Files**: 59 helper and factory files for test setup
+- **Test Categories**:
+  - Basic command tests (look, move, examine)
+  - State validation tests (flags, inventory, scene state)
+  - Scoring integration tests (treasure scoring, events)
+  - User journey tests (multi-command scenarios)
+- **Test Generator**: Automated tool at `tools/test-generators/` for rapid test creation
+- **Complex Scenes**: west_of_house (13 tests), kitchen (10), living_room (8), attic (8)
+- **Simple Scenes**: 10 scenes with basic look/move tests (2 tests each)
+- **Helper Architecture**:
+  - Scene helpers (item management, flag management, state verification)
+  - Command helpers (execute commands, verify results)
+  - Integration test factories (complete test environment setup)
+- See `docs/testing/scene-integration-testing-guide.md` for comprehensive testing guide
+- See `docs/testing/testing-guidelines.md` for overall testing philosophy
+- See `docs/testing/unit-test-best-practices.md` for unit testing patterns
 
 ## Development Principles
 
@@ -60,10 +111,14 @@ python3 interactions_extractor.py
 - **Comprehensive Documentation**: All code must be documented
 - **Type Safety**: Always work with known types, never assume structures
 
-### Testing Strategy  
+### Testing Strategy
 - **Reference Material is Gospel**: When tests conflict with code, check original Zork behavior
 - **Layer-Specific Testing**: Commands, services, and data access must be fully testable
-- **Integration Testing**: End-to-end game scenarios
+- **Integration Testing**: Scene-based end-to-end scenarios with real services and data
+- **Test Coverage Goal**: 100% coverage for commands, services, and data access
+- **Scene Test Coverage**: Currently 15/196 scenes (7.7%), targeting 25%+ coverage
+- **Test Generator**: Automated generation of basic tests for rapid scene coverage expansion
+- **Helper Pattern**: Reusable helpers for common test operations (setup, assertions, state management)
 
 ### Logging Standards
 - Use LogLevel package for debug, info, critical, error messages
@@ -98,6 +153,12 @@ python3 interactions_extractor.py
 - Python extractors convert original formats to TypeScript-compatible JSON
 - Maintains 100% fidelity to original game mechanics and content
 - Automatic categorization and ID conversion (UPPERCASE → snake_case)
+
+### Data Verification
+- Automated verification scripts validate extracted data against source material
+- `scene_verifier.py` checks exit integrity and ID conversions
+- `monster_verifier.py` validates monster data completeness
+- See `docs/data/data-verification-guide.md` for complete verification procedures
 
 ## UI/UX Guidelines
 
