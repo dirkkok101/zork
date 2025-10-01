@@ -9,9 +9,12 @@ export default defineConfig({
       '@testing': path.resolve(process.cwd(), 'testing')
     }
   },
-  
+
   // Root directory for serving files
   root: 'src',
+
+  // Environment variables directory (project root)
+  envDir: path.resolve(process.cwd()),
   
   // Public directory for static assets
   publicDir: path.resolve(process.cwd(), 'data'),

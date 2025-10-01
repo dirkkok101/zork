@@ -15,7 +15,8 @@ import {
   ICombatService,
   IPersistenceService,
   IOutputService,
-  IScoringService
+  IScoringService,
+  IAIEnhancementService
 } from '../services/interfaces';
 import { GameStateService } from '../services/GameStateService';
 import { SceneService } from '../services/SceneService';
@@ -24,6 +25,8 @@ import { ItemService } from '../services/ItemService';
 import { OutputService } from '../services/OutputService';
 import { ScoringService } from '../services/ScoringService';
 import { PersistenceService } from '../services/PersistenceService';
+import { AIEnhancementService } from '../services/AIEnhancementService';
+import { OpenRouterClient } from '../clients/OpenRouterClient';
 
 /**
  * Collection of all game services
@@ -37,6 +40,7 @@ export interface Services {
   persistence: IPersistenceService;
   output: IOutputService;
   scoring: IScoringService;
+  aiEnhancement: IAIEnhancementService;
 }
 
 /**
@@ -98,13 +102,20 @@ export class ServiceInitializer {
     const outputService = new OutputService(logger);
     const scoringService = new ScoringService(gameStateService, logger);
     const persistenceService = new PersistenceService(gameStateService, logger);
-    
+
+    // Create OpenRouter client and AI Enhancement Service
+    const openRouterClient = new OpenRouterClient();
+    const aiEnhancementService = new AIEnhancementService(openRouterClient);
+
     // Inject inventory service into scene service to handle dynamic conditions
     sceneService.setInventoryService(inventoryService);
-    
+
     // Inject scoring service into scene service to handle first visit scoring
     sceneService.setScoringService(scoringService);
-    
+
+    // Inject dependencies into AI Enhancement Service (setter injection for circular deps)
+    aiEnhancementService.setDependencies(gameStateService, sceneService, itemService);
+
     const services: Services = {
       gameState: gameStateService,
       scene: sceneService,
@@ -113,7 +124,8 @@ export class ServiceInitializer {
       combat: null as any, // Still mock - not needed for current commands
       persistence: persistenceService,
       output: outputService,
-      scoring: scoringService
+      scoring: scoringService,
+      aiEnhancement: aiEnhancementService
     };
     
     logger.debug('✅ Services created (mix of real and mock implementations)');

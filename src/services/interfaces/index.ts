@@ -15,6 +15,7 @@ export type { IOutputService } from './IOutputService';
 export type { ICommandService } from './ICommandService';
 export type { ICommandProcessor } from './ICommandProcessor';
 export type { IScoringService } from './IScoringService';
+export type { IAIEnhancementService } from './IAIEnhancementService';
 
 // Re-export core types needed by commands
 export type {

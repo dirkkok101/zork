@@ -6,7 +6,7 @@
  */
 
 import { CommandProcessor } from '../services/CommandProcessor';
-import { IGameStateService } from '../services/interfaces';
+import { IGameStateService, ISceneService, IAIEnhancementService } from '../services/interfaces';
 import { AutocompleteDropdown, Suggestion } from './AutocompleteDropdown';
 import { ContextPanel } from './ContextPanel';
 import { TypewriterEffect } from './TypewriterEffect';
@@ -16,6 +16,7 @@ import * as log from 'loglevel';
 export class GameInterface {
     private commandProcessor!: CommandProcessor;
     private gameStateService!: IGameStateService;
+    private aiEnhancementService!: IAIEnhancementService;
     private gameInitialized = false;
     private commandHistory: string[] = [];
     private historyIndex = -1;
@@ -97,12 +98,15 @@ export class GameInterface {
      */
     initialize(
         commandProcessor: CommandProcessor,
-        gameStateService: IGameStateService
+        gameStateService: IGameStateService,
+        sceneService: ISceneService,
+        aiEnhancementService: IAIEnhancementService
     ): void {
         this.logger.info('Initializing game interface...');
 
         this.commandProcessor = commandProcessor;
         this.gameStateService = gameStateService;
+        this.aiEnhancementService = aiEnhancementService;
         this.gameInitialized = true;
         this.setStatus('Ready');
         this.commandInput.disabled = false;
@@ -111,7 +115,7 @@ export class GameInterface {
         // Initialize context panel with game state
         const gameContent = document.getElementById('game-content');
         if (gameContent) {
-            this.contextPanel.initialize(this.gameStateService, gameContent);
+            this.contextPanel.initialize(this.gameStateService, sceneService, gameContent);
         }
 
         // Initialize help system with game state
@@ -125,30 +129,60 @@ export class GameInterface {
     /**
      * Display welcome message and current scene
      */
-    private displayWelcomeMessage(): void {
-        // Display Zork welcome
-        this.displayMessage('ZORK I: The Great Underground Empire', 'success');
-        this.displayMessage('Copyright (c) 1981, 1982, 1983 Infocom, Inc. All rights reserved.');
-        this.displayMessage('ZORK is a registered trademark of Infocom, Inc.');
-        this.displayMessage('Revision 88 / Serial number 840726\n');
-        
+    private async displayWelcomeMessage(): Promise<void> {
+        // Check if we're in enhanced mode
+        const isEnhanced = this.gameStateService.isEnhancedMode();
+        const gameStyle = this.gameStateService.getGameStyle();
+        const playerName = this.gameStateService.getPlayerName();
+
+        if (isEnhanced && gameStyle && playerName) {
+            // Generate AI-enhanced intro based on game style
+            await this.displayEnhancedIntro(gameStyle, playerName);
+        } else {
+            // Display classic Zork welcome
+            this.displayMessage('ZORK I: The Great Underground Empire', 'success');
+            this.displayMessage('Copyright (c) 1981, 1982, 1983 Infocom, Inc. All rights reserved.');
+            this.displayMessage('ZORK is a registered trademark of Infocom, Inc.');
+            this.displayMessage('Revision 88 / Serial number 840726\n');
+        }
+
+        // Check if AI enhancement is needed for initial scene
+        await this.handleAIEnhancementIfNeeded('look');
+
         // Execute initial look command to show starting location
         const lookResult = this.commandProcessor.processCommand('look');
         if (lookResult.success) {
             this.displayMessage(lookResult.message);
-            
+
             // Display score change if any points were awarded
             if (lookResult.scoreChange && lookResult.scoreChange > 0) {
                 this.displayScoreChange(lookResult.scoreChange);
             }
         }
-        
+
         // Ensure UI is updated with current game state after initial look
         this.updateGameStateDisplay();
-        
+
         // Show available commands
         this.displayMessage('\nAvailable commands: look, examine, move (north/south/east/west), take, drop, inventory');
         this.displayMessage('Type "look" for a detailed description of your surroundings.\n');
+    }
+
+    /**
+     * Display AI-enhanced intro text based on game style
+     */
+    private async displayEnhancedIntro(gameStyle: string, playerName: string): Promise<void> {
+        // Style-specific intro messages
+        const intros = {
+            fantasy: `✨ THE GREAT UNDERGROUND EMPIRE ✨\n\nGreetings, ${playerName}! You stand at the threshold of a legendary quest.\nThe ancient realm of Zork awaits, filled with magic, mystery, and untold treasures.\nYour destiny calls from the depths below...\n`,
+
+            scifi: `🚀 THE GREAT UNDERGROUND EMPIRE 🚀\n\nInitializing consciousness matrix for: ${playerName}\nWelcome to Zork - a testament to ancient technology and forgotten civilizations.\nYour mission: explore the subterranean complex and recover artifacts of immense value.\nSystems online. Adventure protocol activated...\n`,
+
+            modern: `🎮 THE GREAT UNDERGROUND EMPIRE 🎮\n\nWelcome, ${playerName}! You've just stumbled upon something extraordinary.\nThe legendary Zork estate holds secrets that urban explorers only dream of.\nTime to see what's really hidden beneath that old white house...\n`
+        };
+
+        const intro = intros[gameStyle as keyof typeof intros] || intros.fantasy;
+        this.displayMessage(intro, 'success');
     }
 
 
@@ -340,7 +374,9 @@ export class GameInterface {
         const exactMatch = suggestions.some(s => s.text.toLowerCase() === trimmedInput.toLowerCase());
 
         if (suggestions.length > 0 && (hasContextSuggestions || !exactMatch)) {
-            this.autocomplete.show(suggestions);
+            // Preserve selection if autocomplete is already visible (user is refining their search)
+            const preserveSelection = this.autocomplete.visible;
+            this.autocomplete.show(suggestions, preserveSelection);
         } else {
             this.autocomplete.hide();
         }
@@ -349,7 +385,7 @@ export class GameInterface {
     /**
      * Process user command
      */
-    private processCommand(): void {
+    private async processCommand(): Promise<void> {
         const input = this.commandInput.value.trim();
         if (!input) return;
 
@@ -378,26 +414,47 @@ export class GameInterface {
             return;
         }
 
+        // Check if AI enhancement is needed before executing scene-related commands
+        await this.handleAIEnhancementIfNeeded(input);
+
         // Execute command
         try {
             const result = this.commandProcessor.processCommand(input);
-            
+
             this.logger.debug(`Command result: success=${result.success}, countsAsMove=${result.countsAsMove}`);
-            
+
             if (result.success) {
                 this.displayMessage(result.message);
-                
+
                 // Display score change if any
                 if (result.scoreChange && result.scoreChange > 0) {
                     this.displayScoreChange(result.scoreChange);
                 }
-                
+
                 // Update UI state after successful commands
                 this.updateGameStateDisplay();
+
+                // Trigger background preloading if in enhanced mode
+                if (this.gameStateService.isEnhancedMode()) {
+                    const playerName = this.gameStateService.getPlayerName();
+                    const gameStyle = this.gameStateService.getGameStyle();
+                    const currentScene = this.gameStateService.getCurrentScene();
+
+                    if (playerName && gameStyle && currentScene) {
+                        // Preload adjacent scenes in background (non-blocking)
+                        this.aiEnhancementService.preloadAdjacentScenes(currentScene, playerName, gameStyle);
+
+                        // Also expand inventory items in background
+                        this.aiEnhancementService.expandInventoryItems(playerName, gameStyle)
+                            .catch(error => {
+                                this.logger.warn('Failed to expand inventory items:', error);
+                            });
+                    }
+                }
             } else {
                 this.displayMessage(result.message, 'error');
             }
-            
+
             // Note: CommandProcessor handles move counting and score changes automatically
             this.updateGameStateDisplay();
 
@@ -408,6 +465,111 @@ export class GameInterface {
 
         // Update context panel after command execution
         this.contextPanel.update();
+    }
+
+    /**
+     * Handle AI enhancement if needed for scene-related commands
+     */
+    private async handleAIEnhancementIfNeeded(input: string): Promise<void> {
+        // Check if we're in enhanced mode
+        if (!this.gameStateService.isEnhancedMode()) {
+            return;
+        }
+
+        const playerName = this.gameStateService.getPlayerName();
+        const gameStyle = this.gameStateService.getGameStyle();
+
+        if (!playerName || !gameStyle) {
+            this.logger.warn('Enhanced mode active but missing player name or game style');
+            return;
+        }
+
+        // Determine if this is a scene-related command
+        const lowerInput = input.toLowerCase().trim();
+        const isLookCommand = lowerInput === 'look' || lowerInput === 'l' || lowerInput.startsWith('look ');
+
+        // Check for movement commands
+        const movementCommands = ['go', 'move', 'walk', 'travel', 'north', 'n', 'south', 's',
+                                  'east', 'e', 'west', 'w', 'up', 'u', 'down', 'd',
+                                  'enter', 'exit', 'in', 'out', 'northeast', 'ne',
+                                  'northwest', 'nw', 'southeast', 'se', 'southwest', 'sw'];
+        const firstWord = lowerInput.split(/\s+/)[0];
+        const isMovementCommand = movementCommands.includes(firstWord);
+
+        if (!isLookCommand && !isMovementCommand) {
+            return; // Not a scene-related command
+        }
+
+        // Get the scene ID that will be displayed
+        let sceneId = this.gameStateService.getCurrentScene();
+
+        // For movement commands, we need to predict the destination scene
+        // However, we can't easily predict this without duplicating movement logic
+        // So we'll expand the current scene for now, and handle movement in a follow-up
+        // The movement will trigger another look, which will expand the destination
+
+        // Check if scene is already expanded
+        const scene = this.gameStateService.getScene(sceneId);
+        if (scene?.expanded) {
+            this.logger.debug(`Scene ${sceneId} already expanded, skipping AI enhancement`);
+            return;
+        }
+
+        // Show loading indicator
+        this.showAILoadingIndicator();
+
+        try {
+            this.logger.info(`Expanding scene ${sceneId} with AI enhancement...`);
+
+            // Call AI enhancement service
+            await this.aiEnhancementService.expandSceneContext(sceneId, playerName, gameStyle);
+
+            this.logger.info(`✅ Scene ${sceneId} expanded successfully`);
+
+            // Trigger background preloading of adjacent scenes
+            this.logger.info(`Starting background preload for adjacent scenes...`);
+            this.aiEnhancementService.preloadAdjacentScenes(sceneId, playerName, gameStyle);
+
+        } catch (error) {
+            this.logger.error('AI enhancement failed:', error);
+            this.displayMessage('[AI enhancement unavailable - showing original content]', 'info');
+        } finally {
+            this.hideAILoadingIndicator();
+        }
+    }
+
+    /**
+     * Show AI loading indicator
+     */
+    private showAILoadingIndicator(): void {
+        const indicator = document.createElement('div');
+        indicator.id = 'ai-loading-indicator';
+        indicator.className = 'ai-loading';
+        indicator.innerHTML = `
+            <div class="ai-loading-content">
+                <div class="ai-loading-spinner"></div>
+                <div class="ai-loading-text">Enhancing your experience...</div>
+            </div>
+        `;
+
+        document.body.appendChild(indicator);
+
+        // Disable input during loading
+        this.commandInput.disabled = true;
+    }
+
+    /**
+     * Hide AI loading indicator
+     */
+    private hideAILoadingIndicator(): void {
+        const indicator = document.getElementById('ai-loading-indicator');
+        if (indicator) {
+            indicator.remove();
+        }
+
+        // Re-enable input
+        this.commandInput.disabled = false;
+        this.commandInput.focus();
     }
 
     /**

@@ -109,6 +109,9 @@ export interface Item {
 
     /** Item-specific flags for conditional logic */
     flags: Record<string, boolean>;
+
+    /** Whether this item has been AI-enhanced */
+    expanded?: boolean;
 }
 
 /**

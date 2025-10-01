@@ -83,4 +83,7 @@ export interface Monster {
 
   /** Special behaviors this monster exhibits */
   behaviors?: string[] | undefined;
+
+  /** Whether this monster has been AI-enhanced */
+  expanded?: boolean;
 }

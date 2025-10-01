@@ -45,6 +45,7 @@
     "vite": "^7.0.0"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
     "fs-extra": "^11.1.0",
     "loglevel": "^1.8.1"
   },

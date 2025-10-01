@@ -7,7 +7,7 @@
 
 import { LoggingService } from '../services';
 import { CommandProcessor } from '../services/CommandProcessor';
-import { GameInterface } from '../ui/GameInterface';
+import { GameInterface, ModeSelectionDialog, EnhancedModeSetup } from '../ui';
 import { GameData } from '../initializers/GameInitializer';
 import { Services } from '../initializers/ServiceInitializer';
 
@@ -31,28 +31,28 @@ export class UIInitializer {
    * @param commandProcessor Configured command processor
    * @param services All game services
    * @param loggingService Logging service for creating loggers
-   * @returns UI initialization result
+   * @returns Promise that resolves to UI initialization result
    */
-  static initialize(
+  static async initialize(
     gameData: GameData,
     commandProcessor: CommandProcessor,
     services: Services,
     loggingService: LoggingService
-  ): UIResult {
+  ): Promise<UIResult> {
     const logger = loggingService.getLogger('UIInitializer');
-    
+
     logger.info('🌐 Initializing user interface...');
-    
+
     try {
       const environment = this.detectEnvironment();
       logger.debug(`Environment detected: ${environment}`);
-      
+
       if (environment === 'web') {
-        return this.initializeWebInterface(gameData, commandProcessor, services, loggingService);
+        return await this.initializeWebInterface(gameData, commandProcessor, services, loggingService);
       } else {
         return this.initializeConsoleInterface(gameData, loggingService);
       }
-      
+
     } catch (error) {
       logger.error('❌ Failed to initialize UI:', error);
       throw error;
@@ -73,27 +73,50 @@ export class UIInitializer {
    * @param commandProcessor Command processor
    * @param services All game services
    * @param loggingService Logging service
-   * @returns Web UI result
+   * @returns Promise that resolves to Web UI result
    */
-  private static initializeWebInterface(
+  private static async initializeWebInterface(
     _gameData: GameData,
     commandProcessor: CommandProcessor,
     services: Services,
     loggingService: LoggingService
-  ): UIResult {
+  ): Promise<UIResult> {
     const logger = loggingService.getLogger('UIInitializer');
-    
+
     logger.info('🌐 Initializing web interface...');
-    
+
+    // Show mode selection dialog
+    const modeDialog = new ModeSelectionDialog(loggingService.getLogger('ModeSelectionDialog'));
+    const modeResult = await modeDialog.show();
+
+    logger.info(`Mode selected: ${modeResult.mode}`);
+
+    // If enhanced mode, show setup dialog
+    if (modeResult.mode === 'enhanced') {
+      const setupDialog = new EnhancedModeSetup(loggingService.getLogger('EnhancedModeSetup'));
+      const setupResult = await setupDialog.show();
+
+      logger.info(`Enhanced mode configured: ${setupResult.playerName}, ${setupResult.gameStyle}`);
+
+      // Configure game state for enhanced mode
+      services.gameState.setPlayerName(setupResult.playerName);
+      services.gameState.setGameStyle(setupResult.gameStyle);
+    } else {
+      // Set classic mode
+      services.gameState.setGameStyle('classic');
+    }
+
     // Create and initialize GameInterface with required services
     const gameInterface = new GameInterface(loggingService.getLogger('GameInterface'));
     gameInterface.initialize(
       commandProcessor,
-      services.gameState
+      services.gameState,
+      services.scene,
+      services.aiEnhancement
     );
-    
+
     logger.info('✅ Web interface initialized successfully');
-    
+
     return {
       environment: 'web',
       interface: gameInterface,

@@ -154,4 +154,7 @@ export interface Scene {
 
     /** Tags for categorizing the scene */
     tags: string[];
+
+    /** Whether this scene has been AI-enhanced */
+    expanded?: boolean;
 }

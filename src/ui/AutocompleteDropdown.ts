@@ -91,21 +91,50 @@ export class AutocompleteDropdown {
     /**
      * Update suggestions and show dropdown
      */
-    show(suggestions: Suggestion[]): void {
+    show(suggestions: Suggestion[], preserveSelection: boolean = false): void {
         if (suggestions.length === 0) {
             this.hide();
             return;
         }
 
-        this.suggestions = suggestions.slice(0, 10); // Max 10 suggestions
-        this.selectedIndex = 0; // Auto-select first suggestion
+        // Sort suggestions by type priority to match visual render order
+        // This ensures selectedIndex matches visual order
+        const sortedSuggestions = this.sortSuggestionsByDisplayOrder(suggestions);
+        this.suggestions = sortedSuggestions.slice(0, 10); // Max 10 suggestions
+
+        // Only reset selection if not preserving or if previously hidden
+        if (!preserveSelection || !this.isVisible) {
+            this.selectedIndex = 0; // Auto-select first suggestion
+        } else {
+            // Preserve selection but ensure it's within bounds
+            this.selectedIndex = Math.min(this.selectedIndex, this.suggestions.length - 1);
+        }
+
         this.isVisible = true;
 
         this.render();
         this.dropdownElement.classList.remove('hidden');
-        this.updateSelection(); // Highlight first item
+        this.updateSelection(); // Highlight current item
 
-        this.logger.debug(`Showing ${this.suggestions.length} suggestions`);
+        this.logger.debug(`Showing ${this.suggestions.length} suggestions, selectedIndex: ${this.selectedIndex}`);
+    }
+
+    /**
+     * Sort suggestions to match display order (items, inventory, exits, commands)
+     */
+    private sortSuggestionsByDisplayOrder(suggestions: Suggestion[]): Suggestion[] {
+        const typeOrder: Record<string, number> = {
+            'item': 0,
+            'inventory': 1,
+            'exit': 2,
+            'command': 3
+        };
+
+        return [...suggestions].sort((a, b) => {
+            const orderA = typeOrder[a.type] ?? 999;
+            const orderB = typeOrder[b.type] ?? 999;
+            return orderA - orderB;
+        });
     }
 
     /**
@@ -131,7 +160,9 @@ export class AutocompleteDropdown {
     selectNext(): void {
         if (this.suggestions.length === 0) return;
 
+        const oldIndex = this.selectedIndex;
         this.selectedIndex = (this.selectedIndex + 1) % this.suggestions.length;
+        this.logger.debug(`Navigation: Down (${oldIndex} → ${this.selectedIndex})`);
         this.updateSelection();
     }
 
@@ -141,9 +172,11 @@ export class AutocompleteDropdown {
     selectPrevious(): void {
         if (this.suggestions.length === 0) return;
 
+        const oldIndex = this.selectedIndex;
         this.selectedIndex = this.selectedIndex <= 0
             ? this.suggestions.length - 1
             : this.selectedIndex - 1;
+        this.logger.debug(`Navigation: Up (${oldIndex} → ${this.selectedIndex})`);
         this.updateSelection();
     }
 
@@ -154,8 +187,13 @@ export class AutocompleteDropdown {
         if (this.selectedIndex >= 0 && this.selectedIndex < this.suggestions.length) {
             const suggestion = this.suggestions[this.selectedIndex];
             if (suggestion) {
+                this.logger.debug(`Selecting current: index=${this.selectedIndex}, text="${suggestion.text}"`);
                 this.selectSuggestion(suggestion.text);
+            } else {
+                this.logger.warn(`Invalid selection: index=${this.selectedIndex} has no suggestion`);
             }
+        } else {
+            this.logger.warn(`Cannot select: index=${this.selectedIndex} out of bounds (0-${this.suggestions.length - 1})`);
         }
     }
 
@@ -164,11 +202,22 @@ export class AutocompleteDropdown {
      */
     private updateSelection(): void {
         const items = this.dropdownElement.querySelectorAll('.suggestion-item');
+
+        // Defensive check: ensure selectedIndex is within bounds
+        if (this.selectedIndex < 0 || this.selectedIndex >= items.length) {
+            this.logger.warn(`updateSelection: index ${this.selectedIndex} out of bounds (0-${items.length - 1})`);
+            this.selectedIndex = Math.max(0, Math.min(this.selectedIndex, items.length - 1));
+        }
+
         items.forEach((item, index) => {
             if (index === this.selectedIndex) {
                 item.classList.add('selected');
                 // Scroll into view if needed
                 item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+                // Debug log
+                const suggestionText = item.getAttribute('data-suggestion');
+                this.logger.debug(`Visual selection updated: index=${index}, text="${suggestionText}"`);
             } else {
                 item.classList.remove('selected');
             }
